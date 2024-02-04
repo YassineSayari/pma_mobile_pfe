@@ -5,7 +5,9 @@ import '../models/user_model.dart';
 import '../services/user_service.dart';
 
 class EngineerDashboard extends StatefulWidget {
-  const EngineerDashboard({super.key});
+  final String userFullName;
+
+  const EngineerDashboard({super.key,required this.userFullName});
 
   @override
   State<EngineerDashboard> createState() => _EngineerDashboardState();
@@ -24,7 +26,7 @@ class _EngineerDashboardState extends State<EngineerDashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Engineer dashboard'),
+        title: Text(' ${widget.userFullName}'),
       ),
       drawer: EngineerDrawer(),
       body: Center(

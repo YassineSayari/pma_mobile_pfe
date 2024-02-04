@@ -54,19 +54,21 @@ class SigninState extends State<Signin> {
         if (result.containsKey('token')) {
           List<dynamic> roles = result['roles'];
           String userRole = roles.isNotEmpty ? roles[0] : '';
+          String name=result["fullName"];
+          print(name);
 
           if (userRole == 'Admin') {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => AdminDashboard(),
+                builder: (context) => AdminDashboard(userFullName: name),
               ),
             );
           } else if (userRole == 'Engineer') {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => EngineerDashboard(),
+                builder: (context) => EngineerDashboard(userFullName:name),
               ),
             );
           }
