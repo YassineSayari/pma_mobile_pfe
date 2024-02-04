@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import '../models/user_model.dart';
 
 class UserService {
-  final String apiUrl = 'http://192.168.0.3:3002/api/v1';
+  final String apiUrl = 'http://192.168.1.13:3002/api/v1';
 
 
   //all users

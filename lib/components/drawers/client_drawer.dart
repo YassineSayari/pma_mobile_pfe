@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class EngineerDrawer extends StatelessWidget {
-  const EngineerDrawer({super.key});
+class ClientDrawer extends StatelessWidget {
+  const ClientDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,44 +14,31 @@ class EngineerDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: Icon(Icons.tv),
+            leading: Icon(Icons.dashboard_customize_outlined),
             title: Text('Dashboard'),
             onTap: (){},
           ),
           ListTile(
-            leading: Icon(Icons.people_outline),
-            title: Text('My Team'),
+            leading: Icon(Icons.insert_chart_outlined),
+            title: Text('Proces-Verbal'),
             onTap: () {
             },
           ),
           ListTile(
-            leading: Icon(Icons.layers),
-            title: Text('My Projects'),
+            leading: Icon(Icons.book),
+            title: Text('Projects'),
             onTap: () {
             },
           ),
           ListTile(
-            leading: Icon(Icons.task_alt),
-            title: Text('My Tasks'),
-            onTap: () {
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.shield_outlined),
-            title: Text('Risks'),
+            leading: Icon(Icons.receipt_long),
+            title: Text('My Reclamations'),
             onTap: () {
             },
           ),
           ListTile(
             leading: Icon(Icons.settings),
             title: Text('Profile'),
-            onTap: () {
-            },
-          ),
-
-          ListTile(
-            leading: Icon(Icons.calendar_today_outlined),
-            title: Text('Calendar'),
             onTap: () {
             },
           ),

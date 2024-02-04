@@ -14,7 +14,7 @@ class AdminDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: Icon(Icons.dashboard_customize_outlined),
+            leading: Icon(Icons.tv),
             title: Text('Dashboard'),
             onTap: (){},
           ),

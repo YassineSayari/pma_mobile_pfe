@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:pma/services/user_service.dart';
 import 'package:pma/test_users.dart';
 
+import '../admin/admin_dashboard.dart';
+import '../engineer/engineer_dashboard.dart';
+
 
 class Signin extends StatefulWidget {
   const Signin({Key? key, required this.controller}) : super(key: key);
@@ -42,12 +45,32 @@ class SigninState extends State<Signin> {
 
       // Check if the login was successful
       if (result.containsKey('token')) {
-        Navigator.push(context,
+      /*  Navigator.push(context,
           MaterialPageRoute(
             builder: (context) => UserList(),
           ),
-        );
+        );*/
         print('Login successful');
+        if (result.containsKey('token')) {
+          List<dynamic> roles = result['roles'];
+          String userRole = roles.isNotEmpty ? roles[0] : '';
+
+          if (userRole == 'Admin') {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AdminDashboard(),
+              ),
+            );
+          } else if (userRole == 'Engineer') {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => EngineerDashboard(),
+              ),
+            );
+          }
+        }
       } else {
 
         print('check mail or password ');
@@ -188,8 +211,11 @@ class SigninState extends State<Signin> {
                           height: 55,
                           child: ElevatedButton(
                             onPressed: () {
+                              print("button works0");
+
                               if (_formKey.currentState!.validate()) {
                                 verifier();
+                                print("button works");
                               }
                             },
                             style: ElevatedButton.styleFrom(
