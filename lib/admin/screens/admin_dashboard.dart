@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:pma/components/drawers/admin_drawer.dart';
+import 'package:pma/admin/widgets/admin_drawer.dart';
 
-import '../models/user_model.dart';
-import '../services/user_service.dart';
+import '../../models/user_model.dart';
+import '../../services/user_preferences.dart';
+import '../../services/user_service.dart';
 
 class AdminDashboard extends StatefulWidget {
-  final String userFullName;
-  const AdminDashboard({super.key, required this.userFullName});
+
+  const AdminDashboard({super.key});
 
   @override
   State<AdminDashboard> createState() => _AdminDashboardState();
@@ -14,18 +15,29 @@ class AdminDashboard extends StatefulWidget {
 
 class _AdminDashboardState extends State<AdminDashboard> {
   late Future<List<User>> futureUsers;
+  late String userFullName;
 
   @override
   void initState() {
     super.initState();
     futureUsers = UserService().getAllUsers();
+
+    UserPreferences.getUserInfo().then((userInfo) {
+      setState(() {
+        userFullName = userInfo['userFullName'] ?? '';
+      });
+    });
+
   }
+
+
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Welcome, ${widget.userFullName}'),
+        title: Text('Welcome $userFullName'),
       ),
       drawer: AdminDrawer(),
       body: FutureBuilder(

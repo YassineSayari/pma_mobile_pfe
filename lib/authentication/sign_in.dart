@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pma/services/user_service.dart';
-import 'package:pma/test_users.dart';
-
-import '../admin/admin_dashboard.dart';
 import '../engineer/engineer_dashboard.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../services/user_preferences.dart';
 
 class Signin extends StatefulWidget {
   const Signin({Key? key, required this.controller}) : super(key: key);
@@ -43,48 +42,42 @@ class SigninState extends State<Signin> {
       );
       print(result);
 
-      // Check if the login was successful
       if (result.containsKey('token')) {
-      /*  Navigator.push(context,
-          MaterialPageRoute(
-            builder: (context) => UserList(),
-          ),
-        );*/
         print('Login successful');
         if (result.containsKey('token')) {
           List<dynamic> roles = result['roles'];
           String userRole = roles.isNotEmpty ? roles[0] : '';
-          String name=result["fullName"];
-          print(name);
 
+          //save in shared prefs
+          UserPreferences.saveUserInfo(
+            result['fullName'] ?? '',
+            result['email'] ?? '',
+            userRole,
+          );
+          //redirect according to role
           if (userRole == 'Admin') {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => AdminDashboard(userFullName: name),
-              ),
+            Navigator.pushReplacementNamed(
+              context,'/admindashboard'
             );
           } else if (userRole == 'Engineer') {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => EngineerDashboard(userFullName:name),
+                builder: (context) => EngineerDashboard(),
               ),
             );
           }
         }
       } else {
-
         print('check mail or password ');
-        showErrorMessage(result['error'] ?? 'Failed to login');
+        showErrorMessage(result['error'] ?? 'Failed to login, check email or password');
       }
     } catch (error) {
-      // Handle the error
       print('Login error: $error');
       showErrorMessage('Failed to login. Please try again.');
-
     }
   }
+
   void showErrorMessage(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(

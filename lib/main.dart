@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pma/admin/screens/admin_dashboard.dart';
 import 'package:pma/authentication/sign_in.dart';
 
 
@@ -10,7 +11,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Signin(controller: controller,),
+      routes: {
+        '/':(context) =>Signin(controller: controller),
+        '/admindashboard':(context)=>AdminDashboard(),
+      },
       // UserList(),
     );
   }

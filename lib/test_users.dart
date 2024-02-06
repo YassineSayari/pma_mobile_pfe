@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pma/components/drawers/admin_drawer.dart';
+import 'package:pma/admin/widgets/admin_drawer.dart';
 
 import 'services/user_service.dart';
 import 'models/user_model.dart';
