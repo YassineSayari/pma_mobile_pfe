@@ -1,9 +1,16 @@
 import 'dart:convert';
+import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
+import 'package:pma/services/shared_preferences.dart';
 import '../models/user_model.dart';
 
-class UserService {
-  final String apiUrl = 'http://192.168.0.23:3002/api/v1';
+const ip = "192.168.0.23";
+const port = 3002;
+
+class AuthService {
+
+  final String apiUrl = 'http://$ip:$port/api/v1';
+  SharedPrefs shared_prefs = GetIt.I<SharedPrefs>();
 
 
   //all users
@@ -32,6 +39,10 @@ class UserService {
     } else {
       return {'error': 'Incorrect email or password'};
     }
+  }
+
+  logout() {
+    shared_prefs.clearPrefs();
   }
 
 }

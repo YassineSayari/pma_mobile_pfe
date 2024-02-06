@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pma/components/drawers/engineer_drawer.dart';
-
-import '../models/user_model.dart';
-import '../services/user_service.dart';
+import 'package:pma/engineer/widgets/engineer_drawer.dart';
+import '../../services/shared_preferences.dart';
 
 class EngineerDashboard extends StatefulWidget {
 
@@ -13,19 +11,31 @@ class EngineerDashboard extends StatefulWidget {
 }
 
 class _EngineerDashboardState extends State<EngineerDashboard> {
-  late Future<List<User>> futureUsers;
+
+  late String userFullName;
+
+  late String userId='';
+
 
   @override
   void initState() {
     super.initState();
-    futureUsers = UserService().getAllUsers();
+
+
+
+    SharedPrefs.getUserInfo().then((userInfo) {
+      setState(() {
+        userFullName = userInfo['userFullName'] ?? '';
+        userId = userInfo['userId'] ?? '';
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('welcome'),
+        title: Text('welcome $userId'),
       ),
       drawer: EngineerDrawer(),
       body: Center(

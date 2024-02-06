@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pma/services/user_service.dart';
-import '../engineer/engineer_dashboard.dart';
+import 'package:pma/services/authentication_service.dart';
+import '../engineer/screens/engineer_dashboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../services/user_preferences.dart';
+import '../services/shared_preferences.dart';
 
 class Signin extends StatefulWidget {
   const Signin({Key? key, required this.controller}) : super(key: key);
@@ -17,7 +17,7 @@ class Signin extends StatefulWidget {
 class SigninState extends State<Signin> {
   final _formKey = GlobalKey<FormState>();
 
-  final UserService userService=UserService();
+  final AuthService authService=AuthService();
   final TextEditingController mail = TextEditingController();
   final TextEditingController password = TextEditingController();
 
@@ -36,7 +36,7 @@ class SigninState extends State<Signin> {
 
   void verifier() async {
     try {
-      final Map<String, dynamic> result = await userService.login(
+      final Map<String, dynamic> result = await authService.login(
         mail.text.trim(),
         password.text.trim(),
       );
@@ -49,7 +49,8 @@ class SigninState extends State<Signin> {
           String userRole = roles.isNotEmpty ? roles[0] : '';
 
           //save in shared prefs
-          UserPreferences.saveUserInfo(
+          SharedPrefs.saveUserInfo(
+            result['id'] ?? '',
             result['fullName'] ?? '',
             result['email'] ?? '',
             userRole,
@@ -60,11 +61,8 @@ class SigninState extends State<Signin> {
               context,'/admindashboard'
             );
           } else if (userRole == 'Engineer') {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => EngineerDashboard(),
-              ),
+            Navigator.pushReplacementNamed(
+              context,'/engineerdashboard'
             );
           }
         }

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pma/admin/widgets/admin_drawer.dart';
 
 import '../../models/user_model.dart';
-import '../../services/user_preferences.dart';
-import '../../services/user_service.dart';
+import '../../services/shared_preferences.dart';
+import '../../services/authentication_service.dart';
 
 class AdminDashboard extends StatefulWidget {
 
@@ -17,14 +17,18 @@ class _AdminDashboardState extends State<AdminDashboard> {
   late Future<List<User>> futureUsers;
   late String userFullName;
 
+  late String userId;
+
   @override
   void initState() {
     super.initState();
-    futureUsers = UserService().getAllUsers();
+    futureUsers = AuthService().getAllUsers();
 
-    UserPreferences.getUserInfo().then((userInfo) {
+    SharedPrefs.getUserInfo().then((userInfo) {
       setState(() {
         userFullName = userInfo['userFullName'] ?? '';
+        userId = userInfo['userId'] ?? '';
+        print("id : $userId");
       });
     });
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pma/admin/widgets/admin_drawer.dart';
 
-import 'services/user_service.dart';
+import 'services/authentication_service.dart';
 import 'models/user_model.dart';
 
 class UserList extends StatefulWidget {
@@ -17,7 +17,7 @@ class _UserListState extends State<UserList> {
   @override
   void initState() {
     super.initState();
-    futureUsers = UserService().getAllUsers();
+    futureUsers = AuthService().getAllUsers();
   }
 
   @override

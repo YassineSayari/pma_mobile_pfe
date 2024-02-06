@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+
+import '../../services/authentication_service.dart';
 
 class AdminDrawer extends StatelessWidget {
   const AdminDrawer({super.key});
@@ -140,11 +143,19 @@ class AdminDrawer extends StatelessWidget {
             leading: Icon(Icons.logout),
             title: Text('Logout'),
             onTap: () {
+              print("logout clicked");
+              _handleLogout(context);
             },
           ),
         ],
 
       ),
     );
+  }
+  void _handleLogout(BuildContext context) {
+    print("handling logout");
+    AuthService authService = GetIt.I<AuthService>();
+    authService.logout();
+    Navigator.of(context).pushReplacementNamed('/');
   }
 }
