@@ -36,7 +36,7 @@ class SharedPrefs {
   }
 
   Future<String?> getLoggedUserRoleFromPrefs() async {
-    print("got id");
+    print("got role");
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString(userRoleKey);
   }

@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:pma/admin/screens/add_client.dart';
+import 'package:pma/admin/screens/add_employee.dart';
 import 'package:pma/admin/screens/admin_dashboard.dart';
 import 'package:pma/authentication/sign_in.dart';
 import 'package:pma/engineer/screens/engineer_dashboard.dart';
 import 'package:pma/services/authentication_service.dart';
 import 'package:pma/services/shared_preferences.dart';
 import 'package:get_it/get_it.dart';
+import 'package:pma/services/user_service.dart';
 
 void setupLocator() {
   GetIt.instance.registerLazySingleton(() => SharedPrefs());
   GetIt.instance.registerLazySingleton(() => AuthService());
+  GetIt.instance.registerLazySingleton(() => UserService());
+
 
 }
 
@@ -39,20 +44,26 @@ class _MyAppState extends State<MyApp> {
     var id = await sharedPrefs.getLoggedUserIdFromPrefs();
     var role = await sharedPrefs.getLoggedUserRoleFromPrefs();
 
+    print('Role: $role, ID: $id');
+
+
     if (id != null) {
-      if (role=="admin"){
+      if (role=="Admin"){
+        print('redirecting to admin page');
         setState(() {
           current_page = AdminDashboard();
         });
       }
-      else if(role=="engineer")
+      else if(role=="Engineer")
         {
+          print('redirecting to engineer page');
           setState(() {
             current_page = EngineerDashboard();
           });
         }
 
     } else {
+      print("redirecting to sign in");
       setState(() {
         current_page = Signin(controller: controller);
       });
@@ -67,6 +78,8 @@ class _MyAppState extends State<MyApp> {
         '/': (context) => current_page,
         '/admindashboard': (context) => AdminDashboard(),
         '/engineerdashboard': (context) => EngineerDashboard(),
+        '/addemployee':(context)=>AddEmployee(),
+        '/addclient':(context)=>AddClient(),
       },
       // UserList(),
     );

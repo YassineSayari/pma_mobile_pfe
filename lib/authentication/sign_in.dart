@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pma/services/authentication_service.dart';
-import '../engineer/screens/engineer_dashboard.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../services/shared_preferences.dart';
 
@@ -35,6 +33,7 @@ class SigninState extends State<Signin> {
   String email = "";
 
   void verifier() async {
+    print("verifying sign in");
     try {
       final Map<String, dynamic> result = await authService.login(
         mail.text.trim(),
@@ -57,12 +56,15 @@ class SigninState extends State<Signin> {
           );
           //redirect according to role
           if (userRole == 'Admin') {
+            print('redirecting to admin page');
             Navigator.pushReplacementNamed(
-              context,'/admindashboard'
+              context,'/admindashboard',
             );
           } else if (userRole == 'Engineer') {
+            print('redirecting to engineer page');
+
             Navigator.pushReplacementNamed(
-              context,'/engineerdashboard'
+              context,'/engineerdashboard',
             );
           }
         }
@@ -205,7 +207,6 @@ class SigninState extends State<Signin> {
                           child: ElevatedButton(
                             onPressed: () {
                               print("button works0");
-
                               if (_formKey.currentState!.validate()) {
                                 verifier();
                                 print("button works");
@@ -225,12 +226,8 @@ class SigninState extends State<Signin> {
                           ),
                         ),
 
-
-
                         SizedBox(height: 10),
 
-
-                        // Text below the buttons
                         Row(
                           children: [
                             Text(

@@ -19,7 +19,9 @@ class AdminDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.tv),
             title: Text('Dashboard'),
-            onTap: (){},
+            onTap: (){
+              Navigator.pushNamed(context, '/admindashboard');
+            },
           ),
           ExpansionTile(
             leading: Icon(Icons.folder_copy),
@@ -62,7 +64,7 @@ class AdminDrawer extends StatelessWidget {
                 child: ListTile(
                   title: Text('Add Employee'),
                   onTap: () {
-
+                        Navigator.of(context).pushNamed('/addemployee');
                   },
                 ),
               ),
@@ -86,6 +88,7 @@ class AdminDrawer extends StatelessWidget {
                 child: ListTile(
                   title: Text('Add Client'),
                   onTap: () {
+                    Navigator.pushNamed(context,'/addclient');
                   },
                 ),
               ),
