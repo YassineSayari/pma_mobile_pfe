@@ -3,6 +3,7 @@ import 'package:pma/admin/widgets/admin_drawer.dart';
 import 'package:pma/services/user_service.dart';
 
 import '../../models/user_model.dart';
+import '../../services/export_utils.dart';
 import '../../services/shared_preferences.dart';
 
 class AdminDashboard extends StatefulWidget {
@@ -18,6 +19,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
   late String userId;
   List<User> allUsers = [];
   List<User> employees = [];
+
+  final ExportEmployees exportEmployees = ExportEmployees();
+
 
   @override
   void initState() {
@@ -38,7 +42,40 @@ class _AdminDashboardState extends State<AdminDashboard> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Welcome $userFullName'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.text_rotation_angleup),
+            onPressed: () {
+              // Export as Text
+              exportEmployees.generateEmployeesTextTable(employees);
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.file_copy),
+            onPressed: () {
+              // Export as CSV
+              exportEmployees.shareTable('csv', employees);
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.table_chart),
+            onPressed: () async {
+              // Export as XLSX
+              await exportEmployees.generateEmployeesXlsxTable(employees);
+              // Handle saving or sharing the XLSX file
+              // You can use path_provider to save it to the device's documents directory.
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.javascript),
+            onPressed: () {
+              // Export as JSON
+              exportEmployees.shareTable('json', employees);
+            },
+          ),
+        ],
       ),
+
       drawer: AdminDrawer(),
       body: Column(
         children: [
