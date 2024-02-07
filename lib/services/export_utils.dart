@@ -2,24 +2,32 @@ import 'package:excel/excel.dart';
 import 'package:csv/csv.dart';
 import 'package:share_plus/share_plus.dart';
 import 'dart:convert';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
+
 
 import '../models/user_model.dart';
 
 class ExportEmployees {
 
-  void  generateEmployeesTextTable(List<User> employees) {
-    print ("exporting");
-    String file= "Name\tRoles\tGender\tMobile\tEmail\n" +
+  Future<void> generateEmployeesTextFile(List<User> employees) async {
+    final fileContent = "Name\tRoles\tGender\tMobile\tEmail\n" +
         employees.map((user) {
-          return "${user.fullName}\t${user.roles.join(', ')}\t${user
-              .gender}\t${user.phone}\t${user.email}";
+          return "${user.fullName}\t${user.roles.join(', ')}\t${user.gender}\t${user.phone}\t${user.email}";
         }).join('\n');
 
-    Share.share(file);
+    final directory = await getApplicationDocumentsDirectory();
+    final filePath = '${directory.path}/employees.txt';
+
+    print('file content : $fileContent');
+    print('file path: $filePath');
+
+    final file = File(filePath);
+    await file.writeAsString(fileContent);
 
   }
 
-  String generateEmployeesCsvTable(List<User> employees) {
+  Future<String> generateEmployeesCsvFile(List<User> employees) async {
     List<List<dynamic>> csvData = [
       ['Name', 'Roles', 'Gender', 'Mobile', 'Email'],
       ...employees.map((user) =>
@@ -31,11 +39,21 @@ class ExportEmployees {
         user.email,
       ])
     ];
+    print("saving as csv file");
 
-    return ListToCsvConverter().convert(csvData);
+    final directory = await getApplicationDocumentsDirectory();
+    final filePath = '${directory.path}/employees.csv';
+    final file = File(filePath);
+    await file.writeAsString(ListToCsvConverter().convert(csvData));
+
+    print("csv file: $csvData");
+    print("file saved to $filePath");
+
+    return filePath;
+
   }
 
-  Future<String> generateEmployeesXlsxTable(List<User> employees) async {
+  Future<String> generateEmployeesXlsxFile(List<User> employees) async {
     var excel = Excel.createExcel();
     var sheet = excel['Employees'];
 
@@ -51,11 +69,16 @@ class ExportEmployees {
     }
     var bytes = excel.encode();
 
-    return "sahit";
+    final directory = await getApplicationDocumentsDirectory();
+    final filePath = '${directory.path}/employees.xlsx';
+    final file = File(filePath);
+    await file.writeAsBytes(bytes!);
+
+    return filePath;
 
   }
 
-  String generateEmployeesJsonTable(List<User> employees) {
+  Future<String> generateEmployeesJsonFile(List<User> employees) async {
     List<Map<String, dynamic>> jsonData = employees.map((user) {
       return {
         'Name': user.fullName,
@@ -65,30 +88,19 @@ class ExportEmployees {
         'Email': user.email,
       };
     }).toList();
+    print("saving as json file");
 
-    return jsonEncode(jsonData);
+    final directory = await getApplicationDocumentsDirectory();
+    final filePath = '${directory.path}/employees.json';
+    final file = File(filePath);
+    await file.writeAsString(jsonEncode(jsonData));
+
+    print("json file content: $jsonData");
+    print("json file path: $filePath");
+
+    return filePath;
   }
 
-  void shareTable(String format, List<User> employees) {
-    String tableText;
 
-    switch (format) {
-      case 'text':
-    //    tableText = generateEmployeesTextTable(employees);
-        break;
-      case 'csv':
-        tableText = generateEmployeesCsvTable(employees);
-        break;
-      case 'xlsx':
-        generateEmployeesXlsxTable(employees);
-        return;
-      case 'json':
-        tableText = generateEmployeesJsonTable(employees);
-        break;
-      default:
-       // tableText = generateEmployeesTextTable(employees);
-    }
-
-  }
 
 }

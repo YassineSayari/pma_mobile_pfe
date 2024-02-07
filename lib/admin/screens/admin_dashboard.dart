@@ -26,51 +26,65 @@ class _AdminDashboardState extends State<AdminDashboard> {
   @override
   void initState() {
     super.initState();
-    futureUsers = UserService().getAllUsers();
+    _initializeData();
+  }
 
-    SharedPrefs.getUserInfo().then((userInfo) {
+  Future<void> _initializeData() async {
+    await SharedPrefs.getUserInfo().then((userInfo) {
       setState(() {
         userFullName = userInfo['userFullName'] ?? '';
         userId = userInfo['userId'] ?? '';
         print("id : $userId");
       });
     });
+
+    futureUsers = UserService().getAllUsers(); //
+
+    await futureUsers.then((users) {
+      setState(() {
+        allUsers = users;
+        employees = allUsers.where((user) => !user.roles.contains('Client')).toList();
+      });
+    });
   }
+
 
   @override
   Widget build(BuildContext context) {
+    print('employees: $employees');
     return Scaffold(
       appBar: AppBar(
         title: Text('Welcome $userFullName'),
         actions: [
           IconButton(
-            icon: Icon(Icons.text_rotation_angleup),
-            onPressed: () {
+            icon: Image.asset('assets/images/txt.png', width: 24, height: 24),
+            onPressed: () async {
+              print("Employees before export: $employees");
               // Export as Text
-              exportEmployees.generateEmployeesTextTable(employees);
+              await exportEmployees.generateEmployeesTextFile(employees);
             },
           ),
           IconButton(
-            icon: Icon(Icons.file_copy),
+            icon: Image.asset('assets/images/csv.png', width: 24, height: 24),
             onPressed: () {
               // Export as CSV
-              exportEmployees.shareTable('csv', employees);
+              exportEmployees.generateEmployeesCsvFile(employees);
             },
           ),
           IconButton(
-            icon: Icon(Icons.table_chart),
+            icon: Image.asset('assets/images/xlsx.png', width: 24, height: 24),
             onPressed: () async {
               // Export as XLSX
-              await exportEmployees.generateEmployeesXlsxTable(employees);
+              await exportEmployees.generateEmployeesXlsxFile(employees);
               // Handle saving or sharing the XLSX file
               // You can use path_provider to save it to the device's documents directory.
             },
           ),
           IconButton(
-            icon: Icon(Icons.javascript),
+            icon: Image.asset('assets/images/json.png', width: 24, height: 24),
             onPressed: () {
               // Export as JSON
-              exportEmployees.shareTable('json', employees);
+              exportEmployees.generateEmployeesJsonFile(employees);
             },
           ),
         ],
