@@ -77,6 +77,6 @@ class EngineerDrawer extends StatelessWidget {
     print("handling logout");
     AuthService authService = GetIt.I<AuthService>();
     authService.logout();
-    Navigator.of(context).pushReplacementNamed('/');
+    Navigator.of(context).pushReplacementNamed('/signin');
   }
 }

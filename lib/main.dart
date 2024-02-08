@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:pma/admin/screens/add_client.dart';
 import 'package:pma/admin/screens/add_employee.dart';
 import 'package:pma/admin/screens/admin_dashboard.dart';
+import 'package:pma/admin/screens/all_clients.dart';
 import 'package:pma/authentication/sign_in.dart';
+import 'package:pma/authentication/sign_up.dart';
 import 'package:pma/engineer/screens/engineer_dashboard.dart';
 import 'package:pma/services/authentication_service.dart';
 import 'package:pma/services/export_utils.dart';
@@ -80,11 +82,18 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       routes: {
         '/': (context) => current_page,
+        '/signin':(context) =>Signin(controller: controller),
+        '/signup':(context) =>SignUp(controller: controller),
+
         '/admindashboard': (context) => AdminDashboard(),
         '/engineerdashboard': (context) => EngineerDashboard(),
-        '/addemployee':(context)=>AddEmployee(),
+
+        '/allclients':(context)=>AllClients(),
         '/addclient':(context)=>AddClient(),
+
         '/allemployees':(context)=>AllEmployees(),
+        '/addemployee':(context)=>AddEmployee(),
+
       },
       // UserList(),
     );

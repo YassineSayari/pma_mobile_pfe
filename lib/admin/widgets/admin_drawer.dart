@@ -79,7 +79,7 @@ class AdminDrawer extends StatelessWidget {
                 child: ListTile(
                   title: Text('All Clients'),
                   onTap: () {
-
+                    Navigator.of(context).pushNamed('/allclients');
                   },
                 ),
               ),
@@ -159,6 +159,6 @@ class AdminDrawer extends StatelessWidget {
     print("handling logout");
     AuthService authService = GetIt.I<AuthService>();
     authService.logout();
-    Navigator.of(context).pushReplacementNamed('/');
+    Navigator.of(context).pushReplacementNamed('/signin');
   }
 }

@@ -27,13 +27,12 @@ class SigninState extends State<Signin> {
 
  }
 
-
   bool log = false;
   bool mdp = false;
   String email = "";
 
   void verifier() async {
-    print("verifying sign in");
+    print("verifying sign up");
     try {
       final Map<String, dynamic> result = await authService.login(
         mail.text.trim(),
@@ -100,7 +99,7 @@ class SigninState extends State<Signin> {
         fit: StackFit.expand,
         children: [
           Image.asset(
-            "assets/images/pmm.png",
+            "assets/images/auth_bg.jpeg",
             fit: BoxFit.cover,
           ),
           Padding(
@@ -225,25 +224,21 @@ class SigninState extends State<Signin> {
                             ),
                           ),
                         ),
-
-                        SizedBox(height: 10),
-
+                        SizedBox(height: 20),
                         Row(
                           children: [
+                            Spacer(),
                             Text(
                                "Need an account? ",
                               style: TextStyle(
-                                color: Colors.white,
+                                color: Colors.grey[500],
                                 fontSize: 16.5,
                                 fontFamily: 'Poppins',
                               ),
                             ),
                             GestureDetector(
                               onTap: () {
-                               /* Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => Subscribe(controller: widget.controller)),
-                                );*/
+                               Navigator.pushNamed(context,'/signup');
                               },
                               child: Text('Subscribe!',
                                 style: TextStyle(
