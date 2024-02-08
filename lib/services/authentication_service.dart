@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:pma/services/shared_preferences.dart';
-import '../models/user_model.dart';
 
 const ip = "192.168.0.18";
 const port = 3002;

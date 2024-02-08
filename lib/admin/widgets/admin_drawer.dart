@@ -55,7 +55,7 @@ class AdminDrawer extends StatelessWidget {
                 child: ListTile(
                   title: Text('All Employees'),
                   onTap: () {
-
+                    Navigator.of(context).pushReplacementNamed('/allemployees');
                   },
                 ),
               ),

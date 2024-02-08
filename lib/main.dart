@@ -10,6 +10,8 @@ import 'package:pma/services/shared_preferences.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pma/services/user_service.dart';
 
+import 'admin/screens/all_employees.dart';
+
 void setupLocator() {
   GetIt.instance.registerLazySingleton(() => SharedPrefs());
   GetIt.instance.registerLazySingleton(() => AuthService());
@@ -42,7 +44,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   initUser() async {
-    print("================ INITIALIZE ID ================");
+    print("============= INITIALIZE ID ===============");
     var id = await sharedPrefs.getLoggedUserIdFromPrefs();
     var role = await sharedPrefs.getLoggedUserRoleFromPrefs();
 
@@ -82,6 +84,7 @@ class _MyAppState extends State<MyApp> {
         '/engineerdashboard': (context) => EngineerDashboard(),
         '/addemployee':(context)=>AddEmployee(),
         '/addclient':(context)=>AddClient(),
+        '/allemployees':(context)=>AllEmployees(),
       },
       // UserList(),
     );
