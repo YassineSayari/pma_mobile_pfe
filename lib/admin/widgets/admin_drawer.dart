@@ -4,10 +4,13 @@ import 'package:get_it/get_it.dart';
 import '../../services/authentication_service.dart';
 
 class AdminDrawer extends StatelessWidget {
-  const AdminDrawer({super.key});
+  final String selectedRoute;
+
+  const AdminDrawer({super.key, required this.selectedRoute});
 
   @override
   Widget build(BuildContext context) {
+    final Color selectedColor = Colors.white12;
     return Drawer(
       child: ListView(
         children: [
@@ -22,6 +25,8 @@ class AdminDrawer extends StatelessWidget {
             onTap: (){
               Navigator.pushNamed(context, '/admindashboard');
             },
+            selected: selectedRoute == '/admindashboard',
+            selectedTileColor: selectedColor,
           ),
           ExpansionTile(
             leading: Icon(Icons.folder_copy),
@@ -57,6 +62,9 @@ class AdminDrawer extends StatelessWidget {
                   onTap: () {
                     Navigator.of(context).pushReplacementNamed('/allemployees');
                   },
+                  selected: selectedRoute == '/allemployees',
+                  selectedTileColor: selectedColor,
+
                 ),
               ),
               Padding(
@@ -66,6 +74,7 @@ class AdminDrawer extends StatelessWidget {
                   onTap: () {
                         Navigator.of(context).pushNamed('/addemployee');
                   },
+                  selected: selectedRoute == '/addemployee',
                 ),
               ),
             ],
@@ -81,6 +90,7 @@ class AdminDrawer extends StatelessWidget {
                   onTap: () {
                     Navigator.of(context).pushNamed('/allclients');
                   },
+                  selected: selectedRoute == '/allclients',
                 ),
               ),
               Padding(
@@ -90,6 +100,8 @@ class AdminDrawer extends StatelessWidget {
                   onTap: () {
                     Navigator.pushNamed(context,'/addclient');
                   },
+                  selected: selectedRoute == '/addclient',
+
                 ),
               ),
             ],

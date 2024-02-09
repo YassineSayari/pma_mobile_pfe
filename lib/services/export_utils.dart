@@ -1,5 +1,6 @@
 import 'package:excel/excel.dart';
 import 'package:csv/csv.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:share_plus/share_plus.dart';
 import 'dart:convert';
 import 'package:path_provider/path_provider.dart';
@@ -16,16 +17,25 @@ class ExportEmployees {
           return "${user.fullName}\t${user.roles.join(', ')}\t${user.gender}\t${user.phone}\t${user.email}";
         }).join('\n');
 
-    final directory = await getApplicationDocumentsDirectory();
-    final filePath = '${directory.path}/employees.txt';
-
-    print('file content : $fileContent');
-    print('file path: $filePath');
-
-    final file = File(filePath);
-    await file.writeAsString(fileContent);
-
+    await _saveTextFile(fileContent, 'txt');
   }
+
+
+  Future<void> _saveTextFile(String fileContent, String extension) async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: [extension],
+    );
+
+    if (result != null) {
+      final filePath = result.files.single.path!;
+      final file = File(filePath);
+      await file.writeAsString(fileContent);
+    }
+  }
+
+
+
 
   Future<String> generateEmployeesCsvFile(List<User> employees) async {
     List<List<dynamic>> csvData = [

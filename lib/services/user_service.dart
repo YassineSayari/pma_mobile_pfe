@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/user_model.dart';
 
+//const ip = "192.168.137.1";
 const ip = "192.168.0.18";
 const port = 3002;
 
@@ -35,13 +36,39 @@ class UserService{
   //delete a user
   Future<void> deleteUser(String userId) async {
     print("deleting user with id $userId");
-    final response = await http.delete(Uri.parse(apiUrl+"/users/delete/$userId"));
-    if (response.statusCode == 200) {
-      print('User deleted successfully');
-    } else {
+    try {
+      final response = await http.delete(Uri.parse(apiUrl + "/users/delete/$userId"));
+      if (response.statusCode == 200) {
+        print('User deleted successfully');
+      } else {
+        print('Failed to delete user. Status Code: ${response.statusCode}, Response: ${response.body}');
+        throw Exception('Failed to delete user');
+      }
+    } catch (error) {
+      print('Error deleting user: $error');
       throw Exception('Failed to delete user');
     }
   }
+
+
+  Future<List<User>> searchUsers(Map<String, dynamic> filters) async {
+    final response = await http.post(
+      Uri.parse(apiUrl + "/users/search"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(filters),
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonResponse = json.decode(response.body);
+      return jsonResponse.map((userJson) => User.fromJson(userJson)).toList();
+    } else {
+      throw Exception('Failed to search users');
+    }
+  }
+
+
 
 
 }

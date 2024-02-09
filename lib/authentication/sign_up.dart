@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
+import '../services/authentication_service.dart';
+
 class SignUp extends StatefulWidget {
   const SignUp({Key? key, required PageController controller}) : super(key: key);
 
@@ -18,6 +20,8 @@ class _SignUpState extends State<SignUp> {
   final TextEditingController password = TextEditingController();
   final TextEditingController passwordconf = TextEditingController();
 
+  AuthService authService = AuthService();
+
   String? gender;
   String? role;
 
@@ -32,6 +36,22 @@ class _SignUpState extends State<SignUp> {
     }
   }
 
+  void _handleSignUp() async {
+    String name = fullname.text;
+    String email = mail.text;
+    String pw = password.text;
+
+    Map<String, dynamic> result = await authService.signUp(name, email, pw, "user_image.jpg");
+
+    if (result.containsKey('error')) {
+      // Handle sign-up error
+      print("Sign-up failed: ${result['error']}");
+    } else {
+      // Sign-up successful, navigate to another page or update UI
+      print("Sign-up successful: ${result['message']}");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +59,7 @@ class _SignUpState extends State<SignUp> {
         fit: StackFit.expand,
         children: [
           Image.asset(
-            "assets/images/auth_bg.jpeg",
+            "assets/images/auth_background.jpeg",
             fit: BoxFit.cover,
           ),
           Padding(
@@ -425,7 +445,8 @@ class _SignUpState extends State<SignUp> {
                   ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        print("Registration successful!");
+                        print("sign up pressed");
+                        _handleSignUp();
                       }
                     },
                     style: ElevatedButton.styleFrom(

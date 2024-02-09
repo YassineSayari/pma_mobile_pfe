@@ -10,7 +10,7 @@ class UserSearchBar extends StatelessWidget {
     return Row(
       children: [
         Container(
-          width: 150,
+          width: 100,
           child: TextField(
             onChanged: onChanged,
             decoration: InputDecoration(

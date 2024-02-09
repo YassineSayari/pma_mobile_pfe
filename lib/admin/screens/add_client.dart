@@ -47,9 +47,10 @@ class _AddClientState extends State<AddClient> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Employee'),
+        title: Text('Add Client',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30),),
+        centerTitle: true,
       ),
-      drawer: AdminDrawer(),
+      drawer: AdminDrawer(selectedRoute: '/addclient'),
       resizeToAvoidBottomInset: false,
       body: Stack(
         fit: StackFit.expand,

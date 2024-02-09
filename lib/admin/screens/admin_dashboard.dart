@@ -39,8 +39,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
       appBar: AppBar(
         title: Text('Admin dashboard, user: $userFullName'),
       ),
-      drawer: AdminDrawer(),
-      body: Center(
+      drawer:AdminDrawer(selectedRoute: '/admindashboard'),
+        body: Center(
         child: Text("admin dashboard"),
       ),
     );

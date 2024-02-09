@@ -52,10 +52,11 @@ class _AddEmployeeState extends State<AddEmployee> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Employee'),
+        title: Text('Add Employee',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30),),
+        centerTitle: true,
 
       ),
-      drawer: AdminDrawer(),
+      drawer: AdminDrawer(selectedRoute: '/addemployee'),
       resizeToAvoidBottomInset: false,
       body: Stack(
         fit: StackFit.expand,

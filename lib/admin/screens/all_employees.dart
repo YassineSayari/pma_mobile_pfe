@@ -21,7 +21,7 @@ class _AllEmployeesState extends State<AllEmployees> {
   List<User> allUsers = [];
   List<User> employees = [];
 
-  int _rowsPerPage = 5;
+  int _rowsPerPage = 2;
   int _sortColumnIndex = 0;
   bool _sortAscending = true;
 
@@ -61,16 +61,14 @@ class _AllEmployeesState extends State<AllEmployees> {
       appBar: AppBar(
         title: Text('All Employees, user: $userFullName'),
       ),
-      drawer: AdminDrawer(),
+      drawer: AdminDrawer(selectedRoute: '/allemployees'),
       body: Column(
         children: [
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(4.0),
               child: PaginatedDataTable(
-                header:          Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
+                header:  Row(
                     children: [
                       Expanded(
                         child: UserSearchBar(
@@ -82,6 +80,7 @@ class _AllEmployeesState extends State<AllEmployees> {
                           IconButton(
                             icon: Image.asset('assets/images/txt.png', width: 24, height: 24),
                             onPressed: () async {
+                              print("text option clicked");
                               print("Employees before export: $employees");
                               await exportEmployees.generateEmployeesTextFile(employees);
                             },
@@ -109,7 +108,7 @@ class _AllEmployeesState extends State<AllEmployees> {
                       )
                     ],
                   ),
-                ),
+
                 rowsPerPage: _rowsPerPage,
                 availableRowsPerPage: [1, 2, 3, 4, 5, 6, 10, 25, 100],
                 onRowsPerPageChanged: (int? value) {
@@ -175,14 +174,36 @@ class _AllEmployeesState extends State<AllEmployees> {
     });
   }
 
+ /* void onSearchTextChanged(String text) async {
+    try {
+      final filters = {
+        'fullName': text,
+        // add other filters as needed
+      };
+
+      final searchedUsers = await UserService().searchUsers(filters);
+
+      setState(() {
+        employees = searchedUsers.where((user) => !user.roles.contains('Client')).toList();
+      });
+    } catch (error) {
+      print('Error searching users: $error');
+    }
+  }*/
+
   void onSearchTextChanged(String text) {
+    print('Search text changed: $text');
     setState(() {
       employees = allUsers.isNotEmpty
-          ? allUsers
-          .where(
-            (user) => user.fullName.toLowerCase().contains(text.toLowerCase()),
-      )
-          .toList()
+          ? allUsers.where((user) {
+        final fullNameMatch = user.fullName.toLowerCase().contains(text.toLowerCase());
+        final rolesMatch = user.roles.join(', ').toLowerCase().contains(text.toLowerCase());
+        final genderMatch = user.gender.toLowerCase().contains(text.toLowerCase());
+        final phoneMatch = user.phone.toLowerCase().contains(text.toLowerCase());
+        final emailMatch = user.email.toLowerCase().contains(text.toLowerCase());
+
+        return fullNameMatch || rolesMatch || genderMatch || phoneMatch || emailMatch;
+      }).toList()
           : [];
       //exclude clients
       employees = employees.where((user) => !user.roles.contains('Client')).toList();

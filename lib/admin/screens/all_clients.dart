@@ -19,9 +19,9 @@ class _AllClientsState extends State<AllClients> {
   late String userFullName;
   late String userId;
   List<User> allClients = [];
-  List<User> employees = [];
+  List<User> clients = [];
 
-  int _rowsPerPage = 5;
+  int _rowsPerPage = 2;
   int _sortColumnIndex = 0;
   bool _sortAscending = true;
 
@@ -49,28 +49,29 @@ class _AllClientsState extends State<AllClients> {
     await futureUsers.then((users) {
       setState(() {
         allClients = users;
-        employees = allClients.toList();
+
+        clients = allClients;
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    print('employees: $employees');
+    print('employees: $clients');
     return Scaffold(
       appBar: AppBar(
-        title: Text('All Employees, user: $userFullName'),
+        title: Text('All Clients'),
+        centerTitle: true,
       ),
-      drawer: AdminDrawer(),
+      drawer: AdminDrawer(selectedRoute: '/allclients'),
       body: Column(
         children: [
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(4.0),
               child: PaginatedDataTable(
-                header:          Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
+                header:
+                   Row(
                     children: [
                       Expanded(
                         child: UserSearchBar(
@@ -78,38 +79,39 @@ class _AllClientsState extends State<AllClients> {
                         ),
                       ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           IconButton(
                             icon: Image.asset('assets/images/txt.png', width: 24, height: 24),
                             onPressed: () async {
-                              print("Employees before export: $employees");
-                              await exportEmployees.generateEmployeesTextFile(employees);
+                              print("Employees before export: $clients");
+                              await exportEmployees.generateEmployeesTextFile(clients);
                             },
                           ),
                           IconButton(
                             icon: Image.asset('assets/images/csv.png', width: 24, height: 24),
                             onPressed: () {
-                              exportEmployees.generateEmployeesCsvFile(employees);
+                              exportEmployees.generateEmployeesCsvFile(clients);
                             },
                           ),
                           IconButton(
                             icon: Image.asset('assets/images/xlsx.png', width: 24, height: 24),
                             onPressed: () async {
-                              await exportEmployees.generateEmployeesXlsxFile(employees);
+                              await exportEmployees.generateEmployeesXlsxFile(clients);
                             },
                           ),
                           IconButton(
                             icon: Image.asset('assets/images/json.png', width: 24, height: 24),
                             onPressed: () {
                               // Export as JSON
-                              exportEmployees.generateEmployeesJsonFile(employees);
+                              exportEmployees.generateEmployeesJsonFile(clients);
                             },
                           ),
                         ],
                       )
                     ],
                   ),
-                ),
+
                 rowsPerPage: _rowsPerPage,
                 availableRowsPerPage: [1, 2, 3, 4, 5, 6, 10, 25, 100],
                 onRowsPerPageChanged: (int? value) {
@@ -153,7 +155,7 @@ class _AllClientsState extends State<AllClients> {
                   ),
                   DataColumn(label: Text('Actions')),
                 ],
-                source: EmployeeDataSource(employees),
+                source: EmployeeDataSource(clients,deleteClient),
               ),
             ),
           ),
@@ -163,7 +165,7 @@ class _AllClientsState extends State<AllClients> {
   }
 
   void _sort<T>(Comparable<T> Function(User user) getField, int columnIndex, bool ascending) {
-    employees.sort((a, b) {
+    clients.sort((a, b) {
       final aValue = getField(a);
       final bValue = getField(b);
       return ascending ? Comparable.compare(aValue, bValue) : Comparable.compare(bValue, aValue);
@@ -175,25 +177,59 @@ class _AllClientsState extends State<AllClients> {
     });
   }
 
+  /* void onSearchTextChanged(String text) async {
+    try {
+      final filters = {
+        'fullName': text,
+        // add other filters as needed
+      };
+
+      final searchedUsers = await UserService().searchUsers(filters);
+
+      setState(() {
+        employees = searchedUsers.where((user) => !user.roles.contains('Client')).toList();
+      });
+    } catch (error) {
+      print('Error searching users: $error');
+    }
+  }*/
+
   void onSearchTextChanged(String text) {
+    print('Search text changed: $text');
     setState(() {
-      employees = allClients.isNotEmpty
-          ? allClients
-          .where(
-            (user) => user.fullName.toLowerCase().contains(text.toLowerCase()),
-      )
-          .toList()
+      clients = allClients.isNotEmpty
+          ? allClients.where((user) {
+        final fullNameMatch = user.fullName.toLowerCase().contains(text.toLowerCase());
+        final rolesMatch = user.roles.join(', ').toLowerCase().contains(text.toLowerCase());
+        final genderMatch = user.gender.toLowerCase().contains(text.toLowerCase());
+        final phoneMatch = user.phone.toLowerCase().contains(text.toLowerCase());
+        final emailMatch = user.email.toLowerCase().contains(text.toLowerCase());
+
+        return fullNameMatch || rolesMatch || genderMatch || phoneMatch || emailMatch;
+      }).toList()
           : [];
     });
+  }
+
+  void deleteClient(String id)
+  {
+    UserService().deleteUser(id);
+    setState(() {
+      // Remove the deleted client from the list
+      clients.removeWhere((user) => user.id == id);
+    });
+    Navigator.pushReplacementNamed(context, "/allclients");
   }
 
 }
 
 class EmployeeDataSource extends DataTableSource {
+
+  final Function(String) onDelete;
   final List<User> _employees;
   int _selectedRowCount = 0;
 
-  EmployeeDataSource(this._employees);
+  EmployeeDataSource(this._employees,this.onDelete);
 
   @override
   DataRow getRow(int index) {
@@ -210,21 +246,20 @@ class EmployeeDataSource extends DataTableSource {
             IconButton(
               icon: Icon(Icons.edit_outlined),
               onPressed: () {
-
               },
             ),
             IconButton(
               icon: Icon(Icons.delete_outline_rounded),
-              onPressed: () async {
-                print("delete pressed");
-                await UserService().deleteUser(employee.id);
-                },
+              onPressed: () {
+                onDelete(employee.id);
+              },
             ),
           ],
         ),
       ),
     ]);
   }
+
 
   @override
   int get rowCount => _employees.length;
