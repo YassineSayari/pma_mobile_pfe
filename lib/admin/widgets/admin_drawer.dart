@@ -110,7 +110,9 @@ class AdminDrawer extends StatelessWidget {
             leading: Icon(Icons.people),
             title: Text('Signup-Requests'),
             onTap: () {
+              Navigator.pushNamed(context,'/signuprequests');
             },
+            selected: selectedRoute == '/signuprequests',
           ),
           ListTile(
             leading: Icon(Icons.receipt_long),

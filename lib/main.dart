@@ -3,6 +3,7 @@ import 'package:pma/admin/screens/add_client.dart';
 import 'package:pma/admin/screens/add_employee.dart';
 import 'package:pma/admin/screens/admin_dashboard.dart';
 import 'package:pma/admin/screens/all_clients.dart';
+import 'package:pma/admin/screens/signup_requests.dart';
 import 'package:pma/authentication/sign_in.dart';
 import 'package:pma/authentication/sign_up.dart';
 import 'package:pma/engineer/screens/engineer_dashboard.dart';
@@ -19,8 +20,6 @@ void setupLocator() {
   GetIt.instance.registerLazySingleton(() => AuthService());
   GetIt.instance.registerLazySingleton(() => UserService());
   GetIt.instance.registerLazySingleton(() => ExportEmployees());
-
-
 }
 
 
@@ -93,6 +92,7 @@ class _MyAppState extends State<MyApp> {
 
         '/allemployees':(context)=>AllEmployees(),
         '/addemployee':(context)=>AddEmployee(),
+        '/signuprequests':(context)=>SignUpRequests(),
 
       },
       // UserList(),

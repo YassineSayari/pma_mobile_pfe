@@ -5,6 +5,7 @@ class SharedPrefs {
   static const String userFullNameKey = 'userFullName';
   static const String userEmailKey = 'userEmail';
   static const String userRoleKey = 'userRole';
+  static const String authTokenKey = 'authToken';
 
   static Future<void> saveUserInfo(String id,String fullName, String email, String role) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -13,6 +14,18 @@ class SharedPrefs {
     prefs.setString(userEmailKey, email);
     prefs.setString(userRoleKey, role);
   }
+
+  static Future<void> saveAuthToken(String authToken) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(authTokenKey, authToken);
+  }
+
+  // Method to get the authentication token
+  static Future<String?> getAuthToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(authTokenKey);
+  }
+
 
   static Future<Map<String, String>> getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

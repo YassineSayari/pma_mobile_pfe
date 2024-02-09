@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:pma/services/shared_preferences.dart';
 import '../models/user_model.dart';
 
-//const ip = "192.168.137.1";
 const ip = "192.168.0.18";
+//const ip = "192.168.0.18";
 const port = 3002;
 
 class UserService{
@@ -30,6 +31,39 @@ class UserService{
       return list.map((model) => User.fromJson(model)).toList();
     } else {
       throw Exception('Failed to load users');
+    }
+  }
+
+
+
+  Future<List<User>> getSignUpRequests() async {
+    try {
+      // Retrieve the stored token
+      String? authToken = await SharedPrefs.getAuthToken(); // Use your actual method for getting the token
+
+      if (authToken == null) {
+        // Handle the case where the token is not available
+        throw Exception('Authentication token not available');
+      }
+
+      // Make the request with the token in headers
+      final response = await http.get(
+        Uri.parse(apiUrl + "/users/signup/requests"),
+        headers: {
+          'Authorization': 'Bearer $authToken',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        Iterable list = json.decode(response.body);
+        return list.map((model) => User.fromJson(model)).toList();
+      } else {
+        throw Exception('Failed to load sign-up requests');
+      }
+    } catch (error) {
+      // Handle errors
+      print('Error in getSignUpRequests: $error');
+      throw Exception('Failed to load sign-up requests');
     }
   }
 

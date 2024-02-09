@@ -53,6 +53,9 @@ class SigninState extends State<Signin> {
             result['email'] ?? '',
             userRole,
           );
+
+          SharedPrefs.saveAuthToken(result['token']);
+
           //redirect according to role
           if (userRole == 'Admin') {
             print('redirecting to admin page');
