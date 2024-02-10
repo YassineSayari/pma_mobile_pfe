@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'dart:io';
 
 import '../widgets/admin_drawer.dart';
@@ -32,7 +33,11 @@ class _AddEmployeeState extends State<AddEmployee> {
   final TextEditingController birthdate = TextEditingController();
 
   DateTime? birthDate;
+  TextEditingController birthDateController = TextEditingController();
+
   DateTime? hiringDate;
+  TextEditingController hiringDateController = TextEditingController();
+
 
   XFile? selectedImage;
 
@@ -40,7 +45,7 @@ class _AddEmployeeState extends State<AddEmployee> {
     final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       setState(() {
-        selectedImage = pickedFile; // Use XFile directly
+        selectedImage = pickedFile;
       });
     }
   }
@@ -61,10 +66,6 @@ class _AddEmployeeState extends State<AddEmployee> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          /*Image.asset(
-            "assets/images/pmm.png",
-            fit: BoxFit.cover,
-          ),*/
           Padding(
             padding: const EdgeInsets.all(16.0),
             child:
@@ -439,18 +440,25 @@ class _AddEmployeeState extends State<AddEmployee> {
                           // Birthdate Field
                           TextFormField(
                             onTap: () async {
+
+                              DateTime today = DateTime.now();
+                              DateTime eighteenYearsAgo = today.subtract(Duration(days: 18 * 365));
+                              DateTime sixtyYearsAgo = today.subtract(Duration(days: 60 * 365));
+
                               DateTime? pickedDate = await showDatePicker(
                                 context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime(1900),
-                                lastDate: DateTime.now(),
+                                initialDate: eighteenYearsAgo,
+                                firstDate: sixtyYearsAgo,
+                                lastDate: eighteenYearsAgo,
                               );
                               if (pickedDate != null && pickedDate != birthDate) {
                                 setState(() {
                                   birthDate = pickedDate;
+                                  birthDateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
                                 });
                               }
                             },
+                            controller: birthDateController,
                             readOnly: true,
                             decoration: InputDecoration(
                               labelText: 'Birthdate*',
@@ -493,7 +501,6 @@ class _AddEmployeeState extends State<AddEmployee> {
                     Expanded(
                       child: Column(
                         children: [
-                          // Hiring Date Field
                           TextFormField(
                             onTap: () async {
                               DateTime? pickedDate = await showDatePicker(
@@ -505,9 +512,12 @@ class _AddEmployeeState extends State<AddEmployee> {
                               if (pickedDate != null && pickedDate != hiringDate) {
                                 setState(() {
                                   hiringDate = pickedDate;
+                                  hiringDateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
+
                                 });
                               }
                             },
+                            controller:hiringDateController ,
                             readOnly: true,
                             decoration: InputDecoration(
                               labelText: 'Hiring Date*',
@@ -594,9 +604,9 @@ class _AddEmployeeState extends State<AddEmployee> {
                         children: [
                           ElevatedButton(
                             onPressed: () {
-                              print("button works0");
+                              print("submit clicked");
                               if (_formKey.currentState!.validate()) {
-                                  print("button works");
+                                  print("form valid");
                               }
                             },
                             style: ElevatedButton.styleFrom(
@@ -614,10 +624,8 @@ class _AddEmployeeState extends State<AddEmployee> {
                           SizedBox(width: 10),
                           ElevatedButton(
                             onPressed: () {
-                              print("button works0");
-                              if (_formKey.currentState!.validate()) {
-                                print("button works");
-                              }
+                              print("reset");
+                              resetForm();
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.red
@@ -634,8 +642,6 @@ class _AddEmployeeState extends State<AddEmployee> {
                         ],
                       ),
                     ),
-
-
               ],
             ),
           ),
@@ -643,4 +649,23 @@ class _AddEmployeeState extends State<AddEmployee> {
       ),
     );
   }
+
+  void resetForm() {
+    setState(() {
+      fullname.clear();
+      mail.clear();
+      gender = null;
+      mobile.clear();
+      password.clear();
+      passwordconf.clear();
+      address.clear();
+      department = null;
+      birthDate = null;
+      birthDateController.clear();
+      hiringDate = null;
+      hiringDateController.clear();
+      selectedImage = null;
+    });
+  }
+
 }

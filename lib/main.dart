@@ -45,7 +45,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   initUser() async {
-    print("============= INITIALIZE ID ===============");
+    print("...initializing id...");
     var id = await sharedPrefs.getLoggedUserIdFromPrefs();
     var role = await sharedPrefs.getLoggedUserRoleFromPrefs();
 
@@ -92,10 +92,11 @@ class _MyAppState extends State<MyApp> {
 
         '/allemployees':(context)=>AllEmployees(),
         '/addemployee':(context)=>AddEmployee(),
+
         '/signuprequests':(context)=>SignUpRequests(),
 
       },
-      // UserList(),
+
     );
   }
 }

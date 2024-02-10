@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import '../../services/user_service.dart';
 import '../../models/user_model.dart';
+import '../widgets/admin_drawer.dart';
 import '../widgets/signup_requester_container.dart';
 
 class SignUpRequests extends StatefulWidget {
@@ -10,11 +12,13 @@ class SignUpRequests extends StatefulWidget {
 
 class _SignUpRequestsState extends State<SignUpRequests> {
   late Future<List<User>> futureSignUpRequests;
+  final userService = GetIt.instance<UserService>();
+
 
   @override
   void initState() {
     super.initState();
-    futureSignUpRequests = UserService().getSignUpRequests();
+    futureSignUpRequests = userService.getSignUpRequests();
   }
 
   @override
@@ -23,6 +27,7 @@ class _SignUpRequestsState extends State<SignUpRequests> {
       appBar: AppBar(
         title: Text('Sign Up Requests'),
       ),
+      drawer: AdminDrawer(selectedRoute: '/signuprequests'),
       body: FutureBuilder<List<User>>(
         future: futureSignUpRequests,
         builder: (context, snapshot) {
@@ -43,6 +48,7 @@ class _SignUpRequestsState extends State<SignUpRequests> {
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: SignUpRequester(
+                    userId: signUpRequest.id,
                     name: signUpRequest.fullName,
                     role: signUpRequest.roles.join(', '),
                     mobile: signUpRequest.phone,

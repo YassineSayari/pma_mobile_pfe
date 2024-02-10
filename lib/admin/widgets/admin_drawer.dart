@@ -37,7 +37,6 @@ class AdminDrawer extends StatelessWidget {
                 child: ListTile(
                   title: Text('All Projects'),
                   onTap: () {
-                    // Handle tap for All Projects
                   },
                 ),
               ),

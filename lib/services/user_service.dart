@@ -38,15 +38,13 @@ class UserService{
 
   Future<List<User>> getSignUpRequests() async {
     try {
-      // Retrieve the stored token
-      String? authToken = await SharedPrefs.getAuthToken(); // Use your actual method for getting the token
+
+      String? authToken = await SharedPrefs.getAuthToken();
 
       if (authToken == null) {
-        // Handle the case where the token is not available
         throw Exception('Authentication token not available');
       }
 
-      // Make the request with the token in headers
       final response = await http.get(
         Uri.parse(apiUrl + "/users/signup/requests"),
         headers: {
@@ -61,7 +59,6 @@ class UserService{
         throw Exception('Failed to load sign-up requests');
       }
     } catch (error) {
-      // Handle errors
       print('Error in getSignUpRequests: $error');
       throw Exception('Failed to load sign-up requests');
     }
@@ -72,7 +69,7 @@ class UserService{
     print("deleting user with id $userId");
     try {
       final response = await http.delete(Uri.parse(apiUrl + "/users/delete/$userId"));
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 500) {
         print('User deleted successfully');
       } else {
         print('Failed to delete user. Status Code: ${response.statusCode}, Response: ${response.body}');
@@ -83,6 +80,7 @@ class UserService{
       throw Exception('Failed to delete user');
     }
   }
+
 
 
   Future<List<User>> searchUsers(Map<String, dynamic> filters) async {

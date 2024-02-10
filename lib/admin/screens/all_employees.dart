@@ -100,7 +100,6 @@ class _AllEmployeesState extends State<AllEmployees> {
                           IconButton(
                             icon: Image.asset('assets/images/json.png', width: 24, height: 24),
                             onPressed: () {
-                              // Export as JSON
                               exportEmployees.generateEmployeesJsonFile(employees);
                             },
                           ),

@@ -202,7 +202,6 @@ class SigninState extends State<Signin> {
 
                         SizedBox(height: 16),
 
-                        // Login Button
                         SizedBox(
                           width: 300,
                           height: 55,

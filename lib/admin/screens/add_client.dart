@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:intl/intl.dart';
 
 import '../widgets/admin_drawer.dart';
 
@@ -23,6 +24,8 @@ class _AddClientState extends State<AddClient> {
   final TextEditingController mobile = TextEditingController();
 
   DateTime? clientDate;
+  TextEditingController dateController = TextEditingController();
+
 
   final TextEditingController password = TextEditingController();
   final TextEditingController passwordconf = TextEditingController();
@@ -35,7 +38,7 @@ class _AddClientState extends State<AddClient> {
     final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       setState(() {
-        selectedImage = pickedFile; // Use XFile directly
+        selectedImage = pickedFile;
       });
     }
   }
@@ -55,10 +58,6 @@ class _AddClientState extends State<AddClient> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset(
-            "assets/images/pmm.png",
-            fit: BoxFit.cover,
-          ),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child:
@@ -258,15 +257,18 @@ class _AddClientState extends State<AddClient> {
                             firstDate: DateTime(1900),
                             lastDate: DateTime.now(),
                           );
+
                           if (pickedDate != null && pickedDate != clientDate) {
                             setState(() {
                               clientDate = pickedDate;
+                              dateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
                             });
                           }
                         },
+                        controller: dateController,
                         readOnly: true,
                         decoration: InputDecoration(
-                          labelText: 'Hiring Date*',
+                          labelText: 'Date*',
                           labelStyle: TextStyle(
                             color: Color(0xFF7743DB),
                             fontSize: 15,
@@ -294,11 +296,11 @@ class _AddClientState extends State<AddClient> {
                         ),
                         validator: (value) {
                           if (clientDate == null) {
-                            return 'Hiring Date is required';
+                            return 'Date is required';
                           }
                           return null;
                         },
-                      ),
+                      )
                     ],
                   ),
                 SizedBox(height: 10),
@@ -444,6 +446,9 @@ class _AddClientState extends State<AddClient> {
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF9F7BFF),
+                            shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                ),
                         ),
                         child: Text('Submit',
                           style: TextStyle(
@@ -457,13 +462,14 @@ class _AddClientState extends State<AddClient> {
                       SizedBox(width: 10),
                       ElevatedButton(
                         onPressed: () {
-                          print("button works0");
-                          if (_formKey.currentState!.validate()) {
-                            print("button works");
-                          }
+                            print("resetting...");
+                            resetForm();
                         },
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.red
+                            backgroundColor: Colors.red,
+                            shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
                         ),
                         child: Text('Cancel',
                           style: TextStyle(
@@ -477,13 +483,24 @@ class _AddClientState extends State<AddClient> {
                     ],
                   ),
                 ),
-
-
               ],
             ),
           ),
         ],
       ),
     );
+  }
+  void resetForm() {
+    setState(() {
+      name.clear();
+      company.clear();
+      mail.clear();
+      mobile.clear();
+      clientDate = null;
+      dateController.clear();
+      password.clear();
+      passwordconf.clear();
+      selectedImage = null;
+    });
   }
 }

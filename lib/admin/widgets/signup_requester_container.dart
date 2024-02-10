@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+
+import '../../services/user_service.dart';
 
 class SignUpRequester extends StatelessWidget {
+  final String userId;
   final String name;
   final String role;
   final String mobile;
@@ -12,6 +16,7 @@ class SignUpRequester extends StatelessWidget {
     required this.role,
     required this.mobile,
     required this.email,
+    required this.userId,
   }) : super(key: key);
 
   @override
@@ -74,7 +79,7 @@ class SignUpRequester extends StatelessWidget {
                   SizedBox(width: 8),
                   IconButton(
                     onPressed: () {
-                      // Handle delete
+                      _showDeleteConfirmationDialog(context, userId);
                     },
                     icon: Icon(Icons.delete_outline_rounded),
                     tooltip: 'Delete',
@@ -88,4 +93,36 @@ class SignUpRequester extends StatelessWidget {
       ),
     );
   }
+
+
+
+
+  void _showDeleteConfirmationDialog(BuildContext context, String userId) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Delete Confirmation"),
+          content: Text("Are you sure you want to deny $name's signup?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () async {
+                UserService userService = GetIt.I<UserService>();
+                await userService.deleteUser(userId);
+                Navigator.of(context).pushReplacementNamed('/signuprequests');
+              },
+              child: Text("Delete"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }

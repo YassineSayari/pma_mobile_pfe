@@ -44,10 +44,10 @@ class _SignUpState extends State<SignUp> {
     Map<String, dynamic> result = await authService.signUp(name, email, pw, "user_image.jpg");
 
     if (result.containsKey('error')) {
-      // Handle sign-up error
+
       print("Sign-up failed: ${result['error']}");
     } else {
-      // Sign-up successful, navigate to another page or update UI
+
       print("Sign-up successful: ${result['message']}");
     }
   }

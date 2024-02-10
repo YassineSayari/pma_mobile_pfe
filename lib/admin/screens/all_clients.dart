@@ -215,7 +215,7 @@ class _AllClientsState extends State<AllClients> {
   {
     UserService().deleteUser(id);
     setState(() {
-      // Remove the deleted client from the list
+      // Remove from local list
       clients.removeWhere((user) => user.id == id);
     });
     Navigator.pushReplacementNamed(context, "/allclients");

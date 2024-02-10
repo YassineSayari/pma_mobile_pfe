@@ -20,7 +20,6 @@ class SharedPrefs {
     prefs.setString(authTokenKey, authToken);
   }
 
-  // Method to get the authentication token
   static Future<String?> getAuthToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(authTokenKey);
