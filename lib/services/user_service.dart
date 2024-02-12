@@ -7,11 +7,11 @@ const ip = "192.168.0.17";
 const port = 3002;
 
 class UserService{
-  final String apiUrl = 'http://$ip:$port/api/v1';
+  final String apiUrl = 'http://$ip:$port/api/v1/users';
 
   //all users
   Future<List<User>> getAllUsers() async {
-    final response = await http.get(Uri.parse(apiUrl+"/users/getall"));
+    final response = await http.get(Uri.parse(apiUrl+"/getall"));
 
     if (response.statusCode == 200) {
       Iterable list = json.decode(response.body);
@@ -24,7 +24,7 @@ class UserService{
 
   //clients list
   Future<List<User>> getAllClients() async {
-    final response = await http.get(Uri.parse(apiUrl+"/users/getAllClient"));
+    final response = await http.get(Uri.parse(apiUrl+"/getAllClient"));
 
     if (response.statusCode == 200) {
       Iterable list = json.decode(response.body);
@@ -36,7 +36,7 @@ class UserService{
   // engineers
   Future<List<User>> getAllEngineers() async {
     print("loading engineers");
-    final response = await http.get(Uri.parse(apiUrl + "/users/getEngi"));
+    final response = await http.get(Uri.parse(apiUrl + "/getEngi"));
 
     if (response.statusCode == 200) {
       Iterable list = json.decode(response.body);
@@ -48,7 +48,7 @@ class UserService{
 
   // team leaders+engineers
   Future<List<User>> getAllTeamLeaders() async {
-    final response = await http.get(Uri.parse(apiUrl + "/users/getAllEng"));
+    final response = await http.get(Uri.parse(apiUrl + "/getAllEng"));
 
     if (response.statusCode == 200) {
       Iterable list = json.decode(response.body);
@@ -71,7 +71,7 @@ class UserService{
       }
 
       final response = await http.get(
-        Uri.parse(apiUrl + "/users/signup/requests"),
+        Uri.parse(apiUrl + "/signup/requests"),
         headers: {
           'Authorization': 'Bearer $authToken',
         },
@@ -90,9 +90,9 @@ class UserService{
   }
 
   Future<void> confirmSignupRequests(String userId) async{
-    print("confirming signup of the user $userId");
+    print("confirming signup of the user $userId" );
     try{
-      final response=await http.post(Uri.parse(apiUrl+"/users/confirm-signup/$userId"));
+      final response=await http.post(Uri.parse(apiUrl+"/confirm-signup/$userId"));
       if (response.statusCode == 200 || response.statusCode == 500) {
         print('User Confirmed successfully');
       } else {
@@ -110,7 +110,7 @@ class UserService{
   Future<void> deleteUser(String userId) async {
     print("deleting user with id $userId");
     try {
-      final response = await http.delete(Uri.parse(apiUrl + "/users/delete/$userId"));
+      final response = await http.delete(Uri.parse(apiUrl + "/delete/$userId"));
       if (response.statusCode == 200 || response.statusCode == 500) {
         print('User deleted successfully');
       } else {
@@ -127,7 +127,7 @@ class UserService{
 
   Future<List<User>> searchUsers(Map<String, dynamic> filters) async {
     final response = await http.post(
-      Uri.parse(apiUrl + "/users/search"),
+      Uri.parse(apiUrl + "/search"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

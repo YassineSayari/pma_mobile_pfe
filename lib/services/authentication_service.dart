@@ -9,7 +9,7 @@ const port = 3002;
 
 class AuthService {
 
-  final String apiUrl = 'http://$ip:$port/api/v1';
+  final String apiUrl = 'http://$ip:$port/api/v1/users';
   SharedPrefs shared_prefs = GetIt.I<SharedPrefs>();
 
 
@@ -17,7 +17,7 @@ class AuthService {
   Future<Map<String, dynamic>> login(String email, String password) async {
     print("checking for user");
     final response = await http.post(
-      Uri.parse('$apiUrl/users/login'),
+      Uri.parse('$apiUrl/login'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'email': email, 'password': password}),
     );
@@ -36,7 +36,7 @@ class AuthService {
     try {
       print("signing up");
       final response = await http.post(
-        Uri.parse('$apiUrl/users/signup'),
+        Uri.parse('$apiUrl/signup'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'fullName': fullName,

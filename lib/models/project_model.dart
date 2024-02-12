@@ -54,6 +54,7 @@ class Project {
   });
 
   factory Project.fromJson(Map<String, dynamic> json) {
+    print("fromjson");
     return Project(
       id: json['_id']['\$oid'],
       projectName: json['Projectname'],
@@ -81,5 +82,33 @@ class Project {
       other2: json['other2'],
       other3: json['other3'],
     );
+  }
+  Map<String, dynamic> toJson() {
+    return {
+      'Projectname': projectName,
+      'description': description,
+      'status': status,
+      'TeamLeader': teamLeaderId,
+      'dateFin': dateFin.toIso8601String(),
+      'type': type,
+      'dateDebut': dateDebut.toIso8601String(),
+      'file': file,
+      'client': client,
+      'equipe': equipe,
+      'note_Client': noteClient,
+      'priority': priority,
+      'note_Admin': noteAdmin,
+      'price': price,
+      'note_equipe': noteEquipe,
+      'progress': progress,
+      'kickoff': kickoff,
+      'HLD_LLD': hldLld,
+      'build_book': buildBook,
+      'access_document': accessDocument,
+      'other': other,
+      'other1': other1,
+      'other2': other2,
+      'other3': other3,
+    };
   }
 }

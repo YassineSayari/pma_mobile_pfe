@@ -10,6 +10,7 @@ import 'package:pma/authentication/sign_up.dart';
 import 'package:pma/engineer/screens/engineer_dashboard.dart';
 import 'package:pma/services/authentication_service.dart';
 import 'package:pma/services/export_utils.dart';
+import 'package:pma/services/project_service.dart';
 import 'package:pma/services/shared_preferences.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pma/services/user_service.dart';
@@ -20,6 +21,7 @@ void setupLocator() {
   GetIt.instance.registerLazySingleton(() => SharedPrefs());
   GetIt.instance.registerLazySingleton(() => AuthService());
   GetIt.instance.registerLazySingleton(() => UserService());
+  GetIt.instance.registerLazySingleton(() => ProjectService());
   GetIt.instance.registerLazySingleton(() => ExportEmployees());
 }
 
