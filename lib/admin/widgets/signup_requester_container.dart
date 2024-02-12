@@ -69,8 +69,8 @@ class SignUpRequester extends StatelessWidget {
                 children: [
                   IconButton(
                     onPressed: () {
-                      // Handle approve
-                    },
+                      _showAcceptionDialog(context, userId);
+                      },
                     icon: Icon(Icons.check_box_outlined),
                     tooltip: 'Approve',
                     iconSize: 40,
@@ -79,7 +79,7 @@ class SignUpRequester extends StatelessWidget {
                   SizedBox(width: 8),
                   IconButton(
                     onPressed: () {
-                      _showDeleteConfirmationDialog(context, userId);
+                      _showDeleteDialog(context, userId);
                     },
                     icon: Icon(Icons.delete_outline_rounded),
                     tooltip: 'Delete',
@@ -96,21 +96,41 @@ class SignUpRequester extends StatelessWidget {
 
 
 
-
-  void _showDeleteConfirmationDialog(BuildContext context, String userId) {
+  void _showDeleteDialog(BuildContext context, String userId) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Delete Confirmation"),
-          content: Text("Are you sure you want to deny $name's signup?"),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text("Cancel"),
+          title:
+          /* Text Simple :
+           content: Text("Are you sure you want to deny $name's signup? \n Name: $name \n Role:$role \n Mobile: $mobile"),
+           */
+          //Text Styled bl bold:
+          Text("Delete Confirmation"),
+          content: RichText(
+            text: TextSpan(
+              text: "Are you sure you want to deny $name's signup?\n",
+              style: DefaultTextStyle.of(context).style,
+              children: <TextSpan>[
+                TextSpan(
+                  text: 'Name: ',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                TextSpan(text: '$name\n'),
+                TextSpan(
+                  text: 'Role: ',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                TextSpan(text: '$role\n'),
+                TextSpan(
+                  text: 'Mobile: ',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                TextSpan(text: '$mobile'),
+              ],
             ),
+          ),
+          actions: [
             TextButton(
               onPressed: () async {
                 UserService userService = GetIt.I<UserService>();
@@ -119,10 +139,71 @@ class SignUpRequester extends StatelessWidget {
               },
               child: Text("Delete"),
             ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("Cancel"),
+            ),
           ],
         );
       },
     );
   }
+  void _showAcceptionDialog(BuildContext context, String userId) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title:
+          /* Text Simple :
+           content: Text("Are you sure you want to Accept $name's signup? \n Name: $name \n Role:$role \n Mobile: $mobile"),
+           */
+          //Text Styled bl bold:
+          Text("Confirmation"),
+          content: RichText(
+            text: TextSpan(
+              text: "Are you sure you want to Accept $name's signup?\n",
+              style: DefaultTextStyle.of(context).style,
+              children: <TextSpan>[
+                TextSpan(
+                  text: 'Name: ',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                TextSpan(text: '$name\n'),
+                TextSpan(
+                  text: 'Role: ',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                TextSpan(text: '$role\n'),
+                TextSpan(
+                  text: 'Mobile: ',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                TextSpan(text: '$mobile'),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () async {
+                UserService userService = GetIt.I<UserService>();
+                await userService.confirmSignupRequests(userId);
+              },
+              child: Text("Accept"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("Cancel"),
+            ),
+
+          ],
+        );
+      },
+    );
+  }
+
 
 }

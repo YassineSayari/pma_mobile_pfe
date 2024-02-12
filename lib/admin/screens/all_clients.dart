@@ -211,15 +211,36 @@ class _AllClientsState extends State<AllClients> {
     });
   }
 
-  void deleteClient(String id)
-  {
-    UserService().deleteUser(id);
-    setState(() {
-      // Remove from local list
-      clients.removeWhere((user) => user.id == id);
-    });
-    Navigator.pushReplacementNamed(context, "/allclients");
+  void deleteClient(String id) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Confirm Deletion"),
+          content: Text("Are you sure you want to delete this client?"),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                UserService().deleteUser(id);
+                setState(() {
+                  clients.removeWhere((user) => user.id == id);
+                });
+                Navigator.of(context).pop();
+              },
+              child: Text("Delete"),
+            ),
+          ],
+        );
+      },
+    );
   }
+
 
 }
 

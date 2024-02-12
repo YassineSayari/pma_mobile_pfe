@@ -3,8 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:pma/services/shared_preferences.dart';
 import '../models/user_model.dart';
 
-const ip = "192.168.0.18";
-//const ip = "192.168.0.18";
+const ip = "192.168.0.17";
 const port = 3002;
 
 class UserService{
@@ -16,7 +15,8 @@ class UserService{
 
     if (response.statusCode == 200) {
       Iterable list = json.decode(response.body);
-      return list.map((model) => User.fromJson(model)).toList();
+      List<User> enabledUsers = list.map((model) => User.fromJson(model)).where((user) => user.isEnabled).toList();
+      return enabledUsers;
     } else {
       throw Exception('Failed to load users');
     }
@@ -33,6 +33,31 @@ class UserService{
       throw Exception('Failed to load users');
     }
   }
+  // engineers
+  Future<List<User>> getAllEngineers() async {
+    print("loading engineers");
+    final response = await http.get(Uri.parse(apiUrl + "/users/getEngi"));
+
+    if (response.statusCode == 200) {
+      Iterable list = json.decode(response.body);
+      return list.map((model) => User.fromJson(model)).toList();
+    } else {
+      throw Exception('Failed to load engineers');
+    }
+  }
+
+  // team leaders+engineers
+  Future<List<User>> getAllTeamLeaders() async {
+    final response = await http.get(Uri.parse(apiUrl + "/users/getAllEng"));
+
+    if (response.statusCode == 200) {
+      Iterable list = json.decode(response.body);
+      return list.map((model) => User.fromJson(model)).toList();
+    } else {
+      throw Exception('Failed to load team leaders');
+    }
+  }
+
 
 
 
@@ -64,6 +89,23 @@ class UserService{
     }
   }
 
+  Future<void> confirmSignupRequests(String userId) async{
+    print("confirming signup of the user $userId");
+    try{
+      final response=await http.post(Uri.parse(apiUrl+"/users/confirm-signup/$userId"));
+      if (response.statusCode == 200 || response.statusCode == 500) {
+        print('User Confirmed successfully');
+      } else {
+        print('Failed to confirm. Status Code: ${response.statusCode}, Response: ${response.body}');
+        throw Exception('Failed to confirm ');
+      }
+    } catch (error) {
+      print('Error confirming: $error');
+      throw Exception('Failed to confirm user');
+    }
+  }
+
+  
   //delete a user
   Future<void> deleteUser(String userId) async {
     print("deleting user with id $userId");

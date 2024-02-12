@@ -49,7 +49,7 @@ class _AllEmployeesState extends State<AllEmployees> {
     await futureUsers.then((users) {
       setState(() {
         allUsers = users;
-        employees = allUsers.where((user) => !user.roles.contains('Client')).toList();
+        employees = allUsers.where((user) => user.isEnabled && !user.roles.contains('Client')).toList();
       });
     });
   }
@@ -201,11 +201,15 @@ class _AllEmployeesState extends State<AllEmployees> {
         final phoneMatch = user.phone.toLowerCase().contains(text.toLowerCase());
         final emailMatch = user.email.toLowerCase().contains(text.toLowerCase());
 
-        return fullNameMatch || rolesMatch || genderMatch || phoneMatch || emailMatch;
+        return (fullNameMatch ||
+            rolesMatch ||
+            genderMatch ||
+            phoneMatch ||
+            emailMatch) &&
+            user.isEnabled &&
+            !user.roles.contains('Client');
       }).toList()
           : [];
-      //exclude clients
-      employees = employees.where((user) => !user.roles.contains('Client')).toList();
     });
   }
 

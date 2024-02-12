@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pma/admin/screens/add_client.dart';
 import 'package:pma/admin/screens/add_employee.dart';
+import 'package:pma/admin/screens/add_project.dart';
 import 'package:pma/admin/screens/admin_dashboard.dart';
 import 'package:pma/admin/screens/all_clients.dart';
 import 'package:pma/admin/screens/signup_requests.dart';
@@ -86,6 +87,11 @@ class _MyAppState extends State<MyApp> {
 
         '/admindashboard': (context) => AdminDashboard(),
         '/engineerdashboard': (context) => EngineerDashboard(),
+
+       // '/allprojcets':(context)=>(),
+        '/addproject':(context)=>AddProject(),
+
+
 
         '/allclients':(context)=>AllClients(),
         '/addclient':(context)=>AddClient(),

@@ -45,7 +45,10 @@ class AdminDrawer extends StatelessWidget {
                 child: ListTile(
                   title: Text('Add Project'),
                   onTap: () {
+                    Navigator.of(context).pushReplacementNamed('/addproject');
                   },
+                  selected: selectedRoute == '/addproject',
+                  selectedTileColor: selectedColor,
                 ),
               ),
             ],
