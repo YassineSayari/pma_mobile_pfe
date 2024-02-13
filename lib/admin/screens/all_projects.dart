@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../models/project_model.dart';
+import 'package:pma/admin/widgets/admin_drawer.dart';
 import '../../services/project_service.dart';
 import '../widgets/project_container.dart';
-
-
 
 class AllProjects extends StatefulWidget {
   AllProjects({Key? key}) : super(key: key);
@@ -18,7 +16,6 @@ class _AllProjectsState extends State<AllProjects> {
   @override
   void initState() {
     super.initState();
-
     projects = ProjectService().getAllProjects();
   }
 
@@ -28,6 +25,7 @@ class _AllProjectsState extends State<AllProjects> {
       appBar: AppBar(
         title: Text('All Projects'),
       ),
+      drawer: AdminDrawer(selectedRoute: '/allprojects'),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: projects,
         builder: (context, snapshot) {
@@ -36,77 +34,97 @@ class _AllProjectsState extends State<AllProjects> {
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else {
-            List<Map<String, dynamic>> projects = snapshot.data ?? [];
-            return ListView.builder(
-              itemCount: projects.length,
-              itemBuilder: (context, index) {
-                // Use ProjectContainer instead of ListTile
-                return ProjectContainer(
-                  projectName: projects[index]['Projectname']?? '',
-                  status:projects[index]['status']?? '',
-                  description: projects[index]['description']?? '',
-                  dateDebut: projects[index]['dateDebut']?? '',
-                  teamLeaderId: projects[index]['TeamLeader']['fullName']?? '',
-                  priority: projects[index]['priority']?? '',
-                  dateFin: projects[index]['dateFin']?? '',
-                  client: projects[index]['client']['fullName']?? '',
-                  equipe: projects[index]['equipe'] ?? [],
-                  progress: projects[index]['progress']?? '',
-                );
-              },
+            List<Map<String, dynamic>> allProjects = snapshot.data ?? [];
+
+            List<Map<String, dynamic>> pendingProjects = allProjects
+                .where((project) => project['status'] == 'Pending')
+                .toList();
+            List<Map<String, dynamic>> inProgressProjects = allProjects
+                .where((project) => project['status'] == 'In Progress')
+                .toList();
+            List<Map<String, dynamic>> onHoldProjects = allProjects
+                .where((project) => project['status'] == 'On Hold')
+                .toList();
+            List<Map<String, dynamic>> completedProjects = allProjects
+                .where((project) => project['status'] == 'Completed')
+                .toList();
+
+            return ListView(
+              children: [
+                _buildSection('New Projects (Status: Pending)', pendingProjects),
+                _buildSection('In Progress Projects', inProgressProjects),
+                _buildSection('On Hold Projects', onHoldProjects),
+                _buildSection('Completed Projects', completedProjects),
+              ],
             );
           }
         },
       ),
     );
   }
-}
 
-
-
-/*class AllProjects extends StatefulWidget {
-  @override
-  _AllProjectsState createState() => _AllProjectsState();
-}
-
-class _AllProjectsState extends State<AllProjects> {
-  List<Project> projects = [];
-
-  @override
-  void initState() {
-    super.initState();
-    loadProjects();
-  }
-
-  Future<void> loadProjects() async {
-    try {
-      List<Project> fetchedProjects = await ProjectService().getAllProjects();
-      print("fetched projects : $fetchedProjects");
-
-      setState(() {
-        projects = fetchedProjects;
-      });
-    } catch (error) {
-      // Handle error
-      print('Error loading projects: $error');
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Project Container'),
-      ),
-      body: projects != null
-          ? ListView.builder(
-        itemCount: projects.length,
-        itemBuilder: (context, index) {
-          return ProjectContainer(projects[index]);
-        },
-      )
-          : Center(child: CircularProgressIndicator()),
+  Widget _buildSection(String sectionTitle, List<Map<String, dynamic>> projects) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            sectionTitle,
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+        ),
+        for (var project in projects)
+          LongPressDraggable<Map<String, dynamic>>(
+            data: project,
+            child: ProjectContainer(
+              projectName: project['Projectname'] ?? '',
+              type: project['type'] ?? '',
+              status: project['status'] ?? '',
+              description: project['description'] ?? '',
+              dateDebut: project['dateDebut'] ?? '',
+              teamLeaderId: project['TeamLeader']['fullName'] ?? '',
+              priority: project['priority'] ?? '',
+              dateFin: project['dateFin'] ?? '',
+              client: project['client']['fullName'] ?? '',
+              equipe: project['equipe'] ?? [],
+              progress: project['progress'] ?? 0,
+            ),
+            feedback: Material(
+              elevation: 5.0,
+              child: Container(
+                padding: EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: ProjectContainer(
+                  projectName: project['Projectname'] ?? '',
+                  type: project['type'] ?? '',
+                  status: project['status'] ?? '',
+                  description: project['description'] ?? '',
+                  dateDebut: project['dateDebut'] ?? '',
+                  teamLeaderId: project['TeamLeader']['fullName'] ?? '',
+                  priority: project['priority'] ?? '',
+                  dateFin: project['dateFin'] ?? '',
+                  client: project['client']['fullName'] ?? '',
+                  equipe: project['equipe'] ?? [],
+                  progress: project['progress'] ?? 0,
+                ),
+              ),
+            ),
+            childWhenDragging: SizedBox.shrink(),
+            onDragStarted: () {
+            },
+            onDraggableCanceled: (velocity, offset) {
+            },
+            onDragEnd: (details) {
+            },
+            onDragCompleted: () {
+            },
+          ),
+        SizedBox(height: 20),
+      ],
     );
   }
 }
-*/

@@ -142,10 +142,10 @@ class _AddProjectState extends State<AddProject> {
                         ),
                       ),
                       items: [
-                        DropdownMenuItem(child: Text('Systems Infrastructure',style: TextStyle(fontSize: 10),), value: 'Systems Infrastructure'),
-                        DropdownMenuItem(child: Text('Network Infrastructure',style: TextStyle(fontSize: 10),), value: 'Network Infrastructure'),
-                        DropdownMenuItem(child: Text('Systems And Networks Infrastructure',style: TextStyle(fontSize: 10),), value: 'Systems And Networks Infrastructure'),
-                        DropdownMenuItem(child: Text('Development',style: TextStyle(fontSize: 10),), value: 'Development'),
+                        DropdownMenuItem(child: Text('-Systems Infrastructure',style: TextStyle(fontSize:15),), value: 'Systems Infrastructure'),
+                        DropdownMenuItem(child: Text('-Network Infrastructure',style: TextStyle(fontSize: 15),), value: 'Network Infrastructure'),
+                        DropdownMenuItem(child: Text('-Systems And Networks Infrastructure',style: TextStyle(fontSize: 15),), value: 'Systems And Networks Infrastructure'),
+                        DropdownMenuItem(child: Text('-Development',style: TextStyle(fontSize: 15),), value: 'Development'),
                       ],
                       onChanged: (selectedValue) {
                         setState(() {

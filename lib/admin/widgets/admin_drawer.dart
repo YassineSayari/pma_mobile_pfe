@@ -39,6 +39,8 @@ class AdminDrawer extends StatelessWidget {
                   onTap: () {
                     Navigator.pushNamed(context,'/allprojects');
                   },
+                  selected: selectedRoute == '/allprojects',
+                  selectedTileColor: selectedColor,
                 ),
               ),
               Padding(
