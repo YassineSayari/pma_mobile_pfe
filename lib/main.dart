@@ -16,6 +16,7 @@ import 'package:get_it/get_it.dart';
 import 'package:pma/services/user_service.dart';
 
 import 'admin/screens/all_employees.dart';
+import 'admin/screens/all_projects.dart';
 
 void setupLocator() {
   GetIt.instance.registerLazySingleton(() => SharedPrefs());
@@ -90,7 +91,7 @@ class _MyAppState extends State<MyApp> {
         '/admindashboard': (context) => AdminDashboard(),
         '/engineerdashboard': (context) => EngineerDashboard(),
 
-       // '/allprojcets':(context)=>(),
+        '/allprojects':(context)=>AllProjects(),
         '/addproject':(context)=>AddProject(),
 
 

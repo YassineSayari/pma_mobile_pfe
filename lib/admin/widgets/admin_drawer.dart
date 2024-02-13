@@ -37,6 +37,7 @@ class AdminDrawer extends StatelessWidget {
                 child: ListTile(
                   title: Text('All Projects'),
                   onTap: () {
+                    Navigator.pushNamed(context,'/allprojects');
                   },
                 ),
               ),
