@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pma/admin/widgets/admin_drawer.dart';
-import '../../services/project_service.dart';
-import '../widgets/project_container.dart';
+import '../../../services/project_service.dart';
+import '../../widgets/project_container.dart';
 
 class AllProjects extends StatefulWidget {
   AllProjects({Key? key}) : super(key: key);
@@ -51,10 +51,10 @@ class _AllProjectsState extends State<AllProjects> {
 
             return ListView(
               children: [
-                _buildSection('New Projects (Status: Pending)', pendingProjects),
-                _buildSection('In Progress Projects', inProgressProjects),
-                _buildSection('On Hold Projects', onHoldProjects),
-                _buildSection('Completed Projects', completedProjects),
+                _buildSection('New Projects ', pendingProjects),
+                _buildSection('In Progress ', inProgressProjects),
+                _buildSection('On Hold ', onHoldProjects),
+                _buildSection('Completed ', completedProjects),
               ],
             );
           }

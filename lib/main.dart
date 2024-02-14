@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pma/admin/screens/add_client.dart';
-import 'package:pma/admin/screens/add_employee.dart';
-import 'package:pma/admin/screens/add_project.dart';
+import 'package:pma/admin/screens/clients/add_client.dart';
+import 'package:pma/admin/screens/employees/add_employee.dart';
+import 'package:pma/admin/screens/projects/add_project.dart';
 import 'package:pma/admin/screens/admin_dashboard.dart';
-import 'package:pma/admin/screens/all_clients.dart';
+import 'package:pma/admin/screens/clients/all_clients.dart';
 import 'package:pma/admin/screens/signup_requests.dart';
 import 'package:pma/authentication/sign_in.dart';
 import 'package:pma/authentication/sign_up.dart';
@@ -15,8 +15,8 @@ import 'package:pma/services/shared_preferences.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pma/services/user_service.dart';
 
-import 'admin/screens/all_employees.dart';
-import 'admin/screens/all_projects.dart';
+import 'admin/screens/employees/all_employees.dart';
+import 'admin/screens/projects/all_projects.dart';
 
 void setupLocator() {
   GetIt.instance.registerLazySingleton(() => SharedPrefs());

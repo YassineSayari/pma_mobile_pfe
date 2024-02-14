@@ -59,6 +59,34 @@ class UserService{
   }
 
 
+  Future<void> updateUser(String userId, Map<String, dynamic> updatedData) async {
+    print("updating user with id $userId");
+
+    String? authToken = await SharedPrefs.getAuthToken();
+    try {
+      final response = await http.patch(
+        Uri.parse('$apiUrl/update/$userId'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $authToken',
+        },
+        body: jsonEncode(updatedData),
+      );
+
+      if (response.statusCode == 200) {
+        print('User updated successfully');
+      } else {
+        print('Failed to update user. Status Code: ${response.statusCode}, Response: ${response.body}');
+        throw Exception('Failed to update user');
+      }
+    } catch (error) {
+      print('Error updating user: $error');
+      throw Exception('Failed to update user');
+    }
+  }
+
+
+
 
 
   Future<List<User>> getSignUpRequests() async {

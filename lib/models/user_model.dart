@@ -6,6 +6,8 @@ class User {
   final List<String> roles;
   final String image;
   final String gender;
+  final String? department;
+  final String? company;
   final bool isEnabled;
   final int experience;
   final String title;
@@ -19,6 +21,8 @@ class User {
     required this.roles,
     required this.image,
     required this.gender,
+    this.department,
+    this.company,
     required this.isEnabled,
     required this.experience,
     required this.title,
@@ -34,6 +38,8 @@ class User {
       roles: List<String>.from(json['roles']),
       image: json['image'],
       gender: json['gender'],
+      department: json['department'],
+      company: json['company'],
       isEnabled: json['isEnabled'],
       experience: json['experience'],
       title: json['title'],

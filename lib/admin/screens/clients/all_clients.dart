@@ -2,24 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:pma/admin/widgets/admin_drawer.dart';
 import 'package:pma/services/user_service.dart';
 
-import '../../models/user_model.dart';
-import '../../services/export_utils.dart';
-import '../../services/shared_preferences.dart';
+import '../../../models/user_model.dart';
+import '../../../services/export_utils.dart';
+import '../../../services/shared_preferences.dart';
 import 'package:pma/admin/widgets/search_bar.dart';
 
-class AllEmployees extends StatefulWidget {
-  const AllEmployees({Key? key}) : super(key: key);
+import 'edit_client_popup.dart';
+
+class AllClients extends StatefulWidget {
+  const AllClients({Key? key}) : super(key: key);
 
   @override
-  State<AllEmployees> createState() => _AllEmployeesState();
+  State<AllClients> createState() => _AllClientsState();
 }
 
-class _AllEmployeesState extends State<AllEmployees> {
+class _AllClientsState extends State<AllClients> {
   late Future<List<User>> futureUsers;
   late String userFullName;
   late String userId;
-  List<User> allUsers = [];
-  List<User> employees = [];
+  List<User> allClients = [];
+  List<User> clients = [];
 
   int _rowsPerPage = 2;
   int _sortColumnIndex = 0;
@@ -44,63 +46,68 @@ class _AllEmployeesState extends State<AllEmployees> {
       });
     });
 
-    futureUsers = UserService().getAllUsers();
+    futureUsers = UserService().getAllClients();
 
     await futureUsers.then((users) {
       setState(() {
-        allUsers = users;
-        employees = allUsers.where((user) => user.isEnabled && !user.roles.contains('Client')).toList();
+        allClients = users;
+
+        clients = allClients;
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    print('employees: $employees');
+    print('employees: $clients');
     return Scaffold(
       appBar: AppBar(
-        title: Text('All Employees, user: $userFullName'),
+        title: Text('All Clients'),
+        centerTitle: true,
       ),
-      drawer: AdminDrawer(selectedRoute: '/allemployees'),
+      drawer: AdminDrawer(selectedRoute: '/allclients'),
       body: Column(
         children: [
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(4.0),
               child: PaginatedDataTable(
-                header:  Row(
+                header:
+                   Row(
                     children: [
                       Expanded(
                         child: UserSearchBar(
                           onChanged: onSearchTextChanged,
+                          onTap: (){_initializeData();print("refresh tapped");},
                         ),
                       ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           IconButton(
                             icon: Image.asset('assets/images/txt.png', width: 24, height: 24),
                             onPressed: () async {
-                              print("text option clicked");
-                              print("Employees before export: $employees");
-                              await exportEmployees.generateEmployeesTextFile(employees);
+                              print("Employees before export: $clients");
+                              await exportEmployees.generateEmployeesTextFile(clients);
                             },
                           ),
                           IconButton(
                             icon: Image.asset('assets/images/csv.png', width: 24, height: 24),
                             onPressed: () {
-                              exportEmployees.generateEmployeesCsvFile(employees);
+                              exportEmployees.generateEmployeesCsvFile(clients);
                             },
                           ),
                           IconButton(
                             icon: Image.asset('assets/images/xlsx.png', width: 24, height: 24),
                             onPressed: () async {
-                              await exportEmployees.generateEmployeesXlsxFile(employees);
+                              await exportEmployees.generateEmployeesXlsxFile(clients);
                             },
                           ),
                           IconButton(
                             icon: Image.asset('assets/images/json.png', width: 24, height: 24),
                             onPressed: () {
-                              exportEmployees.generateEmployeesJsonFile(employees);
+                              // Export as JSON
+                              exportEmployees.generateEmployeesJsonFile(clients);
                             },
                           ),
                         ],
@@ -151,7 +158,7 @@ class _AllEmployeesState extends State<AllEmployees> {
                   ),
                   DataColumn(label: Text('Actions')),
                 ],
-                source: EmployeeDataSource(employees),
+                source: EmployeeDataSource(clients,context,deleteClient),
               ),
             ),
           ),
@@ -161,7 +168,7 @@ class _AllEmployeesState extends State<AllEmployees> {
   }
 
   void _sort<T>(Comparable<T> Function(User user) getField, int columnIndex, bool ascending) {
-    employees.sort((a, b) {
+    clients.sort((a, b) {
       final aValue = getField(a);
       final bValue = getField(b);
       return ascending ? Comparable.compare(aValue, bValue) : Comparable.compare(bValue, aValue);
@@ -173,57 +180,69 @@ class _AllEmployeesState extends State<AllEmployees> {
     });
   }
 
- /* void onSearchTextChanged(String text) async {
-    try {
-      final filters = {
-        'fullName': text,
-        // add other filters as needed
-      };
-
-      final searchedUsers = await UserService().searchUsers(filters);
-
-      setState(() {
-        employees = searchedUsers.where((user) => !user.roles.contains('Client')).toList();
-      });
-    } catch (error) {
-      print('Error searching users: $error');
-    }
-  }*/
-
   void onSearchTextChanged(String text) {
     print('Search text changed: $text');
     setState(() {
-      employees = allUsers.isNotEmpty
-          ? allUsers.where((user) {
+      clients = allClients.isNotEmpty
+          ? allClients.where((user) {
         final fullNameMatch = user.fullName.toLowerCase().contains(text.toLowerCase());
         final rolesMatch = user.roles.join(', ').toLowerCase().contains(text.toLowerCase());
         final genderMatch = user.gender.toLowerCase().contains(text.toLowerCase());
         final phoneMatch = user.phone.toLowerCase().contains(text.toLowerCase());
         final emailMatch = user.email.toLowerCase().contains(text.toLowerCase());
 
-        return (fullNameMatch ||
-            rolesMatch ||
-            genderMatch ||
-            phoneMatch ||
-            emailMatch) &&
-            user.isEnabled &&
-            !user.roles.contains('Client');
+        return fullNameMatch || rolesMatch || genderMatch || phoneMatch || emailMatch;
       }).toList()
           : [];
     });
   }
 
+  void deleteClient(String id) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Confirm Deletion"),
+          content: Text("Are you sure you want to delete this client?"),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                UserService().deleteUser(id);
+                setState(() {
+                  clients.removeWhere((user) => user.id == id);
+                });
+                Navigator.of(context).pop();
+              },
+              child: Text("Delete"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
 }
 
 class EmployeeDataSource extends DataTableSource {
-  final List<User> _employees;
-  int _selectedRowCount = 0;
 
-  EmployeeDataSource(this._employees);
+  final Function(String) onDelete;
+  final List<User> _clients;
+  int _selectedRowCount = 0;
+  final BuildContext context; // Add this line
+
+
+  EmployeeDataSource(this._clients, this.context,this.onDelete);
 
   @override
   DataRow getRow(int index) {
-    final employee = _employees[index];
+    final employee = _clients[index];
     return DataRow(cells: [
       DataCell(Text(employee.fullName)),
       DataCell(Text(employee.roles.join(', '))),
@@ -236,13 +255,18 @@ class EmployeeDataSource extends DataTableSource {
             IconButton(
               icon: Icon(Icons.edit_outlined),
               onPressed: () {
-
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return EditClientPopup(client: employee);
+                  },
+                );
               },
             ),
             IconButton(
               icon: Icon(Icons.delete_outline_rounded),
               onPressed: () {
-
+                onDelete(employee.id);
               },
             ),
           ],
@@ -253,7 +277,7 @@ class EmployeeDataSource extends DataTableSource {
 
 
   @override
-  int get rowCount => _employees.length;
+  int get rowCount => _clients.length;
 
   @override
   bool get isRowCountApproximate => false;

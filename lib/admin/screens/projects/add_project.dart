@@ -6,8 +6,8 @@ import 'package:intl/intl.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:pma/models/user_model.dart';
 import 'package:pma/services/project_service.dart';
-import '../../services/user_service.dart';
-import '../widgets/admin_drawer.dart';
+import '../../../services/user_service.dart';
+import '../../widgets/admin_drawer.dart';
 class AddProject extends StatefulWidget {
   const AddProject({super.key});
 

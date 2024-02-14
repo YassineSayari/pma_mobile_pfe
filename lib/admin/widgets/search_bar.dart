@@ -2,8 +2,9 @@ import "package:flutter/material.dart";
 
 class UserSearchBar extends StatelessWidget {
   final ValueChanged<String>? onChanged;
+   void Function()? onTap;
 
-  const UserSearchBar({Key? key, this.onChanged}) : super(key: key);
+   UserSearchBar({Key? key, this.onChanged, required this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +18,12 @@ class UserSearchBar extends StatelessWidget {
               labelText: 'Search',
               prefixIcon: Icon(Icons.search),
             ),
+          ),
+        ),
+        GestureDetector(
+          onTap: onTap,
+          child: Icon(
+              Icons.refresh
           ),
         ),
       ],
