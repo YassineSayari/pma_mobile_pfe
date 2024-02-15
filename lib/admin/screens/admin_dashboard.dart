@@ -13,7 +13,7 @@ class AdminDashboard extends StatefulWidget {
 
 class _AdminDashboardState extends State<AdminDashboard> {
   late Future<List<User>> futureUsers;
-  late String userFullName;
+  late String userFullName= ' ';
   late String userId;
 
 

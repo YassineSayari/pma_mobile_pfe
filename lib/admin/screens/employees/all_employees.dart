@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
+//import 'package:http/http.dart';
 import 'package:pma/admin/screens/employees/edit_employee_popup.dart';
 import 'package:pma/admin/widgets/admin_drawer.dart';
 import 'package:pma/services/user_service.dart';
@@ -8,6 +8,11 @@ import '../../../models/user_model.dart';
 import '../../../services/export_utils.dart';
 import '../../../services/shared_preferences.dart';
 import 'package:pma/admin/widgets/search_bar.dart';
+import 'package:pma/admin/widgets/user_container';
+
+
+
+
 
 class AllEmployees extends StatefulWidget {
   const AllEmployees({Key? key}) : super(key: key);
@@ -18,7 +23,7 @@ class AllEmployees extends StatefulWidget {
 
 class _AllEmployeesState extends State<AllEmployees> {
   late Future<List<User>> futureUsers;
-  late String userFullName;
+  late String? userFullName;
   late String userId;
   List<User> allUsers = [];
   List<User> employees = [];
@@ -61,7 +66,7 @@ class _AllEmployeesState extends State<AllEmployees> {
     print('employees: $employees');
     return Scaffold(
       appBar: AppBar(
-        title: Text('All Employees, user: $userFullName'),
+        title: Text('All Employees, user: ${userFullName ?? 'loading....'}'),
       ),
       drawer: AdminDrawer(selectedRoute: '/allemployees'),
       body: Column(
@@ -69,17 +74,26 @@ class _AllEmployeesState extends State<AllEmployees> {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(4.0),
-              child: PaginatedDataTable(
+              child:
+              ListView.builder(
+              itemCount: employees.length,
+              itemBuilder: (context, index) {
+                print(employees[index].image);
+                return UserContainer(user: employees[index]);
+              },
+            ),
+               /*PaginatedDataTable(
                 header:  Row(
                     children: [
                       Expanded(
                         child: UserSearchBar(
                           onChanged: onSearchTextChanged,
-                          onTap: (){_initializeData();print("refresh tapped");},
+                          onTap: (){_initializeData();
+                          print("refresh tapped");},
                         ),
                       ),
 
-                      Row(
+                     /* Row(
                         children: [
                           IconButton(
                             icon: Image.asset('assets/images/txt.png', width: 24, height: 24),
@@ -108,7 +122,7 @@ class _AllEmployeesState extends State<AllEmployees> {
                             },
                           ),
                         ],
-                      )
+                      )*/
                     ],
                   ),
 
@@ -156,7 +170,7 @@ class _AllEmployeesState extends State<AllEmployees> {
                   DataColumn(label: Text('Actions')),
                 ],
                 source: EmployeeDataSource(employees,context,deleteEmployee),
-              ),
+              ),*/
             ),
           ),
         ],

@@ -4,7 +4,7 @@ class User {
   final String phone;
   final String email;
   final List<String> roles;
-  final String image;
+  final String? image;
   final String gender;
   final String? department;
   final String? company;
@@ -19,7 +19,7 @@ class User {
     required this.phone,
     required this.email,
     required this.roles,
-    required this.image,
+    this.image,
     required this.gender,
     this.department,
     this.company,

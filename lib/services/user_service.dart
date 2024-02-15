@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:pma/services/shared_preferences.dart';
 import '../models/user_model.dart';
 
-const ip = "192.168.0.17";
+const ip = "192.168.32.1";
 const port = 3002;
 
 class UserService{
@@ -46,7 +46,6 @@ class UserService{
     }
   }
 
-  // team leaders+engineers
   Future<List<User>> getAllTeamLeaders() async {
     final response = await http.get(Uri.parse(apiUrl + "/getAllEng"));
 
@@ -57,6 +56,33 @@ class UserService{
       throw Exception('Failed to load team leaders');
     }
   }
+
+  Future<void> addUser(Map<String, dynamic> userData) async {
+    String? authToken = await SharedPrefs.getAuthToken();
+    try {
+      final response = await http.post(
+        Uri.parse('$apiUrl/adduser'),
+        body: jsonEncode(userData),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $authToken',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+        print('User added successfully: $responseData');
+      } else {
+        print('Failed to add user. Status code: ${response.statusCode}');
+        print('Error message: ${response.body}');
+        throw Exception('Failed to add user');
+      }
+    } catch (error) {
+      print('Error adding user: $error');
+      throw Exception('Error adding user');
+    }
+  }
+
 
 
   Future<void> updateUser(String userId, Map<String, dynamic> updatedData) async {

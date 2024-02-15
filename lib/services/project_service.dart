@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 import '../models/project_model.dart';
 
-const ip = "192.168.0.17";
+const ip = "192.168.32.1";
 const port = 3002;
 
 class ProjectService {

@@ -1,23 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-
 import '../../services/authentication_service.dart';
+import '../../services/shared_preferences.dart';
 
-class AdminDrawer extends StatelessWidget {
+
+class AdminDrawer extends StatefulWidget {
   final String selectedRoute;
 
   const AdminDrawer({super.key, required this.selectedRoute});
 
   @override
+  State<AdminDrawer> createState() => _AdminDrawerState();
+}
+
+class _AdminDrawerState extends State<AdminDrawer> {
+  final String imageUrl="http://192.168.32.1:3002/static/images";
+  final SharedPrefs sharedPrefs = GetIt.instance<SharedPrefs>();
+  late Map<String, String> userInfo;
+
+ @override
+  void initState() {
+    super.initState();
+    _loadUserInfo();
+  }
+
+  Future<void> _loadUserInfo() async {
+    try {
+      final data = await SharedPrefs.getUserInfo();
+      setState(() {
+        userInfo = data;
+      });
+    } catch (error) {
+      // Handle error
+    }
+  }
+
+
+  @override
   Widget build(BuildContext context) {
     final Color selectedColor = Colors.white12;
+        final userImage = userInfo['userImage'];
+    final userImageUrl = "$imageUrl/$userImage";
+    print(userImageUrl);
+
     return Drawer(
       child: ListView(
         children: [
           DrawerHeader(
-            child: Icon(
-              Icons.person,
-            ),
+            child: CircleAvatar(
+            radius: 30,
+            backgroundImage: NetworkImage(userImageUrl),
+          ),
           ),
           ListTile(
             leading: Icon(Icons.tv),
@@ -25,7 +58,7 @@ class AdminDrawer extends StatelessWidget {
             onTap: (){
               Navigator.pushNamed(context, '/admindashboard');
             },
-            selected: selectedRoute == '/admindashboard',
+            selected: widget.selectedRoute == '/admindashboard',
             selectedTileColor: selectedColor,
           ),
           ExpansionTile(
@@ -39,7 +72,7 @@ class AdminDrawer extends StatelessWidget {
                   onTap: () {
                     Navigator.pushNamed(context,'/allprojects');
                   },
-                  selected: selectedRoute == '/allprojects',
+                  selected: widget.selectedRoute == '/allprojects',
                   selectedTileColor: selectedColor,
                 ),
               ),
@@ -50,7 +83,7 @@ class AdminDrawer extends StatelessWidget {
                   onTap: () {
                     Navigator.of(context).pushReplacementNamed('/addproject');
                   },
-                  selected: selectedRoute == '/addproject',
+                  selected: widget.selectedRoute == '/addproject',
                   selectedTileColor: selectedColor,
                 ),
               ),
@@ -67,7 +100,7 @@ class AdminDrawer extends StatelessWidget {
                   onTap: () {
                     Navigator.of(context).pushReplacementNamed('/allemployees');
                   },
-                  selected: selectedRoute == '/allemployees',
+                  selected: widget.selectedRoute == '/allemployees',
                   selectedTileColor: selectedColor,
 
                 ),
@@ -79,7 +112,7 @@ class AdminDrawer extends StatelessWidget {
                   onTap: () {
                         Navigator.of(context).pushNamed('/addemployee');
                   },
-                  selected: selectedRoute == '/addemployee',
+                  selected: widget.selectedRoute == '/addemployee',
                 ),
               ),
             ],
@@ -95,7 +128,7 @@ class AdminDrawer extends StatelessWidget {
                   onTap: () {
                     Navigator.of(context).pushNamed('/allclients');
                   },
-                  selected: selectedRoute == '/allclients',
+                  selected: widget.selectedRoute == '/allclients',
                 ),
               ),
               Padding(
@@ -105,7 +138,7 @@ class AdminDrawer extends StatelessWidget {
                   onTap: () {
                     Navigator.pushNamed(context,'/addclient');
                   },
-                  selected: selectedRoute == '/addclient',
+                  selected: widget.selectedRoute == '/addclient',
 
                 ),
               ),
@@ -117,7 +150,7 @@ class AdminDrawer extends StatelessWidget {
             onTap: () {
               Navigator.pushNamed(context,'/signuprequests');
             },
-            selected: selectedRoute == '/signuprequests',
+            selected: widget.selectedRoute == '/signuprequests',
           ),
           ListTile(
             leading: Icon(Icons.receipt_long),
@@ -141,7 +174,11 @@ class AdminDrawer extends StatelessWidget {
             leading: Icon(Icons.calendar_today_outlined),
             title: Text('Calendar'),
             onTap: () {
+              Navigator.of(context).pushReplacementNamed('/calendar');
             },
+            selected: widget.selectedRoute == '/allemployees',
+            selectedTileColor: selectedColor,
+
           ),
           ListTile(
             leading: Icon(Icons.task_alt),
@@ -174,6 +211,7 @@ class AdminDrawer extends StatelessWidget {
       ),
     );
   }
+
   void _handleLogout(BuildContext context) {
     print("handling logout");
     AuthService authService = GetIt.I<AuthService>();

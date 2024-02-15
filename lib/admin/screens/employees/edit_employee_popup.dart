@@ -62,8 +62,14 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
 
         print("updating employee");
         await userService.updateUser(widget.employee.id, updatedData);
-        // Close the dialog
         Navigator.of(context).pop();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Employee updated successfully!',style:TextStyle(color: Colors.black45,fontWeight: FontWeight.w600),),
+            duration: Duration(seconds: 2),
+            backgroundColor: Colors.yellowAccent,
+          ),
+        );
       } catch (error) {
         print('Error updating employee: $error');
       }

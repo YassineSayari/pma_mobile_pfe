@@ -6,13 +6,16 @@ class SharedPrefs {
   static const String userEmailKey = 'userEmail';
   static const String userRoleKey = 'userRole';
   static const String authTokenKey = 'authToken';
+  static const String userImage='image';
 
-  static Future<void> saveUserInfo(String id,String fullName, String email, String role) async {
+  static Future<void> saveUserInfo(String id,String fullName, String email, String role, String image) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(userIdKey,id);
     prefs.setString(userFullNameKey, fullName);
     prefs.setString(userEmailKey, email);
     prefs.setString(userRoleKey, role);
+    prefs.setString(userImage, image);
+
   }
 
   static Future<void> saveAuthToken(String authToken) async {
@@ -32,12 +35,14 @@ class SharedPrefs {
     String? fullName = prefs.getString(userFullNameKey);
     String? email = prefs.getString(userEmailKey);
     String? role = prefs.getString(userRoleKey);
+    String? image = prefs.getString(userImage);
 
     return {
       "userId": id ?? '',
       'userFullName': fullName ?? '',
       'userEmail': email ?? '',
       'userRole': role ?? '',
+      'userImage': image ?? '',
     };
   }
 
@@ -45,6 +50,11 @@ class SharedPrefs {
     print("got id");
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString(userIdKey);
+  }
+    Future<String?> getUserImage() async {
+    print("getting image");
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(userImage);
   }
 
   Future<String?> getLoggedUserRoleFromPrefs() async {
@@ -59,6 +69,7 @@ class SharedPrefs {
     prefs.remove(userFullNameKey);
     prefs.remove(userEmailKey);
     prefs.remove(userRoleKey);
+    prefs.remove(userImage);
   }
 
 }

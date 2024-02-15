@@ -48,6 +48,15 @@ else{
       await userService.updateUser(widget.client.id, updatedData);
 
       Navigator.of(context).pop();
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Client updated successfully!',style:TextStyle(color: Colors.black45,fontWeight: FontWeight.w600),),
+          duration: Duration(seconds: 2),
+          backgroundColor: Colors.yellowAccent,
+        ),
+      );
+
     } catch (error) {
       print('Error updating client: $error');
     }

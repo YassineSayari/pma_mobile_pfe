@@ -52,6 +52,7 @@ class SigninState extends State<Signin> {
             result['fullName'] ?? '',
             result['email'] ?? '',
             userRole,
+             result['image'] ?? '',
           );
 
           SharedPrefs.saveAuthToken(result['token']);

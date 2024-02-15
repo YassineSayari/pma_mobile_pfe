@@ -17,6 +17,7 @@ import 'package:pma/services/user_service.dart';
 
 import 'admin/screens/employees/all_employees.dart';
 import 'admin/screens/projects/all_projects.dart';
+import 'calendar.dart';
 
 void setupLocator() {
   GetIt.instance.registerLazySingleton(() => SharedPrefs());
@@ -103,6 +104,7 @@ class _MyAppState extends State<MyApp> {
         '/addemployee':(context)=>AddEmployee(),
 
         '/signuprequests':(context)=>SignUpRequests(),
+        '/calendar':(context)=>Calendar(),
 
       },
 

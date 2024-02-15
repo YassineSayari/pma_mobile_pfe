@@ -1,0 +1,34 @@
+import 'package:flutter/material.dart';
+import'package:pma/models/user_model.dart';
+
+class UserContainer extends StatelessWidget {
+  final User user;
+  final String imageUrl="http://192.168.32.1:3002/static/images";
+
+  UserContainer({required this.user});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(16),
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 30,
+            backgroundImage: NetworkImage("$imageUrl/${user.image}"),
+          ),
+          SizedBox(width: 16),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(user.fullName, style: TextStyle(fontWeight: FontWeight.bold)),
+              Text(user.roles[0]),
+              Text(user.email),
+              Text(user.phone),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
