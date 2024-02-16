@@ -23,7 +23,6 @@ class AllEmployees extends StatefulWidget {
 
 class _AllEmployeesState extends State<AllEmployees> {
   late Future<List<User>> futureUsers;
-  late String? userFullName;
   late String userId;
   List<User> allUsers = [];
   List<User> employees = [];
@@ -45,7 +44,6 @@ class _AllEmployeesState extends State<AllEmployees> {
   Future<void> _initializeData() async {
     await SharedPrefs.getUserInfo().then((userInfo) {
       setState(() {
-        userFullName = userInfo['userFullName'] ?? '';
         userId = userInfo['userId'] ?? '';
         print("id : $userId");
       });
@@ -65,12 +63,44 @@ class _AllEmployeesState extends State<AllEmployees> {
   Widget build(BuildContext context) {
     print('employees: $employees');
     return Scaffold(
-      appBar: AppBar(
-        title: Text('All Employees, user: ${userFullName ?? 'loading....'}'),
+            drawer: AdminDrawer(selectedRoute: '/allemployees'),
+
+ body: Column(
+    children: [
+      Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              //spreadRadius: 1,
+              blurRadius: 3,
+              offset: Offset(0, 1),
+            ),
+          ],
+        ),
+        child: AppBar(
+          title: Text('All Employees',style: TextStyle(fontWeight: FontWeight.w600,fontSize: 30),),
+          centerTitle: true,
+        ),
       ),
-      drawer: AdminDrawer(selectedRoute: '/allemployees'),
-      body: Column(
-        children: [
+          SizedBox(height: 30),
+          UserSearchBar(
+            onChanged: onSearchTextChanged,
+            onTap: (){
+                _initializeData();
+                print("refresh tapped");
+                },
+          ), 
+
+          SizedBox(height: 30),
+
+          // Padding(
+          //   padding: const EdgeInsets.only(top:8.0,left: 20.0,right: 8.0),
+          //   child: Align(
+          //     alignment: Alignment.topLeft,
+          //     child: Text("Total Employees : ${employees.length}",style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),)
+          //     ),
+          // ),  
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(4.0),
@@ -79,8 +109,14 @@ class _AllEmployeesState extends State<AllEmployees> {
               itemCount: employees.length,
               itemBuilder: (context, index) {
                 print(employees[index].image);
-                return UserContainer(user: employees[index]);
-              },
+                return Column(
+                  children: [
+                    UserContainer(user: employees[index],onDelete: deleteEmployee
+                ),
+                    SizedBox(height:5),
+                  ],
+                );
+              }
             ),
                /*PaginatedDataTable(
                 header:  Row(
@@ -180,7 +216,7 @@ class _AllEmployeesState extends State<AllEmployees> {
 
 
 
-  void _sort<T>(Comparable<T> Function(User user) getField, int columnIndex, bool ascending) {
+  /*void _sort<T>(Comparable<T> Function(User user) getField, int columnIndex, bool ascending) {
     employees.sort((a, b) {
       final aValue = getField(a);
       final bValue = getField(b);
@@ -191,7 +227,7 @@ class _AllEmployeesState extends State<AllEmployees> {
       _sortColumnIndex = columnIndex;
       _sortAscending = ascending;
     });
-  }
+  }*/
 
   void deleteEmployee(String id) {
     showDialog(
@@ -245,7 +281,8 @@ class _AllEmployeesState extends State<AllEmployees> {
     } catch (error) {
       print('Error searching users: $error');
     }
-  }*/
+  }
+  */
 
   void onSearchTextChanged(String text) {
     print('Search text changed: $text');
@@ -272,59 +309,3 @@ class _AllEmployeesState extends State<AllEmployees> {
 
 }
 
-class EmployeeDataSource extends DataTableSource {
-  final List<User> _employees;
-  int _selectedRowCount = 0;
-  final Function(String) onDelete;
-  final BuildContext context;
-
-
-
-  EmployeeDataSource(this._employees,this.context,this.onDelete);
-
-  @override
-  DataRow getRow(int index) {
-    final employee = _employees[index];
-    return DataRow(cells: [
-      DataCell(Text(employee.fullName)),
-      DataCell(Text(employee.roles.join(', '))),
-      DataCell(Text(employee.gender)),
-      DataCell(Text(employee.phone)),
-      DataCell(Text(employee.email)),
-      DataCell(
-        Row(
-          children: [
-            IconButton(
-              icon: Icon(Icons.edit_outlined),
-              onPressed: () {
-                print("edit employee clicked");
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return EditEmployeePopup(employee: employee);
-                  },
-                );
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.delete_outline_rounded),
-              onPressed: () {
-                onDelete(employee.id);
-              },
-            ),
-          ],
-        ),
-      ),
-    ]);
-  }
-
-
-  @override
-  int get rowCount => _employees.length;
-
-  @override
-  bool get isRowCountApproximate => false;
-
-  @override
-  int get selectedRowCount => _selectedRowCount;
-}

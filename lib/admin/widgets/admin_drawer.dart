@@ -15,8 +15,9 @@ class AdminDrawer extends StatefulWidget {
 
 class _AdminDrawerState extends State<AdminDrawer> {
   final String imageUrl="http://192.168.32.1:3002/static/images";
+    final String noImageUrl ="http://192.168.32.1:3002/static/images/16-02-2024--no-image.jpg";
   final SharedPrefs sharedPrefs = GetIt.instance<SharedPrefs>();
-  late Map<String, String> userInfo;
+  late Map<String, String> userInfo={};
 
  @override
   void initState() {
@@ -40,7 +41,8 @@ class _AdminDrawerState extends State<AdminDrawer> {
   Widget build(BuildContext context) {
     final Color selectedColor = Colors.white12;
         final userImage = userInfo['userImage'];
-    final userImageUrl = "$imageUrl/$userImage";
+    final userImageUrl =
+        userImage != null ?  "$imageUrl/$userImage":"$noImageUrl";
     print(userImageUrl);
 
     return Drawer(
