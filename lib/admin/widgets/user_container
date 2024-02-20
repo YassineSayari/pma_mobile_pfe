@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:pma/admin/screens/employees/edit_employee_popup.dart';
 import 'package:pma/models/user_model.dart';
 
+const ip = "192.168.0.17";
+const port = 3002;
+
 class UserContainer extends StatelessWidget {
   final User user;
-  final String imageUrl = "http://192.168.32.1:3002/static/images";
-  final String noImageUrl ="http://192.168.32.1:3002/static/images/16-02-2024--no-image.jpg";
+  final String imageUrl = "http://$ip:$port/static/images";
+  final String noImageUrl ="http://$ip:$port/static/images/16-02-2024--no-image.jpg";
         
   final Function(String) onDelete;
 
@@ -95,20 +98,20 @@ class UserContainer extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return EditEmployeePopup(employee: user);
-      },
-    );
-  },
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                        return EditEmployeePopup(employee: user);
+                         },
+                      );
+                    },
                     child: Icon(
                       Icons.edit_outlined,
                       size: 27,
                       color: Color.fromARGB(255, 102, 31, 184),
                     ),
                   ),
-                  SizedBox(width: 15),
+                  SizedBox(width: 20),
                   GestureDetector(
                     onTap: () => onDelete(user.id),
                     child: Icon(

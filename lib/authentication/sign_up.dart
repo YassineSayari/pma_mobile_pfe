@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:http/http.dart' as http;
 
 import '../services/authentication_service.dart';
 
@@ -32,25 +33,94 @@ class _SignUpState extends State<SignUp> {
     if (pickedFile != null) {
       setState(() {
         selectedImage = pickedFile;
+      print("Selected Image Path::::::::::: ${selectedImage!.path}");
       });
     }
   }
 
-  void _handleSignUp() async {
-    String name = fullname.text;
-    String email = mail.text;
-    String pw = password.text;
 
-    Map<String, dynamic> result = await authService.signUp(name, email, pw, "user_image.jpg");
+ 
+Future<String> uploadImage(String imagePath) async {
+  try {
+    var request = http.MultipartRequest('POST', Uri.parse('http://192.168.32.1:3002/static/images/'));
+    var file = File(imagePath);
+    var fileName = file.path.split('/').last;
+    print("file name:::::::::::::::::::$fileName");
 
-    if (result.containsKey('error')) {
+    request.files.add(
+      await http.MultipartFile.fromPath('image', file.path, filename: fileName),
+    );
+    print("Image Upload Request: $request");
 
-      print("Sign-up failed: ${result['error']}");
+    var response = await request.send();
+    print("Image Upload Response Code: ${response.statusCode}");
+
+    if (response.statusCode == 200) {
+      print("Image uploaded successfully");
+      return response.stream.bytesToString();
     } else {
-
-      print("Sign-up successful: ${result['message']}");
+      print("Image upload failed. Status code: ${response.statusCode}");
+      print("Response body: ${await response.stream.bytesToString()}");
+      if (response.statusCode == 404) {
+        throw Exception('The server cannot find the requested URL.');
+      } else {
+        throw Exception('Failed to upload image');
+      }
+    }
+  } catch (error) {
+    print('Error uploading image: $error');
+    if (error is http.ClientException && error.message.contains('404')) {
+      throw Exception('The server cannot find the requested URL.');
+    } else {
+      throw error;
     }
   }
+}
+
+
+
+
+void _handleSignUp() async {
+  if (_formKey.currentState!.validate()) {
+    try {
+      print("signing up");
+      String name = fullname.text;
+      String email = mail.text;
+      String passwordValue = password.text;
+      String mobileValue = mobile.text;
+      String genderValue = gender ?? ''; // Default value to handle null
+      String roleValue = role ?? ''; // Default value to handle null
+
+      String imageValue = '';
+      if (selectedImage != null) {
+        imageValue = await uploadImage(selectedImage!.path);
+      }
+
+      print("Signing up with: $name, $email, $passwordValue, $mobileValue, $genderValue, $roleValue");
+
+      Map<String, dynamic> result = await authService.signUp(
+        name,
+        email,
+        passwordValue,
+        mobileValue,
+        genderValue,
+        roleValue,
+        imageValue,
+      );
+
+      if (result.containsKey('error')) {
+        print("Sign-up failed: ${result['error']}");
+      } else {
+        print("Sign-up successful: ${result['message']}");
+        // Navigate to the login screen or perform any other action upon successful sign-up
+      }
+    } catch (error) {
+      print("Error during sign-up: $error");
+      // Handle error accordingly
+    }
+  }
+}
+
 
   @override
   Widget build(BuildContext context) {

@@ -266,24 +266,6 @@ class _AllEmployeesState extends State<AllEmployees> {
     );
   }
 
- /* void onSearchTextChanged(String text) async {
-    try {
-      final filters = {
-        'fullName': text,
-        // add other filters as needed
-      };
-
-      final searchedUsers = await UserService().searchUsers(filters);
-
-      setState(() {
-        employees = searchedUsers.where((user) => !user.roles.contains('Client')).toList();
-      });
-    } catch (error) {
-      print('Error searching users: $error');
-    }
-  }
-  */
-
   void onSearchTextChanged(String text) {
     print('Search text changed: $text');
     setState(() {

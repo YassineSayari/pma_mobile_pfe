@@ -4,6 +4,9 @@ import '../../services/authentication_service.dart';
 import '../../services/shared_preferences.dart';
 
 
+const ip = "192.168.0.17";
+const port = 3002;
+
 class AdminDrawer extends StatefulWidget {
   final String selectedRoute;
 
@@ -14,8 +17,8 @@ class AdminDrawer extends StatefulWidget {
 }
 
 class _AdminDrawerState extends State<AdminDrawer> {
-  final String imageUrl="http://192.168.32.1:3002/static/images";
-    final String noImageUrl ="http://192.168.32.1:3002/static/images/16-02-2024--no-image.jpg";
+  final String imageUrl="http://$ip:$port/static/images";
+    final String noImageUrl ="http://$ip:$port/static/images/16-02-2024--no-image.jpg";
   final SharedPrefs sharedPrefs = GetIt.instance<SharedPrefs>();
   late Map<String, String> userInfo={};
 

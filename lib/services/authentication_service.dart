@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:pma/services/shared_preferences.dart';
 
 
-const ip = "192.168.32.1";
+const ip = "192.168.0.17";
 const port = 3002;
 
 class AuthService {
@@ -32,33 +32,46 @@ class AuthService {
     }
   }
 
-  Future<Map<String, dynamic>> signUp(String fullName, String email, String password, String image) async {
-    try {
-      print("signing up");
-      final response = await http.post(
-        Uri.parse('$apiUrl/signup'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'fullName': fullName,
-          'email': email,
-          'password': password,
-          'image': image,
-        }),
-      );
+Future<Map<String, dynamic>> signUp(
+  String fullName,
+  String email,
+  String password,
+  String mobile,
+  String gender,
+  String role,
+  dynamic image,
+) async {
+  try {
+    print("Sending signup request");
+    final response = await http.post(
+      Uri.parse('$apiUrl/signup'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'fullName': fullName,
+        'email': email,
+        'password': password,
+        'mobile': mobile,
+        'gender': gender,
+        'roles': [role], // Convert role to a list if needed
+        'image': image,
+      }),
+    );
 
-      if (response.statusCode == 200) {
-        print("Sign-up successful");
-        Map<String, dynamic> data = json.decode(response.body);
-        return data;
-      } else {
-        print("Sign-up failed");
-        return {'error': 'Failed to sign up'};
-      }
-    } catch (error) {
-      print("Error during sign-up: $error");
-      return {'error': 'Unexpected error during sign-up'};
+    print("Received response: ${response.statusCode}");
+    print("Response body: ${response.body}");
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = json.decode(response.body);
+      return data;
+    } else {
+      print("Sign-up request failed");
+      return {'error': 'Failed to sign up. Please try again.'};
     }
+  } catch (error) {
+    print("Error during sign-up: $error");
+    return {'error': 'An error occurred while signing up. Please try again later.'};
   }
+}
 
   logout() {
     shared_prefs.clearPrefs();
