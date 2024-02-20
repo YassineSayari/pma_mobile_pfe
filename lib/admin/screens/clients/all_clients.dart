@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pma/admin/widgets/admin_drawer.dart';
+import 'package:pma/admin/widgets/client_container.dart';
 import 'package:pma/services/user_service.dart';
 
 import '../../../models/user_model.dart';
@@ -23,9 +24,9 @@ class _AllClientsState extends State<AllClients> {
   List<User> allClients = [];
   List<User> clients = [];
 
-  int _rowsPerPage = 2;
-  int _sortColumnIndex = 0;
-  bool _sortAscending = true;
+  // int _rowsPerPage = 2;
+  // int _sortColumnIndex = 0;
+  // bool _sortAscending = true;
 
   final ExportEmployees exportEmployees = ExportEmployees();
 
@@ -59,109 +60,77 @@ class _AllClientsState extends State<AllClients> {
 
   @override
   Widget build(BuildContext context) {
-    print('employees: $clients');
+    print('clients:: $clients');
     return Scaffold(
-      appBar: AppBar(
-        title: Text('All Clients'),
-        centerTitle: true,
-      ),
+
       drawer: AdminDrawer(selectedRoute: '/allclients'),
       body: Column(
-        children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: PaginatedDataTable(
-                header:
-                   Row(
-                    children: [
-                      Expanded(
-                        child: UserSearchBar(
-                          onChanged: onSearchTextChanged,
-                          onTap: (){_initializeData();print("refresh tapped");},
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          IconButton(
-                            icon: Image.asset('assets/images/txt.png', width: 24, height: 24),
-                            onPressed: () async {
-                              print("Employees before export: $clients");
-                              await exportEmployees.generateEmployeesTextFile(clients);
-                            },
-                          ),
-                          IconButton(
-                            icon: Image.asset('assets/images/csv.png', width: 24, height: 24),
-                            onPressed: () {
-                              exportEmployees.generateEmployeesCsvFile(clients);
-                            },
-                          ),
-                          IconButton(
-                            icon: Image.asset('assets/images/xlsx.png', width: 24, height: 24),
-                            onPressed: () async {
-                              await exportEmployees.generateEmployeesXlsxFile(clients);
-                            },
-                          ),
-                          IconButton(
-                            icon: Image.asset('assets/images/json.png', width: 24, height: 24),
-                            onPressed: () {
-                              // Export as JSON
-                              exportEmployees.generateEmployeesJsonFile(clients);
-                            },
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-
-                rowsPerPage: _rowsPerPage,
-                availableRowsPerPage: [1, 2, 3, 4, 5, 6, 10, 25, 100],
-                onRowsPerPageChanged: (int? value) {
-                  setState(() {
-                    _rowsPerPage = value!;
-                  });
-                },
-
-                sortColumnIndex: _sortColumnIndex,
-                sortAscending: _sortAscending,
-
-                columns: [
-                  DataColumn(
-                    label: Text('Name'),
-                    onSort: (columnIndex, ascending) {
-                      _sort<String>((user) => user.fullName, columnIndex, ascending);
-                    },
-                  ),
-                  DataColumn(
-                    label: Text('Roles'),
-                    onSort: (columnIndex, ascending) {
-                      _sort<String>((user) => user.roles.join(', '), columnIndex, ascending);
-                    },
-                  ),
-                  DataColumn(
-                    label: Text('Gender'),
-                    onSort: (columnIndex, ascending) {
-                      _sort<String>((user) => user.gender, columnIndex, ascending);
-                    },
-                  ),
-                  DataColumn(
-                    label: Text('Mobile'),
-                    onSort: (columnIndex, ascending) {
-                      _sort<String>((user) => user.phone, columnIndex, ascending);
-                    },
-                  ),
-                  DataColumn(label: Text('Email'),
-                    onSort: (columnIndex, ascending) {
-                      _sort<String>((user) => user.email, columnIndex, ascending);
-                    },
-                  ),
-                  DataColumn(label: Text('Actions')),
-                ],
-                source: EmployeeDataSource(clients,context,deleteClient),
-              ),
+    children: [
+      Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              //spreadRadius: 1,
+              blurRadius: 3,
+              offset: Offset(0, 1),
             ),
-          ),
+          ],
+        ),
+        child: AppBar(
+          title: Text('All Clients',style: TextStyle(fontWeight: FontWeight.w600,fontSize: 30),),
+          centerTitle: true,
+        ),
+      ),
+          SizedBox(height: 30),
+          UserSearchBar(
+            onChanged: onSearchTextChanged,
+            onTap: (){
+                _initializeData();
+                print("refresh tapped");
+                },
+          ), 
+
+          SizedBox(height: 30),
+
+          Padding(
+                  padding: const EdgeInsets.only(top:8.0,left: 20.0,right: 25.0,bottom: 20.0),
+            child: Row(
+              children: [
+                   Align(
+                    alignment: Alignment.topLeft,
+                    child: Text("Total Clients : ${clients.length}",style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold),)
+                    ),
+                
+                Spacer(),          
+                Icon(Icons.swap_vert,
+                        size: 35,
+                        //color: Color.fromARGB(255, 20, 14, 188),
+                        ),
+              ],
+            ),
+          ),  
+
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child:
+                  ListView.builder(
+                  itemCount: clients.length,
+                  itemBuilder: (context, index) {
+                    print(clients[index].image);
+                    return Column(
+                      children: [
+                        ClientContainer(user: clients[index],onDelete: deleteClient
+                    ),
+                        SizedBox(height:5),
+                      ],
+                    );
+                  }
+                ),
+            
+                ),
+              ),
         ],
       ),
     );
@@ -174,10 +143,10 @@ class _AllClientsState extends State<AllClients> {
       return ascending ? Comparable.compare(aValue, bValue) : Comparable.compare(bValue, aValue);
     });
 
-    setState(() {
-      _sortColumnIndex = columnIndex;
-      _sortAscending = ascending;
-    });
+    // setState(() {
+    //   _sortColumnIndex = columnIndex;
+    //   _sortAscending = ascending;
+    // });
   }
 
   void onSearchTextChanged(String text) {
@@ -202,7 +171,7 @@ class _AllClientsState extends State<AllClients> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Confirm Deletion"),
+          title: Text("Confirm Deletion",style: TextStyle(fontWeight: FontWeight.w600),),
           content: Text("Are you sure you want to delete this client?"),
           actions: <Widget>[
             TextButton(
@@ -219,7 +188,7 @@ class _AllClientsState extends State<AllClients> {
                 });
                 Navigator.of(context).pop();
               },
-              child: Text("Delete"),
+              child: Text("Delete",style: TextStyle(color: Colors.red),),
             ),
           ],
         );

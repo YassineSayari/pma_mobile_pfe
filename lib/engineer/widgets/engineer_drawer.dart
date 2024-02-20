@@ -2,19 +2,60 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../services/authentication_service.dart';
+import '../../services/shared_preferences.dart';
 
-class EngineerDrawer extends StatelessWidget {
-  const EngineerDrawer({super.key});
+const ip = "192.168.0.17";
+const port = 3002;
+
+class EngineerDrawer extends StatefulWidget {
+    final String selectedRoute;
+
+  const EngineerDrawer({super.key, required this.selectedRoute});
 
   @override
+  State<EngineerDrawer> createState() => _EngineerDrawerState();
+}
+
+class _EngineerDrawerState extends State<EngineerDrawer> {
+    final String imageUrl="http://$ip:$port/static/images";
+    final String noImageUrl ="http://$ip:$port/static/images/16-02-2024--no-image.jpg";
+    final SharedPrefs sharedPrefs = GetIt.instance<SharedPrefs>();
+
+  late Map<String, String> userInfo={};
+
+   @override
+  void initState() {
+    super.initState();
+    _loadUserInfo();
+  }
+
+  Future<void> _loadUserInfo() async {
+    try {
+      final data = await SharedPrefs.getUserInfo();
+      setState(() {
+        userInfo = data;
+      });
+    } catch (error) {
+      // Handle error
+    }
+  }
+  @override
   Widget build(BuildContext context) {
+
+    final Color selectedColor = Colors.white12;
+        final userImage = userInfo['userImage'];
+    final userImageUrl =
+        userImage != null ?  "$imageUrl/$userImage":"$noImageUrl";
+    print(userImageUrl);
+
     return Drawer(
       child: ListView(
         children: [
           DrawerHeader(
-            child: Icon(
-              Icons.person,
-            ),
+            child: CircleAvatar(
+            radius: 30,
+            backgroundImage: NetworkImage(userImageUrl),
+          ),
           ),
           ListTile(
             leading: Icon(Icons.tv),
@@ -73,6 +114,7 @@ class EngineerDrawer extends StatelessWidget {
       ),
     );
   }
+
   void _handleLogout(BuildContext context) {
     print("handling logout");
     AuthService authService = GetIt.I<AuthService>();

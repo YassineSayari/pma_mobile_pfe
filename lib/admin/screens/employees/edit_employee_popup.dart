@@ -78,340 +78,345 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text('Edit Employee'),
-      content: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-
-              TextFormField(
-                controller: nameController,
-                style: TextStyle(
-                  color: Color(0xFF000000),
-                  fontSize: 15,
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w500,
-                ),
-                decoration: InputDecoration(
-                  labelText: 'Name*',
-                  labelStyle: TextStyle(
-                    color: Color(0xFF7743DB),
+    return Container(
+      width: double.infinity,
+      child: AlertDialog(
+        title: Center(child: Text('Edit Employee',style: TextStyle(fontWeight: FontWeight.w600),)),
+        content: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+      
+                TextFormField(
+                  controller: nameController,
+                  style: TextStyle(
+                    color: Color(0xFF000000),
                     fontSize: 15,
                     fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
                   ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(
-                      width: 3,
-                      color: Colors.grey,
+                  decoration: InputDecoration(
+                    labelText: 'Name*',
+                    labelStyle: TextStyle(
+                      color: Color(0xFF7743DB),
+                      fontSize: 15,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(
+                        width: 3,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(
+                        width: 3,
+                        color: Colors.deepPurple,
+                      ),
                     ),
                   ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(
-                      width: 3,
-                      color: Colors.deepPurple,
-                    ),
-                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a valid name';
+                    }
+                    return null;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a valid name';
-                  }
-                  return null;
-                },
-              ),
-
-              SizedBox(height: 10),
-
-              DropdownButtonFormField<String>(
-                value: departments.contains(selectedDepartment) ? selectedDepartment : null,
-                onChanged: (value) {
-                  setState(() {
-                    selectedDepartment = value!;
-                  });
-                },
-                items: departments.map((department) {
-                  return DropdownMenuItem<String>(
-                    value: department,
-                    child: Text(department),
-                  );
-                }).toList(),
-                style: TextStyle(
-                  color: Color(0xFF000000),
-                  fontSize: 15,
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w500,
-                ),
-                decoration: InputDecoration(
-                  labelText: 'Department*',
-                  labelStyle: TextStyle(
-                    color: Color(0xFF7743DB),
-                    fontSize: 15,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w600,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(
-                      width: 3,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(
-                      width: 3,
-                      color: Colors.deepPurple,
-                    ),
-                  ),
-                ),
-              ),
-
-              SizedBox(height: 10),
-              TextFormField(
-                controller: roleController,
-                style: TextStyle(
-                  color: Color(0xFF000000),
-                  fontSize: 15,
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w500,
-                ),
-                decoration: InputDecoration(
-                  labelText: 'Role*',
-                  labelStyle: TextStyle(
-                    color: Color(0xFF7743DB),
-                    fontSize: 15,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w600,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(
-                      width: 3,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(
-                      width: 3,
-                      color: Colors.deepPurple,
-                    ),
-                  ),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a valid role';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 10),
-
-              DropdownButtonFormField<String>(
-                value: selectedGender,
-                onChanged: (value) {
-                  setState(() {
-                    selectedGender = value!;
-                  });
-                },
-                items: genders.map((gender) {
-                  return DropdownMenuItem<String>(
-                    value: gender,
-                    child: Text(gender),
-                  );
-                }).toList(),
-                style: TextStyle(
-                  color: Color(0xFF000000),
-                  fontSize: 15,
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w500,
-                ),
-                decoration: InputDecoration(
-                  labelText: 'Gender*',
-                  labelStyle: TextStyle(
-                    color: Color(0xFF7743DB),
-                    fontSize: 15,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w600,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(
-                      width: 3,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(
-                      width: 3,
-                      color: Colors.deepPurple,
-                    ),
-                  ),
-                ),
-              ),
-
-              SizedBox(height: 10),
-
-              TextFormField(
-                controller: mobileController,
-                style: TextStyle(
-                  color: Color(0xFF000000),
-                  fontSize: 15,
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w500,
-                ),
-                decoration: InputDecoration(
-                  labelText: 'Mobile*',
-                  labelStyle: TextStyle(
-                    color: Color(0xFF7743DB),
-                    fontSize: 15,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w600,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(
-                      width: 3,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(
-                      width: 3,
-                      color: Colors.deepPurple,
-                    ),
-                  ),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a valid mobile';
-                  }
-                  return null;
-                },
-              ),
-
-              SizedBox(height: 10),
-
-              TextFormField(
-                controller: emailController,
-                style: TextStyle(
-                  color: Color(0xFF000000),
-                  fontSize: 15,
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w500,
-                ),
-                decoration: InputDecoration(
-                  labelText: 'Email*',
-                  labelStyle: TextStyle(
-                    color: Color(0xFF7743DB),
-                    fontSize: 15,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w600,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(
-                      width: 3,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(
-                      width: 3,
-                      color: Colors.deepPurple,
-                    ),
-                  ),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a valid email';
-                  }
-                  return null;
-                },
-              ),
-
-              SizedBox(height: 10),
-
-              TextFormField(
-                controller: TextEditingController(
-                  text: hiringDate != null ? DateFormat('MMM dd yyyy').format(hiringDate!) : '',
-                ),
-                onTap: () async {
-                  DateTime? pickedDate = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime(1900),
-                    lastDate: DateTime.now(),
-                  );
-                  if (pickedDate != null && pickedDate != hiringDate) {
+      
+                SizedBox(height: 10),
+      
+                DropdownButtonFormField<String>(
+                  value: departments.contains(selectedDepartment) ? selectedDepartment : null,
+                  onChanged: (value) {
                     setState(() {
-                      hiringDate = pickedDate;
+                      selectedDepartment = value!;
                     });
-                  }
-                },
-                readOnly: true,
-                decoration: InputDecoration(
-                  labelText: 'Hiring Date*',
-                  labelStyle: TextStyle(
-                    color: Color(0xFF7743DB),
+                  },
+                  items: departments.map((department) {
+                    return DropdownMenuItem<String>(
+                      value: department,
+                      child: Text(department),
+                    );
+                  }).toList(),
+                  style: TextStyle(
+                    color: Color(0xFF000000),
                     fontSize: 15,
                     fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
                   ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(
-                      width: 3,
-                      color: Colors.grey,
+                  decoration: InputDecoration(
+                    labelText: 'Department*',
+                    labelStyle: TextStyle(
+                      color: Color(0xFF7743DB),
+                      fontSize: 15,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
                     ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(
-                      width: 3,
-                      color: Colors.grey,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(
+                        width: 3,
+                        color: Colors.grey,
+                      ),
                     ),
-                  ),
-                  prefixIcon: Icon(
-                    Icons.calendar_today,
-                    color: Colors.grey[400],
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(
+                        width: 3,
+                        color: Colors.deepPurple,
+                      ),
+                    ),
                   ),
                 ),
-                validator: (value) {
-                  if (hiringDate == null) {
-                    return 'Hiring Date is required';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16),
-              Row(
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      print("update pressed");
-                      updateEmployee();
-                    },
-                    child: Text('Save'),
+      
+                SizedBox(height: 10),
+                TextFormField(
+                  controller: roleController,
+                  style: TextStyle(
+                    color: Color(0xFF000000),
+                    fontSize: 15,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w500,
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text('Cancel'),
+                  decoration: InputDecoration(
+                    labelText: 'Role*',
+                    labelStyle: TextStyle(
+                      color: Color(0xFF7743DB),
+                      fontSize: 15,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(
+                        width: 3,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(
+                        width: 3,
+                        color: Colors.deepPurple,
+                      ),
+                    ),
                   ),
-                ],
-              ),
-            ],
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a valid role';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 10),
+      
+                DropdownButtonFormField<String>(
+                  value: selectedGender,
+                  onChanged: (value) {
+                    setState(() {
+                      selectedGender = value!;
+                    });
+                  },
+                  items: genders.map((gender) {
+                    return DropdownMenuItem<String>(
+                      value: gender,
+                      child: Text(gender),
+                    );
+                  }).toList(),
+                  style: TextStyle(
+                    color: Color(0xFF000000),
+                    fontSize: 15,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w500,
+                  ),
+                  decoration: InputDecoration(
+                    labelText: 'Gender*',
+                    labelStyle: TextStyle(
+                      color: Color(0xFF7743DB),
+                      fontSize: 15,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(
+                        width: 3,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(
+                        width: 3,
+                        color: Colors.deepPurple,
+                      ),
+                    ),
+                  ),
+                ),
+      
+                SizedBox(height: 10),
+      
+                TextFormField(
+                  controller: mobileController,
+                  style: TextStyle(
+                    color: Color(0xFF000000),
+                    fontSize: 15,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w500,
+                  ),
+                  decoration: InputDecoration(
+                    labelText: 'Mobile*',
+                    labelStyle: TextStyle(
+                      color: Color(0xFF7743DB),
+                      fontSize: 15,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(
+                        width: 3,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(
+                        width: 3,
+                        color: Colors.deepPurple,
+                      ),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a valid mobile';
+                    }
+                    return null;
+                  },
+                ),
+      
+                SizedBox(height: 10),
+      
+                TextFormField(
+                  controller: emailController,
+                  style: TextStyle(
+                    color: Color(0xFF000000),
+                    fontSize: 15,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w500,
+                  ),
+                  decoration: InputDecoration(
+                    labelText: 'Email*',
+                    labelStyle: TextStyle(
+                      color: Color(0xFF7743DB),
+                      fontSize: 15,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(
+                        width: 3,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(
+                        width: 3,
+                        color: Colors.deepPurple,
+                      ),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a valid email';
+                    }
+                    return null;
+                  },
+                ),
+      
+                SizedBox(height: 10),
+      
+                TextFormField(
+                  controller: TextEditingController(
+                    //toLocal khatr date was converted to utc earlier so we need to convert to local to prevent conflict
+                    text: hiringDate != null ? DateFormat('MMM dd yyyy').format(hiringDate!.toLocal()) : '',
+                  ),
+                  onTap: () async {
+                    DateTime? pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(1900),
+                      lastDate: DateTime.now(),
+                    );
+                    if (pickedDate != null && pickedDate != hiringDate) {
+                      setState(() {
+                        hiringDate = pickedDate;
+                      });
+                    }
+                  },
+                  readOnly: true,
+                  decoration: InputDecoration(
+                    labelText: 'Hiring Date*',
+                    labelStyle: TextStyle(
+                      color: Color(0xFF7743DB),
+                      fontSize: 15,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(
+                        width: 3,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(
+                        width: 3,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    prefixIcon: Icon(
+                      Icons.calendar_today,
+                      color: Colors.grey[400],
+                    ),
+                  ),
+                  validator: (value) {
+                    if (hiringDate == null) {
+                      return 'Hiring Date is required';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 16),
+                Row(
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        print("update pressed");
+                        updateEmployee();
+                      },
+                      child: Text('Save'),
+                    ),
+                    SizedBox(width: 10),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text('Cancel'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

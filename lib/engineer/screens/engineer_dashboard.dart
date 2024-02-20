@@ -35,9 +35,9 @@ class _EngineerDashboardState extends State<EngineerDashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('welcome $userId'),
+        title: Text('Dashboard, $userFullName'),
       ),
-      drawer: EngineerDrawer(),
+      drawer: EngineerDrawer(selectedRoute: '/engineerdashboard'),
       body: Center(
         child: Text("engineer dashboard"),
       ),

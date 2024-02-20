@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 //import 'package:http/http.dart';
-import 'package:pma/admin/screens/employees/edit_employee_popup.dart';
 import 'package:pma/admin/widgets/admin_drawer.dart';
 import 'package:pma/services/user_service.dart';
 
@@ -8,7 +7,8 @@ import '../../../models/user_model.dart';
 import '../../../services/export_utils.dart';
 import '../../../services/shared_preferences.dart';
 import 'package:pma/admin/widgets/search_bar.dart';
-import 'package:pma/admin/widgets/user_container';
+
+import '../../widgets/user_container.dart';
 
 
 
@@ -27,9 +27,9 @@ class _AllEmployeesState extends State<AllEmployees> {
   List<User> allUsers = [];
   List<User> employees = [];
 
-  int _rowsPerPage = 2;
-  int _sortColumnIndex = 0;
-  bool _sortAscending = true;
+  // int _rowsPerPage = 2;
+  // int _sortColumnIndex = 0;
+  // bool _sortAscending = true;
 
   final ExportEmployees exportEmployees = ExportEmployees();
 
@@ -94,121 +94,49 @@ class _AllEmployeesState extends State<AllEmployees> {
 
           SizedBox(height: 30),
 
-          // Padding(
-          //   padding: const EdgeInsets.only(top:8.0,left: 20.0,right: 8.0),
-          //   child: Align(
-          //     alignment: Alignment.topLeft,
-          //     child: Text("Total Employees : ${employees.length}",style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),)
-          //     ),
-          // ),  
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(4.0),
-              child:
-              ListView.builder(
-              itemCount: employees.length,
-              itemBuilder: (context, index) {
-                print(employees[index].image);
-                return Column(
-                  children: [
-                    UserContainer(user: employees[index],onDelete: deleteEmployee
-                ),
-                    SizedBox(height:5),
-                  ],
-                );
-              }
-            ),
-               /*PaginatedDataTable(
-                header:  Row(
-                    children: [
-                      Expanded(
-                        child: UserSearchBar(
-                          onChanged: onSearchTextChanged,
-                          onTap: (){_initializeData();
-                          print("refresh tapped");},
+          Padding(
+                  padding: const EdgeInsets.only(top:8.0,left: 20.0,right: 25.0,bottom: 20.0),
+            child: Row(
+              children: [
+                   Align(
+                    alignment: Alignment.topLeft,
+                    child: Text("Total Employees : ${employees.length}",style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold),)
+                    ),
+                
+                Spacer(),
+                Icon(Icons.tune_outlined,
+                        size: 35,
+                        //color: Color.fromARGB(255, 20, 14, 188),
                         ),
-                      ),
-
-                     /* Row(
-                        children: [
-                          IconButton(
-                            icon: Image.asset('assets/images/txt.png', width: 24, height: 24),
-                            onPressed: () async {
-                              print("text option clicked");
-                              print("Employees before export: $employees");
-                              await exportEmployees.generateEmployeesTextFile(employees);
-                            },
-                          ),
-                          IconButton(
-                            icon: Image.asset('assets/images/csv.png', width: 24, height: 24),
-                            onPressed: () {
-                              exportEmployees.generateEmployeesCsvFile(employees);
-                            },
-                          ),
-                          IconButton(
-                            icon: Image.asset('assets/images/xlsx.png', width: 24, height: 24),
-                            onPressed: () async {
-                              await exportEmployees.generateEmployeesXlsxFile(employees);
-                            },
-                          ),
-                          IconButton(
-                            icon: Image.asset('assets/images/json.png', width: 24, height: 24),
-                            onPressed: () {
-                              exportEmployees.generateEmployeesJsonFile(employees);
-                            },
-                          ),
-                        ],
-                      )*/
-                    ],
-                  ),
-
-                rowsPerPage: _rowsPerPage,
-                availableRowsPerPage: [1, 2, 3, 4, 5, 6, 10, 25, 100],
-                onRowsPerPageChanged: (int? value) {
-                  setState(() {
-                    _rowsPerPage = value!;
-                  });
-                },
-
-                sortColumnIndex: _sortColumnIndex,
-                sortAscending: _sortAscending,
-
-                columns: [
-                  DataColumn(
-                    label: Text('Name'),
-                    onSort: (columnIndex, ascending) {
-                      _sort<String>((user) => user.fullName, columnIndex, ascending);
-                    },
-                  ),
-                  DataColumn(
-                    label: Text('Roles'),
-                    onSort: (columnIndex, ascending) {
-                      _sort<String>((user) => user.roles.join(', '), columnIndex, ascending);
-                    },
-                  ),
-                  DataColumn(
-                    label: Text('Gender'),
-                    onSort: (columnIndex, ascending) {
-                      _sort<String>((user) => user.gender, columnIndex, ascending);
-                    },
-                  ),
-                  DataColumn(
-                    label: Text('Mobile'),
-                    onSort: (columnIndex, ascending) {
-                      _sort<String>((user) => user.phone, columnIndex, ascending);
-                    },
-                  ),
-                  DataColumn(label: Text('Email'),
-                    onSort: (columnIndex, ascending) {
-                      _sort<String>((user) => user.email, columnIndex, ascending);
-                    },
-                  ),
-                  DataColumn(label: Text('Actions')),
-                ],
-                source: EmployeeDataSource(employees,context,deleteEmployee),
-              ),*/
+               SizedBox(width: 15),            
+                Icon(Icons.swap_vert,
+                        size: 35,
+                        //color: Color.fromARGB(255, 20, 14, 188),
+                        ),
+              ],
             ),
-          ),
+          ),  
+
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child:
+                  ListView.builder(
+                  itemCount: employees.length,
+                  itemBuilder: (context, index) {
+                    print(employees[index].image);
+                    return Column(
+                      children: [
+                        UserContainer(user: employees[index],onDelete: deleteEmployee
+                    ),
+                        SizedBox(height:5),
+                      ],
+                    );
+                  }
+                ),
+            
+                ),
+              ),
         ],
       ),
     );
@@ -258,7 +186,7 @@ class _AllEmployeesState extends State<AllEmployees> {
                   ),
                 );
               },
-              child: Text("Delete"),
+              child: Text("Delete",style: TextStyle(color: Colors.red),),
             ),
           ],
         );
@@ -291,3 +219,92 @@ class _AllEmployeesState extends State<AllEmployees> {
 
 }
 
+       /*PaginatedDataTable(
+                    header:  Row(
+                        children: [
+                          Expanded(
+                            child: UserSearchBar(
+                              onChanged: onSearchTextChanged,
+                              onTap: (){_initializeData();
+                              print("refresh tapped");},
+                            ),
+                          ),
+              
+                         /* Row(
+                            children: [
+                              IconButton(
+                                icon: Image.asset('assets/images/txt.png', width: 24, height: 24),
+                                onPressed: () async {
+                                  print("text option clicked");
+                                  print("Employees before export: $employees");
+                                  await exportEmployees.generateEmployeesTextFile(employees);
+                                },
+                              ),
+                              IconButton(
+                                icon: Image.asset('assets/images/csv.png', width: 24, height: 24),
+                                onPressed: () {
+                                  exportEmployees.generateEmployeesCsvFile(employees);
+                                },
+                              ),
+                              IconButton(
+                                icon: Image.asset('assets/images/xlsx.png', width: 24, height: 24),
+                                onPressed: () async {
+                                  await exportEmployees.generateEmployeesXlsxFile(employees);
+                                },
+                              ),
+                              IconButton(
+                                icon: Image.asset('assets/images/json.png', width: 24, height: 24),
+                                onPressed: () {
+                                  exportEmployees.generateEmployeesJsonFile(employees);
+                                },
+                              ),
+                            ],
+                          )*/
+                        ],
+                      ),
+              
+                    rowsPerPage: _rowsPerPage,
+                    availableRowsPerPage: [1, 2, 3, 4, 5, 6, 10, 25, 100],
+                    onRowsPerPageChanged: (int? value) {
+                      setState(() {
+                        _rowsPerPage = value!;
+                      });
+                    },
+              
+                    sortColumnIndex: _sortColumnIndex,
+                    sortAscending: _sortAscending,
+              
+                    columns: [
+                      DataColumn(
+                        label: Text('Name'),
+                        onSort: (columnIndex, ascending) {
+                          _sort<String>((user) => user.fullName, columnIndex, ascending);
+                        },
+                      ),
+                      DataColumn(
+                        label: Text('Roles'),
+                        onSort: (columnIndex, ascending) {
+                          _sort<String>((user) => user.roles.join(', '), columnIndex, ascending);
+                        },
+                      ),
+                      DataColumn(
+                        label: Text('Gender'),
+                        onSort: (columnIndex, ascending) {
+                          _sort<String>((user) => user.gender, columnIndex, ascending);
+                        },
+                      ),
+                      DataColumn(
+                        label: Text('Mobile'),
+                        onSort: (columnIndex, ascending) {
+                          _sort<String>((user) => user.phone, columnIndex, ascending);
+                        },
+                      ),
+                      DataColumn(label: Text('Email'),
+                        onSort: (columnIndex, ascending) {
+                          _sort<String>((user) => user.email, columnIndex, ascending);
+                        },
+                      ),
+                      DataColumn(label: Text('Actions')),
+                    ],
+                    source: EmployeeDataSource(employees,context,deleteEmployee),
+                  ),*/

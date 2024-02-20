@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pma/admin/screens/employees/edit_employee_popup.dart';
 import 'package:pma/models/user_model.dart';
+import 'package:pma/admin/widgets/user_info_popup.dart';
 
 const ip = "192.168.0.17";
 const port = 3002;
@@ -85,12 +86,24 @@ class UserContainer extends StatelessWidget {
             Positioned(
               top: 12.0,
               right: 12.0,
-              child: Icon(
-                Icons.info_outline,
-                size: 27,
-                color: Color.fromARGB(255, 102, 31, 184),
+              child: GestureDetector(
+                      onTap: () {
+                      print("info clicked");
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                        return EmployeeInfo(employee: user);
+                         },
+                      );
+                    },
+                child: Icon(
+                  Icons.info_outline,
+                  size: 27,
+                  color: Color.fromARGB(255, 102, 31, 184),
+                ),
               ),
             ),
+
             Positioned(
               bottom: 12.0,
               right: 12.0,
