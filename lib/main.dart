@@ -1,3 +1,5 @@
+//import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:pma/admin/screens/clients/add_client.dart';
 import 'package:pma/admin/screens/employees/add_employee.dart';
@@ -18,12 +20,14 @@ import 'package:pma/services/user_service.dart';
 import 'admin/screens/employees/all_employees.dart';
 import 'admin/screens/projects/all_projects.dart';
 import 'calendar.dart';
+import 'services/event_service.dart';
 
 void setupLocator() {
   GetIt.instance.registerLazySingleton(() => SharedPrefs());
   GetIt.instance.registerLazySingleton(() => AuthService());
   GetIt.instance.registerLazySingleton(() => UserService());
   GetIt.instance.registerLazySingleton(() => ProjectService());
+   GetIt.instance.registerLazySingleton(() => EventService());
   GetIt.instance.registerLazySingleton(() => ExportEmployees());
 }
 
