@@ -57,6 +57,7 @@ for (Event event in userEvents) {
   print("End date : $endDate");
 
   DateTime day = startDate!;
+  print("day : $day ===== start date: $startDate");
   while (day.isBefore(endDate!) || isSameDay(day, endDate)) {
     eventsByDay[day] = eventsByDay[day] ?? [];
     eventsByDay[day]!.add(event);
@@ -69,8 +70,7 @@ for (Event event in userEvents) {
   endDate = null;
 }
 
-      // Set state to trigger a rebuild with updated data
-      setState(() {});
+    setState(() {});
     } else {
       print('User ID is null.');
     }
@@ -154,6 +154,7 @@ Widget _buildEventsMarker(DateTime date, List events) {
   return AnimatedContainer(
     duration: const Duration(milliseconds:  300),
     decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(3),
       shape: BoxShape.rectangle,
       color: _markerColor(date, events),
     ),
@@ -173,8 +174,8 @@ Widget _buildEventsMarker(DateTime date, List events) {
 Color _markerColor(DateTime date, List events) {
   if (events.length >  5) {
     return Colors.red;
-  } else if (events.length >  3) {
-    return Colors.orange;
+  } else if (events.length >  2) {
+    return Color.fromARGB(255, 136, 30, 198);
   } else {
     return Colors.green;
   }
@@ -244,7 +245,7 @@ Color _markerColor(DateTime date, List events) {
 
             calendarBuilders: CalendarBuilders(
               markerBuilder: (context, date, events) {
-                  if (events.isNotEmpty) {
+                  if (events.isNotEmpty &&eventsByDay.containsKey(date)) {
                   return Positioned(
                     right:   1,
                     bottom:   1,
@@ -269,12 +270,21 @@ Color _markerColor(DateTime date, List events) {
                     fontSize: 15,
                   ),
                 ),
-                eventLoader: (day) {
-                print("Loading events for day: $day");
-                List<Event>? events = eventsByDay[day];
-                print("Events for $day: ${events?.length ??  0}");
-                return events ?? [];
-                },
+eventLoader: (day) {
+  print("Loading events for day: $day");
+  List<Event> events = [];
+
+  for (Event event in userEvents) {
+      if ((event.startDate!.isBefore(day) || isSameDay(event.startDate!, day)) &&
+          (event.endDate!.isAfter(day) || isSameDay(event.endDate!, day))) {
+            events.add(event);
+        }
+      }
+
+  print("Events for $day: ${events.length}");
+  return events;
+},
+
 
 
                 focusedDay: today,
