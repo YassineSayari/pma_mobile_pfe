@@ -109,11 +109,13 @@ for (Event event in userEvents) {
                   ),
                 ),
               ),
-              SizedBox(height: 8),
+              SizedBox(height: 10),
               Expanded(
                 child: Row(
                   children: [
-                    Expanded(
+                    Container(
+                      width: 125,
+                      padding:EdgeInsets.all(4),
                       child: ListView.builder(
                         itemCount: 17, // number of hours
                         itemBuilder: (context, index) {
@@ -127,18 +129,23 @@ for (Event event in userEvents) {
                       ),
                     ),
                     VerticalDivider(
-                      color: Colors.black,
+                      color: Color.fromARGB(255, 67, 20, 125),
                       thickness: 1,
-                      width: 1,
+                      width: 40,
+                      indent: 30,
+                      endIndent: 40,
                     ),
-                    Expanded(
+                    Flexible(
                       child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.amber,
+                       //width: 200,
+                        height: 200,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.amber,
+                          ),
                         ),
-                      ),
                     ),
+                    
                   ],
                 ),
               ),
@@ -284,9 +291,6 @@ eventLoader: (day) {
   print("Events for $day: ${events.length}");
   return events;
 },
-
-
-
                 focusedDay: today,
                 firstDay: DateTime.utc(2010, 01, 01),
                 lastDay: DateTime.utc(2030, 01, 01),

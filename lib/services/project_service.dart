@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:pma/services/shared_preferences.dart';
 
 import '../models/project_model.dart';
 
@@ -58,4 +59,29 @@ class ProjectService {
     }
   }
 
+  Future<void> deleteProject(String projectId)async  {
+       print("deleting project");
+       String? authToken = await SharedPrefs.getAuthToken();
+
+    try {
+        final response = await http.delete(
+          Uri.parse('$apiUrl/deleteProject/$projectId'),
+                  headers: {
+          'Authorization': 'Bearer $authToken',
+        },
+          );
+          if (response.statusCode == 200) {
+            print("project deleted");
+          } else {
+              print("Failed to delete project. Status code: ${response.statusCode}");
+              print("Response body: ${response.body}");
+              throw Exception('Failed to delete project. Server error.');
+      }
+      } catch (error) {
+      print("Error deleting project: $error");
+      throw Exception('Failed to delete project. $error');
+    }
+
+
+}
 }
