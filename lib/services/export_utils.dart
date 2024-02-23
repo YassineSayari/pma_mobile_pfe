@@ -52,7 +52,7 @@ class ExportEmployees {
     print("saving as csv file");
 
     final directory = await getApplicationDocumentsDirectory();
-    final filePath = '${directory.path}/employees.csv';
+    final filePath = '${directory.path}/users.csv';
     final file = File(filePath);
     await file.writeAsString(ListToCsvConverter().convert(csvData));
 
@@ -80,7 +80,7 @@ class ExportEmployees {
     var bytes = excel.encode();
 
     final directory = await getApplicationDocumentsDirectory();
-    final filePath = '${directory.path}/employees.xlsx';
+    final filePath = '${directory.path}/users.xlsx';
     final file = File(filePath);
     await file.writeAsBytes(bytes!);
 
@@ -101,7 +101,7 @@ class ExportEmployees {
     print("saving as json file");
 
     final directory = await getApplicationDocumentsDirectory();
-    final filePath = '${directory.path}/employees.json';
+    final filePath = '${directory.path}/users.json';
     final file = File(filePath);
     await file.writeAsString(jsonEncode(jsonData));
 

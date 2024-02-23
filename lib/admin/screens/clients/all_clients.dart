@@ -24,6 +24,9 @@ class _AllClientsState extends State<AllClients> {
   List<User> allClients = [];
   List<User> clients = [];
 
+  String _selectedSortOption = ' ';
+
+
   // int _rowsPerPage = 2;
   // int _sortColumnIndex = 0;
   // bool _sortAscending = true;
@@ -102,11 +105,121 @@ class _AllClientsState extends State<AllClients> {
                     child: Text("Total Clients : ${clients.length}",style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold),)
                     ),
                 
-                Spacer(),          
-                Icon(Icons.swap_vert,
-                        size: 35,
-                        //color: Color.fromARGB(255, 20, 14, 188),
+                Spacer(),   
+
+
+                PopupMenuButton<String>(
+            onSelected: (value) {
+              _handleExportOption(value);
+            },
+            itemBuilder: (BuildContext context) => [
+              PopupMenuItem(
+                value: 'Export as Text',
+                child: Row(
+                  children: [
+                    Image.asset('assets/images/txt.png', width: 40, height: 40),
+                    SizedBox(width: 8),
+                    Text('Export as Text',
+                    style:TextStyle(fontSize: 20),
+                    ),
+                  ],
+                ),
+              ),
+              PopupMenuItem(
+                value: 'Export as CSV',
+                child: Row(
+                  children: [
+                    Image.asset('assets/images/csv.png', width: 40, height: 40),
+                    SizedBox(width: 8),
+                    Text('Export as CSV',
+                    style:TextStyle(fontSize: 20),
+                    ),
+                  ],
+                ),
+              ),
+              PopupMenuItem(
+                value: 'Export as Excel',
+                child: Row(
+                  children: [
+                    Image.asset('assets/images/xlsx.png', width: 40, height: 40),
+                    SizedBox(width: 8),
+                    Text('Export as Excel',
+                    style:TextStyle(fontSize: 20),
+                    ),
+                  ],
+                ),
+              ),
+              PopupMenuItem(
+                value: 'Export as JSON',
+                child: Row(
+                  children: [
+                    Image.asset('assets/images/json.png', width: 40, height: 40),
+                    SizedBox(width: 8),
+                    Text('Export as JSON',
+                    style:TextStyle(fontSize: 20),
+                    ),
+                  ],
+                ),
+              ),
+              // Add more export options as needed
+            ],
+            icon: Icon(
+              Icons.file_download,
+              size: 35,
+            ),
+          ),
+            
+                
+                PopupMenuButton<String>(
+                  onSelected: (value) {
+                    _handleSortOption(value);
+                  },
+                  itemBuilder: (BuildContext context) => [
+                    PopupMenuItem(
+                      value: 'Name Ascending',
+                      child: ListTile(
+                        title: Row(
+                          children: [
+                            Radio(
+                              value: 'Name Ascending',
+                              groupValue: _selectedSortOption,
+                              onChanged: (_) {},
+                            ),
+                            Text('Name Ascending',
+                            style:TextStyle(fontSize: 20),
+                            ),
+                          ],
                         ),
+                        trailing: Icon(Icons.arrow_upward_outlined),
+                        dense: true,
+                      ),
+                    ),
+                    PopupMenuItem(
+                      value: 'Name Descending',
+                      child: ListTile(
+                        title: Row(
+                          children: [
+                            Radio(
+                              value: 'Name Descending',
+                              groupValue: _selectedSortOption,
+                              onChanged: (_) {},
+                            ),
+                            Text('Name Descending',
+                              style:TextStyle(fontSize: 20),
+                              ),
+                          ],
+                        ),
+                        trailing: Icon(Icons.arrow_downward_rounded),
+                        dense: true,
+                      ),
+                    ),
+                  ],
+                  icon: Icon(
+                    Icons.swap_vert,
+                    size: 35,
+                  ),
+                )
+
               ],
             ),
           ),  
@@ -136,18 +249,48 @@ class _AllClientsState extends State<AllClients> {
     );
   }
 
-  void _sort<T>(Comparable<T> Function(User user) getField, int columnIndex, bool ascending) {
-    clients.sort((a, b) {
-      final aValue = getField(a);
-      final bValue = getField(b);
-      return ascending ? Comparable.compare(aValue, bValue) : Comparable.compare(bValue, aValue);
-    });
 
-    // setState(() {
-    //   _sortColumnIndex = columnIndex;
-    //   _sortAscending = ascending;
-    // });
+Future<void> _handleExportOption(String selectedOption) async {
+  switch (selectedOption) {
+    case 'Export as Text':
+      print("Export as Text option selected");
+        await exportEmployees.generateEmployeesTextFile(clients);
+      break;
+    case 'Export as CSV':
+      print("Export as CSV option selected");
+        exportEmployees.generateEmployeesCsvFile(clients);
+      break;
+    case 'Export as Excel':
+      print("Export as Excel option selected");
+         await exportEmployees.generateEmployeesXlsxFile(clients);
+      break;
+    case 'Export as JSON':
+      print("Export as JSON option selected");
+          exportEmployees.generateEmployeesJsonFile(clients);
+      break;
   }
+}
+
+
+void _sort<T>(Comparable<T> Function(User user) getField, {required bool ascending}) {
+  clients.sort((a, b) {
+    final aValue = getField(a);
+    final bValue = getField(b);
+    return ascending ? Comparable.compare(aValue, bValue) : Comparable.compare(bValue, aValue);
+  });
+}
+
+void _handleSortOption(String selectedOption) {
+  setState(() {
+    _selectedSortOption = selectedOption;
+    if (_selectedSortOption == 'Name Ascending') {
+      _sort((user) => user.fullName, ascending: true);
+    } else if (_selectedSortOption == 'Name Descending') {
+      _sort((user) => user.fullName, ascending: false);
+    }
+  });
+}
+
 
   void onSearchTextChanged(String text) {
     print('Search text changed: $text');
