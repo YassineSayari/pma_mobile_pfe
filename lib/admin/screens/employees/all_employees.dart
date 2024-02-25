@@ -26,7 +26,6 @@ class _AllEmployeesState extends State<AllEmployees> {
   late String userId;
   List<User> allUsers = [];
   List<User> employees = [];
-  String _selectedSortOption=" ";
 
   // int _rowsPerPage = 2;
   // int _sortColumnIndex = 0;
@@ -105,170 +104,15 @@ class _AllEmployeesState extends State<AllEmployees> {
                     ),
                 
                 Spacer(),
-                
-                PopupMenuButton<String>(
-                  onSelected: (value) {
-                    if (value == 'Role Filter') {
-                    //  _showRoleFilterDialog();
-                    } else if (value == 'Department Filter') {
-                     // _showDepartmentFilterDialog();
-                    } else {
-                      _handleSortOption(value);
-                    }
-                  },
-                  itemBuilder: (BuildContext context) => [
-                    PopupMenuItem(
-                      value: 'Role Filter',
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Filter by Role', style: TextStyle(fontWeight: FontWeight.bold)),
-                          PopupMenuDivider(),
-                          PopupMenuItem(
-                            value: 'Engineer',
-                            child: ListTile(
-                              title: Text('Engineer'),
-                              dense: true,
-                            ),
-                          ),
-                          PopupMenuItem(
-                            value: 'Team Leader',
-                            child: ListTile(
-                              title: Text('Team Leader'),
-                              dense: true,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    PopupMenuItem(
-                      value: 'Department Filter',
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Filter by Department', style: TextStyle(fontWeight: FontWeight.bold)),
-                          PopupMenuDivider(),
-                          PopupMenuItem(
-                            value: 'Networking',
-                            child: ListTile(
-                              title: Text('Networking'),
-                              dense: true,
-                            ),
-                          ),
-                          PopupMenuItem(
-                            value: 'System',
-                            child: ListTile(
-                              title: Text('System'),
-                              dense: true,
-                            ),
-                          ),
-                          PopupMenuItem(
-                            value: 'Development',
-                            child: ListTile(
-                              title: Text('Development'),
-                              dense: true,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                  icon: Icon(
-                    Icons.tune_outlined,
-                    size: 35,
-                  ),
-                  ),
-
-
+                Icon(Icons.tune_outlined,
+                        size: 35,
+                        //color: Color.fromARGB(255, 20, 14, 188),
+                        ),
                SizedBox(width: 15),            
-                PopupMenuButton<String>(
-                  onSelected: (value) {
-                    _handleSortOption(value);
-                  },
-                  itemBuilder: (BuildContext context) => [
-                    PopupMenuItem(
-                      value: 'Name Ascending',
-                      child: ListTile(
-                        title: Row(
-                          children: [
-                            Radio(
-                              value: 'Name Ascending',
-                              groupValue: _selectedSortOption,
-                              onChanged: (_) {},
-                            ),
-                            Text('Name Ascending',
-                            style:TextStyle(fontSize: 20),
-                            ),
-                          ],
+                Icon(Icons.swap_vert,
+                        size: 35,
+                        //color: Color.fromARGB(255, 20, 14, 188),
                         ),
-                        trailing: Icon(Icons.arrow_upward_outlined),
-                        dense: true,
-                      ),
-                    ),
-                    PopupMenuItem(
-                      value: 'Name Descending',
-                      child: ListTile(
-                        title: Row(
-                          children: [
-                            Radio(
-                              value: 'Name Descending',
-                              groupValue: _selectedSortOption,
-                              onChanged: (_) {},
-                            ),
-                            Text('Name Descending',
-                              style:TextStyle(fontSize: 20),
-                              ),
-                          ],
-                        ),
-                        trailing: Icon(Icons.arrow_downward_rounded),
-                        dense: true,
-                      ),  
-                    ),
-                                        PopupMenuItem(
-                      value: 'Role Ascending',
-                      child: ListTile(
-                        title: Row(
-                          children: [
-                            Radio(
-                              value: 'Role Ascending',
-                              groupValue: _selectedSortOption,
-                              onChanged: (_) {},
-                            ),
-                            Text('Role Ascending',
-                            style:TextStyle(fontSize: 20),
-                            ),
-                          ],
-                        ),
-                        trailing: Icon(Icons.arrow_upward_outlined),
-                        dense: true,
-                      ),
-                    ),
-                    PopupMenuItem(
-                      value: 'Role Descending',
-                      child: ListTile(
-                        title: Row(
-                          children: [
-                            Radio(
-                              value: 'Role Descending',
-                              groupValue: _selectedSortOption,
-                              onChanged: (_) {},
-                            ),
-                            Text('Role Descending',
-                              style:TextStyle(fontSize: 20),
-                              ),
-                          ],
-                        ),
-                        trailing: Icon(Icons.arrow_downward_rounded),
-                        dense: true,
-                      ),
-                      
-                    ),
-                  ],
-                  icon: Icon(
-                    Icons.swap_vert,
-                    size: 35,
-                  ),
-                )
               ],
             ),
           ),  
@@ -299,29 +143,19 @@ class _AllEmployeesState extends State<AllEmployees> {
   }
 
 
-  void _handleSortOption(String selectedOption) {
-  setState(() {
-    _selectedSortOption = selectedOption;
-    if (_selectedSortOption == 'Name Ascending') {
-      _sort((user) => user.fullName, ascending: true);
-    } else if (_selectedSortOption == 'Name Descending') {
-      _sort((user) => user.fullName, ascending: false);
-    }else if (_selectedSortOption == 'Role Ascending') {
-      _sort((user) => user.roles[0], ascending: true);
-    }else if (_selectedSortOption == 'Role Descending') {
-      _sort((user) => user.roles[0], ascending: false);
-    }
-  });
-}
 
+  /*void _sort<T>(Comparable<T> Function(User user) getField, int columnIndex, bool ascending) {
+    employees.sort((a, b) {
+      final aValue = getField(a);
+      final bValue = getField(b);
+      return ascending ? Comparable.compare(aValue, bValue) : Comparable.compare(bValue, aValue);
+    });
 
-void _sort<T>(Comparable<T> Function(User user) getField, {required bool ascending}) {
-  employees.sort((a, b) {
-    final aValue = getField(a);
-    final bValue = getField(b);
-    return ascending ? Comparable.compare(aValue, bValue) : Comparable.compare(bValue, aValue);
-  });
-}
+    setState(() {
+      _sortColumnIndex = columnIndex;
+      _sortAscending = ascending;
+    });
+  }*/
 
   void deleteEmployee(String id) {
     showDialog(

@@ -3,8 +3,8 @@ import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:pma/services/shared_preferences.dart';
 
-
-const ip = "192.168.0.19";
+const ip = "192.168.10.1";
+//const ip = "192.168.0.17";
 const port = 3002;
 
 class AuthService {

@@ -3,6 +3,7 @@ import 'package:pma/admin/widgets/admin_drawer.dart';
 
 import '../../models/user_model.dart';
 import '../../services/shared_preferences.dart';
+import '../../models/dashboardBox.dart';
 
 class AdminDashboard extends StatefulWidget {
   const AdminDashboard({Key? key}) : super(key: key);
@@ -40,9 +41,25 @@ class _AdminDashboardState extends State<AdminDashboard> {
         title: Text('Admin dashboard, user: $userFullName'),
       ),
       drawer:AdminDrawer(selectedRoute: '/admindashboard'),
-        body: Center(
+        body:
+         Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            DashboardBox(title: 'Box 1', value: 42),
+            SizedBox(height: 16),
+            DashboardBox(title: 'Box 2', value: 99),
+            SizedBox(height: 16),
+            DashboardBox(title: 'Box 3', value: 123),
+            SizedBox(height: 16),
+            DashboardBox(title: 'Box 4', value: 789),
+          ],
+        ),
+      ), 
+        /* Center(
         child: Text("admin dashboard"),
-      ),
+      ),*/
     );
   }
 }

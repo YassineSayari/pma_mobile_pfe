@@ -321,25 +321,26 @@ class _ProjectContainerState extends State<ProjectContainer> {
   }
 
   
-void deleteProject(String id) async {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text("Confirm Deletion"),
-        content: Text("Are you sure you want to delete this Project?"),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text("Cancel"),
-          ),
-          TextButton(
-            onPressed: () async {
-              Navigator.of(context).pop();
-              try {
-                await ProjectService().deleteProject(id);
+  void deleteProject(String id) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Confirm Deletion"),
+          content: Text("Are you sure you want to delete this Project?"),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                ProjectService().deleteProject(id);
+                setState(() {
+                });
+                Navigator.of(context).pop();
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text('Project deleted successfully.'),
@@ -347,28 +348,14 @@ void deleteProject(String id) async {
                     backgroundColor: Colors.yellow,
                   ),
                 );
-                setState(() {
-                  // Update the state or rebuild the widget if necessary
-                });
-              } catch (error) {
-                print("Error deleting project: $error");
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Failed to delete project.'),
-                    duration: Duration(seconds: 2),
-                    backgroundColor: Colors.red,
-                  ),
-                );
-              }
-            },
-            child: Text("Delete", style: TextStyle(color: Colors.red)),
-          ),
-        ],
-      );
-    },
-  );
-}
-
+              },
+              child: Text("Delete",style: TextStyle(color: Colors.red),),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   Map<String, dynamic> getColorForType(String type) {
     switch (type) {

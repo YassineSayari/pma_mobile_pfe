@@ -3,7 +3,7 @@ import 'package:pma/admin/screens/clients/edit_client_popup.dart';
 import 'package:pma/admin/widgets/client_info_popup.dart';
 import 'package:pma/models/user_model.dart';
 
-const ip = "192.168.0.19";
+const ip = "192.168.0.17";
 const port = 3002;
 
 class ClientContainer extends StatelessWidget {
