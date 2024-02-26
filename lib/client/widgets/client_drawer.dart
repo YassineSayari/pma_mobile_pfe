@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ClientDrawer extends StatelessWidget {
-  const ClientDrawer({super.key});
+    final String selectedRoute;
+
+  const ClientDrawer({super.key, required this.selectedRoute});
 
   @override
   Widget build(BuildContext context) {

@@ -3,7 +3,7 @@ import 'package:pma/admin/screens/employees/edit_employee_popup.dart';
 import 'package:pma/models/user_model.dart';
 import 'package:pma/admin/widgets/user_info_popup.dart';
 
-const ip = "192.168.0.17";
+const ip = "192.168.32.1";
 const port = 3002;
 
 class UserContainer extends StatelessWidget {

@@ -36,7 +36,6 @@ class _EngineerDrawerState extends State<EngineerDrawer> {
         userInfo = data;
       });
     } catch (error) {
-      // Handle error
     }
   }
   @override
@@ -90,7 +89,10 @@ class _EngineerDrawerState extends State<EngineerDrawer> {
             leading: Icon(Icons.settings),
             title: Text('Profile'),
             onTap: () {
-            },
+                    Navigator.of(context).pushNamed('/profile');
+                  },
+                  selected: widget.selectedRoute == '/profile',
+                  selectedTileColor: selectedColor,
           ),
 
           ListTile(

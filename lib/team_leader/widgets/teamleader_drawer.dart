@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-class TeamLeader extends StatelessWidget {
-  const TeamLeader({super.key});
+class TeamLeaderDrawer extends StatelessWidget {
+    final String selectedRoute;
+
+  const TeamLeaderDrawer({super.key, required this.selectedRoute});
 
   @override
   Widget build(BuildContext context) {

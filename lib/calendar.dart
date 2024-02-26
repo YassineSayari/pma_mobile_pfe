@@ -5,9 +5,12 @@ import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:pma/admin/widgets/admin_drawer.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import 'client/widgets/client_drawer.dart';
+import 'engineer/widgets/engineer_drawer.dart';
 import 'models/event_model.dart';
 import 'services/event_service.dart';
 import 'services/shared_preferences.dart';
+import 'team_leader/widgets/teamleader_drawer.dart';
 
 class Calendar extends StatefulWidget {
   const Calendar({Key? key}) : super(key: key);
@@ -56,9 +59,9 @@ for (Event event in userEvents) {
   print("Start date: $startDate");
   print("End date : $endDate");
 
-  DateTime day = startDate!;
+  DateTime day = startDate;
   print("day : $day ===== start date: $startDate");
-  while (day.isBefore(endDate!) || isSameDay(day, endDate)) {
+  while (day.isBefore(endDate) || isSameDay(day, endDate)) {
     eventsByDay[day] = eventsByDay[day] ?? [];
     eventsByDay[day]!.add(event);
     print("event added");
@@ -198,7 +201,7 @@ Color _markerColor(DateTime date, List events) {
         title: Text("Calendar"),
         centerTitle: true,
       ),
-      drawer: AdminDrawer(selectedRoute: '/calendar'),
+      drawer: _buildDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -282,8 +285,8 @@ eventLoader: (day) {
   List<Event> events = [];
 
   for (Event event in userEvents) {
-      if ((event.startDate!.isBefore(day) || isSameDay(event.startDate!, day)) &&
-          (event.endDate!.isAfter(day) || isSameDay(event.endDate!, day))) {
+      if ((event.startDate.isBefore(day) || isSameDay(event.startDate, day)) &&
+          (event.endDate.isAfter(day) || isSameDay(event.endDate, day))) {
             events.add(event);
         }
       }
@@ -309,4 +312,35 @@ eventLoader: (day) {
       ),
     );
   }
+  
 }
+
+Widget _buildDrawer() {
+
+  return FutureBuilder<String?>(
+    future: SharedPrefs().getLoggedUserRoleFromPrefs(),
+    builder: (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return CircularProgressIndicator();
+      } else if (snapshot.hasError) {
+        return Center(
+          child: Text('Error: ${snapshot.error}'),
+        );
+      } else {
+        String userRole = snapshot.data ?? '';
+
+        if (userRole == 'Admin') {
+          return AdminDrawer(selectedRoute: "/profile");
+        } else if (userRole == 'Engineer') {
+          return EngineerDrawer(selectedRoute: "/profile");
+        } else if (userRole == 'Team Leader') {
+          return TeamLeaderDrawer(selectedRoute: "/profile");
+        } else {
+          return ClientDrawer(selectedRoute: "/profile");
+        }
+      }
+    },
+  );
+}
+
+

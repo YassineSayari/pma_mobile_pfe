@@ -26,6 +26,7 @@ class _AllEmployeesState extends State<AllEmployees> {
   late String userId;
   List<User> allUsers = [];
   List<User> employees = [];
+  String _selectedSortOption=" ";
 
   // int _rowsPerPage = 2;
   // int _sortColumnIndex = 0;
@@ -109,10 +110,94 @@ class _AllEmployeesState extends State<AllEmployees> {
                         //color: Color.fromARGB(255, 20, 14, 188),
                         ),
                SizedBox(width: 15),            
-                Icon(Icons.swap_vert,
-                        size: 35,
-                        //color: Color.fromARGB(255, 20, 14, 188),
+                PopupMenuButton<String>(
+                  onSelected: (value) {
+                    _handleSortOption(value);
+                  },
+                  itemBuilder: (BuildContext context) => [
+                    PopupMenuItem(
+                      value: 'Name Ascending',
+                      child: ListTile(
+                        title: Row(
+                          children: [
+                            Radio(
+                              value: 'Name Ascending',
+                              groupValue: _selectedSortOption,
+                              onChanged: (_) {},
+                            ),
+                            Text('Name Ascending',
+                            style:TextStyle(fontSize: 20),
+                            ),
+                          ],
                         ),
+                        trailing: Icon(Icons.arrow_upward_outlined),
+                        dense: true,
+                      ),
+                    ),
+                    PopupMenuItem(
+                      value: 'Name Descending',
+                      child: ListTile(
+                        title: Row(
+                          children: [
+                            Radio(
+                              value: 'Name Descending',
+                              groupValue: _selectedSortOption,
+                              onChanged: (_) {},
+                            ),
+                            Text('Name Descending',
+                              style:TextStyle(fontSize: 20),
+                              ),
+                          ],
+                        ),
+                        trailing: Icon(Icons.arrow_downward_rounded),
+                        dense: true,
+                      ),  
+                    ),
+                                        PopupMenuItem(
+                      value: 'Role Ascending',
+                      child: ListTile(
+                        title: Row(
+                          children: [
+                            Radio(
+                              value: 'Role Ascending',
+                              groupValue: _selectedSortOption,
+                              onChanged: (_) {},
+                            ),
+                            Text('Role Ascending',
+                            style:TextStyle(fontSize: 20),
+                            ),
+                          ],
+                        ),
+                        trailing: Icon(Icons.arrow_upward_outlined),
+                        dense: true,
+                      ),
+                    ),
+                    PopupMenuItem(
+                      value: 'Role Descending',
+                      child: ListTile(
+                        title: Row(
+                          children: [
+                            Radio(
+                              value: 'Role Descending',
+                              groupValue: _selectedSortOption,
+                              onChanged: (_) {},
+                            ),
+                            Text('Role Descending',
+                              style:TextStyle(fontSize: 20),
+                              ),
+                          ],
+                        ),
+                        trailing: Icon(Icons.arrow_downward_rounded),
+                        dense: true,
+                      ),
+                      
+                    ),
+                  ],
+                  icon: Icon(
+                    Icons.swap_vert,
+                    size: 35,
+                  ),
+                )
               ],
             ),
           ),  
@@ -143,19 +228,35 @@ class _AllEmployeesState extends State<AllEmployees> {
   }
 
 
+void _handleSortOption(String selectedOption) {
+  setState(() {
+    _selectedSortOption = selectedOption;
+    switch (_selectedSortOption) {
+      case 'Name Ascending':
+        _sort((user) => user.fullName, ascending: true);
+        break;
+      case 'Name Descending':
+        _sort((user) => user.fullName, ascending: false);
+        break;
+      case 'Role Ascending':
+        _sort((user) => user.roles[0], ascending: true);
+        break;
+      case 'Role Descending':
+        _sort((user) => user.roles[0], ascending: false);
+        break;
+    }
+  });
+}
 
-  /*void _sort<T>(Comparable<T> Function(User user) getField, int columnIndex, bool ascending) {
-    employees.sort((a, b) {
-      final aValue = getField(a);
-      final bValue = getField(b);
-      return ascending ? Comparable.compare(aValue, bValue) : Comparable.compare(bValue, aValue);
-    });
 
-    setState(() {
-      _sortColumnIndex = columnIndex;
-      _sortAscending = ascending;
-    });
-  }*/
+
+void _sort<T>(Comparable<T> Function(User user) getField, {required bool ascending}) {
+  employees.sort((a, b) {
+    final aValue = getField(a);
+    final bValue = getField(b);
+    return ascending ? Comparable.compare(aValue, bValue) : Comparable.compare(bValue, aValue);
+  });
+}
 
   void deleteEmployee(String id) {
     showDialog(
@@ -218,93 +319,3 @@ class _AllEmployeesState extends State<AllEmployees> {
   }
 
 }
-
-       /*PaginatedDataTable(
-                    header:  Row(
-                        children: [
-                          Expanded(
-                            child: UserSearchBar(
-                              onChanged: onSearchTextChanged,
-                              onTap: (){_initializeData();
-                              print("refresh tapped");},
-                            ),
-                          ),
-              
-                         /* Row(
-                            children: [
-                              IconButton(
-                                icon: Image.asset('assets/images/txt.png', width: 24, height: 24),
-                                onPressed: () async {
-                                  print("text option clicked");
-                                  print("Employees before export: $employees");
-                                  await exportEmployees.generateEmployeesTextFile(employees);
-                                },
-                              ),
-                              IconButton(
-                                icon: Image.asset('assets/images/csv.png', width: 24, height: 24),
-                                onPressed: () {
-                                  exportEmployees.generateEmployeesCsvFile(employees);
-                                },
-                              ),
-                              IconButton(
-                                icon: Image.asset('assets/images/xlsx.png', width: 24, height: 24),
-                                onPressed: () async {
-                                  await exportEmployees.generateEmployeesXlsxFile(employees);
-                                },
-                              ),
-                              IconButton(
-                                icon: Image.asset('assets/images/json.png', width: 24, height: 24),
-                                onPressed: () {
-                                  exportEmployees.generateEmployeesJsonFile(employees);
-                                },
-                              ),
-                            ],
-                          )*/
-                        ],
-                      ),
-              
-                    rowsPerPage: _rowsPerPage,
-                    availableRowsPerPage: [1, 2, 3, 4, 5, 6, 10, 25, 100],
-                    onRowsPerPageChanged: (int? value) {
-                      setState(() {
-                        _rowsPerPage = value!;
-                      });
-                    },
-              
-                    sortColumnIndex: _sortColumnIndex,
-                    sortAscending: _sortAscending,
-              
-                    columns: [
-                      DataColumn(
-                        label: Text('Name'),
-                        onSort: (columnIndex, ascending) {
-                          _sort<String>((user) => user.fullName, columnIndex, ascending);
-                        },
-                      ),
-                      DataColumn(
-                        label: Text('Roles'),
-                        onSort: (columnIndex, ascending) {
-                          _sort<String>((user) => user.roles.join(', '), columnIndex, ascending);
-                        },
-                      ),
-                      DataColumn(
-                        label: Text('Gender'),
-                        onSort: (columnIndex, ascending) {
-                          _sort<String>((user) => user.gender, columnIndex, ascending);
-                        },
-                      ),
-                      DataColumn(
-                        label: Text('Mobile'),
-                        onSort: (columnIndex, ascending) {
-                          _sort<String>((user) => user.phone, columnIndex, ascending);
-                        },
-                      ),
-                      DataColumn(label: Text('Email'),
-                        onSort: (columnIndex, ascending) {
-                          _sort<String>((user) => user.email, columnIndex, ascending);
-                        },
-                      ),
-                      DataColumn(label: Text('Actions')),
-                    ],
-                    source: EmployeeDataSource(employees,context,deleteEmployee),
-                  ),*/
