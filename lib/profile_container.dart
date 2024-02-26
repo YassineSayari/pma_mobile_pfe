@@ -69,16 +69,23 @@ class Information extends StatelessWidget {
         ),
       child:  Column(  
              children: [
-              Align(
-                alignment: Alignment.topRight,
-                child: 
-                     Icon(
-                      Icons.edit_outlined,
-                      size: 27,
-                      color: Color.fromARGB(255, 102, 31, 184),
-                    ),                  
+              Row(
+                children: [
+                  
+                  Text("Info",
+                  style: TextStyle(fontSize: 35,fontWeight: FontWeight.bold),
+                  ),
+                  Spacer(),
+
+                  Icon(
+                     Icons.edit_outlined,
+                     size: 35,
+                     color: Color.fromARGB(255, 102, 31, 184),
+                  ),                  
+                ],
               ),
-                Row(  
+
+                Row(   
                 children: [
                   Icon(Icons.home_outlined,size: 35,),
                   Text(
