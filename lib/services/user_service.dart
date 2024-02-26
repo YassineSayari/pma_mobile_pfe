@@ -10,6 +10,20 @@ const port = 3002;
 class UserService{
   final String apiUrl = 'http://$ip:$port/api/v1/users';
 
+
+
+  Future<User> getUserbyId(String id) async{
+        final response = await http.get(Uri.parse(apiUrl+"/getUserById/$id"));
+        if (response.statusCode==200){
+          print("user exists");
+          User user=User.fromJson(json.decode(response.body));
+          return user;
+        }else {
+      throw Exception('Failed to load users');
+    }
+
+  }
+
   //all users
   Future<List<User>> getAllUsers() async {
     final response = await http.get(Uri.parse(apiUrl+"/getall"));
