@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pma/admin/widgets/admin_drawer.dart';
+import 'package:pma/client/widgets/client_drawer.dart';
+import 'package:pma/engineer/widgets/engineer_drawer.dart';
+import 'package:pma/team_leader/widgets/teamleader_drawer.dart';
 
 import 'models/user_model.dart';
 import 'profile_container.dart';
@@ -35,6 +39,10 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor:  Color(0xff006df1),
+      ),
+      drawer: _buildDrawer(),
       body: FutureBuilder<User>(
         future: user,
         builder: (context, snapshot) {
@@ -49,24 +57,36 @@ class _ProfileState extends State<Profile> {
           } else {
             User currentUser = snapshot.data!;
             return ProfileContainer( user: currentUser);
-            // return Column(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-
-            //     Text(
-            //       "Welcome, ${currentUser.fullName}",
-            //       style: TextStyle(
-            //         fontSize: 20,
-            //         fontWeight: FontWeight.bold,
-            //       ),
-            //     ),
-            //     Text("Email: ${currentUser.email}"),
-            //     Text("Phone: ${currentUser.phone}"),
-            //   ],
-            // );
           }
         },
       ),
     );
   }
+}
+Widget _buildDrawer() {
+
+  return FutureBuilder<String?>(
+    future: SharedPrefs().getLoggedUserRoleFromPrefs(),
+    builder: (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return CircularProgressIndicator();
+      } else if (snapshot.hasError) {
+        return Center(
+          child: Text('Error: ${snapshot.error}'),
+        );
+      } else {
+        String userRole = snapshot.data ?? '';
+
+        if (userRole == 'Admin') {
+          return AdminDrawer(selectedRoute: "/profile");
+        } else if (userRole == 'Engineer') {
+          return EngineerDrawer(selectedRoute: "/profile");
+        } else if (userRole == 'Team Leader') {
+          return TeamLeaderDrawer(selectedRoute: "/profile");
+        } else {
+          return ClientDrawer(selectedRoute: "/profile");
+        }
+      }
+    },
+  );
 }

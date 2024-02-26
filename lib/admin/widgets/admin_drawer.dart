@@ -173,7 +173,7 @@ class _AdminDrawerState extends State<AdminDrawer> {
             leading: Icon(Icons.settings),
             title: Text('Profile'),
             onTap: () {
-                    Navigator.of(context).pushReplacementNamed('/profile');
+                    Navigator.of(context).pushNamed('/profile');
                   },
                   selected: widget.selectedRoute == '/profile',
                   selectedTileColor: selectedColor,

@@ -17,9 +17,9 @@ class ProfileContainer extends StatelessWidget {
         children: [
            Expanded(flex: 2, child: _TopPortion(user: user)),
           Expanded(
-            flex: 5,
+            flex: 6,
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(12.0),
               child: Column(
                 children: [
                   Text(
@@ -34,8 +34,50 @@ class ProfileContainer extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 16),
-              Column(    
+                  Information(user: user,)
+                ],
+            ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+class Information extends StatelessWidget {
+  final User user;
+  const Information({super.key, required this.user});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+                padding:EdgeInsets.all(12.0),
+
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 2,
+              blurRadius: 2,
+              offset: Offset(0, 3),
+            ),
+          ],
+        ),
+      child:  Column(  
              children: [
+              Align(
+                alignment: Alignment.topRight,
+                child: 
+                     Icon(
+                      Icons.edit_outlined,
+                      size: 27,
+                      color: Color.fromARGB(255, 102, 31, 184),
+                    ),                  
+              ),
                 Row(  
                 children: [
                   Icon(Icons.home_outlined,size: 35,),
@@ -55,7 +97,6 @@ class ProfileContainer extends StatelessWidget {
                     ),
                 ],
               ),
-             
 
               Row(
                 children: [
@@ -78,12 +119,7 @@ class ProfileContainer extends StatelessWidget {
               ),
              ],
             ),
-                ],
-            ),
-            ),
-          ),
-        ],
-      ),
+            
     );
   }
 }
@@ -101,7 +137,7 @@ class _TopPortion extends StatelessWidget {
       fit: StackFit.expand,
       children: [
         Container(
-          margin: const EdgeInsets.only(bottom: 110),
+          margin: const EdgeInsets.only(bottom: 90),
           decoration: const BoxDecoration(
               gradient: LinearGradient(
                   begin: Alignment.bottomCenter,
@@ -113,7 +149,7 @@ class _TopPortion extends StatelessWidget {
               )),
         ),
         Align(
-          alignment: Alignment.center,
+          alignment: Alignment.bottomCenter,
           child: SizedBox(
             width: 200,
             height: 200,
