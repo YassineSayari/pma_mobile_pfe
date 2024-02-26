@@ -41,22 +41,19 @@ class _AdminDashboardState extends State<AdminDashboard> {
         title: Text('Admin dashboard, user: $userFullName'),
       ),
       drawer:AdminDrawer(selectedRoute: '/admindashboard'),
-        body:
-         Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        body: GridView.count(
+        crossAxisCount: 2,
           children: [
-            DashboardBox(title: 'Box 1', value: 42),
-            SizedBox(height: 16),
-            DashboardBox(title: 'Box 2', value: 99),
-            SizedBox(height: 16),
-            DashboardBox(title: 'Box 3', value: 123),
-            SizedBox(height: 16),
-            DashboardBox(title: 'Box 4', value: 789),
+            DashboardBox(title: 'All project', value: 0, background: Colors.green),
+          //  SizedBox(height: 16),
+            DashboardBox(title: 'Client', value: 0, background: Colors.blue),
+          //  SizedBox(height: 16),
+            DashboardBox(title: 'Team Leader', value: 0, background: Colors.purple),
+            //SizedBox(height: 16),
+            DashboardBox(title: 'Engineer', value: 0, background: Colors.orange),
           ],
         ),
-      ), 
+       
         /* Center(
         child: Text("admin dashboard"),
       ),*/
