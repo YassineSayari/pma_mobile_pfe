@@ -5,6 +5,8 @@ class User {
   final String email;
   final List<String> roles;
   final String? image;
+  final String? nationality;
+  final String? address;
   final String gender;
   final String? department;
   final String? company;
@@ -20,6 +22,8 @@ class User {
     required this.email,
     required this.roles,
     this.image,
+    this.nationality,
+    this.address,
     required this.gender,
     this.department,
     this.company,
@@ -37,6 +41,8 @@ class User {
       email: json['email'],
       roles: List<String>.from(json['roles']),
       image: json['image'],
+      nationality: json['nationality'],
+      address: json['address'],
       gender: json['gender'],
       department: json['department'],
       company: json['company'],
