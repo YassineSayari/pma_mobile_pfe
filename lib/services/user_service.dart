@@ -174,6 +174,31 @@ class UserService{
     }
   }
 
+  Future<void> changePassword(String userId, String newPassword) async {
+    String? authToken = await SharedPrefs.getAuthToken();
+    
+    try {
+      final response = await http.patch(
+        Uri.parse('$apiUrl/change-psw/$userId'),
+           headers: <String, String>{
+           'Content-Type': 'application/json; charset=UTF-8',
+           'Authorization': 'Bearer $authToken',
+         },
+        body: jsonEncode({'password': newPassword}),
+      );
+
+  if (response.statusCode == 200) {
+        print('Password changed successfully');
+      } else {
+        print('Failed to change password. Status Code: ${response.statusCode}, Response: ${response.body}');
+        throw Exception('Failed to change password');
+      }
+    } catch (error) {
+      print('Error changing password: $error');
+      throw Exception('Failed to change password');
+    }
+  }
+
   
   //delete a user
   Future<void> deleteUser(String userId) async {
