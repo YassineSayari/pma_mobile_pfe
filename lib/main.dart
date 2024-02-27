@@ -10,6 +10,7 @@ import 'package:pma/admin/screens/signup_requests.dart';
 import 'package:pma/authentication/sign_in.dart';
 import 'package:pma/authentication/sign_up.dart';
 import 'package:pma/engineer/screens/engineer_dashboard.dart';
+// import 'package:pma/profile_edit.dart';
 import 'package:pma/profile_screen.dart';
 import 'package:pma/services/authentication_service.dart';
 import 'package:pma/services/export_utils.dart';
@@ -112,6 +113,8 @@ class _MyAppState extends State<MyApp> {
         '/calendar':(context)=>Calendar(),
 
         '/profile':(context)=>Profile(),
+        // '/editprofile':(context)=>EditProfile(user: user),
+
 
       },
 

@@ -340,7 +340,7 @@ class _ProjectContainerState extends State<ProjectContainer> {
                 ProjectService().deleteProject(id);
                 setState(() {
                 });
-                Navigator.of(context).pop();
+                Navigator.of(context).pushReplacementNamed("/allprojects");
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text('Project deleted successfully.'),

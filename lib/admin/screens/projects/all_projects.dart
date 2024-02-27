@@ -22,9 +22,7 @@ class _AllProjectsState extends State<AllProjects> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('All Projects'),
-      // ),
+
       drawer: AdminDrawer(selectedRoute: '/allprojects'),
       body: Column(
         children: [

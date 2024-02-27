@@ -35,7 +35,7 @@ class ProjectService {
     }
   }
 
-  Future<Project> addProject(Map<String, dynamic> projectData) async {
+  Future<void> addProject(Map<String, dynamic> projectData) async {
     print("adding project");
     try {
       final response = await http.post(
@@ -47,7 +47,6 @@ class ProjectService {
       if (response.statusCode == 200) {
         print("project added");
         print(response.statusCode);
-        return Project.fromJson(jsonDecode(response.body));
       } else {
         print("Failed to add project. Status code: ${response.statusCode}");
         print("Response body: ${response.body}");

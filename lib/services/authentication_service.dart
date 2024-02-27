@@ -51,7 +51,7 @@ Future<Map<String, dynamic>> signUp(
         'password': password,
         'mobile': mobile,
         'gender': gender,
-        'roles': [role], // Convert role to a list if needed
+        'roles': [role], 
         'image': image,
       }),
     );

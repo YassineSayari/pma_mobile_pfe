@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pma/models/user_model.dart';
+import 'package:pma/profile_edit.dart';
 
 import 'services/user_service.dart';
 
@@ -35,7 +36,7 @@ class ProfileContainer extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   Information(user: user),
-                  SecuritySettings(userId: user.id),
+                  SecuritySettings(userId: user.id,context: context),
                 ],
               ),
             ),
@@ -77,10 +78,20 @@ class Information extends StatelessWidget {
                   ),
                   Spacer(),
 
-                  Icon(
-                     Icons.edit_outlined,
-                     size: 35,
-                     color: Color.fromARGB(255, 102, 31, 184),
+                  GestureDetector(
+                    onTap: (){
+                       Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditProfile(user: user),
+      ),
+    );
+                    },
+                    child: Icon(
+                       Icons.edit_outlined,
+                       size: 35,
+                       color: Color.fromARGB(255, 102, 31, 184),
+                    ),
                   ),                  
                 ],
               ),
@@ -136,7 +147,8 @@ class SecuritySettings extends StatelessWidget {
   final TextEditingController newpassword = TextEditingController();
   final TextEditingController confirmnewpassword = TextEditingController();
   final String userId;
-   SecuritySettings({super.key, required this.userId});
+  final BuildContext context;
+   SecuritySettings({super.key, required this.userId, required this.context});
 
    void verifier(){
     if(oldpassword.text.isEmpty)
@@ -159,8 +171,22 @@ class SecuritySettings extends StatelessWidget {
     Future<void> changePassword(String userId, String newPassword) async {
     try {
       await UserService().changePassword(userId, newPassword);
+          ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Password changed successfully!', style: TextStyle(color: Colors.black45, fontWeight: FontWeight.w600)),
+        duration: Duration(seconds: 2),
+        backgroundColor: Colors.yellowAccent,
+      ),
+    );
       print("password changed");
     } catch (error) {
+                ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Failed to change password', style: TextStyle(color: Colors.black45, fontWeight: FontWeight.w600)),
+        duration: Duration(seconds: 2),
+        backgroundColor: Colors.red,
+      ),
+    );
       print('Error changing password: $error');
     }
   }
