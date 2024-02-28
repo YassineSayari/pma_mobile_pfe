@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:pma/admin/screens/projects/edit_project.dart';
 
 import '../../services/project_service.dart';
 
@@ -293,7 +294,12 @@ class _ProjectContainerState extends State<ProjectContainer> {
                 children: [
                        GestureDetector(
                       onTap: () {
-                      },
+                          Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => EditProject(projectId: widget.projectId!, projectTitle: widget.projectName, description: widget.description, type: widget.type, status: widget.status, priority: widget.priority, dateFin: widget.dateFin, teamLeaderId: widget.teamLeaderId, equipe: widget.equipe,),
+                                ),
+                              );                      },
                       child: Icon(
                         Icons.edit_outlined,
                         size: 35,
