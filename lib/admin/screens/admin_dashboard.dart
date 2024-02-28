@@ -44,13 +44,30 @@ class _AdminDashboardState extends State<AdminDashboard> {
         body: GridView.count(
         crossAxisCount: 2,
           children: [
-            DashboardBox(title: 'All project', value: 0, background: Colors.green),
-          //  SizedBox(height: 16),
-            DashboardBox(title: 'Client', value: 0, background: Colors.blue),
-          //  SizedBox(height: 16),
-            DashboardBox(title: 'Team Leader', value: 0, background: Colors.purple),
-            //SizedBox(height: 16),
-            DashboardBox(title: 'Engineer', value: 0, background: Colors.orange),
+            DashboardBox(
+              title: 'All project',
+              value: 0,
+              background: Colors.green,
+              height: 8,
+              ),
+            DashboardBox(
+              title: 'Client',
+              value: 0,
+              background: Colors.blue,
+              height: 8,
+              ),
+            DashboardBox(
+              title: 'Team Leader',
+              value: 0,
+              background: Colors.purple,
+              height: 8,
+              ),
+            DashboardBox(
+              title: 'Engineer',
+              value: 0,
+              background: Colors.orange,
+              height: 8,
+              ),
           ],
         ),
        
