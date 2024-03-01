@@ -45,6 +45,9 @@ dependencies:
   table_calendar: ^3.1.0
   get_ip_address: ^0.0.6
   public_ip_address: ^1.1.1
+  google_fonts: ^6.1.0
+  percent_indicator: ^4.2.3
+  flutter_animate: ^4.5.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -77,6 +80,7 @@ flutter:
   assets:
     - assets/images/
 
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
@@ -88,10 +92,12 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+     - family: Rubik
+       fonts:
+         - asset: assets/fonts/Rubik-Bold.ttf
+         - asset: assets/fonts/Rubik-Medium.ttf
+         - asset: assets/fonts/Rubik-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

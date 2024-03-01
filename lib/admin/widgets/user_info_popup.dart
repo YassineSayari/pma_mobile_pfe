@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pma/const.dart';
+import 'package:pma/theme.dart';
 
 import '../../models/user_model.dart';
 
@@ -21,7 +22,7 @@ class EmployeeInfo extends StatelessWidget {
       insetPadding: EdgeInsets.all(8.0),
       child: Container(
         width: double.infinity,
-        height: double.infinity,
+        //height: double.infinity,
         padding: EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
@@ -48,9 +49,9 @@ class EmployeeInfo extends StatelessWidget {
               SizedBox(height: 20),
               Text(
                 "Employee's Details",
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 35, fontWeight: FontWeight.w600,fontFamily: AppTheme.fontName),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 15),
               buildInfoRow(Icons.person, "Full Name:", employee.fullName),
               buildInfoRow(Icons.people_rounded, "Role:", employee.roles[0]),
               buildInfoRow(Icons.email, "Email:", employee.email),
@@ -67,8 +68,9 @@ class EmployeeInfo extends StatelessWidget {
                   child: Text(
                     "Close",
                     style: TextStyle(
-                      fontSize: 15,
+                      fontSize: 24,
                       color: Color.fromARGB(255, 20, 91, 150),
+                      fontWeight:FontWeight.w500,
                     ),
                   ),
                 ),
@@ -87,16 +89,19 @@ class EmployeeInfo extends StatelessWidget {
         children: [
           Icon(
             icon,
-            color: Color.fromARGB(255, 20, 91, 150),
+            color: AppTheme.buildLightTheme().primaryColor,
+            size: 34,
           ),
           SizedBox(width: 10),
           Text(
             label,
-            style: TextStyle(fontSize: 16),
+            style: TextStyle(fontSize: 24,fontWeight:FontWeight.w500,fontFamily: AppTheme.fontName),
           ),
+                    SizedBox(width: 10),
+
           Text(
             value,
-            style: TextStyle(fontSize: 16),
+            style: TextStyle(fontSize: 24,fontFamily: AppTheme.fontName),
           ),
         ],
       ),

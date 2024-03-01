@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:pma/theme.dart";
 
 class UserSearchBar extends StatelessWidget {
   final ValueChanged<String>? onChanged;
@@ -10,7 +11,6 @@ class UserSearchBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20.0),
-            color: Color.fromARGB(255, 250, 244, 244), 
             
 
       child: Row(
@@ -20,7 +20,7 @@ class UserSearchBar extends StatelessWidget {
               width: 300,
                     decoration: BoxDecoration(
                      color: Colors.white,
-                     borderRadius:BorderRadius.circular(30),
+                     borderRadius:BorderRadius.circular(8),
                     boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
@@ -36,18 +36,23 @@ class UserSearchBar extends StatelessWidget {
                             labelText: 'Search...',
                             labelStyle: TextStyle(
                               color: Color.fromARGB(255, 99, 174, 189),
-                              fontSize: 25,
-                              fontFamily: 'Poppins',
+                              fontSize: 24,
+                              fontFamily: AppTheme.fontName,
                             ),
                             enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(30)),
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
                               borderSide: BorderSide.none,
             
                             ),
                             focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(30)),
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
                               borderSide: BorderSide.none,
                             ),
+                            prefixIcon: Icon(
+                            Icons.search,
+                              color: Color.fromARGB(255, 99, 174, 189),
+                              size: 30,
+                              ),
                             floatingLabelBehavior: FloatingLabelBehavior.never,
                           ),
               ),
@@ -58,11 +63,11 @@ class UserSearchBar extends StatelessWidget {
             onTap: onTap,
             child: CircleAvatar(
               radius: 30,
-               backgroundColor: Color.fromARGB(255, 65, 29, 196),
+               backgroundColor: Colors.white,
               child: Icon(
                 Icons.refresh,
-                size: 40,
-                color: Colors.white,
+                size: 50,
+                color: Colors.black,
               ),
             ),
           ),

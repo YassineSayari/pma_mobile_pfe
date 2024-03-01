@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 //import 'package:http/http.dart';
 import 'package:pma/admin/widgets/admin_drawer.dart';
 import 'package:pma/services/user_service.dart';
+import 'package:pma/theme.dart';
 
 import '../../../models/user_model.dart';
 import '../../../services/export_utils.dart';
@@ -80,7 +81,7 @@ class _AllEmployeesState extends State<AllEmployees> {
           ],
         ),
         child: AppBar(
-          title: Text('All Employees',style: TextStyle(fontWeight: FontWeight.w600,fontSize: 30),),
+          title: Text('All Employees',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 40,fontFamily: AppTheme.fontName),),
           centerTitle: true,
         ),
       ),
@@ -101,7 +102,7 @@ class _AllEmployeesState extends State<AllEmployees> {
               children: [
                    Align(
                     alignment: Alignment.topLeft,
-                    child: Text("Total Employees : ${employees.length}",style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold),)
+                    child: Text("Total Employees : ${employees.length}",style: TextStyle(fontSize: 24,fontFamily: AppTheme.fontName,fontWeight: FontWeight.w500),)
                     ),
                 
                 Spacer(),
@@ -263,14 +264,15 @@ void _sort<T>(Comparable<T> Function(User user) getField, {required bool ascendi
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Confirm Deletion"),
-          content: Text("Are you sure you want to delete this Employee?"),
+contentPadding: EdgeInsets.symmetric(vertical: 24.0,horizontal: 12.0),  
+        title: Center(child: Text("Delete Employee",style: TextStyle(fontFamily: AppTheme.fontName,fontWeight: FontWeight.w600),)),
+          content: Text("Are you sure you want to delete this Employee?",style: TextStyle(fontFamily: AppTheme.fontName,fontSize: 24),),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text("Cancel"),
+              child: Text("Cancel",style: TextStyle(fontFamily: AppTheme.fontName,fontWeight: FontWeight.w600,fontSize: 24),),
             ),
             TextButton(
               onPressed: () {
@@ -287,7 +289,7 @@ void _sort<T>(Comparable<T> Function(User user) getField, {required bool ascendi
                   ),
                 );
               },
-              child: Text("Delete",style: TextStyle(color: Colors.red),),
+              child: Text("Delete",style: TextStyle(color: Colors.red,fontFamily: AppTheme.fontName,fontWeight: FontWeight.w600,fontSize: 24),),
             ),
           ],
         );

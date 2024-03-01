@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pma/const.dart';
 import 'package:pma/models/user_model.dart';
 import 'package:pma/services/user_service.dart';
 
@@ -16,7 +17,7 @@ class _EditProfileState extends State<EditProfile> {
 
   UserService userService=UserService();
 
-    final String imageUrl = "http://$ip:$port/static/images";
+  
     final TextEditingController nameController=TextEditingController();
     final TextEditingController cityController=TextEditingController();
     final TextEditingController phoneController=TextEditingController();

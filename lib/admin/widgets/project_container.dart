@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:intl/intl.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:pma/admin/screens/projects/edit_project.dart';
+import 'package:pma/theme.dart';
 
 import '../../services/project_service.dart';
 
@@ -81,15 +84,9 @@ class _ProjectContainerState extends State<ProjectContainer> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Icon(Icons.task_alt, size: 30),
-                    Text(widget.projectName,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 30)),
-                  ],
-                ),
+                Text(widget.projectName,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 30,fontFamily: AppTheme.fontName)),
                 SizedBox(width: 20),
                 Expanded(
                   child: Column(
@@ -104,7 +101,7 @@ class _ProjectContainerState extends State<ProjectContainer> {
                         child: Text(
                           '${widget.type}',
                           style: TextStyle(
-                            color: getColorForType(widget.type)['text'],
+                            color: getColorForType(widget.type)['text'],fontFamily: AppTheme.fontName,fontSize: 15
                           ),
                         ),
                       ),
@@ -131,19 +128,19 @@ class _ProjectContainerState extends State<ProjectContainer> {
             SizedBox(height: 10),
             Table(
               columnWidths: {
-                0: FlexColumnWidth(1),
-                1: FlexColumnWidth(2),
+                0: FlexColumnWidth(2),
+                1: FlexColumnWidth(3),
               },
               children: [
                 TableRow(
                   children: [
                     TableCell(
                       child: Text('Description :',
-                          style: TextStyle(fontWeight: FontWeight.bold,fontSize:20)),
+                          style: TextStyle(fontWeight: FontWeight.w500,fontSize:24,fontFamily: AppTheme.fontName)),
                     ),
                     TableCell(
                       child: Text(widget.description,
-                      style: TextStyle(fontSize:20),
+                      style: TextStyle(fontSize:24,fontFamily: AppTheme.fontName),
                       ),
                     ),
                   ],
@@ -152,7 +149,7 @@ class _ProjectContainerState extends State<ProjectContainer> {
                   children: [
                     TableCell(
                       child: Text('Start Date :',
-                          style: TextStyle(fontWeight: FontWeight.bold,fontSize:20)),
+                          style: TextStyle(fontWeight: FontWeight.w500,fontSize:24,fontFamily: AppTheme.fontName)),
                     ),
                     TableCell(
                       child: Row(
@@ -161,7 +158,7 @@ class _ProjectContainerState extends State<ProjectContainer> {
                               size: 18), // Calendar icon
                           SizedBox(width: 5),
                           Text(formattedDateDebut,
-                          style: TextStyle(fontSize:20),
+                          style: TextStyle(fontSize:24,fontFamily: AppTheme.fontName),
                           ),
                         ],
                       ),
@@ -172,11 +169,11 @@ class _ProjectContainerState extends State<ProjectContainer> {
                   children: [
                     TableCell(
                       child: Text('Team Leader :',
-                          style: TextStyle(fontWeight: FontWeight.bold,fontSize:20)),
+                          style: TextStyle(fontWeight: FontWeight.w500,fontSize:24,fontFamily: AppTheme.fontName)),
                     ),
                     TableCell(
                       child: Text(widget.teamLeaderId,
-                      style: TextStyle(fontSize:20),
+                      style: TextStyle(fontSize:24,fontFamily: AppTheme.fontName),
                       ),
                     ),
                   ],
@@ -185,11 +182,11 @@ class _ProjectContainerState extends State<ProjectContainer> {
                   children: [
                     TableCell(
                       child: Text('Status :',
-                          style: TextStyle(fontWeight: FontWeight.bold,fontSize:20)),
+                          style: TextStyle(fontWeight: FontWeight.w500,fontSize:24,fontFamily: AppTheme.fontName)),
                     ),
                     TableCell(
                       child: Text(widget.status,
-                      style: TextStyle(fontSize:20),
+                      style: TextStyle(fontSize:24,fontFamily: AppTheme.fontName),
                       ),
                     ),
                   ],
@@ -198,7 +195,7 @@ class _ProjectContainerState extends State<ProjectContainer> {
                   children: [
                     TableCell(
                       child: Text('Priority :',
-                          style: TextStyle(fontWeight: FontWeight.bold,fontSize:20)),
+                          style: TextStyle(fontWeight: FontWeight.w500,fontSize:24,fontFamily: AppTheme.fontName)),
                     ),
                     TableCell(
                       child: Row(
@@ -206,7 +203,7 @@ class _ProjectContainerState extends State<ProjectContainer> {
                           getPriorityIcon(widget.priority),
                           SizedBox(width: 5),
                           Text(widget.priority,
-                          style: TextStyle(fontSize:20),
+                          style: TextStyle(fontSize:24,fontFamily: AppTheme.fontName),
                           ),
                         ],
                       ),
@@ -217,16 +214,16 @@ class _ProjectContainerState extends State<ProjectContainer> {
                   children: [
                     TableCell(
                       child: Text('Deadline :',
-                          style: TextStyle(fontWeight: FontWeight.bold,fontSize:20)),
+                          style: TextStyle(fontWeight: FontWeight.w500,fontSize:24,fontFamily: AppTheme.fontName)),
                     ),
                     TableCell(
                       child: Row(
                         children: [
                           Icon(Icons.calendar_today_outlined,
-                              size: 18), // Calendar icon
+                              size: 18), 
                           SizedBox(width: 5),
                           Text(formattedDateFin,
-                          style: TextStyle(fontSize:20),
+                          style: TextStyle(fontSize:24,fontFamily: AppTheme.fontName),
                           ),
                         ],
                       ),
@@ -237,11 +234,11 @@ class _ProjectContainerState extends State<ProjectContainer> {
                   children: [
                     TableCell(
                       child: Text('Client :',
-                          style: TextStyle(fontWeight: FontWeight.bold,fontSize:20)),
+                          style: TextStyle(fontWeight: FontWeight.w500,fontSize:24,fontFamily: AppTheme.fontName)),
                     ),
                     TableCell(
                       child: Text(widget.client,
-                      style: TextStyle(fontSize:20),
+                      style: TextStyle(fontSize:24,fontFamily: AppTheme.fontName),
                       ),
                     ),
                   ],
@@ -250,11 +247,11 @@ class _ProjectContainerState extends State<ProjectContainer> {
                   children: [
                     TableCell(
                       child: Text('Team :',
-                          style: TextStyle(fontWeight: FontWeight.bold,fontSize:20)),
+                          style: TextStyle(fontWeight: FontWeight.w500,fontSize:24,fontFamily: AppTheme.fontName)),
                     ),
                     TableCell(
                       child: Text(getTeamNames(widget.equipe),
-                      style: TextStyle(fontSize:20),
+                      style: TextStyle(fontSize:24,fontFamily: AppTheme.fontName),
                       ),
                     ),
                   ],
@@ -266,25 +263,41 @@ class _ProjectContainerState extends State<ProjectContainer> {
                           style: TextStyle(
                               color: Colors.grey,
                               fontWeight: FontWeight.bold,
-                              fontSize: 20)),
+                              fontSize: 24,fontFamily: AppTheme.fontName)),
                     ),
                     TableCell(
                       child: Text('${widget.progress}%',
-                          style: TextStyle(color: Colors.grey,fontSize: 20)),
+                          style: TextStyle(color: Colors.grey,fontSize: 24,fontFamily: AppTheme.fontName)),
                     ),
                   ],
                 ),
               ],
-            ),
+            ).animate()
+            .slideX(duration: 700.ms),
             SizedBox(height: 10),
             Container(
-              width: 250.0,
-              child: LinearProgressIndicator(
-                value: widget.progress / 100.0,
-                backgroundColor: Colors.grey,
-                valueColor:
-                    AlwaysStoppedAnimation<Color>(Colors.blue),
+              width: 400.0,
+              child: LinearPercentIndicator(
+                lineHeight: 10,
+                percent: widget.progress.toDouble()/100,
+                progressColor: Colors.blue,
+                animation: true,
+                animationDuration: 2500,
               ),
+              // child: TweenAnimationBuilder(
+              //   curve: Curves.easeInOut,
+              //   tween: Tween<double>(begin: 0.0, end: widget.progress.toDouble()),
+              //   duration: Duration(milliseconds: 2000),
+              //   builder: (BuildContext context, double value, Widget? child) {
+              //   return LinearProgressIndicator(
+              //     value: widget.progress / 100.0,
+              //     backgroundColor: Colors.grey,
+              //     minHeight: 8.0,
+              //     valueColor:
+              //         AlwaysStoppedAnimation<Color>(Colors.blue),
+              //    );
+              //   },
+              // ),
             ),
             SizedBox(height: 10),
             Positioned(

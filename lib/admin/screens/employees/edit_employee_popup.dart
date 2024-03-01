@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:pma/theme.dart';
 import '../../../models/user_model.dart';
 import '../../../services/user_service.dart';
 
@@ -62,7 +63,7 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
 
         print("updating employee");
         await userService.updateUser(widget.employee.id, updatedData);
-        Navigator.of(context).pop();
+        Navigator.of(context).pushReplacementNamed("/allemployees");
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Employee updated successfully!',style:TextStyle(color: Colors.black45,fontWeight: FontWeight.w600),),
@@ -78,31 +79,36 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      child: AlertDialog(
-        title: Center(child: Text('Edit Employee',style: TextStyle(fontWeight: FontWeight.w600),)),
-        content: SingleChildScrollView(
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: Container(
+        width: double.infinity,
+        height: double.infinity,
+        padding: EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
           child: Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-      
+                Center(child: Text("Edit Employee",style: TextStyle(fontFamily: AppTheme.fontName,fontWeight: FontWeight.w600,fontSize: 34),)),
+                SizedBox(height: 30),
                 TextFormField(
                   controller: nameController,
                   style: TextStyle(
                     color: Color(0xFF000000),
-                    fontSize: 15,
-                    fontFamily: 'Poppins',
+                    fontSize: 27,
+                    fontFamily: AppTheme.fontName,
                     fontWeight: FontWeight.w500,
                   ),
                   decoration: InputDecoration(
                     labelText: 'Name*',
                     labelStyle: TextStyle(
                       color: Color(0xFF7743DB),
-                      fontSize: 15,
-                      fontFamily: 'Poppins',
+                      fontSize: 25,
+                      fontFamily:  AppTheme.fontName,
                       fontWeight: FontWeight.w600,
                     ),
                     enabledBorder: OutlineInputBorder(
@@ -127,9 +133,9 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
                     return null;
                   },
                 ),
-      
-                SizedBox(height: 10),
-      
+            
+                SizedBox(height: 15),
+            
                 DropdownButtonFormField<String>(
                   value: departments.contains(selectedDepartment) ? selectedDepartment : null,
                   onChanged: (value) {
@@ -145,16 +151,16 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
                   }).toList(),
                   style: TextStyle(
                     color: Color(0xFF000000),
-                    fontSize: 15,
-                    fontFamily: 'Poppins',
+                    fontSize: 27,
+                    fontFamily:  AppTheme.fontName,
                     fontWeight: FontWeight.w500,
                   ),
                   decoration: InputDecoration(
                     labelText: 'Department*',
                     labelStyle: TextStyle(
                       color: Color(0xFF7743DB),
-                      fontSize: 15,
-                      fontFamily: 'Poppins',
+                      fontSize: 25,
+                      fontFamily:  AppTheme.fontName,
                       fontWeight: FontWeight.w600,
                     ),
                     enabledBorder: OutlineInputBorder(
@@ -173,22 +179,22 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
                     ),
                   ),
                 ),
-      
-                SizedBox(height: 10),
+            
+                SizedBox(height: 15),
                 TextFormField(
                   controller: roleController,
                   style: TextStyle(
                     color: Color(0xFF000000),
-                    fontSize: 15,
-                    fontFamily: 'Poppins',
+                    fontSize: 27,
+                    fontFamily:  AppTheme.fontName,
                     fontWeight: FontWeight.w500,
                   ),
                   decoration: InputDecoration(
                     labelText: 'Role*',
                     labelStyle: TextStyle(
                       color: Color(0xFF7743DB),
-                      fontSize: 15,
-                      fontFamily: 'Poppins',
+                      fontSize: 25,
+                      fontFamily:  AppTheme.fontName,
                       fontWeight: FontWeight.w600,
                     ),
                     enabledBorder: OutlineInputBorder(
@@ -213,8 +219,8 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
                     return null;
                   },
                 ),
-                SizedBox(height: 10),
-      
+                SizedBox(height: 15),
+            
                 DropdownButtonFormField<String>(
                   value: selectedGender,
                   onChanged: (value) {
@@ -230,16 +236,16 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
                   }).toList(),
                   style: TextStyle(
                     color: Color(0xFF000000),
-                    fontSize: 15,
-                    fontFamily: 'Poppins',
+                    fontSize: 27,
+                    fontFamily:  AppTheme.fontName,
                     fontWeight: FontWeight.w500,
                   ),
                   decoration: InputDecoration(
                     labelText: 'Gender*',
                     labelStyle: TextStyle(
                       color: Color(0xFF7743DB),
-                      fontSize: 15,
-                      fontFamily: 'Poppins',
+                      fontSize: 25,
+                      fontFamily:  AppTheme.fontName,
                       fontWeight: FontWeight.w600,
                     ),
                     enabledBorder: OutlineInputBorder(
@@ -258,23 +264,23 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
                     ),
                   ),
                 ),
-      
-                SizedBox(height: 10),
-      
+            
+                SizedBox(height: 15),
+            
                 TextFormField(
                   controller: mobileController,
                   style: TextStyle(
                     color: Color(0xFF000000),
-                    fontSize: 15,
-                    fontFamily: 'Poppins',
+                    fontSize: 27,
+                    fontFamily:  AppTheme.fontName,
                     fontWeight: FontWeight.w500,
                   ),
                   decoration: InputDecoration(
                     labelText: 'Mobile*',
                     labelStyle: TextStyle(
                       color: Color(0xFF7743DB),
-                      fontSize: 15,
-                      fontFamily: 'Poppins',
+                      fontSize: 25,
+                      fontFamily:  AppTheme.fontName,
                       fontWeight: FontWeight.w600,
                     ),
                     enabledBorder: OutlineInputBorder(
@@ -299,23 +305,23 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
                     return null;
                   },
                 ),
-      
-                SizedBox(height: 10),
-      
+            
+                SizedBox(height: 15),
+            
                 TextFormField(
                   controller: emailController,
                   style: TextStyle(
                     color: Color(0xFF000000),
-                    fontSize: 15,
-                    fontFamily: 'Poppins',
+                    fontSize: 27,
+                    fontFamily:  AppTheme.fontName,
                     fontWeight: FontWeight.w500,
                   ),
                   decoration: InputDecoration(
                     labelText: 'Email*',
                     labelStyle: TextStyle(
                       color: Color(0xFF7743DB),
-                      fontSize: 15,
-                      fontFamily: 'Poppins',
+                      fontSize: 25,
+                      fontFamily:  AppTheme.fontName,
                       fontWeight: FontWeight.w600,
                     ),
                     enabledBorder: OutlineInputBorder(
@@ -340,9 +346,9 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
                     return null;
                   },
                 ),
-      
-                SizedBox(height: 10),
-      
+            
+                SizedBox(height: 15),
+            
                 TextFormField(
                   controller: TextEditingController(
                     //toLocal khatr date was converted to utc earlier so we need to convert to local to prevent conflict
@@ -366,8 +372,8 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
                     labelText: 'Hiring Date*',
                     labelStyle: TextStyle(
                       color: Color(0xFF7743DB),
-                      fontSize: 15,
-                      fontFamily: 'Poppins',
+                      fontSize: 27,
+                      fontFamily: AppTheme.fontName,
                       fontWeight: FontWeight.w600,
                     ),
                     enabledBorder: OutlineInputBorder(
@@ -398,20 +404,37 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
                 ),
                 SizedBox(height: 16),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        print("update pressed");
-                        updateEmployee();
-                      },
-                      child: Text('Save'),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          print("update pressed");
+                          updateEmployee();
+                        },
+                        child: Text('Save',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25 ),),
+                                   style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF9F7BFF),
+                                shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                        ),
+                                      ),
+                      ),
                     ),
                     SizedBox(width: 10),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Text('Cancel'),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('Cancel',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25 ),),
+                                   style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red,
+                                shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                        ),
+                                      ),
+                      ),
                     ),
                   ],
                 ),
