@@ -1,14 +1,13 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:pma/const.dart';
 import 'package:pma/services/shared_preferences.dart';
 import '../models/event_model.dart';
 
-const ip = "192.168.0.17";
-const port = 3002;
 
 class EventService{
 
-  final String apiUrl = 'http://$ip:$port/api/v1/events';
+  final String apiUrl = '$baseUrl/api/v1/events';
 
   Future<List<Event>> getAllEvents() async {
         String? authToken = await SharedPrefs.getAuthToken();

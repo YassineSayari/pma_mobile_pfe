@@ -43,6 +43,8 @@ dependencies:
   intl: ^0.19.0
   multi_dropdown: ^2.1.4
   table_calendar: ^3.1.0
+  get_ip_address: ^0.0.6
+  public_ip_address: ^1.1.1
 
 
   # The following adds the Cupertino Icons font to your application.

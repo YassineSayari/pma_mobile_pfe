@@ -1,14 +1,13 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:pma/const.dart';
 import 'package:pma/services/shared_preferences.dart';
 import '../models/user_model.dart';
 
-const ip = "192.168.32.1";
-//const ip = "192.168.0.17";
-const port = 3002;
+
 
 class UserService{
-  final String apiUrl = 'http://$ip:$port/api/v1/users';
+  final String apiUrl = '$baseUrl/api/v1/users';
 
 
 

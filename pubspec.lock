@@ -208,6 +208,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  get_ip_address:
+    dependency: "direct main"
+    description:
+      name: get_ip_address
+      sha256: "0e973f1ad61bc4b0b1d99abc2c023d91d1ddb09709f5546f6972ace067c8576d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.6"
   get_it:
     dependency: "direct main"
     description:
@@ -496,6 +504,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.7.4"
+  public_ip_address:
+    dependency: "direct main"
+    description:
+      name: public_ip_address
+      sha256: f675cd85c7b2e2c99aed544f7a6248c51fbee602f4b7ababccf521e589fa793f
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.1"
   share_plus:
     dependency: "direct main"
     description:

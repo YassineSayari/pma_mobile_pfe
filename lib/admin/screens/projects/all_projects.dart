@@ -172,8 +172,12 @@ class _AllProjectsState extends State<AllProjects> {
   }
 
 String determineNewStatus(Offset dropPosition, String sectionTitle, BuildContext context) {
+
+  // find the container on ui
   final RenderBox renderBox = context.findRenderObject() as RenderBox;
+  //calculate top position of container
   final sectionPosition = renderBox.localToGlobal(Offset.zero).dy;
+  //set start point in the middle of container
   final threshold = sectionPosition + renderBox.size.height / 2;
 
   if (dropPosition.dy > threshold) {

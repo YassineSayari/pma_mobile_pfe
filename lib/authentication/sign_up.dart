@@ -43,6 +43,38 @@ final _picker=ImagePicker();
   }
 
 
+// final ImagePicker _imagePicker = ImagePicker();
+// Future<void> UploadImageUser(String idUser,String Token,Function() onPhotoUpdated) async {
+//     try {
+//       final XFile? pickedFile = await _imagePicker.pickImage(source: ImageSource.gallery);
+//       if (pickedFile != null) {
+//         final file = File(pickedFile.path);
+//         final request = http.MultipartRequest(
+//           'POST',
+//           Uri.parse('http://192.168.32.1:3002/static/images'),
+//         );
+
+//         request.files.add(await http.MultipartFile.fromPath('image', file.path));
+
+//         final response = await request.send();
+//         if (response.statusCode == 200) {
+//           final data = {
+//             "image": file.path.split('/').last, // Get only the filename from the path
+//           };
+
+//           //await updateUser(idUser,Token, data);
+
+
+//         } else {
+//           print('Failed to upload image');
+//         }
+//       }
+//     } catch (e) {
+//       print('Error picking image: $e');
+//     }
+//   }
+
+
  
 Future<String> uploadImage(String imagePath) async {
   try {

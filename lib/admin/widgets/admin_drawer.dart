@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import '../../const.dart';
 import '../../services/authentication_service.dart';
 import '../../services/shared_preferences.dart';
 
 
-const ip = "192.168.0.17";
-const port = 3002;
 
 class AdminDrawer extends StatefulWidget {
   final String selectedRoute;
@@ -17,8 +16,7 @@ class AdminDrawer extends StatefulWidget {
 }
 
 class _AdminDrawerState extends State<AdminDrawer> {
-  final String imageUrl="http://$ip:$port/static/images";
-    final String noImageUrl ="http://$ip:$port/static/images/16-02-2024--no-image.jpg";
+
   final SharedPrefs sharedPrefs = GetIt.instance<SharedPrefs>();
   late Map<String, String> userInfo={};
 

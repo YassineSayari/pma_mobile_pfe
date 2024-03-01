@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:pma/const.dart';
 
 import '../../models/user_model.dart';
 
-const ip = "192.168.0.17";
-const port = 3002;
+
 
 class ClientInfo extends StatelessWidget {
   final User user;
-  final String imageUrl = "http://$ip:$port/static/images";
-  final String noImageUrl = "http://$ip:$port/static/images/16-02-2024--no-image.jpg";
+
 
   const ClientInfo({Key? key, required this.user}) : super(key: key);
 

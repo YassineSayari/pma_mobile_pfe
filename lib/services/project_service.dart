@@ -1,15 +1,15 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:pma/const.dart';
 import 'package:pma/services/shared_preferences.dart';
 
 import '../models/project_model.dart';
 
-const ip = "192.168.32.1";
-const port = 3002;
+
 
 class ProjectService {
 
-  final String apiUrl = 'http://$ip:$port/api/v1/projects';
+  final String apiUrl = '$baseUrl/api/v1/projects';
   
   
   Future<List<Map<String, dynamic>>> getAllProjects() async{

@@ -9,6 +9,7 @@ import 'package:pma/admin/screens/clients/all_clients.dart';
 import 'package:pma/admin/screens/signup_requests.dart';
 import 'package:pma/authentication/sign_in.dart';
 import 'package:pma/authentication/sign_up.dart';
+//import 'package:pma/const.dart';
 import 'package:pma/engineer/screens/engineer_dashboard.dart';
 // import 'package:pma/profile_edit.dart';
 import 'package:pma/profile_screen.dart';
@@ -53,6 +54,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     initUser();
+    //getIp();
   }
 
   initUser() async {
