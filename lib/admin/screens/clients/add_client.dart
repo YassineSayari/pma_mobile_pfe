@@ -55,8 +55,7 @@ class _AddClientState extends State<AddClient> {
       ),
       drawer: AdminDrawer(selectedRoute: '/addclient'),
       resizeToAvoidBottomInset: false,
-      body: Stack(
-        fit: StackFit.expand,
+      body: ListView(
         children: [
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -66,185 +65,169 @@ class _AddClientState extends State<AddClient> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          controller: name,
-                          keyboardType: TextInputType.text,
-                          style: TextStyle(
-                            color: Color(0xFF000000),
-                            fontSize: 27,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w500,
-                          ),
-                          decoration: InputDecoration(
-                            labelText: 'Name*',
-                            labelStyle: TextStyle(
-                              color: Color(0xFF7743DB),
-                              fontSize: 15,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w600,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 3,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 3,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Name is required';
-                            }
-                            return null;
-                          },
+                  TextFormField(
+                    controller: name,
+                    keyboardType: TextInputType.text,
+                    style: TextStyle(
+                      color: Color(0xFF000000),
+                      fontSize: 25,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w500,
+                    ),
+                    decoration: InputDecoration(
+                      labelText: 'Name*',
+                      labelStyle: TextStyle(
+                        color: Color(0xFF7743DB),
+                        fontSize: 20,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderSide: BorderSide(
+                          width: 3,
+                          color: Colors.grey,
                         ),
                       ),
-                      SizedBox(width: 16),
-                      Expanded(
-                        child: TextFormField(
-                          controller: company,
-                          keyboardType: TextInputType.text,
-                          style: TextStyle(
-                            color: Color(0xFF000000),
-                            fontSize: 27,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w500,
-                          ),
-                          decoration: InputDecoration(
-                            labelText: 'Company name*',
-                            labelStyle: TextStyle(
-                              color: Color(0xFF7743DB),
-                              fontSize: 15,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w600,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 3,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 3,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Company name is required';
-                            }
-                            return null;
-                          },
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderSide: BorderSide(
+                          width: 3,
+                          color: Colors.grey,
                         ),
                       ),
-                    ],
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Name is required';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 10),
+                  TextFormField(
+                    controller: company,
+                    keyboardType: TextInputType.text,
+                    style: TextStyle(
+                      color: Color(0xFF000000),
+                      fontSize: 25,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w500,
+                    ),
+                    decoration: InputDecoration(
+                      labelText: 'Company name*',
+                      labelStyle: TextStyle(
+                        color: Color(0xFF7743DB),
+                        fontSize: 20,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderSide: BorderSide(
+                          width: 3,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderSide: BorderSide(
+                          width: 3,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Company name is required';
+                      }
+                      return null;
+                    },
                   ),
 
                   SizedBox(height: 10),
 
 
-                  Row(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          controller: mail,
-                          keyboardType: TextInputType.text,
-                          style: TextStyle(
-                            color: Color(0xFF000000),
-                            fontSize: 27,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w500,
-                          ),
-                          decoration: InputDecoration(
-                            labelText: 'Email*',
-                            labelStyle: TextStyle(
-                              color: Color(0xFF755DC1),
-                              fontSize: 15,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w600,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 3,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 3,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Email is required';
-                            }
-                            return null;
-                          },
+                  TextFormField(
+                    controller: mail,
+                    keyboardType: TextInputType.text,
+                    style: TextStyle(
+                      color: Color(0xFF000000),
+                      fontSize: 25,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w500,
+                    ),
+                    decoration: InputDecoration(
+                      labelText: 'Email*',
+                      labelStyle: TextStyle(
+                        color: Color(0xFF755DC1),
+                        fontSize: 20,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderSide: BorderSide(
+                          width: 3,
+                          color: Colors.grey,
                         ),
                       ),
-
-                      SizedBox(width: 16),
-
-                      Expanded(
-                        child: TextFormField(
-                          controller: mobile,
-                          keyboardType: TextInputType.number,
-                          style: TextStyle(
-                            color: Color(0xFF000000),
-                            fontSize: 27,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w500,
-                          ),
-                          decoration: InputDecoration(
-                            labelText: 'Mobile*',
-                            labelStyle: TextStyle(
-                              color: Color(0xFF755DC1),
-                              fontSize: 15,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w600,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 3,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 3,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Mobile number is required';
-                            }
-                            return null;
-                          },
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderSide: BorderSide(
+                          width: 3,
+                          color: Colors.grey,
                         ),
                       ),
-                    ],
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Email is required';
+                      }
+                      return null;
+                    },
+                  ),
+                  
+                  SizedBox(height: 10),
+                  
+                  TextFormField(
+                    controller: mobile,
+                    keyboardType: TextInputType.number,
+                    style: TextStyle(
+                      color: Color(0xFF000000),
+                      fontSize: 27,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w500,
+                    ),
+                    decoration: InputDecoration(
+                      labelText: 'Mobile*',
+                      labelStyle: TextStyle(
+                        color: Color(0xFF755DC1),
+                        fontSize: 15,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderSide: BorderSide(
+                          width: 3,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderSide: BorderSide(
+                          width: 3,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Mobile number is required';
+                      }
+                      return null;
+                    },
                   ),
 
                   SizedBox(height: 10),
@@ -306,94 +289,86 @@ class _AddClientState extends State<AddClient> {
                       ],
                     ),
                   SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          controller: password,
-                          keyboardType: TextInputType.text,
-                          obscureText: true,
-                          style: TextStyle(
-                            color: Color(0xFF000000),
-                            fontSize: 27,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w500,
-                          ),
-                          decoration: InputDecoration(
-                            labelText: 'Password*',
-                            labelStyle: TextStyle(
-                              color: Color(0xFF755DC1),
-                              fontSize: 15,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w600,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 3,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 3,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Password is required';
-                            }
-                            return null;
-                          },
+                  TextFormField(
+                    controller: password,
+                    keyboardType: TextInputType.text,
+                    obscureText: true,
+                    style: TextStyle(
+                      color: Color(0xFF000000),
+                      fontSize: 25,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w500,
+                    ),
+                    decoration: InputDecoration(
+                      labelText: 'Password*',
+                      labelStyle: TextStyle(
+                        color: Color(0xFF755DC1),
+                        fontSize: 20,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderSide: BorderSide(
+                          width: 3,
+                          color: Colors.grey,
                         ),
                       ),
-                      SizedBox(width: 16),
-                      Expanded(
-                        child: TextFormField(
-                          controller: passwordconf,
-                          keyboardType: TextInputType.text,
-                          obscureText: true,
-                          style: TextStyle(
-                            color: Color(0xFF000000),
-                            fontSize: 27,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w500,
-                          ),
-                          decoration: InputDecoration(
-                            labelText: 'Re-Enter Password',
-                            labelStyle: TextStyle(
-                              color: Color(0xFF755DC1),
-                              fontSize: 15,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w600,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 3,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 3,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Re-Enter password is required';
-                            }
-                            return null;
-                          },
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderSide: BorderSide(
+                          width: 3,
+                          color: Colors.grey,
                         ),
                       ),
-                    ],
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Password is required';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 10),
+                  TextFormField(
+                    controller: passwordconf,
+                    keyboardType: TextInputType.text,
+                    obscureText: true,
+                    style: TextStyle(
+                      color: Color(0xFF000000),
+                      fontSize: 25,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w500,
+                    ),
+                    decoration: InputDecoration(
+                      labelText: 'Re-Enter Password',
+                      labelStyle: TextStyle(
+                        color: Color(0xFF755DC1),
+                        fontSize: 20,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderSide: BorderSide(
+                          width: 3,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderSide: BorderSide(
+                          width: 3,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Re-Enter password is required';
+                      }
+                      return null;
+                    },
                   ),
 
                   SizedBox(height: 30),

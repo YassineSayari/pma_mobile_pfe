@@ -63,371 +63,343 @@ class _AddEmployeeState extends State<AddEmployee> {
       ),
       drawer: AdminDrawer(selectedRoute: '/addemployee'),
       resizeToAvoidBottomInset: false,
-      body: Stack(
-        fit: StackFit.expand,
+      body: ListView(
         children: [
+          
           Padding(
             padding: const EdgeInsets.all(16.0),
             child:
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: fullname,
-                        keyboardType: TextInputType.text,
-                        style: TextStyle(
-                          color: Color(0xFF000000),
-                          fontSize: 27,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w500,
-                        ),
-                        decoration: InputDecoration(
-                          labelText: 'FullName*',
-                          labelStyle: TextStyle(
-                            color: Color(0xFF7743DB),
-                            fontSize: 15,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Full Name is required';
-                          }
-                          return null;
-                        },
+                TextFormField(
+                  controller: fullname,
+                  keyboardType: TextInputType.text,
+                  style: TextStyle(
+                    color: Color(0xFF000000),
+                    fontSize: 25,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w500,
+                  ),
+                  decoration: InputDecoration(
+                    labelText: 'FullName*',
+                    labelStyle: TextStyle(
+                      color: Color(0xFF7743DB),
+                      fontSize: 20,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(
+                        width: 3,
+                        color: Colors.grey,
                       ),
                     ),
-                    SizedBox(width: 16),
-                    Expanded(
-                      child: TextFormField(
-                        controller: mail,
-                        keyboardType: TextInputType.text,
-                        style: TextStyle(
-                          color: Color(0xFF000000),
-                          fontSize: 27,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w500,
-                        ),
-                        decoration: InputDecoration(
-                          labelText: 'Email*',
-                          labelStyle: TextStyle(
-                            color: Color(0xFF7743DB),
-                            fontSize: 15,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Email is required';
-                          }
-                          return null;
-                        },
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(
+                        width: 3,
+                        color: Colors.grey,
                       ),
                     ),
-                  ],
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Full Name is required';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 10),
+                TextFormField(
+                  controller: mail,
+                  keyboardType: TextInputType.text,
+                  style: TextStyle(
+                    color: Color(0xFF000000),
+                    fontSize: 25,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w500,
+                  ),
+                  decoration: InputDecoration(
+                    labelText: 'Email*',
+                    labelStyle: TextStyle(
+                      color: Color(0xFF7743DB),
+                      fontSize: 20,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(
+                        width: 3,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(
+                        width: 3,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Email is required';
+                    }
+                    return null;
+                  },
                 ),
 
                 SizedBox(height: 10),
 
-                Row(
-                  children: [
-                    Expanded(
-                      child: DropdownButtonFormField(
-                        value: gender,
-                        decoration: InputDecoration(
-                          labelText: 'Gender*',
-                          labelStyle: TextStyle(
-                            color: Color(0xFF7743DB),
-                            fontSize: 15,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ),
-                        items: [
-                          DropdownMenuItem(child: Text('Male'),value:'Male'),
-                          DropdownMenuItem(child: Text('Female'),value:'Female'),
-                          ],
-                        onChanged:(selectedValue)
-                        {
-                          gender = selectedValue as String?;
-                        },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Gender is required';
-                          }
-                          return null;
-                        },
+                DropdownButtonFormField(
+                  value: gender,
+                  isExpanded: true,
+                  decoration: InputDecoration(
+                    labelText: 'Gender*',
+                    labelStyle: TextStyle(
+                      color: Color(0xFF7743DB),
+                      fontSize: 20,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(
+                        width: 3,
+                        color: Colors.grey,
                       ),
                     ),
-                    SizedBox(width: 16),
-                    Expanded(
-                      child: TextFormField(
-                        controller: mobile,
-                        keyboardType: TextInputType.number,
-                        style: TextStyle(
-                          color: Color(0xFF000000),
-                          fontSize: 27,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w500,
-                        ),
-                        decoration: InputDecoration(
-                          labelText: 'Mobile*',
-                          labelStyle: TextStyle(
-                            color: Color(0xFF755DC1),
-                            fontSize: 15,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Mobile number is required';
-                          }
-                          return null;
-                        },
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(
+                        width: 3,
+                        color: Colors.grey,
                       ),
                     ),
-                  ],
+                  ),
+                  items: [
+                    DropdownMenuItem(child: Text('Male',style: TextStyle(fontSize: 20),),value:'Male'),
+                    DropdownMenuItem(child: Text('Female',style: TextStyle(fontSize: 20),),value:'Female'),
+                    ],
+                  onChanged:(selectedValue)
+                  {
+                    gender = selectedValue as String?;
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Gender is required';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 10),
+                
+                TextFormField(
+                  controller: mobile,
+                  keyboardType: TextInputType.number,
+                  style: TextStyle(
+                    color: Color(0xFF000000),
+                    fontSize: 25,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w500,
+                  ),
+                  decoration: InputDecoration(
+                    labelText: 'Mobile*',
+                    labelStyle: TextStyle(
+                      color: Color(0xFF755DC1),
+                      fontSize: 20,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(
+                        width: 3,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(
+                        width: 3,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Mobile number is required';
+                    }
+                    return null;
+                  },
                 ),
 
                 SizedBox(height: 10),
 
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: password,
-                        keyboardType: TextInputType.text,
-                        obscureText: true,
-                        style: TextStyle(
-                          color: Color(0xFF000000),
-                          fontSize: 27,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w500,
-                        ),
-                        decoration: InputDecoration(
-                          labelText: 'Password*',
-                          labelStyle: TextStyle(
-                            color: Color(0xFF755DC1),
-                            fontSize: 15,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Password is required';
-                          }
-                          return null;
-                        },
+                TextFormField(
+                  controller: password,
+                  keyboardType: TextInputType.text,
+                  obscureText: true,
+                  style: TextStyle(
+                    color: Color(0xFF000000),
+                    fontSize: 25,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w500,
+                  ),
+                  decoration: InputDecoration(
+                    labelText: 'Password*',
+                    labelStyle: TextStyle(
+                      color: Color(0xFF755DC1),
+                      fontSize: 20,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(
+                        width: 3,
+                        color: Colors.grey,
                       ),
                     ),
-                    SizedBox(width: 16),
-                    Expanded(
-                      child: TextFormField(
-                        controller: passwordconf,
-                        keyboardType: TextInputType.text,
-                        obscureText: true,
-                        style: TextStyle(
-                          color: Color(0xFF000000),
-                          fontSize: 27,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w500,
-                        ),
-                        decoration: InputDecoration(
-                          labelText: 'Re-Enter Password',
-                          labelStyle: TextStyle(
-                            color: Color(0xFF755DC1),
-                            fontSize: 15,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Re-Enter password is required';
-                          }
-                          return null;
-                        },
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(
+                        width: 3,
+                        color: Colors.grey,
                       ),
                     ),
-                  ],
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Password is required';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 10),
+                TextFormField(
+                  controller: passwordconf,
+                  keyboardType: TextInputType.text,
+                  obscureText: true,
+                  style: TextStyle(
+                    color: Color(0xFF000000),
+                    fontSize: 25,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w500,
+                  ),
+                  decoration: InputDecoration(
+                    labelText: 'Re-Enter Password',
+                    labelStyle: TextStyle(
+                      color: Color(0xFF755DC1),
+                      fontSize: 20,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(
+                        width: 3,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(
+                        width: 3,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Re-Enter password is required';
+                    }
+                    return null;
+                  },
                 ),
 
                 SizedBox(height: 10),
 
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: address,
-                        keyboardType: TextInputType.text,
-                        obscureText: true,
-                        style: TextStyle(
-                          color: Color(0xFF000000),
-                          fontSize: 27,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w500,
-                        ),
-                        decoration: InputDecoration(
-                          labelText: 'Address',
-                          labelStyle: TextStyle(
-                            color: Color(0xFF755DC1),
-                            fontSize: 15,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ),
+                TextFormField(
+                  controller: address,
+                  keyboardType: TextInputType.text,
+                  obscureText: true,
+                  style: TextStyle(
+                    color: Color(0xFF000000),
+                    fontSize: 25,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w500,
+                  ),
+                  decoration: InputDecoration(
+                    labelText: 'Address',
+                    labelStyle: TextStyle(
+                      color: Color(0xFF755DC1),
+                      fontSize: 20,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(
+                        width: 3,
+                        color: Colors.grey,
                       ),
                     ),
-                    SizedBox(width: 16),
-                    Expanded(
-                      child: DropdownButtonFormField(
-                        value: department,
-                        decoration: InputDecoration(
-                          labelText: 'Department*',
-                          labelStyle: TextStyle(
-                            color: Color(0xFF7743DB),
-                            fontSize: 15,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ),
-                        items: [
-                          DropdownMenuItem(child: Text('Development'),value:'Development'),
-                          DropdownMenuItem(child: Text('System'),value:'System'),
-                          DropdownMenuItem(child: Text('Networking'),value:'Networking'),
-                        ],
-                        onChanged:(selectedDepartment)
-                        {
-                          department = selectedDepartment as String?;
-                        },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Department is required';
-                          }
-                          return null;
-                        },
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(
+                        width: 3,
+                        color: Colors.grey,
                       ),
                     ),
+                  ),
+                ),
+                SizedBox(height: 10),
+                DropdownButtonFormField(
+                  value: department,
+                  isExpanded: true,
+                  decoration: InputDecoration(
+                    labelText: 'Department*',
+                    labelStyle: TextStyle(
+                      color: Color(0xFF7743DB),
+                      fontSize: 20,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(
+                        width: 3,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(
+                        width: 3,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                  items: [
+                    DropdownMenuItem(child: Text('Development',style: TextStyle(fontSize: 18),),value:'Development'),
+                    DropdownMenuItem(child: Text('System',style: TextStyle(fontSize: 18),),value:'System'),
+                    DropdownMenuItem(child: Text('Networking',style: TextStyle(fontSize: 18),),value:'Networking'),
                   ],
+                  
+                  onChanged:(selectedDepartment)
+                  {
+                    department = selectedDepartment as String?;
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Department is required';
+                    }
+                    return null;
+                  },
                 ),
 
                 SizedBox(height: 10),
@@ -464,7 +436,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                               labelText: 'Birthdate*',
                               labelStyle: TextStyle(
                                 color: Color(0xFF7743DB),
-                                fontSize: 15,
+                                fontSize: 20,
                                 fontFamily: 'Poppins',
                                 fontWeight: FontWeight.w600,
                               ),
@@ -523,7 +495,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                               labelText: 'Hiring Date*',
                               labelStyle: TextStyle(
                                 color: Color(0xFF7743DB),
-                                fontSize: 15,
+                                fontSize: 20,
                                 fontFamily: 'Poppins',
                                 fontWeight: FontWeight.w600,
                               ),

@@ -3,12 +3,12 @@ import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:pma/services/shared_preferences.dart';
 
-const ip = "192.168.32.1";
-const port = 3002;
+import '../const.dart';
+
 
 class AuthService {
 
-  final String apiUrl = 'http://$ip:$port/api/v1/users';
+  final String apiUrl = '$baseUrl/api/v1/users';
   SharedPrefs shared_prefs = GetIt.I<SharedPrefs>();
 
 
@@ -51,7 +51,7 @@ Future<Map<String, dynamic>> signUp(
         'password': password,
         'mobile': mobile,
         'gender': gender,
-        'roles': [role], // Convert role to a list if needed
+        'roles': [role], 
         'image': image,
       }),
     );

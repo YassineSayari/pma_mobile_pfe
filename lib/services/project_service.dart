@@ -1,15 +1,15 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:pma/const.dart';
 import 'package:pma/services/shared_preferences.dart';
 
 import '../models/project_model.dart';
 
-const ip = "192.168.32.1";
-const port = 3002;
+
 
 class ProjectService {
 
-  final String apiUrl = 'http://$ip:$port/api/v1/projects';
+  final String apiUrl = '$baseUrl/api/v1/projects';
   
   
   Future<List<Map<String, dynamic>>> getAllProjects() async{
@@ -35,7 +35,28 @@ class ProjectService {
     }
   }
 
-  Future<Project> addProject(Map<String, dynamic> projectData) async {
+
+Future<Project> getProject(String projectId) async {
+  print("getting project $projectId");
+  try {
+    final response = await http.get(Uri.parse('$apiUrl/getproject/$projectId'));
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> projectJson = json.decode(response.body);
+      return Project.fromJson(projectJson);
+    } else {
+      print("Failed to get project. Status code: ${response.statusCode}");
+      print("Response body: ${response.body}");
+      throw Exception('Failed to get project. Server error.');
+    }
+  } catch (error) {
+    print("Error getting project: $error");
+    throw Exception('Failed to get project. $error');
+  }
+}
+
+
+  Future<void> addProject(Map<String, dynamic> projectData) async {
     print("adding project");
     try {
       final response = await http.post(
@@ -47,7 +68,6 @@ class ProjectService {
       if (response.statusCode == 200) {
         print("project added");
         print(response.statusCode);
-        return Project.fromJson(jsonDecode(response.body));
       } else {
         print("Failed to add project. Status code: ${response.statusCode}");
         print("Response body: ${response.body}");
@@ -58,6 +78,76 @@ class ProjectService {
       throw Exception('Failed to add project. $error');
     }
   }
+
+
+Future<void> updateProject(String projectId, Map<String, dynamic> projectData) async {
+  String? authToken = await SharedPrefs.getAuthToken();
+
+  print("updating project $projectId");
+  try {
+    final Uri uri = Uri.parse('$apiUrl/updateProject/$projectId');
+    final String requestBody = jsonEncode(projectData);
+
+    print("Request URL: $uri");
+    print("Request Headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer $authToken'}");
+    print("Request Body: $requestBody");
+
+    final response = await http.patch(
+      uri,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $authToken',
+      },
+      body: requestBody,
+    );
+
+    print("Response Status Code: ${response.statusCode}");
+    print("Response Body: ${response.body}");
+
+    if (response.statusCode == 201) {
+      print("Project updated successfully");
+    } else {
+      print("Failed to update project. Status code: ${response.statusCode}");
+      print("Response body: ${response.body}");
+      throw Exception('Failed to update project. Server error.');
+    }
+  } catch (error) {
+    print("Error updating project: $error");
+    throw Exception('Failed to update project. $error');
+  }
+}
+
+
+  Future<void> updateProjectStatus(String projectId, String newStatus) async {
+  String? authToken = await SharedPrefs.getAuthToken();
+
+    try {
+      print("updating project::::$projectId to ::::$newStatus ");
+      final response = await http.patch(
+        Uri.parse("$apiUrl/updateStatus/$projectId"),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $authToken',
+        },
+        body: jsonEncode({
+          'status': newStatus,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        print('Project status updated successfully');
+      } else {
+        print('Failed to update project status. ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Error updating project status: $error');
+    }
+  }
+
+
+
+
+  
 
   Future<void> deleteProject(String projectId)async  {
        print("deleting project");
@@ -81,7 +171,5 @@ class ProjectService {
       print("Error deleting project: $error");
       throw Exception('Failed to delete project. $error');
     }
-
-
 }
 }
