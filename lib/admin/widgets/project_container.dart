@@ -61,13 +61,13 @@ class _ProjectContainerState extends State<ProjectContainer> {
       margin: EdgeInsets.all(10),
       padding: EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppTheme.nearlyWhite,
           borderRadius: BorderRadius.circular(8.0),
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 5,
-              blurRadius: 7,
+              spreadRadius: 2,
+              blurRadius: 5,
               offset: Offset(0, 3),
             ),
           ],
@@ -101,7 +101,7 @@ class _ProjectContainerState extends State<ProjectContainer> {
                         child: Text(
                           '${widget.type}',
                           style: TextStyle(
-                            color: getColorForType(widget.type)['text'],fontFamily: AppTheme.fontName,fontSize: 15
+                            color: getColorForType(widget.type)['text'],fontFamily: AppTheme.fontName,fontSize: 20
                           ),
                         ),
                       ),
@@ -282,22 +282,8 @@ class _ProjectContainerState extends State<ProjectContainer> {
                 percent: widget.progress.toDouble()/100,
                 progressColor: Colors.blue,
                 animation: true,
-                animationDuration: 2500,
+                animationDuration: 1400,
               ),
-              // child: TweenAnimationBuilder(
-              //   curve: Curves.easeInOut,
-              //   tween: Tween<double>(begin: 0.0, end: widget.progress.toDouble()),
-              //   duration: Duration(milliseconds: 2000),
-              //   builder: (BuildContext context, double value, Widget? child) {
-              //   return LinearProgressIndicator(
-              //     value: widget.progress / 100.0,
-              //     backgroundColor: Colors.grey,
-              //     minHeight: 8.0,
-              //     valueColor:
-              //         AlwaysStoppedAnimation<Color>(Colors.blue),
-              //    );
-              //   },
-              // ),
             ),
             SizedBox(height: 10),
             Positioned(
@@ -345,14 +331,14 @@ class _ProjectContainerState extends State<ProjectContainer> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Confirm Deletion"),
-          content: Text("Are you sure you want to delete this Project?"),
+          title: Center(child: Text("Confirm Deletion",style: TextStyle(fontFamily: AppTheme.fontName,fontSize: 30,fontWeight: FontWeight.w500))),
+          content: Text("Are you sure you want to delete this Project?",style: TextStyle(fontFamily: AppTheme.fontName,fontSize: 25)),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text("Cancel"),
+              child: Text("Cancel",style: TextStyle(fontFamily: AppTheme.fontName,fontSize: 20)),
             ),
             TextButton(
               onPressed: () {
@@ -368,10 +354,11 @@ class _ProjectContainerState extends State<ProjectContainer> {
                   ),
                 );
               },
-              child: Text("Delete",style: TextStyle(color: Colors.red),),
+              child: Text("Delete",style: TextStyle(color: Colors.red,fontFamily: AppTheme.fontName,fontSize: 20),),
             ),
           ],
-        );
+        ).animate(delay: 100.ms)
+        .fade().scale();
       },
     );
   }

@@ -32,6 +32,11 @@ class UserSearchBar extends StatelessWidget {
                   ),
               child: TextField(
                 onChanged: onChanged,
+                  style: TextStyle(
+                    fontSize: 24, // Set the desired font size here
+                    fontFamily: AppTheme.fontName,
+                    fontWeight: FontWeight.w500
+                    ),
                           decoration: InputDecoration(
                             labelText: 'Search...',
                             labelStyle: TextStyle(
@@ -47,6 +52,7 @@ class UserSearchBar extends StatelessWidget {
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.all(Radius.circular(8)),
                               borderSide: BorderSide.none,
+                              
                             ),
                             prefixIcon: Icon(
                             Icons.search,

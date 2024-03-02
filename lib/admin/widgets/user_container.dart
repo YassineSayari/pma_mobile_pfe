@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:pma/admin/screens/employees/edit_employee_popup.dart';
 import 'package:pma/const.dart';
 import 'package:pma/models/user_model.dart';
@@ -43,13 +44,13 @@ class UserContainer extends StatelessWidget {
                       "$imageUrl/${user.image}",
                       width: 90.0,
                       height: 90.0,
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fill,
                       errorBuilder: (context, error, stackTrace) {
                         return Image.network(
                           noImageUrl,
                           width: 90.0,
                           height: 90.0,
-                          fit: BoxFit.cover,
+                          fit: BoxFit.fill,
                         );
                       },
                     ),
@@ -69,15 +70,15 @@ class UserContainer extends StatelessWidget {
                       ),
                       Text(
                         user.roles[0],
-                        style: TextStyle(fontSize: 24, color: Colors.grey[600],fontFamily: AppTheme.fontName,),
+                        style: TextStyle(fontSize: 24, color: Colors.grey[600],fontFamily: AppTheme.fontName),
                       ),
                       Text(
                         user.email,
-                        style: TextStyle(fontSize: 24, color: Colors.grey[600],fontFamily: AppTheme.fontName,),
+                        style: TextStyle(fontSize: 24, color: Colors.grey[600],fontFamily: AppTheme.fontName),
                       ),
                       Text(
                         user.phone,
-                        style: TextStyle(fontSize: 24, color: Colors.grey[600],fontFamily: AppTheme.fontName,),
+                        style: TextStyle(fontSize: 24, color: Colors.grey[600],fontFamily: AppTheme.fontName),
                       ),
                     ],
                   ),
@@ -139,7 +140,7 @@ class UserContainer extends StatelessWidget {
             ),
           ],
         ),
-      ),
+      ).animate(delay: 100.ms).slideX().shimmer(duration: 1500.ms),
     );
   }
 }

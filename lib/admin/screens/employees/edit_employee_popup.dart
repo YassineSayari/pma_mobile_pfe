@@ -412,7 +412,7 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
                           print("update pressed");
                           updateEmployee();
                         },
-                        child: Text('Save',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25 ),),
+                        child: Text('Save',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25,fontFamily: AppTheme.fontName ),),
                                    style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF9F7BFF),
                                 shape: RoundedRectangleBorder(
@@ -427,7 +427,7 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: Text('Cancel',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25 ),),
+                        child: Text('Cancel',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25,fontFamily: AppTheme.fontName ),),
                                    style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.red,
                                 shape: RoundedRectangleBorder(

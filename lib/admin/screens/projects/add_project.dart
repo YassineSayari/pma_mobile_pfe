@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
+import 'package:pma/custom_appbar.dart';
 import 'package:pma/models/user_model.dart';
 import 'package:pma/services/project_service.dart';
 import '../../../services/user_service.dart';
@@ -62,22 +63,7 @@ class _AddProjectState extends State<AddProject> {
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-         Container(
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 1,
-              blurRadius: 3,
-              offset: Offset(0, 1),
-            ),
-          ],
-        ),
-        child: AppBar(
-          title: Text('All Projects',style: TextStyle(fontWeight: FontWeight.w600,fontSize: 40),),
-          centerTitle: true,
-        ),
-      ),
+          CustomAppBar(title: "Add Project"),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Form(

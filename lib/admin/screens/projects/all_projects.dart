@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pma/admin/widgets/admin_drawer.dart';
+import 'package:pma/theme.dart';
+import '../../../custom_appbar.dart';
 import '../../../services/project_service.dart';
 import '../../widgets/project_container.dart';
-
 class AllProjects extends StatefulWidget {
   AllProjects({Key? key}) : super(key: key);
 
@@ -25,25 +26,7 @@ class _AllProjectsState extends State<AllProjects> {
       drawer: AdminDrawer(selectedRoute: '/allprojects'),
       body: Column(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 1,
-                  blurRadius: 3,
-                  offset: Offset(0, 1),
-                ),
-              ],
-            ),
-            child: AppBar(
-              title: Text(
-                'All Projects',
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 30),
-              ),
-              centerTitle: true,
-            ),
-          ),
+          CustomAppBar(title: 'All Projects'),
           Expanded(
             child: FutureBuilder<List<Map<String, dynamic>>>(
               future: projects,
@@ -89,6 +72,7 @@ class _AllProjectsState extends State<AllProjects> {
                 fontSize: 35,
                 fontWeight: FontWeight.bold,
                 color: getColorForSection(sectionStatus),
+                fontFamily: AppTheme.fontName
               ),
             ),
           ),

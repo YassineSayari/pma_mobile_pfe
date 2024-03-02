@@ -41,7 +41,7 @@ class EmployeeInfo extends StatelessWidget {
                       noImageUrl,
                       width: 200.0,
                       height: 200.0,
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fill,
                     );
                   },
                 ),

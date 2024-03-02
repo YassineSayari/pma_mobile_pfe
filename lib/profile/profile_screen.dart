@@ -4,10 +4,10 @@ import 'package:pma/client/widgets/client_drawer.dart';
 import 'package:pma/engineer/widgets/engineer_drawer.dart';
 import 'package:pma/team_leader/widgets/teamleader_drawer.dart';
 
-import 'models/user_model.dart';
+import '../models/user_model.dart';
 import 'profile_container.dart';
-import 'services/shared_preferences.dart';
-import 'services/user_service.dart';
+import '../services/shared_preferences.dart';
+import '../services/user_service.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -15,7 +15,7 @@ class Profile extends StatefulWidget {
   @override
   State<Profile> createState() => _ProfileState();
 }
-
+  
 class _ProfileState extends State<Profile> {
   late String userId;
   late Future<User> user;

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:pma/admin/screens/clients/edit_client_popup.dart';
 import 'package:pma/admin/widgets/client_info_popup.dart';
 import 'package:pma/const.dart';
 import 'package:pma/models/user_model.dart';
+import 'package:pma/theme.dart';
 
 
 class ClientContainer extends StatelessWidget {
@@ -19,14 +21,13 @@ class ClientContainer extends StatelessWidget {
       padding: const EdgeInsets.only(right:20.0,left:20.0,bottom:20.0),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppTheme.nearlyWhite,
           borderRadius: BorderRadius.circular(8.0),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 5,
-              blurRadius: 7,
-              offset: Offset(0, 3),
+              color: Colors.grey.withOpacity(0.8),
+              blurRadius: 2,
+              offset: Offset(0, 2),
             ),
           ],
         ),
@@ -42,13 +43,13 @@ class ClientContainer extends StatelessWidget {
                       "$imageUrl/${user.image}",
                       width: 90.0,
                       height: 90.0,
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fill,
                       errorBuilder: (context, error, stackTrace) {
                         return Image.network(
                           noImageUrl,
-                          width: 60.0,
-                          height: 60.0,
-                          fit: BoxFit.cover,
+                          width: 90.0,
+                          height: 90.0,
+                          fit: BoxFit.fill,
                         );
                       },
                     ),
@@ -61,7 +62,7 @@ class ClientContainer extends StatelessWidget {
                         user.fullName,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 30,
+                          fontSize: 34,
                         ),
                       ),
                       // Text(
@@ -70,22 +71,23 @@ class ClientContainer extends StatelessWidget {
                       // ),
                       Text(
                         user.email,
-                        style: TextStyle(fontSize: 15, color: Colors.grey[500]),
+                        style: TextStyle(fontSize: 24,color: Colors.grey[600],fontFamily: AppTheme.fontName),
                       ),
                       Text(
                         user.phone,
-                        style: TextStyle(fontSize: 15, color: Colors.grey[500]),
+                        style: TextStyle(fontSize: 24,color: Colors.grey[600],fontFamily: AppTheme.fontName),
                       ),
                     ],
                   ),
                 ],
               ),
             ),
-            Positioned(
+              Positioned(
               top: 12.0,
               right: 12.0,
               child: GestureDetector(
                       onTap: () {
+                      print("info clicked");
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
@@ -95,13 +97,14 @@ class ClientContainer extends StatelessWidget {
                     },
                 child: Icon(
                   Icons.info_outline,
-                  size: 27,
+                  size: 34,
                   color: Color.fromARGB(255, 102, 31, 184),
                 ),
               ),
             ),
+
             Positioned(
-              bottom: 12.0,
+              bottom: 6.0,
               right: 12.0,
               child: Row(
                 children: [
@@ -116,7 +119,7 @@ class ClientContainer extends StatelessWidget {
                     },
                     child: Icon(
                       Icons.edit_outlined,
-                      size: 27,
+                      size: 34,
                       color: Color.fromARGB(255, 102, 31, 184),
                     ),
                   ),
@@ -125,7 +128,7 @@ class ClientContainer extends StatelessWidget {
                     onTap: () => onDelete(user.id),
                     child: Icon(
                       Icons.delete_outline,
-                      size: 27,
+                      size: 34,
                       color: Color.fromARGB(255, 188, 14, 14),
                     ),
                   ),
@@ -134,7 +137,7 @@ class ClientContainer extends StatelessWidget {
             ),
           ],
         ),
-      ),
+      ).animate(delay: 100.ms).slideX().shimmer(duration: 1500.ms),
     );
   }
 }

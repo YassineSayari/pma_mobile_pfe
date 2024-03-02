@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:pma/custom_appbar.dart';
+import 'package:pma/theme.dart';
 import 'dart:io';
 
 import '../../widgets/admin_drawer.dart';
@@ -56,564 +58,577 @@ class _AddEmployeeState extends State<AddEmployee> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Add Employee',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30),),
-        centerTitle: true,
 
-      ),
       drawer: AdminDrawer(selectedRoute: '/addemployee'),
       resizeToAvoidBottomInset: false,
-      body: ListView(
+      body: Column(
         children: [
-          
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child:
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+          CustomAppBar(title: 'Add Employee'),
+          Expanded(
+            child: ListView(
               children: [
-                TextFormField(
-                  controller: fullname,
-                  keyboardType: TextInputType.text,
-                  style: TextStyle(
-                    color: Color(0xFF000000),
-                    fontSize: 25,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w500,
-                  ),
-                  decoration: InputDecoration(
-                    labelText: 'FullName*',
-                    labelStyle: TextStyle(
-                      color: Color(0xFF7743DB),
-                      fontSize: 20,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w600,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Full Name is required';
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: 10),
-                TextFormField(
-                  controller: mail,
-                  keyboardType: TextInputType.text,
-                  style: TextStyle(
-                    color: Color(0xFF000000),
-                    fontSize: 25,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w500,
-                  ),
-                  decoration: InputDecoration(
-                    labelText: 'Email*',
-                    labelStyle: TextStyle(
-                      color: Color(0xFF7743DB),
-                      fontSize: 20,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w600,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Email is required';
-                    }
-                    return null;
-                  },
-                ),
-
-                SizedBox(height: 10),
-
-                DropdownButtonFormField(
-                  value: gender,
-                  isExpanded: true,
-                  decoration: InputDecoration(
-                    labelText: 'Gender*',
-                    labelStyle: TextStyle(
-                      color: Color(0xFF7743DB),
-                      fontSize: 20,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w600,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                  items: [
-                    DropdownMenuItem(child: Text('Male',style: TextStyle(fontSize: 20),),value:'Male'),
-                    DropdownMenuItem(child: Text('Female',style: TextStyle(fontSize: 20),),value:'Female'),
-                    ],
-                  onChanged:(selectedValue)
-                  {
-                    gender = selectedValue as String?;
-                  },
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Gender is required';
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: 10),
                 
-                TextFormField(
-                  controller: mobile,
-                  keyboardType: TextInputType.number,
-                  style: TextStyle(
-                    color: Color(0xFF000000),
-                    fontSize: 25,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w500,
-                  ),
-                  decoration: InputDecoration(
-                    labelText: 'Mobile*',
-                    labelStyle: TextStyle(
-                      color: Color(0xFF755DC1),
-                      fontSize: 20,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w600,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Mobile number is required';
-                    }
-                    return null;
-                  },
-                ),
-
-                SizedBox(height: 10),
-
-                TextFormField(
-                  controller: password,
-                  keyboardType: TextInputType.text,
-                  obscureText: true,
-                  style: TextStyle(
-                    color: Color(0xFF000000),
-                    fontSize: 25,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w500,
-                  ),
-                  decoration: InputDecoration(
-                    labelText: 'Password*',
-                    labelStyle: TextStyle(
-                      color: Color(0xFF755DC1),
-                      fontSize: 20,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w600,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Password is required';
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: 10),
-                TextFormField(
-                  controller: passwordconf,
-                  keyboardType: TextInputType.text,
-                  obscureText: true,
-                  style: TextStyle(
-                    color: Color(0xFF000000),
-                    fontSize: 25,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w500,
-                  ),
-                  decoration: InputDecoration(
-                    labelText: 'Re-Enter Password',
-                    labelStyle: TextStyle(
-                      color: Color(0xFF755DC1),
-                      fontSize: 20,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w600,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Re-Enter password is required';
-                    }
-                    return null;
-                  },
-                ),
-
-                SizedBox(height: 10),
-
-                TextFormField(
-                  controller: address,
-                  keyboardType: TextInputType.text,
-                  obscureText: true,
-                  style: TextStyle(
-                    color: Color(0xFF000000),
-                    fontSize: 25,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w500,
-                  ),
-                  decoration: InputDecoration(
-                    labelText: 'Address',
-                    labelStyle: TextStyle(
-                      color: Color(0xFF755DC1),
-                      fontSize: 20,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w600,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10),
-                DropdownButtonFormField(
-                  value: department,
-                  isExpanded: true,
-                  decoration: InputDecoration(
-                    labelText: 'Department*',
-                    labelStyle: TextStyle(
-                      color: Color(0xFF7743DB),
-                      fontSize: 20,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w600,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                  items: [
-                    DropdownMenuItem(child: Text('Development',style: TextStyle(fontSize: 18),),value:'Development'),
-                    DropdownMenuItem(child: Text('System',style: TextStyle(fontSize: 18),),value:'System'),
-                    DropdownMenuItem(child: Text('Networking',style: TextStyle(fontSize: 18),),value:'Networking'),
-                  ],
-                  
-                  onChanged:(selectedDepartment)
-                  {
-                    department = selectedDepartment as String?;
-                  },
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Department is required';
-                    }
-                    return null;
-                  },
-                ),
-
-                SizedBox(height: 10),
-
-                Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        children: [
-                          // Birthdate Field
-                          TextFormField(
-                            onTap: () async {
-
-                              DateTime today = DateTime.now();
-                              DateTime eighteenYearsAgo = today.subtract(Duration(days: 18 * 365));
-                              DateTime sixtyYearsAgo = today.subtract(Duration(days: 60 * 365));
-
-                              DateTime? pickedDate = await showDatePicker(
-                                context: context,
-                                initialDate: eighteenYearsAgo,
-                                firstDate: sixtyYearsAgo,
-                                lastDate: eighteenYearsAgo,
-                              );
-                              if (pickedDate != null && pickedDate != birthDate) {
-                                setState(() {
-                                  birthDate = pickedDate;
-                                  birthDateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
-                                });
-                              }
-                            },
-                            controller: birthDateController,
-                            readOnly: true,
-                            decoration: InputDecoration(
-                              labelText: 'Birthdate*',
-                              labelStyle: TextStyle(
-                                color: Color(0xFF7743DB),
-                                fontSize: 20,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w600,
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(
-                                  width: 3,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(
-                                  width: 3,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              prefixIcon: Icon(
-                                Icons.calendar_today,
-                                color: Colors.grey[400],
-                              ),
-                            ),
-                            validator: (value) {
-                              if (birthDate == null) {
-                                return 'Birthdate is required';
-                              }
-                              return null;
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          TextFormField(
-                            onTap: () async {
-                              DateTime? pickedDate = await showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime(1900),
-                                lastDate: DateTime.now(),
-                              );
-                              if (pickedDate != null && pickedDate != hiringDate) {
-                                setState(() {
-                                  hiringDate = pickedDate;
-                                  hiringDateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
-
-                                });
-                              }
-                            },
-                            controller:hiringDateController ,
-                            readOnly: true,
-                            decoration: InputDecoration(
-                              labelText: 'Hiring Date*',
-                              labelStyle: TextStyle(
-                                color: Color(0xFF7743DB),
-                                fontSize: 20,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w600,
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(
-                                  width: 3,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(
-                                  width: 3,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              prefixIcon: Icon(
-                                Icons.calendar_today,
-                                color: Colors.grey[400],
-                              ),
-                            ),
-                            validator: (value) {
-                              if (hiringDate == null) {
-                                return 'Hiring Date is required';
-                              }
-                              return null;
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-
-                SizedBox(height: 30),
-                GestureDetector(
-                  onTap: _pickImage,
-                  child: Column(
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child:
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      if (selectedImage != null)
-                        Container(
-                          width: 100,
-                          height: 100,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: FileImage(File(selectedImage!.path)), // Convert XFile to File
-                              fit: BoxFit.cover,
+                      TextFormField(
+                        controller: fullname,
+                        keyboardType: TextInputType.text,
+                        style: TextStyle(
+                          color: Color(0xFF000000),
+                          fontSize: 27,
+                          fontFamily: AppTheme.fontName,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        decoration: InputDecoration(
+                          labelText: 'FullName*',
+                          labelStyle: TextStyle(
+                            color: Color(0xFF7743DB),
+                            fontSize: 25,
+                            fontFamily: AppTheme.fontName,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderSide: BorderSide(
+                              width: 3,
+                              color: Colors.grey,
                             ),
                           ),
-                        )
-                      else
-                        Icon(
-                          Icons.add_a_photo,
-                          size: 40,
-                          color: Colors.grey[600],
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderSide: BorderSide(
+                              width: 3,
+                              color: Colors.grey,
+                            ),
+                          ),
                         ),
-                      SizedBox(height: 8),
-                      Text(
-                        'Upload Image',
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Full Name is required';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 10),
+                      TextFormField(
+                        controller: mail,
+                        keyboardType: TextInputType.text,
                         style: TextStyle(
-                          color: Colors.grey[600],
-                          fontSize: 15,
+                          color: Color(0xFF000000),
+                          fontSize: 27,
+                          fontFamily: AppTheme.fontName,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        decoration: InputDecoration(
+                          labelText: 'Email*',
+                          labelStyle: TextStyle(
+                            color: Color(0xFF7743DB),
+                            fontSize: 25,
+                            fontFamily: AppTheme.fontName,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderSide: BorderSide(
+                              width: 3,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderSide: BorderSide(
+                              width: 3,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Email is required';
+                          }
+                          return null;
+                        },
+                      ),
+            
+                      SizedBox(height: 10),
+            
+                      DropdownButtonFormField(
+                        value: gender,
+                        isExpanded: true,
+                        decoration: InputDecoration(
+                          labelText: 'Gender*',
+                          labelStyle: TextStyle(
+                            color: Color(0xFF7743DB),
+                            fontSize: 27,
+                            fontFamily: AppTheme.fontName,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderSide: BorderSide(
+                              width: 3,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderSide: BorderSide(
+                              width: 3,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                        items: [
+                          DropdownMenuItem(child: Text('Male',style: TextStyle(fontSize: 20,fontFamily: AppTheme.fontName,),),value:'Male'),
+                          DropdownMenuItem(child: Text('Female',style: TextStyle(fontSize: 20,fontFamily: AppTheme.fontName,),),value:'Female'),
+                          ],
+                        onChanged:(selectedValue)
+                        {
+                          gender = selectedValue as String?;
+                        },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Gender is required';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 10),
+                      
+                      TextFormField(
+                        controller: mobile,
+                        keyboardType: TextInputType.number,
+                        style: TextStyle(
+                          color: Color(0xFF000000),
+                          fontSize: 27,
+                          fontFamily: AppTheme.fontName,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        decoration: InputDecoration(
+                          labelText: 'Mobile*',
+                          labelStyle: TextStyle(
+                            color: Color(0xFF755DC1),
+                            fontSize: 25,
+                            fontFamily: AppTheme.fontName,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderSide: BorderSide(
+                              width: 3,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderSide: BorderSide(
+                              width: 3,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Mobile number is required';
+                          }
+                          return null;
+                        },
+                      ),
+            
+                      SizedBox(height: 10),
+            
+                      TextFormField(
+                        controller: password,
+                        keyboardType: TextInputType.text,
+                        obscureText: true,
+                        style: TextStyle(
+                          color: Color(0xFF000000),
+                          fontSize: 27,
+                          fontFamily: AppTheme.fontName,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        decoration: InputDecoration(
+                          labelText: 'Password*',
+                          labelStyle: TextStyle(
+                            color: Color(0xFF755DC1),
+                            fontSize: 25,
+                            fontFamily: AppTheme.fontName,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderSide: BorderSide(
+                              width: 3,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderSide: BorderSide(
+                              width: 3,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Password is required';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 10),
+                      TextFormField(
+                        controller: passwordconf,
+                        keyboardType: TextInputType.text,
+                        obscureText: true,
+                        style: TextStyle(
+                          color: Color(0xFF000000),
+                          fontSize: 27,
+                          fontFamily: AppTheme.fontName,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        decoration: InputDecoration(
+                          labelText: 'Re-Enter Password',
+                          labelStyle: TextStyle(
+                            color: Color(0xFF755DC1),
+                            fontSize: 25,
+                            fontFamily: AppTheme.fontName,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderSide: BorderSide(
+                              width: 3,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderSide: BorderSide(
+                              width: 3,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Re-Enter password is required';
+                          }
+                          return null;
+                        },
+                      ),
+            
+                      SizedBox(height: 10),
+            
+                      TextFormField(
+                        controller: address,
+                        keyboardType: TextInputType.text,
+                        obscureText: true,
+                        style: TextStyle(
+                          color: Color(0xFF000000),
+                          fontSize: 27,
                           fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        decoration: InputDecoration(
+                          labelText: 'Address',
+                          labelStyle: TextStyle(
+                            color: Color(0xFF755DC1),
+                            fontSize: 25,
+                            fontFamily: AppTheme.fontName,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderSide: BorderSide(
+                              width: 3,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderSide: BorderSide(
+                              width: 3,
+                              color: Colors.grey,
+                            ),
+                          ),
                         ),
                       ),
+                      SizedBox(height: 10),
+                      DropdownButtonFormField(
+                        value: department,
+                        isExpanded: true,
+                        decoration: InputDecoration(
+                          labelText: 'Department*',
+                          labelStyle: TextStyle(
+                            color: Color(0xFF7743DB),
+                            fontSize: 25,
+                            fontFamily: AppTheme.fontName,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderSide: BorderSide(
+                              width: 3,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderSide: BorderSide(
+                              width: 3,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                        items: [
+                          DropdownMenuItem(child: Text('Development',style: TextStyle(fontSize: 18,fontFamily: AppTheme.fontName,),),value:'Development'),
+                          DropdownMenuItem(child: Text('System',style: TextStyle(fontSize: 18,fontFamily: AppTheme.fontName,),),value:'System'),
+                          DropdownMenuItem(child: Text('Networking',style: TextStyle(fontSize: 18,fontFamily: AppTheme.fontName,),),value:'Networking'),
+                        ],
+                        
+                        onChanged:(selectedDepartment)
+                        {
+                          department = selectedDepartment as String?;
+                        },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Department is required';
+                          }
+                          return null;
+                        },
+                      ),
+            
+                      SizedBox(height: 10),
+            
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              children: [
+                                // Birthdate Field
+                                TextFormField(
+                                  onTap: () async {
+            
+                                    DateTime today = DateTime.now();
+                                    DateTime eighteenYearsAgo = today.subtract(Duration(days: 18 * 365));
+                                    DateTime sixtyYearsAgo = today.subtract(Duration(days: 60 * 365));
+            
+                                    DateTime? pickedDate = await showDatePicker(
+                                      context: context,
+                                      initialDate: eighteenYearsAgo,
+                                      firstDate: sixtyYearsAgo,
+                                      lastDate: eighteenYearsAgo,
+                                    );
+                                    if (pickedDate != null && pickedDate != birthDate) {
+                                      setState(() {
+                                        birthDate = pickedDate;
+                                        birthDateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
+                                      });
+                                    }
+                                  },
+                                  controller: birthDateController,
+                                  readOnly: true,
+                                  decoration: InputDecoration(
+                                    labelText: 'Birthdate*',
+                                    labelStyle: TextStyle(
+                                      color: Color(0xFF7743DB),
+                                      fontSize: 25,
+                                      fontFamily: AppTheme.fontName,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                                      borderSide: BorderSide(
+                                        width: 3,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                                      borderSide: BorderSide(
+                                        width: 3,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    prefixIcon: Icon(
+                                      Icons.calendar_today,
+                                      color: Colors.grey[400],
+                                    ),
+                                  ),
+                                  validator: (value) {
+                                    if (birthDate == null) {
+                                      return 'Birthdate is required';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              children: [
+                                TextFormField(
+                                  onTap: () async {
+                                    DateTime? pickedDate = await showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime(1900),
+                                      lastDate: DateTime.now(),
+                                    );
+                                    if (pickedDate != null && pickedDate != hiringDate) {
+                                      setState(() {
+                                        hiringDate = pickedDate;
+                                        hiringDateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
+            
+                                      });
+                                    }
+                                  },
+                                  controller:hiringDateController ,
+                                  readOnly: true,
+                                  decoration: InputDecoration(
+                                    labelText: 'Hiring Date*',
+                                    labelStyle: TextStyle(
+                                      color: Color(0xFF7743DB),
+                                      fontSize: 25,
+                                      fontFamily: AppTheme.fontName,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                                      borderSide: BorderSide(
+                                        width: 3,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                                      borderSide: BorderSide(
+                                        width: 3,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    prefixIcon: Icon(
+                                      Icons.calendar_today,
+                                      color: Colors.grey[400],
+                                    ),
+                                  ),
+                                  validator: (value) {
+                                    if (hiringDate == null) {
+                                      return 'Hiring Date is required';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+            
+                      SizedBox(height: 30),
+                      GestureDetector(
+                        onTap: _pickImage,
+                        child: Column(
+                          children: [
+                            if (selectedImage != null)
+                              Container(
+                                width: 100,
+                                height: 100,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    image: FileImage(File(selectedImage!.path)), // Convert XFile to File
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              )
+                            else
+                              Icon(
+                                Icons.add_a_photo,
+                                size: 40,
+                                color: Colors.grey[600],
+                              ),
+                            SizedBox(height: 8),
+                            Text(
+                              'Upload Image',
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                                fontSize: 15,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+            
+                      SizedBox(height: 20),
+            
+                          Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      print("submit clicked");
+                                      if (_formKey.currentState!.validate()) {
+                                          print("form valid");
+                                      }
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xFF9F7BFF),
+                                      shape: RoundedRectangleBorder(
+                                       borderRadius: BorderRadius.circular(10.0),
+                                          ),
+                                    ),
+                                    child: Text('Submit',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 30,
+                                        fontFamily: AppTheme.fontName,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 10),
+                                Expanded(
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      print("reset");
+                                      resetForm();
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.red,
+                                      shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                          ),
+                                    ),
+                                    child: Text('Cancel',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 30,
+                                        fontFamily: AppTheme.fontName,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                     ],
                   ),
                 ),
-
-                SizedBox(height: 20),
-
-                    Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ElevatedButton(
-                            onPressed: () {
-                              print("submit clicked");
-                              if (_formKey.currentState!.validate()) {
-                                  print("form valid");
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF9F7BFF),
-                            ),
-                            child: Text('Submit',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 30,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 10),
-                          ElevatedButton(
-                            onPressed: () {
-                              print("reset");
-                              resetForm();
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red
-                            ),
-                            child: Text('Cancel',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 30,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
               ],
             ),
           ),

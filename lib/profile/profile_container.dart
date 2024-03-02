@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pma/models/user_model.dart';
-import 'package:pma/profile_edit.dart';
+import 'package:pma/profile/profile_edit.dart';
 
-import 'services/user_service.dart';
+import '../services/user_service.dart';
 
 const ip = "192.168.32.1";
 const port = 3002;

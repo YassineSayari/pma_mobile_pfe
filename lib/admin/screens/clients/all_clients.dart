@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:pma/admin/widgets/admin_drawer.dart';
 import 'package:pma/admin/widgets/client_container.dart';
+import 'package:pma/custom_appbar.dart';
 import 'package:pma/services/user_service.dart';
+import 'package:pma/theme.dart';
 
 import '../../../models/user_model.dart';
 import '../../../services/export_utils.dart';
@@ -60,24 +63,7 @@ class _AllClientsState extends State<AllClients> {
       drawer: AdminDrawer(selectedRoute: '/allclients'),
       body: Column(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  blurRadius: 3,
-                  offset: Offset(0, 1),
-                ),
-              ],
-            ),
-            child: AppBar(
-              title: Text(
-                'All Clients',
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 30),
-              ),
-              centerTitle: true,
-            ),
-          ),
+            CustomAppBar(title: "All Clients"),
           SizedBox(height: 30),
           UserSearchBar(
             onChanged: onSearchTextChanged,
@@ -95,8 +81,7 @@ class _AllClientsState extends State<AllClients> {
                 Align(
                   alignment: Alignment.topLeft,
                   child: Text("Total Clients : ${clients.length}",
-                      style: TextStyle(
-                          fontSize: 24, fontWeight: FontWeight.bold)
+                      style: TextStyle(fontSize: 27,fontFamily: AppTheme.fontName,fontWeight: FontWeight.w500)
                           ),
                 ),
                 Spacer(),
@@ -314,17 +299,23 @@ class _AllClientsState extends State<AllClients> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(
-            "Confirm Deletion",
-            style: TextStyle(fontWeight: FontWeight.w600),
+          contentPadding: EdgeInsets.symmetric(vertical: 24.0,horizontal: 12.0),  
+
+          title: Center(
+            child: Text(
+              "Delete Client",
+              style: TextStyle(fontFamily: AppTheme.fontName,fontWeight: FontWeight.w600)
+            ),
           ),
-          content: Text("Are you sure you want to delete this client?"),
+          content: Text("Are you sure you want to delete this client?",
+          style: TextStyle(fontFamily: AppTheme.fontName,fontSize: 24)
+          ),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text("Cancel"),
+              child: Text("Cancel",style: TextStyle(fontFamily: AppTheme.fontName,fontWeight: FontWeight.w600,fontSize: 24)),
             ),
             TextButton(
               onPressed: () {
@@ -336,11 +327,10 @@ class _AllClientsState extends State<AllClients> {
               },
               child: Text(
                 "Delete",
-                style: TextStyle(color: Colors.red),
-              ),
+                style: TextStyle(color: Colors.red,fontFamily: AppTheme.fontName,fontWeight: FontWeight.w600,fontSize: 24)              ),
             ),
           ],
-        );
+        ).animate(delay: 100.ms).fade().scale();
       },
     );
   }

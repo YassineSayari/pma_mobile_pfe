@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:pma/const.dart';
+import 'package:pma/theme.dart';
 
 import '../../models/user_model.dart';
 
@@ -11,40 +13,45 @@ class ClientInfo extends StatelessWidget {
 
   const ClientInfo({Key? key, required this.user}) : super(key: key);
 
+
+
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      elevation: 8.0,
-      content: IntrinsicHeight(
-        child: Container(
-          width: double.infinity,
-          child: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-            child: Container(
-              padding: EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  ClipOval(
-                    child: Image.network(
-                      "$imageUrl/${user.image}",
-                      width: 200,
-                      height: 200,
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0),
+      ),
+      insetPadding: EdgeInsets.all(8.0),
+      child: Container(
+        width: double.infinity,
+        //height: double.infinity,
+        padding: EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ClipOval(
+                child: Image.network(
+                  "$imageUrl/${user.image}",
+                  width: 200,
+                  height: 200,
+                  fit: BoxFit.fill,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Image.network(
+                      noImageUrl,
+                      width: 200.0,
+                      height: 200.0,
                       fit: BoxFit.fill,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Image.network(
-                          noImageUrl,
-                          width: 200.0,
-                          height: 200.0,
-                          fit: BoxFit.cover,
-                        );
-                      },
-                    ),
-                  ),
-                  SizedBox(height: 20),
+                    );
+                  },
+                ),
+              ),
+              SizedBox(height: 20),
                   Text(
                     "Client's Details",
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 35, fontWeight: FontWeight.w600,fontFamily: AppTheme.fontName),
                   ),
                   SizedBox(height: 10),
                   buildInfoRow(Icons.person, "Full Name:", user.fullName),
@@ -52,29 +59,28 @@ class ClientInfo extends StatelessWidget {
                   buildInfoRow(Icons.email, "Email:", user.email),
                   buildInfoRow(Icons.phone, "Phone:", user.phone),
                   buildInfoRow(Icons.factory_outlined, "Company Name:", user.company ?? 'N/A'),
-                  SizedBox(height: 20),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Text(
-                        "Close",
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: Color.fromARGB(255, 20, 91, 150),
-                        ),
-                      ),
+              SizedBox(height: 20),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    "Close",
+                    style: TextStyle(
+                      fontSize: 24,
+                      color: Color.fromARGB(255, 20, 91, 150),
+                      fontWeight:FontWeight.w500,
                     ),
                   ),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
         ),
       ),
-    );
+    ).animate(delay: 200.ms).fade().shimmer(duration: 1000.ms);
   }
 
   Widget buildInfoRow(IconData icon, String label, String value) {
@@ -84,16 +90,19 @@ class ClientInfo extends StatelessWidget {
         children: [
           Icon(
             icon,
-            color: Color.fromARGB(255, 20, 91, 150),
+            color: AppTheme.buildLightTheme().primaryColor,
+            size: 34,
           ),
           SizedBox(width: 10),
           Text(
             label,
-            style: TextStyle(fontSize: 16),
+            style: TextStyle(fontSize: 24,fontWeight:FontWeight.w500,fontFamily: AppTheme.fontName),
           ),
+                    SizedBox(width: 10),
+
           Text(
             value,
-            style: TextStyle(fontSize: 16),
+            style: TextStyle(fontSize: 24,fontFamily: AppTheme.fontName),
           ),
         ],
       ),

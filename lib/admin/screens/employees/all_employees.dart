@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 //import 'package:http/http.dart';
 import 'package:pma/admin/widgets/admin_drawer.dart';
+import 'package:pma/custom_appbar.dart';
 import 'package:pma/services/user_service.dart';
 import 'package:pma/theme.dart';
 
@@ -69,22 +71,7 @@ class _AllEmployeesState extends State<AllEmployees> {
 
  body: Column(
     children: [
-      Container(
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              //spreadRadius: 1,
-              blurRadius: 3,
-              offset: Offset(0, 1),
-            ),
-          ],
-        ),
-        child: AppBar(
-          title: Text('All Employees',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 40,fontFamily: AppTheme.fontName),),
-          centerTitle: true,
-        ),
-      ),
+        CustomAppBar(title: "All Employees"),
           SizedBox(height: 30),
           UserSearchBar(
             onChanged: onSearchTextChanged,
@@ -102,7 +89,7 @@ class _AllEmployeesState extends State<AllEmployees> {
               children: [
                    Align(
                     alignment: Alignment.topLeft,
-                    child: Text("Total Employees : ${employees.length}",style: TextStyle(fontSize: 24,fontFamily: AppTheme.fontName,fontWeight: FontWeight.w500),)
+                    child: Text("Total Employees : ${employees.length}",style: TextStyle(fontSize: 27,fontFamily: AppTheme.fontName,fontWeight: FontWeight.w500),)
                     ),
                 
                 Spacer(),
@@ -264,9 +251,12 @@ void _sort<T>(Comparable<T> Function(User user) getField, {required bool ascendi
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-contentPadding: EdgeInsets.symmetric(vertical: 24.0,horizontal: 12.0),  
-        title: Center(child: Text("Delete Employee",style: TextStyle(fontFamily: AppTheme.fontName,fontWeight: FontWeight.w600),)),
-          content: Text("Are you sure you want to delete this Employee?",style: TextStyle(fontFamily: AppTheme.fontName,fontSize: 24),),
+          contentPadding: EdgeInsets.symmetric(vertical: 24.0,horizontal: 12.0),  
+        title: Center(child: Text("Delete Employee",style: TextStyle(fontFamily: AppTheme.fontName,fontWeight: FontWeight.w600),
+        )
+        ),
+          content: Text("Are you sure you want to delete this Employee?",style: TextStyle(fontFamily: AppTheme.fontName,fontSize: 24),
+          ),
           actions: <Widget>[
             TextButton(
               onPressed: () {
@@ -292,7 +282,7 @@ contentPadding: EdgeInsets.symmetric(vertical: 24.0,horizontal: 12.0),
               child: Text("Delete",style: TextStyle(color: Colors.red,fontFamily: AppTheme.fontName,fontWeight: FontWeight.w600,fontSize: 24),),
             ),
           ],
-        );
+        ).animate(delay: 100.ms).fade().scale();
       },
     );
   }
