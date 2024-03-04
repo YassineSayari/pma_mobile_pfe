@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pma/admin/widgets/admin_drawer.dart';
 import 'package:pma/theme.dart';
 import '../../../custom_appbar.dart';
@@ -26,13 +28,13 @@ class _AllProjectsState extends State<AllProjects> {
       drawer: AdminDrawer(selectedRoute: '/allprojects'),
       body: Column(
         children: [
-          CustomAppBar(title: 'All Projects'),
+          CustomAppBar(title: 'Projects'),
           Expanded(
             child: FutureBuilder<List<Map<String, dynamic>>>(
               future: projects,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return Center(child: SpinKitCubeGrid(color: Colors.blueAccent));
                 } else if (snapshot.hasError) {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 } else {
@@ -64,12 +66,12 @@ class _AllProjectsState extends State<AllProjects> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding:  EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
           child: Center(
             child: Text(
               sectionTitle,
               style: TextStyle(
-                fontSize: 35,
+                fontSize: 35.sp,
                 fontWeight: FontWeight.bold,
                 color: getColorForSection(sectionStatus),
                 fontFamily: AppTheme.fontName

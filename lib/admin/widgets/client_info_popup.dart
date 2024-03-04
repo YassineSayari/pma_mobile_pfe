@@ -96,9 +96,11 @@ class ClientInfo extends StatelessWidget {
           ),
                     SizedBox(width: 10.w),
 
-          Text(
-            value,
-            style: TextStyle(fontSize: 20.sp,fontFamily: AppTheme.fontName),
+          Flexible(
+            child: Text(
+              value,
+              style: TextStyle(fontSize: 20.sp,fontFamily: AppTheme.fontName),
+            ),
           ),
         ],
       ),

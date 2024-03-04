@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:pma/admin/widgets/admin_drawer.dart';
 import 'package:pma/custom_appbar.dart';
+import 'package:pma/theme.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import 'client/widgets/client_drawer.dart';
@@ -95,7 +97,7 @@ for (Event event in userEvents) {
         String formattedDate = DateFormat('EEEE, MMM d y').format(selectedDay);
         return Container(
           width: double.infinity,
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 16.h),
           decoration: BoxDecoration(
             color: Color.fromARGB(255, 188, 199, 220),
             borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -108,18 +110,19 @@ for (Event event in userEvents) {
                   '$formattedDate',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 30,
+                    fontSize: 30.sp,
                     fontWeight: FontWeight.bold,
+                    fontFamily: AppTheme.fontName
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 10.h),
               Expanded(
                 child: Row(
                   children: [
                     Container(
-                      width: 125,
-                      padding:EdgeInsets.all(4),
+                      width: 125.w,
+                      padding:EdgeInsets.symmetric(horizontal: 4.w,vertical: 4.h),
                       child: ListView.builder(
                         itemCount: 17, // number of hours
                         itemBuilder: (context, index) {
@@ -127,7 +130,7 @@ for (Event event in userEvents) {
                           String formattedHour =
                               DateFormat('HH:mm a').format(DateTime(2022, 1, 1, hour));
                           return ListTile(
-                            title: Text('$formattedHour '),
+                            title: Text('$formattedHour ',style: TextStyle(fontFamily: AppTheme.fontName,fontSize: 15.sp,fontWeight: FontWeight.w500),),
                           );
                         },
                       ),
@@ -135,7 +138,7 @@ for (Event event in userEvents) {
                     VerticalDivider(
                       color: Color.fromARGB(255, 67, 20, 125),
                       thickness: 1,
-                      width: 40,
+                      width: 40.w,
                       indent: 30,
                       endIndent: 40,
                     ),
@@ -165,18 +168,19 @@ Widget _buildEventsMarker(DateTime date, List events) {
   return AnimatedContainer(
     duration: const Duration(milliseconds:  300),
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(3),
+      borderRadius: BorderRadius.circular(3.r),
       shape: BoxShape.rectangle,
       color: _markerColor(date, events),
     ),
-    width:  16.0,
-    height:  16.0,
+    width:  20.0.w,
+    height:  20.0.h,
     child: Center(
       child: Text(
         '${events.length}',
         style: TextStyle().copyWith(
           color: Colors.white,
-          fontSize:  12.0,
+          fontSize:  15.0.sp,
+          fontFamily: AppTheme.fontName
         ),
       ),
     ),
@@ -202,8 +206,9 @@ Color _markerColor(DateTime date, List events) {
       body: Column(
         children: [
           CustomAppBar(title: 'Calendar'),
+          SizedBox(height: 15.h),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
             child: Column(
               children: [
                 Row(
@@ -218,38 +223,41 @@ Color _markerColor(DateTime date, List events) {
                         options: categories,
                         selectionType: SelectionType.multi,
                         chipConfig: const ChipConfig(wrapType: WrapType.scroll),
-                        optionTextStyle: const TextStyle(fontSize: 16),
+                        optionTextStyle:  TextStyle(fontSize: 20.sp,fontFamily: AppTheme.fontName),
                         selectedOptionIcon: const Icon(Icons.check_circle),
                       ),
                     ),
-                    SizedBox(width: 15),
+                    SizedBox(width: 15.h),
                     ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue[900],
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
+                          borderRadius: BorderRadius.circular(10.0.r),
                         ),
                       ),
                       child: Text(
                         "Add Event",
                         style: TextStyle(
                           color: Colors.white,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: AppTheme.fontName,
+                          fontSize: 20.sp
                         ),
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 10.h),
                 Container(
                   child: TableCalendar(
-                    rowHeight: 70,
+                    rowHeight: 65.h,
                     headerStyle: HeaderStyle(
                       titleCentered: true,
                       titleTextStyle: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: AppTheme.fontName
                       ),
                     ),
           
@@ -271,13 +279,15 @@ Color _markerColor(DateTime date, List events) {
                     daysOfWeekStyle: DaysOfWeekStyle(
                       weekdayStyle: TextStyle(
                         color: Color.fromARGB(255, 20, 27, 47),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 15.sp,
+                        fontFamily: AppTheme.fontName
                       ),
                       weekendStyle: TextStyle(
                         color: Color.fromARGB(255, 20, 27, 47),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 15.sp,
+                        fontFamily: AppTheme.fontName
                       ),
                     ),
           eventLoader: (day) {
@@ -332,13 +342,13 @@ Widget _buildDrawer() {
         String userRole = snapshot.data ?? '';
 
         if (userRole == 'Admin') {
-          return AdminDrawer(selectedRoute: "/profile");
+          return AdminDrawer(selectedRoute: "/calendar");
         } else if (userRole == 'Engineer') {
-          return EngineerDrawer(selectedRoute: "/profile");
+          return EngineerDrawer(selectedRoute: "/calendar");
         } else if (userRole == 'Team Leader') {
-          return TeamLeaderDrawer(selectedRoute: "/profile");
+          return TeamLeaderDrawer(selectedRoute: "/calendar");
         } else {
-          return ClientDrawer(selectedRoute: "/profile");
+          return ClientDrawer(selectedRoute: "/calendar");
         }
       }
     },

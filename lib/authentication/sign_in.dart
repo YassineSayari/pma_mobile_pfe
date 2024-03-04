@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pma/services/authentication_service.dart';
+import 'package:pma/theme.dart';
 
 import '../services/shared_preferences.dart';
 
@@ -123,16 +125,16 @@ class SigninState extends State<Signin> {
                           keyboardType: TextInputType.text,
                           style: TextStyle(
                             color: Color(0xFF000000),
-                            fontSize: 27,
-                            fontFamily: 'Poppins',
+                            fontSize: 27.sp,
+                            fontFamily: AppTheme.fontName,
                             fontWeight: FontWeight.w500,
                           ),
                           decoration: InputDecoration(
                             labelText:'Email',
                             labelStyle: TextStyle(
                               color: Color(0xFF7743DB),
-                              fontSize: 15,
-                              fontFamily: 'Poppins',
+                            fontSize: 25.sp,
+                            fontFamily: AppTheme.fontName,
                               fontWeight: FontWeight.w600,
                             ),
                             enabledBorder: OutlineInputBorder(
@@ -166,16 +168,16 @@ class SigninState extends State<Signin> {
                           obscureText: true,
                           style: TextStyle(
                             color: Color(0xFF000000),
-                            fontSize: 27,
-                            fontFamily: 'Poppins',
+                            fontSize: 27.sp,
+                            fontFamily: AppTheme.fontName,
                             fontWeight: FontWeight.w500,
                           ),
                           decoration: InputDecoration(
                             labelText: 'Password',
                             labelStyle: TextStyle(
                               color: Color(0xFF755DC1),
-                              fontSize: 15,
-                              fontFamily: 'Poppins',
+                            fontSize: 25.sp,
+                            fontFamily: AppTheme.fontName,
                               fontWeight: FontWeight.w600,
                             ),
                             enabledBorder: OutlineInputBorder(
@@ -220,8 +222,8 @@ class SigninState extends State<Signin> {
                             child: Text('Login',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 30,
-                                fontFamily: 'Poppins',
+                                fontSize: 30.sp,
+                                 fontFamily: AppTheme.fontName,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -235,8 +237,8 @@ class SigninState extends State<Signin> {
                                "Need an account? ",
                               style: TextStyle(
                                 color: Colors.grey[500],
-                                fontSize: 16.5,
-                                fontFamily: 'Poppins',
+                                fontSize: 16.5.sp,
+                                fontFamily: AppTheme.fontName,
                               ),
                             ),
                             GestureDetector(
@@ -246,9 +248,9 @@ class SigninState extends State<Signin> {
                               child: Text('Subscribe!',
                                 style: TextStyle(
                                   color: Colors.deepPurple,
-                                  fontSize: 20,
+                                  fontSize: 20.sp,
                                   fontWeight: FontWeight.bold,
-                                  fontFamily: 'Poppins',
+                                  fontFamily: AppTheme.fontName,
                                 ),
                               ),
                             ),

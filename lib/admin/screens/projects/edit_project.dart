@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
@@ -157,16 +159,8 @@ Widget build(BuildContext context) {
         Expanded(
           child: ListView(
             children: [
-          
-                // Text("Project title: ${widget.projectTitle}"),
-                // Text("Project Name: ${widget.type}"),
-                // Text("Description: ${widget.description}"),
-                // Text("Status: ${widget.status}"),
-                // Text("team leader:${widget.teamLeaderId}"),
-                //  Text("equipe:${widget.equipe}"),
-          
-          
-                Padding(padding: EdgeInsets.all(16),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 16.h),
                 child: Form(
                         key: _formKey,
           
@@ -177,7 +171,7 @@ Widget build(BuildContext context) {
                           keyboardType: TextInputType.text,
                           style: TextStyle(
                             color: Color(0xFF000000),
-                            fontSize: 27,
+                            fontSize: 27.sp,
                             fontFamily:  AppTheme.fontName,
                             fontWeight: FontWeight.w500,
                           ),
@@ -185,7 +179,7 @@ Widget build(BuildContext context) {
                             labelText: 'Project Title*',
                             labelStyle: TextStyle(
                               color: Color(0xFF7743DB),
-                              fontSize: 25,
+                              fontSize: 25.sp,
                               fontFamily:  AppTheme.fontName,
                               fontWeight: FontWeight.w600,
                             ),
@@ -211,7 +205,7 @@ Widget build(BuildContext context) {
                             return null;
                           },
                         ),
-                         SizedBox(height: 10),
+                         SizedBox(height: 10.h),
                         
                         DropdownButtonFormField(
                           value: projectStatus,
@@ -219,7 +213,7 @@ Widget build(BuildContext context) {
                             labelText: 'Status*',
                             labelStyle: TextStyle(
                               color: Color(0xFF7743DB),
-                              fontSize: 25,
+                              fontSize: 25.sp,
                               fontFamily:  AppTheme.fontName,
                               fontWeight: FontWeight.w600,
                             ),
@@ -239,10 +233,10 @@ Widget build(BuildContext context) {
                             ),
                           ),
                           items: [
-                            DropdownMenuItem(child: Text('Pending',style: TextStyle(fontSize:20,fontFamily:AppTheme.fontName),), value: 'Pending'),
-                            DropdownMenuItem(child: Text('In Progress',style: TextStyle(fontSize: 20,fontFamily:AppTheme.fontName),), value: 'In Progress'),
-                            DropdownMenuItem(child: Text('On Hold',style: TextStyle(fontSize: 20,fontFamily:AppTheme.fontName),), value: 'On Hold'),
-                            DropdownMenuItem(child: Text('Completed',style: TextStyle(fontSize: 20,fontFamily:AppTheme.fontName),), value: 'Completed'),
+                            DropdownMenuItem(child: Text('Pending',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'Pending'),
+                            DropdownMenuItem(child: Text('In Progress',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'In Progress'),
+                            DropdownMenuItem(child: Text('On Hold',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'On Hold'),
+                            DropdownMenuItem(child: Text('Completed',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'Completed'),
                           ],
                           onChanged: (selectedValue) {
                             setState(() {
@@ -264,19 +258,19 @@ Widget build(BuildContext context) {
                             labelText: 'Type*',
                             labelStyle: TextStyle(
                               color: Color(0xFF7743DB),
-                              fontSize: 25,
+                              fontSize: 25.sp,
                               fontFamily:  AppTheme.fontName,
                               fontWeight: FontWeight.w600,
                             ),
                             enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                              borderRadius: BorderRadius.all(Radius.circular(10.r)),
                               borderSide: BorderSide(
                                 width: 3,
                                 color: Colors.grey,
                               ),
                             ),
                             focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                              borderRadius: BorderRadius.all(Radius.circular(10.r)),
                               borderSide: BorderSide(
                                 width: 3,
                                 color: Colors.grey,
@@ -284,10 +278,10 @@ Widget build(BuildContext context) {
                             ),
                           ),
                           items: [
-                            DropdownMenuItem(child: Text('-Systems Infrastructure',style: TextStyle(fontSize:20,fontFamily:AppTheme.fontName),), value: 'Systems Infrastructure'),
-                            DropdownMenuItem(child: Text('-Network Infrastructure',style: TextStyle(fontSize: 20,fontFamily:AppTheme.fontName),), value: 'Network Infrastructure'),
-                            DropdownMenuItem(child: Text('-Systems And Networks Infrastructure',style: TextStyle(fontSize: 20,fontFamily:AppTheme.fontName),), value: 'Systems And Networks Infrastructure'),
-                            DropdownMenuItem(child: Text('-Development',style: TextStyle(fontSize: 20,fontFamily:AppTheme.fontName),), value: 'Development'),
+                            DropdownMenuItem(child: Text('-Systems Infrastructure',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'Systems Infrastructure'),
+                            DropdownMenuItem(child: Text('-Network Infrastructure',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'Network Infrastructure'),
+                            DropdownMenuItem(child: Flexible(child: Text('-Systems And Networks Infrastructure',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),)), value: 'Systems And Networks Infrastructure'),
+                            DropdownMenuItem(child: Text('-Development',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'Development'),
                           ],
                           onChanged: (selectedValue) {
                             setState(() {
@@ -309,7 +303,7 @@ Widget build(BuildContext context) {
                             labelText: 'Priority*',
                             labelStyle: TextStyle(
                               color: Color(0xFF7743DB),
-                              fontSize: 25,
+                              fontSize: 25.sp,
                               fontFamily:  AppTheme.fontName,
                               fontWeight: FontWeight.w600,
                             ),
@@ -329,9 +323,9 @@ Widget build(BuildContext context) {
                             ),
                           ),
                           items: [
-                            DropdownMenuItem(child: Text('Low',style: TextStyle(fontSize:20,fontFamily:AppTheme.fontName),), value: 'Low'),
-                            DropdownMenuItem(child: Text('Medium',style: TextStyle(fontSize:20,fontFamily:AppTheme.fontName),), value: 'Medium'),
-                            DropdownMenuItem(child: Text('High',style: TextStyle(fontSize:20,fontFamily:AppTheme.fontName),), value: 'High'),
+                            DropdownMenuItem(child: Text('Low',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'Low'),
+                            DropdownMenuItem(child: Text('Medium',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'Medium'),
+                            DropdownMenuItem(child: Text('High',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'High'),
                           ],
                           onChanged: (selectedValue) {
                             setState(() {
@@ -367,7 +361,7 @@ Widget build(BuildContext context) {
                                       labelText: 'Project End Date*',
                                       labelStyle: TextStyle(
                                         color: Color(0xFF7743DB),
-                                        fontSize: 25,
+                                        fontSize: 25.sp,
                                         fontFamily:  AppTheme.fontName,
                                         fontWeight: FontWeight.w600,
                                       ),
@@ -402,7 +396,7 @@ Widget build(BuildContext context) {
                               future: teamLeaders,
                               builder: (context, snapshot) {
                                 if (snapshot.connectionState == ConnectionState.waiting) {
-                                  return CircularProgressIndicator();
+                                  return SpinKitThreeBounce(color: Colors.blueAccent,size: 30,);
                                 } else if (snapshot.hasError) {
                                   return Text('Error: ${snapshot.error}');
                                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
@@ -415,7 +409,7 @@ Widget build(BuildContext context) {
                                       labelText: 'Team Leader*',
                                       labelStyle: TextStyle(
                                         color: Color(0xFF7743DB),
-                                        fontSize: 25,
+                                        fontSize: 25.sp,
                                         fontFamily:  AppTheme.fontName,
                                         fontWeight: FontWeight.w600,
                                       ),
@@ -461,7 +455,7 @@ Widget build(BuildContext context) {
                               future: engineers,
                               builder: (context, snapshot) {
                                 if (snapshot.connectionState == ConnectionState.waiting) {
-                                  return CircularProgressIndicator();
+                                  return SpinKitThreeBounce(color: Colors.blueAccent,size: 30);
                                 } else if (snapshot.hasError) {
                                   return Text('Error: ${snapshot.error}');
                                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
@@ -510,7 +504,7 @@ Widget build(BuildContext context) {
                           maxLines: 3,
                           style: TextStyle(
                             color: Color(0xFF000000),
-                            fontSize: 27,
+                            fontSize: 27.sp,
                             fontFamily:  AppTheme.fontName,
                             fontWeight: FontWeight.w500,
                           ),
@@ -518,7 +512,7 @@ Widget build(BuildContext context) {
                             labelText: 'Description*',
                             labelStyle: TextStyle(
                               color: Color(0xFF7743DB),
-                              fontSize: 25,
+                              fontSize: 25.sp,
                               fontFamily:  AppTheme.fontName,
                               fontWeight: FontWeight.w600,
                             ),
@@ -554,7 +548,7 @@ Widget build(BuildContext context) {
                                     _updateProject();
                                         Navigator.of(context).pushReplacementNamed('/allprojects');
                                   },
-                                             child: Text("Save",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25,fontFamily:AppTheme.fontName),),
+                                             child: Text("Save",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily:AppTheme.fontName),),
                                              style: ElevatedButton.styleFrom(
                                         backgroundColor: const Color(0xFF9F7BFF),
                                           shape: RoundedRectangleBorder(
@@ -563,13 +557,13 @@ Widget build(BuildContext context) {
                                                 ),
                                               ),
                               ),
-                          SizedBox(width: 10),
+                          SizedBox(width: 10.w),
                           Expanded(
                             child: ElevatedButton(
                               onPressed: (){
                                 Navigator.of(context).pushReplacementNamed('/allprojects');
                               },
-                                         child: Text("Cancel",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25,fontFamily:AppTheme.fontName),),
+                                         child: Text("Cancel",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily:AppTheme.fontName),),
                                          style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.red,
                                       shape: RoundedRectangleBorder(
@@ -585,15 +579,6 @@ Widget build(BuildContext context) {
                    ),
                 ),
           
-          
-              // if (project != null) ...[
-               
-              //   Text("Project ID: ${project!.id}"),
-              //   Text("Project Name: ${project!.projectName}"),
-              //   Text("Description: ${project!.description}"),
-              //   Text("Status: ${project!.status}"),
-          
-              // ] 
             ],
           ),
         ),
