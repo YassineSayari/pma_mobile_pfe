@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pma/const.dart';
 import 'package:pma/models/user_model.dart';
 import 'package:pma/services/user_service.dart';
+import 'package:pma/theme.dart';
 
-const ip = "192.168.32.1";
-const port = 3002;
+
 class EditProfile extends StatefulWidget {
   final User user;
   const EditProfile({super.key, required this.user});
@@ -49,7 +50,7 @@ class _EditProfileState extends State<EditProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
             appBar: AppBar(
-        title: Text('Edit Profile',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 45),),
+        title: Text('Edit Profile',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 45.sp,fontFamily: AppTheme.fontName),),
         centerTitle: true,
       ),
 
@@ -62,14 +63,14 @@ class _EditProfileState extends State<EditProfile> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Profile photo",style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),
+                    Text("Profile photo",style: TextStyle(fontSize: 30.sp,fontFamily: AppTheme.fontName,fontWeight: FontWeight.bold),
                     ),
 
                     Row(
                       children: [
                         ElevatedButton(
                           onPressed: (){},
-                                     child: Text("Change",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15),),
+                                     child: Text("Change",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 12.5.sp,fontFamily: AppTheme.fontName),),
                                      style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFF9F7BFF),
                                   shape: RoundedRectangleBorder(
@@ -77,10 +78,10 @@ class _EditProfileState extends State<EditProfile> {
                                           ),
                                         ),
                                       ),
-                    SizedBox(width: 10),
+                    SizedBox(width: 10.h),
                     ElevatedButton(
                       onPressed: (){},
-             child: Text("Remove",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15),),
+             child: Text("Remove",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 12.5.sp,fontFamily: AppTheme.fontName),),
              style: ElevatedButton.styleFrom(
                             backgroundColor: Color.fromARGB(255, 172, 19, 19),
                               shape: RoundedRectangleBorder(
@@ -95,9 +96,9 @@ class _EditProfileState extends State<EditProfile> {
                 ),
                 Spacer(),
                     Container(
-                      width: 100,
-                      height: 100,
-                      padding: EdgeInsets.all(8.0),
+                      width: 100.w,
+                      height: 100.h,
+                      padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
                     decoration:    BoxDecoration(
                       color: Colors.black,
                       shape: BoxShape.circle,
@@ -110,35 +111,35 @@ class _EditProfileState extends State<EditProfile> {
                   ),
               ],
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 20.h),
             TextFormField(
              controller: nameController,
               keyboardType: TextInputType.text,
               style: TextStyle(
               color: Color(0xFF000000),
-               fontSize: 27,
-               fontFamily: 'Poppins',
+               fontSize: 27.sp,
+               fontFamily: AppTheme.fontName,
                fontWeight: FontWeight.w500,
                 ),
                 decoration: InputDecoration(
                 labelText: 'Full Name',
                 labelStyle: TextStyle(
                   color: Color(0xFF755DC1),
-                  fontSize: 25,
-                  fontFamily: 'Poppins',
+                  fontSize: 25.sp,  
+                  fontFamily: AppTheme.fontName,
                   fontWeight: FontWeight.w600,
                   ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   borderSide: BorderSide(
-                     width: 3,
+                     width: 3.w,
                      color: Colors.grey,
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       borderSide: BorderSide(
-                          width: 3,
+                          width: 3.w,
                            color: Colors.grey,
                           ),
                        ),
@@ -151,36 +152,36 @@ class _EditProfileState extends State<EditProfile> {
                              },
             ),
 
-            SizedBox(height: 20),  
+            SizedBox(height: 20.h),  
 
             TextFormField(
              controller: cityController,
               keyboardType: TextInputType.text,
               style: TextStyle(
               color: Color(0xFF000000),
-               fontSize: 27,
-               fontFamily: 'Poppins',
+               fontSize: 27.sp,
+                  fontFamily: AppTheme.fontName,
                fontWeight: FontWeight.w500,
                 ),
                 decoration: InputDecoration(
                 labelText: 'City',
                 labelStyle: TextStyle(
                   color: Color(0xFF755DC1),
-                  fontSize: 25,
-                  fontFamily: 'Poppins',
+                  fontSize: 25.sp,
+                  fontFamily: AppTheme.fontName,
                   fontWeight: FontWeight.w600,
                   ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   borderSide: BorderSide(
-                     width: 3,
+                     width: 3.w,
                      color: Colors.grey,
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       borderSide: BorderSide(
-                          width: 3,
+                          width: 3.w,
                            color: Colors.grey,
                           ),
                        ),
@@ -200,16 +201,16 @@ class _EditProfileState extends State<EditProfile> {
               keyboardType: TextInputType.number,
               style: TextStyle(
               color: Color(0xFF000000),
-               fontSize: 27,
-               fontFamily: 'Poppins',
+               fontSize: 27.sp,
+                  fontFamily: AppTheme.fontName,
                fontWeight: FontWeight.w500,
                 ),
                 decoration: InputDecoration(
                 labelText: 'Phone',
                 labelStyle: TextStyle(
                   color: Color(0xFF755DC1),
-                  fontSize: 25,
-                  fontFamily: 'Poppins',
+                  fontSize: 25.sp,
+                  fontFamily: AppTheme.fontName,
                   fontWeight: FontWeight.w600,
                   ),
                 enabledBorder: OutlineInputBorder(
@@ -222,7 +223,7 @@ class _EditProfileState extends State<EditProfile> {
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       borderSide: BorderSide(
-                          width: 3,
+                          width: 3.w,
                            color: Colors.grey,
                           ),
                        ),
@@ -235,23 +236,23 @@ class _EditProfileState extends State<EditProfile> {
                              },
             ),
 
-            SizedBox(height: 20),
+            SizedBox(height: 20.h),
 
             TextFormField(
              controller: countryController,
               keyboardType: TextInputType.text,
               style: TextStyle(
               color: Color(0xFF000000),
-               fontSize: 27,
-               fontFamily: 'Poppins',
+               fontSize: 27.sp,
+                  fontFamily: AppTheme.fontName,
                fontWeight: FontWeight.w500,
                 ),
                 decoration: InputDecoration(
                 labelText: 'Country',
                 labelStyle: TextStyle(
                   color: Color(0xFF755DC1),
-                  fontSize: 25,
-                  fontFamily: 'Poppins',
+                  fontSize: 25.sp,
+                  fontFamily: AppTheme.fontName,
                   fontWeight: FontWeight.w600,
                   ),
                 enabledBorder: OutlineInputBorder(
@@ -277,36 +278,36 @@ class _EditProfileState extends State<EditProfile> {
                              },
             ),
 
-            SizedBox(height: 20),
+            SizedBox(height: 20.w),
 
             TextFormField(
              controller: addressController,
               keyboardType: TextInputType.text,
               style: TextStyle(
               color: Color(0xFF000000),
-               fontSize: 27,
-               fontFamily: 'Poppins',
+               fontSize: 27.sp,
+                  fontFamily: AppTheme.fontName,
                fontWeight: FontWeight.w500,
                 ),
                 decoration: InputDecoration(
                 labelText: 'Address',
                 labelStyle: TextStyle(
                   color: Color(0xFF755DC1),
-                  fontSize: 25,
-                  fontFamily: 'Poppins',
+                  fontSize: 25.sp,
+                  fontFamily: AppTheme.fontName,
                   fontWeight: FontWeight.w600,
                   ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   borderSide: BorderSide(
-                     width: 3,
+                     width: 3.w,
                      color: Colors.grey,
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       borderSide: BorderSide(
-                          width: 3,
+                          width: 3.w,
                            color: Colors.grey,
                           ),
                        ),
@@ -319,36 +320,36 @@ class _EditProfileState extends State<EditProfile> {
                              },
             ),
 
-            SizedBox(height: 20),
+            SizedBox(height: 20.h),
 
             TextFormField(
              controller: nationalityController,
               keyboardType: TextInputType.text,
               style: TextStyle(
               color: Color(0xFF000000),
-               fontSize: 27,
-               fontFamily: 'Poppins',
+               fontSize: 27.sp,
+                  fontFamily: AppTheme.fontName,
                fontWeight: FontWeight.w500,
                 ),
                 decoration: InputDecoration(
                 labelText: 'Nationality',
                 labelStyle: TextStyle(
                   color: Color(0xFF755DC1),
-                  fontSize: 25,
-                  fontFamily: 'Poppins',
+                  fontSize: 25.sp,
+                  fontFamily: AppTheme.fontName,
                   fontWeight: FontWeight.w600,
                   ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   borderSide: BorderSide(
-                     width: 3,
+                     width: 3.w,
                      color: Colors.grey,
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       borderSide: BorderSide(
-                          width: 3,
+                          width: 3.w,
                            color: Colors.grey,
                           ),
                        ),
@@ -366,7 +367,7 @@ class _EditProfileState extends State<EditProfile> {
             ElevatedButton(onPressed: (){
               updateEmployee();
             },
-             child: Text("Save",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25 ),),
+             child: Text("Save",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily: AppTheme.fontName, ),),
              style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF9F7BFF),
                               shape: RoundedRectangleBorder(

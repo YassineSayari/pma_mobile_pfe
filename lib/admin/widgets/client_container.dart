@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pma/admin/screens/clients/edit_client_popup.dart';
 import 'package:pma/admin/widgets/client_info_popup.dart';
 import 'package:pma/const.dart';
@@ -18,7 +19,7 @@ class ClientContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(right:20.0,left:20.0,bottom:20.0),
+      padding: const EdgeInsets.only(right:8.0,left:8.0,bottom:8.0),
       child: Container(
         decoration: BoxDecoration(
           color: AppTheme.nearlyWhite,
@@ -31,30 +32,30 @@ class ClientContainer extends StatelessWidget {
             ),
           ],
         ),
-        child: Stack(
+        child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding:  EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
               child: Row(
                 children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
+                    borderRadius: BorderRadius.circular(8.0.r),
                     child: Image.network(
                       "$imageUrl/${user.image}",
-                      width: 90.0,
-                      height: 90.0,
+                      width: 100.0.w,
+                      height: 100.0.h,
                       fit: BoxFit.fill,
                       errorBuilder: (context, error, stackTrace) {
                         return Image.network(
                           noImageUrl,
-                          width: 90.0,
-                          height: 90.0,
+                          width: 100.0.w,
+                          height: 100.0.h,
                           fit: BoxFit.fill,
                         );
                       },
                     ),
                   ),
-                  SizedBox(width: 16),
+                  SizedBox(width: 16.h),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -62,52 +63,46 @@ class ClientContainer extends StatelessWidget {
                         user.fullName,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 34,
+                          fontSize: 25.sp,
+                          
                         ),
                       ),
-                      // Text(
-                      //   user.roles[0],
-                      //   style: TextStyle(fontSize: 15, color: Colors.grey[500]),
-                      // ),
+
                       Text(
                         user.email,
-                        style: TextStyle(fontSize: 24,color: Colors.grey[600],fontFamily: AppTheme.fontName),
+                        style: TextStyle(fontSize: 15.sp,color: Colors.grey[600],fontFamily: AppTheme.fontName),
                       ),
                       Text(
                         user.phone,
-                        style: TextStyle(fontSize: 24,color: Colors.grey[600],fontFamily: AppTheme.fontName),
+                        style: TextStyle(fontSize: 15.sp,color: Colors.grey[600],fontFamily: AppTheme.fontName),
                       ),
                     ],
                   ),
                 ],
               ),
             ),
-              Positioned(
-              top: 12.0,
-              right: 12.0,
-              child: GestureDetector(
-                      onTap: () {
-                      print("info clicked");
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                        return ClientInfo(user: user);
-                         },
-                      );
-                    },
-                child: Icon(
-                  Icons.info_outline,
-                  size: 34,
-                  color: Color.fromARGB(255, 102, 31, 184),
-                ),
-              ),
-            ),
 
-            Positioned(
-              bottom: 6.0,
-              right: 12.0,
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 2.h),
               child: Row(
                 children: [
+                                GestureDetector(
+                        onTap: () {
+                        print("info clicked");
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                          return ClientInfo(user: user);
+                           },
+                        );
+                      },
+                  child: Icon(
+                    Icons.info_outline,
+                    size:30.sp,
+                    color: Color.fromARGB(255, 102, 31, 184),
+                  ),
+                ),
+                Spacer(),
                   GestureDetector(
                     onTap: () {
                       showDialog(
@@ -119,16 +114,16 @@ class ClientContainer extends StatelessWidget {
                     },
                     child: Icon(
                       Icons.edit_outlined,
-                      size: 34,
+                      size: 30.sp,
                       color: Color.fromARGB(255, 102, 31, 184),
                     ),
                   ),
-                  SizedBox(width: 20),
+                  SizedBox(width: 20.h),
                   GestureDetector(
                     onTap: () => onDelete(user.id),
                     child: Icon(
                       Icons.delete_outline,
-                      size: 34,
+                      size: 30.sp,
                       color: Color.fromARGB(255, 188, 14, 14),
                     ),
                   ),

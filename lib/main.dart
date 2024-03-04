@@ -1,6 +1,7 @@
 //import 'dart:html';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pma/admin/screens/clients/add_client.dart';
 import 'package:pma/admin/screens/employees/add_employee.dart';
 import 'package:pma/admin/screens/projects/add_project.dart';
@@ -10,7 +11,7 @@ import 'package:pma/admin/screens/signup_requests.dart';
 import 'package:pma/authentication/sign_in.dart';
 import 'package:pma/authentication/sign_up.dart';
 import 'package:pma/engineer/screens/engineer_dashboard.dart';
-import 'package:pma/profile_screen.dart';
+import 'package:pma/profile/profile_screen.dart';
 import 'package:pma/services/authentication_service.dart';
 import 'package:pma/services/export_utils.dart';
 import 'package:pma/services/project_service.dart';
@@ -84,10 +85,13 @@ class _MyAppState extends State<MyApp> {
       });
     }
   }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+ @override
+ Widget build(BuildContext context) {
+    return ScreenUtilInit(
+      designSize: const Size(360, 640),
+      minTextAdapt: false,
+      splitScreenMode: true,
+      builder: (context,child)=>MaterialApp(
       debugShowCheckedModeBanner: false,
       routes: {
         '/': (context) => current_page,
@@ -115,6 +119,7 @@ class _MyAppState extends State<MyApp> {
 
       },
 
+    ),
     );
   }
 }

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pma/const.dart';
 import 'package:pma/models/user_model.dart';
 import 'package:pma/profile/profile_edit.dart';
+import 'package:pma/theme.dart';
 
 import '../services/user_service.dart';
 
@@ -20,21 +23,21 @@ class ProfileContainer extends StatelessWidget {
           Expanded(flex: 2, child: _TopPortion(user: user)),
                             Text(
                     "${user.fullName}",
-                    style: TextStyle(fontSize: 50, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 50.sp, fontWeight: FontWeight.w600,fontFamily: AppTheme.fontName),
                   ),
           Expanded(
             flex: 6,
             child: Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding:  EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
               child: ListView(
                 children: [
 
-                  const SizedBox(height: 16),
+                   SizedBox(height: 16.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [],
                   ),
-                  const SizedBox(height: 16),
+                   SizedBox(height: 16.h),
                   Information(user: user),
                   SecuritySettings(userId: user.id,context: context),
                 ],
@@ -54,11 +57,11 @@ class Information extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-                padding:EdgeInsets.all(12.0),
+                padding:EdgeInsets.symmetric(horizontal: 12.w,vertical: 12.h),
 
       decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.circular(8.0.r),
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
@@ -74,7 +77,7 @@ class Information extends StatelessWidget {
                 children: [
                   
                   Text("Info",
-                  style: TextStyle(fontSize: 35,fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 35.sp,fontWeight: FontWeight.bold,fontFamily: AppTheme.fontName),
                   ),
                   Spacer(),
 
@@ -89,7 +92,7 @@ class Information extends StatelessWidget {
                     },
                     child: Icon(
                        Icons.edit_outlined,
-                       size: 35,
+                       size: 30.sp,
                        color: Color.fromARGB(255, 102, 31, 184),
                     ),
                   ),                  
@@ -98,10 +101,10 @@ class Information extends StatelessWidget {
 
                 Row(   
                 children: [
-                  Icon(Icons.home_outlined,size: 35,),
+                  Icon(Icons.home_outlined,size: 30.sp,),
                   Text(
                     " ${user.address}",
-                    style: TextStyle(fontSize: 25),
+                    style: TextStyle(fontSize: 25.sp,fontFamily: AppTheme.fontName),
                     
                   ),
                 ],
@@ -109,29 +112,30 @@ class Information extends StatelessWidget {
 
               Row(
                 children: [
+                  Icon(Icons.location_pin,size: 30.sp),
                   Text(
                     "Nationality : ${user.nationality}",
-                      style: TextStyle(fontSize: 25),  
+                      style: TextStyle(fontSize: 25.sp,fontFamily: AppTheme.fontName),  
                     ),
                 ],
               ),
 
               Row(
                 children: [
-                  Icon(Icons.email_outlined,size: 35,),
+                  Icon(Icons.email_outlined,size: 30.sp),
                   Text(
                     " ${user.email}",
-                    style: TextStyle(fontSize: 25),
+                    style: TextStyle(fontSize: 25.sp,fontFamily: AppTheme.fontName),
                     
                   ),
                 ],
               ),
               Row(
                 children: [
-                  Icon(Icons.phone,size: 35,),
+                  Icon(Icons.phone,size: 30.sp,),
                   Text(
                     " ${user.phone}",
-                    style: TextStyle(fontSize: 25),
+                    style: TextStyle(fontSize: 25.sp,fontFamily: AppTheme.fontName),
                   ),
                 ],
               ),
@@ -198,36 +202,36 @@ class SecuritySettings extends StatelessWidget {
       padding: EdgeInsets.only(top: 27),
       child: Column(
         children: [
-                        Text("Change Password",style: TextStyle(fontSize: 35,fontWeight: FontWeight.bold),),
+                        Text("Change Password",style: TextStyle(fontSize: 35.sp,fontWeight: FontWeight.w600,fontFamily: AppTheme.fontName),),
                           TextFormField(
                             controller: oldpassword,
                             keyboardType: TextInputType.text,
                             obscureText: true,
                             style: TextStyle(
                               color: Color(0xFF000000),
-                              fontSize: 27,
-                              fontFamily: 'Poppins',
+                              fontSize: 25.sp,
+                              fontFamily: AppTheme.fontName,
                               fontWeight: FontWeight.w500,
                             ),
                             decoration: InputDecoration(
                               labelText: 'Current Password',
                               labelStyle: TextStyle(
                                 color: Color(0xFF755DC1),
-                                fontSize: 15,
-                                fontFamily: 'Poppins',
+                                fontSize: 20.sp,
+                                fontFamily: AppTheme.fontName,
                                 fontWeight: FontWeight.w600,
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
                                 borderSide: BorderSide(
-                                  width: 3,
+                                  width: 3.w,
                                   color: Colors.grey,
                                 ),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
                                 borderSide: BorderSide(
-                                  width: 3,
+                                  width: 3.w,
                                   color: Colors.grey,
                                 ),
                               ),
@@ -239,23 +243,23 @@ class SecuritySettings extends StatelessWidget {
                               return null;
                             },
                           ),
-                           SizedBox(height: 16),
+                           SizedBox(height: 16.h),
                           TextFormField(
                             controller: newpassword,
                             keyboardType: TextInputType.text,
                             obscureText: true,
                             style: TextStyle(
                               color: Color(0xFF000000),
-                              fontSize: 27,
-                              fontFamily: 'Poppins',
+                              fontSize: 27.sp,
+                              fontFamily: AppTheme.fontName,
                               fontWeight: FontWeight.w500,
                             ),
                             decoration: InputDecoration(
                               labelText: 'New Password',
                               labelStyle: TextStyle(
                                 color: Color(0xFF755DC1),
-                                fontSize: 15,
-                                fontFamily: 'Poppins',
+                                fontSize: 20.sp,
+                                fontFamily: AppTheme.fontName,
                                 fontWeight: FontWeight.w600,
                               ),
                               enabledBorder: OutlineInputBorder(
@@ -287,16 +291,16 @@ class SecuritySettings extends StatelessWidget {
                             obscureText: true,
                             style: TextStyle(
                               color: Color(0xFF000000),
-                              fontSize: 27,
-                              fontFamily: 'Poppins',
+                              fontSize: 27.sp,
+                              fontFamily: AppTheme.fontName,
                               fontWeight: FontWeight.w500,
                             ),
                             decoration: InputDecoration(
                               labelText: 'Confirm New Password',
                               labelStyle: TextStyle(
                                 color: Color(0xFF755DC1),
-                                fontSize: 15,
-                                fontFamily: 'Poppins',
+                                fontSize: 20.sp,
+                                fontFamily:AppTheme.fontName,
                                 fontWeight: FontWeight.w600,
                               ),
                               enabledBorder: OutlineInputBorder(
@@ -309,7 +313,7 @@ class SecuritySettings extends StatelessWidget {
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(10)),
                                 borderSide: BorderSide(
-                                  width: 3,
+                                  width: 3.w,
                                   color: Colors.grey,
                                 ),
                               ),
@@ -328,13 +332,16 @@ class SecuritySettings extends StatelessWidget {
                   print("change password pressed, changing password for user ${userId}");
                   verifier();
                 },
-                    style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF9F7BFF),
-                    ),
-                child: Text('Change Password',
-                style: TextStyle(color: Colors.white),
+             
+                child: Text('Change Password',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily: AppTheme.fontName ),),
+                                     style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFF9F7BFF),
+                                  shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                          ),
+                                        ),
                 ),
-              ),
+              
             ],
       
       ),
@@ -345,7 +352,7 @@ class SecuritySettings extends StatelessWidget {
 
 class _TopPortion extends StatelessWidget {
    final User user;
-  final String imageUrl = "http://$ip:$port/static/images";
+  final String imageUrl = "$baseUrl/static/images";
   
   const _TopPortion({Key? key, required this.user}) : super(key: key);
 
@@ -368,9 +375,9 @@ class _TopPortion extends StatelessWidget {
         ),
         Align(
           alignment: Alignment.bottomCenter,
-          child: SizedBox(
-            width: 200,
-            height: 200,
+          child: Container(
+            width: 200.w,
+            height: 200.h,
             child: Stack(
               fit: StackFit.expand,
               children: [

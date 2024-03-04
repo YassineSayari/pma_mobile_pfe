@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pma/services/user_service.dart';
 import 'package:pma/theme.dart';
 import '../../../models/user_model.dart';
@@ -68,25 +70,25 @@ else{
   Widget build(BuildContext context) {
     return Dialog(
          shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8.0),
+        borderRadius: BorderRadius.circular(8.0.r),
       ),
+      insetPadding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 28.h),
       child: Container(
         width: double.infinity,
-        height: double.infinity,
-        padding: EdgeInsets.all(16.0),
+        padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
          child: SingleChildScrollView(
           child: Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-            Center(child: Text("Edit Client",style: TextStyle(fontFamily: AppTheme.fontName,fontWeight: FontWeight.w600,fontSize: 34),)),
-                SizedBox(height: 30),
+            Center(child: Text("Edit Client",style: TextStyle(fontFamily: AppTheme.fontName,fontWeight: FontWeight.w600,fontSize: 34.sp),)),
+                SizedBox(height: 30.h),
                 TextFormField(
                     controller: nameController,
                   style: TextStyle(
                     color: Color(0xFF000000),
-                    fontSize: 27,
+                    fontSize: 27.sp,
                     fontFamily: AppTheme.fontName,
                     fontWeight: FontWeight.w500,
                   ),
@@ -94,21 +96,21 @@ else{
                     labelText: 'Name*',
                     labelStyle: TextStyle(
                       color: Color(0xFF7743DB),
-                      fontSize: 25,
+                      fontSize: 25.sp,
                       fontFamily: AppTheme.fontName,
                       fontWeight: FontWeight.w600,
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       borderSide: BorderSide(
-                        width: 3,
+                        width: 3.w,
                         color: Colors.grey,
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       borderSide: BorderSide(
-                        width: 3,
+                        width: 3.w,
                         color: Colors.deepPurple,
                       ),
                     ),
@@ -121,13 +123,13 @@ else{
                   },
                 ),
          
-                SizedBox(height: 10),
+                SizedBox(height: 10.h),
          
                 TextFormField(
                     controller: mobileController,
                   style: TextStyle(
                     color: Color(0xFF000000),
-                    fontSize: 27,
+                    fontSize: 27.sp,
                     fontFamily: AppTheme.fontName,
                     fontWeight: FontWeight.w500,
                   ),
@@ -135,21 +137,21 @@ else{
                     labelText: 'Mobile*',
                     labelStyle: TextStyle(
                       color: Color(0xFF7743DB),
-                      fontSize: 25,
+                      fontSize: 25.sp,
                       fontFamily: AppTheme.fontName,
                       fontWeight: FontWeight.w600,
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       borderSide: BorderSide(
-                        width: 3,
+                        width: 3.w,
                         color: Colors.grey,
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       borderSide: BorderSide(
-                        width: 3,
+                        width: 3.w,
                         color: Colors.deepPurple,
                       ),
                     ),
@@ -162,13 +164,13 @@ else{
                   },
                 ),
          
-                SizedBox(height: 10),
+                SizedBox(height: 10.h),
          
                 TextFormField(
                     controller: emailController,
                   style: TextStyle(
                     color: Color(0xFF000000),
-                    fontSize: 27,
+                    fontSize: 27.sp,
                     fontFamily: AppTheme.fontName,
                     fontWeight: FontWeight.w500,
                   ),
@@ -176,21 +178,21 @@ else{
                     labelText: 'Email*',
                     labelStyle: TextStyle(
                       color: Color(0xFF7743DB),
-                      fontSize: 25,
+                      fontSize: 25.sp,
                       fontFamily: AppTheme.fontName,
                       fontWeight: FontWeight.w600,
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       borderSide: BorderSide(
-                        width: 3,
+                        width: 3.w,
                         color: Colors.grey,
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       borderSide: BorderSide(
-                        width: 3,
+                        width: 3.dg,
                         color: Colors.deepPurple,
                       ),
                     ),
@@ -203,13 +205,13 @@ else{
                   },
                 ),
          
-                SizedBox(height: 10),
+                SizedBox(height: 10.h),
          
                 TextFormField(
                     controller: companyController,
                   style: TextStyle(
                     color: Color(0xFF000000),
-                    fontSize: 27,
+                    fontSize: 27.sp,
                     fontFamily: AppTheme.fontName,
                     fontWeight: FontWeight.w500,
                   ),
@@ -217,21 +219,21 @@ else{
                     labelText: 'Company Name*',
                     labelStyle: TextStyle(
                       color: Color(0xFF7743DB),
-                      fontSize: 25,
+                      fontSize: 25.sp,
                       fontFamily: AppTheme.fontName,
                       fontWeight: FontWeight.w600,
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       borderSide: BorderSide(
-                        width: 3,
+                        width: 3.w,
                         color: Colors.grey,
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       borderSide: BorderSide(
-                        width: 3,
+                        width: 3.w,
                         color: Colors.deepPurple,
                       ),
                     ),
@@ -244,7 +246,7 @@ else{
                   },
                 ),
          
-                SizedBox(height: 10),
+                SizedBox(height: 10.h),
          
                 Row(
                   children: [
@@ -254,7 +256,7 @@ else{
                           print("update pressed");
                         updateClient();
                         },
-                        child: Text('Save',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25,fontFamily: AppTheme.fontName ),),
+                        child: Text('Save',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily: AppTheme.fontName ),),
                                      style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFF9F7BFF),
                                   shape: RoundedRectangleBorder(
@@ -263,13 +265,13 @@ else{
                                         ),
                       ),
                     ),
-                    SizedBox(width: 10),
+                    SizedBox(width: 10.w),
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: Text('Cancel',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25,fontFamily: AppTheme.fontName ),),
+                        child: Text('Cancel',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily: AppTheme.fontName ),),
                                      style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.red,
                                   shape: RoundedRectangleBorder(
@@ -285,6 +287,6 @@ else{
           ),
                ),
        ),
-    );
+    ).animate(delay: 100.ms).fade(duration: 500.ms).slideY();
   }
 }
