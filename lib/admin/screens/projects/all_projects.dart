@@ -22,58 +22,44 @@ class _AllProjectsState extends State<AllProjects> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('All Projects'),
-      // ),
       drawer: AdminDrawer(selectedRoute: '/allprojects'),
       body: Column(
         children: [
-                Container(
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 1,
-              blurRadius: 3,
-              offset: Offset(0, 1),
+          Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 1,
+                  blurRadius: 3,
+                  offset: Offset(0, 1),
+                ),
+              ],
             ),
-          ],
-        ),
-        child: AppBar(
-          title: Text('All Projects',style: TextStyle(fontWeight: FontWeight.w600,fontSize: 30),),
-          centerTitle: true,
-        ),
-      ),
+            child: AppBar(
+              title: Text(
+                'All Projects',
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 30),
+              ),
+              centerTitle: true,
+            ),
+          ),
           Expanded(
             child: FutureBuilder<List<Map<String, dynamic>>>(
               future: projects,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
+                  return Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
+                  return Center(child: Text('Error: ${snapshot.error}'));
                 } else {
                   List<Map<String, dynamic>> allProjects = snapshot.data ?? [];
-            
-                  List<Map<String, dynamic>> pendingProjects = allProjects
-                      .where((project) => project['status'] == 'Pending')
-                      .toList();
-                  List<Map<String, dynamic>> inProgressProjects = allProjects
-                      .where((project) => project['status'] == 'In Progress')
-                      .toList();
-                  List<Map<String, dynamic>> onHoldProjects = allProjects
-                      .where((project) => project['status'] == 'On Hold')
-                      .toList();
-                  List<Map<String, dynamic>> completedProjects = allProjects
-                      .where((project) => project['status'] == 'Completed')
-                      .toList();
-            
                   return ListView(
                     children: [
-                      _buildSection('New Projects ', pendingProjects),
-                      _buildSection('In Progress ', inProgressProjects),
-                      _buildSection('On Hold ', onHoldProjects),
-                      _buildSection('Completed ', completedProjects),
+                      _buildSection('New Projects', 'Pending', allProjects),
+                      _buildSection('In Progress', 'In Progress', allProjects),
+                      _buildSection('On Hold', 'On Hold', allProjects),
+                      _buildSection('Completed', 'Completed', allProjects),
                     ],
                   );
                 }
@@ -85,7 +71,12 @@ class _AllProjectsState extends State<AllProjects> {
     );
   }
 
-  Widget _buildSection(String sectionTitle, List<Map<String, dynamic>> projects) {
+  Widget _buildSection(
+      String sectionTitle, String sectionStatus, List<Map<String, dynamic>> allProjects) {
+    List<Map<String, dynamic>> sectionProjects = allProjects
+        .where((project) => project['status'] == sectionStatus)
+        .toList();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -96,13 +87,13 @@ class _AllProjectsState extends State<AllProjects> {
               sectionTitle,
               style: TextStyle(
                 fontSize: 35,
-                 fontWeight: FontWeight.bold,
-                 color: getColorForSection(sectionTitle.trim())
+                fontWeight: FontWeight.bold,
+                color: getColorForSection(sectionStatus),
               ),
             ),
           ),
         ),
-        for (var project in projects)
+        for (var project in sectionProjects)
           LongPressDraggable<Map<String, dynamic>>(
             data: project,
             child: ProjectContainer(
@@ -133,7 +124,8 @@ class _AllProjectsState extends State<AllProjects> {
                   status: project['status'] ?? '',
                   description: project['description'] ?? '',
                   dateDebut: project['dateDebut'] ?? '',
-                  teamLeaderId: project['TeamLeader']?['fullName'] ?? '',
+                  teamLeaderId:
+                      project['TeamLeader']?['fullName'] ?? '',
                   priority: project['priority'] ?? '',
                   dateFin: project['dateFin'] ?? '',
                   client: project['client']?['fullName'] ?? '',
@@ -144,10 +136,32 @@ class _AllProjectsState extends State<AllProjects> {
             ),
             childWhenDragging: SizedBox.shrink(),
             onDragStarted: () {
+              // Add any necessary logic when dragging starts
             },
             onDraggableCanceled: (velocity, offset) {
+              // Add any necessary logic when draggable is canceled
             },
-            onDragEnd: (details) {
+            onDragEnd: (details) async {
+              // Implement logic when drag ends
+              String newStatus =
+                  determineNewStatus(details.offset, sectionTitle,context);
+              print("new status::::::$newStatus");
+
+              await ProjectService().updateProjectStatus(
+                project['_id'],
+                newStatus,
+              );
+
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content:
+                      Text('Project Updated to: $newStatus',style: TextStyle(color: Colors.black45, fontWeight: FontWeight.w600)),
+        duration: Duration(seconds: 2),
+        backgroundColor: Colors.yellowAccent,
+      ),
+      );
+              Navigator.of(context).pushReplacementNamed('/allprojects');
+
             },
             onDragCompleted: () {
             },
@@ -157,12 +171,48 @@ class _AllProjectsState extends State<AllProjects> {
     );
   }
 
-    Color getColorForSection(String section) {
+String determineNewStatus(Offset dropPosition, String sectionTitle, BuildContext context) {
+
+  // find the container on ui
+  final RenderBox renderBox = context.findRenderObject() as RenderBox;
+  //calculate top position of container
+  final sectionPosition = renderBox.localToGlobal(Offset.zero).dy;
+  //set start point in the middle of container
+  final threshold = sectionPosition + renderBox.size.height / 2;
+
+  if (dropPosition.dy > threshold) {
+    switch (sectionTitle) {
+      //if dropped from new projects drop->in progress
+      case 'New Projects':
+        return 'In Progress';
+      case 'In Progress':
+        return 'On Hold';
+      case 'On Hold':
+        return 'Completed';
+      default:
+        return 'On Hold';
+    }
+  } else {
+    switch (sectionTitle) {
+      case 'In Progress':
+        return 'Pending';
+      case 'On Hold':
+        return 'In Progress';
+      case 'Completed':
+        return 'On Hold';
+      default:
+        return '';
+    }
+  }
+}
+
+
+  Color getColorForSection(String section) {
     switch (section) {
       case 'New Projects':
-        return  Colors.red;
+        return Colors.red;
       case 'In Progress':
-        return  Color.fromARGB(255, 122, 147, 180);
+        return Color.fromARGB(255, 122, 147, 180);
       case 'On Hold':
         return Colors.orange;
       case 'Completed':

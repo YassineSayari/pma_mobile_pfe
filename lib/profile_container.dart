@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:pma/models/user_model.dart';
+import 'package:pma/profile_edit.dart';
+
+import 'services/user_service.dart';
 
 const ip = "192.168.32.1";
 const port = 3002;
 
 class ProfileContainer extends StatelessWidget {
   final User user;
-
 
   ProfileContainer({required this.user});
 
@@ -15,28 +17,28 @@ class ProfileContainer extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-           Expanded(flex: 2, child: _TopPortion(user: user)),
+          Expanded(flex: 2, child: _TopPortion(user: user)),
+                            Text(
+                    "${user.fullName}",
+                    style: TextStyle(fontSize: 50, fontWeight: FontWeight.w600),
+                  ),
           Expanded(
             flex: 6,
             child: Padding(
               padding: const EdgeInsets.all(12.0),
-              child: Column(
+              child: ListView(
                 children: [
-                  Text(
-                    "${user.fullName}",
-                    style: TextStyle(fontSize: 50,fontWeight: FontWeight.w600),
-                  ),
+
                   const SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      
-                    ],
+                    children: [],
                   ),
                   const SizedBox(height: 16),
-                  Information(user: user,)
+                  Information(user: user),
+                  SecuritySettings(userId: user.id,context: context),
                 ],
-            ),
+              ),
             ),
           ),
         ],
@@ -44,7 +46,6 @@ class ProfileContainer extends StatelessWidget {
     );
   }
 }
-
 
 class Information extends StatelessWidget {
   final User user;
@@ -69,16 +70,33 @@ class Information extends StatelessWidget {
         ),
       child:  Column(  
              children: [
-              Align(
-                alignment: Alignment.topRight,
-                child: 
-                     Icon(
-                      Icons.edit_outlined,
-                      size: 27,
-                      color: Color.fromARGB(255, 102, 31, 184),
-                    ),                  
+              Row(
+                children: [
+                  
+                  Text("Info",
+                  style: TextStyle(fontSize: 35,fontWeight: FontWeight.bold),
+                  ),
+                  Spacer(),
+
+                  GestureDetector(
+                    onTap: (){
+                       Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditProfile(user: user),
+      ),
+    );
+                    },
+                    child: Icon(
+                       Icons.edit_outlined,
+                       size: 35,
+                       color: Color.fromARGB(255, 102, 31, 184),
+                    ),
+                  ),                  
+                ],
               ),
-                Row(  
+
+                Row(   
                 children: [
                   Icon(Icons.home_outlined,size: 35,),
                   Text(
@@ -120,6 +138,206 @@ class Information extends StatelessWidget {
              ],
             ),
             
+    );
+  }
+}
+
+class SecuritySettings extends StatelessWidget {
+    final TextEditingController oldpassword = TextEditingController();
+  final TextEditingController newpassword = TextEditingController();
+  final TextEditingController confirmnewpassword = TextEditingController();
+  final String userId;
+  final BuildContext context;
+   SecuritySettings({super.key, required this.userId, required this.context});
+
+   void verifier(){
+    if(oldpassword.text.isEmpty)
+    {
+      print("wtf");
+      
+    }
+    else if(newpassword.text!=confirmnewpassword.text)
+    {
+      print("passwords have to mach");
+    }
+    else{
+      String newpw;
+      newpw=newpassword.text.toString();
+      print("valid========Changing password to $newpw");
+      changePassword(userId, newpw);
+    }
+   }
+
+    Future<void> changePassword(String userId, String newPassword) async {
+    try {
+      await UserService().changePassword(userId, newPassword);
+          ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Password changed successfully!', style: TextStyle(color: Colors.black45, fontWeight: FontWeight.w600)),
+        duration: Duration(seconds: 2),
+        backgroundColor: Colors.yellowAccent,
+      ),
+    );
+      print("password changed");
+    } catch (error) {
+                ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Failed to change password', style: TextStyle(color: Colors.black45, fontWeight: FontWeight.w600)),
+        duration: Duration(seconds: 2),
+        backgroundColor: Colors.red,
+      ),
+    );
+      print('Error changing password: $error');
+    }
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(top: 27),
+      child: Column(
+        children: [
+                        Text("Change Password",style: TextStyle(fontSize: 35,fontWeight: FontWeight.bold),),
+                          TextFormField(
+                            controller: oldpassword,
+                            keyboardType: TextInputType.text,
+                            obscureText: true,
+                            style: TextStyle(
+                              color: Color(0xFF000000),
+                              fontSize: 27,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w500,
+                            ),
+                            decoration: InputDecoration(
+                              labelText: 'Current Password',
+                              labelStyle: TextStyle(
+                                color: Color(0xFF755DC1),
+                                fontSize: 15,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w600,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                                borderSide: BorderSide(
+                                  width: 3,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                                borderSide: BorderSide(
+                                  width: 3,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter a password';
+                              }
+                              return null;
+                            },
+                          ),
+                           SizedBox(height: 16),
+                          TextFormField(
+                            controller: newpassword,
+                            keyboardType: TextInputType.text,
+                            obscureText: true,
+                            style: TextStyle(
+                              color: Color(0xFF000000),
+                              fontSize: 27,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w500,
+                            ),
+                            decoration: InputDecoration(
+                              labelText: 'New Password',
+                              labelStyle: TextStyle(
+                                color: Color(0xFF755DC1),
+                                fontSize: 15,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w600,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                                borderSide: BorderSide(
+                                  width: 3,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                                borderSide: BorderSide(
+                                  width: 3,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter a new password';
+                              }
+                              return null;
+                            },
+                          ),
+                           SizedBox(height: 16),
+                          TextFormField(
+                            controller: confirmnewpassword,
+                            keyboardType: TextInputType.text,
+                            obscureText: true,
+                            style: TextStyle(
+                              color: Color(0xFF000000),
+                              fontSize: 27,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w500,
+                            ),
+                            decoration: InputDecoration(
+                              labelText: 'Confirm New Password',
+                              labelStyle: TextStyle(
+                                color: Color(0xFF755DC1),
+                                fontSize: 15,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w600,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                                borderSide: BorderSide(
+                                  width: 3,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                                borderSide: BorderSide(
+                                  width: 3,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please confirm new password';
+                              }
+                              return null;
+                            },
+                          ),
+                           SizedBox(height: 16),
+      
+              ElevatedButton(
+                onPressed: () {
+                  print("change password pressed, changing password for user ${userId}");
+                  verifier();
+                },
+                    style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF9F7BFF),
+                    ),
+                child: Text('Change Password',
+                style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
+      
+      ),
     );
   }
 }

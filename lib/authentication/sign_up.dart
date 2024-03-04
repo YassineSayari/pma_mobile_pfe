@@ -26,30 +26,72 @@ class _SignUpState extends State<SignUp> {
   String? gender;
   String? role;
 
-  XFile? selectedImage;
+
+
+File? selectedImage;
+PickedFile? _pickedFile;
+final _picker=ImagePicker();
 
   Future<void> _pickImage() async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       setState(() {
-        selectedImage = pickedFile;
-      print("Selected Image Path::::::::::: ${selectedImage!.path}");
+        selectedImage = File(pickedFile!.path);
+      print("Selected Image Path::::::::::: ${selectedImage!}");
       });
     }
   }
 
 
+// final ImagePicker _imagePicker = ImagePicker();
+// Future<void> UploadImageUser(String idUser,String Token,Function() onPhotoUpdated) async {
+//     try {
+//       final XFile? pickedFile = await _imagePicker.pickImage(source: ImageSource.gallery);
+//       if (pickedFile != null) {
+//         final file = File(pickedFile.path);
+//         final request = http.MultipartRequest(
+//           'POST',
+//           Uri.parse('http://192.168.32.1:3002/static/images'),
+//         );
+
+//         request.files.add(await http.MultipartFile.fromPath('image', file.path));
+
+//         final response = await request.send();
+//         if (response.statusCode == 200) {
+//           final data = {
+//             "image": file.path.split('/').last, // Get only the filename from the path
+//           };
+
+//           //await updateUser(idUser,Token, data);
+
+
+//         } else {
+//           print('Failed to upload image');
+//         }
+//       }
+//     } catch (e) {
+//       print('Error picking image: $e');
+//     }
+//   }
+
+
  
 Future<String> uploadImage(String imagePath) async {
   try {
-    var request = http.MultipartRequest('POST', Uri.parse('http://192.168.32.1:3002/static/images/'));
+    var request = http.MultipartRequest('POST', Uri.parse('http://192.168.32.1:3002/static/images'));
     var file = File(imagePath);
     var fileName = file.path.split('/').last;
     print("file name:::::::::::::::::::$fileName");
+    print("file path:::::::::::::::::::${file.path}");
 
-    request.files.add(
+        request.files.add(
       await http.MultipartFile.fromPath('image', file.path, filename: fileName),
     );
+
+// request.files.add(
+//   await http.MultipartFile.fromPath('image', fileName, filename: fileName),
+// );
+
     print("Image Upload Request: $request");
 
     var response = await request.send();
@@ -62,7 +104,7 @@ Future<String> uploadImage(String imagePath) async {
       print("Image upload failed. Status code: ${response.statusCode}");
       print("Response body: ${await response.stream.bytesToString()}");
       if (response.statusCode == 404) {
-        throw Exception('The server cannot find the requested URL.');
+        throw Exception('The server did not find the requested URL.');
       } else {
         throw Exception('Failed to upload image');
       }
@@ -70,7 +112,7 @@ Future<String> uploadImage(String imagePath) async {
   } catch (error) {
     print('Error uploading image: $error');
     if (error is http.ClientException && error.message.contains('404')) {
-      throw Exception('The server cannot find the requested URL.');
+      throw Exception('no Url Found.');
     } else {
       throw error;
     }
@@ -83,20 +125,20 @@ Future<String> uploadImage(String imagePath) async {
 void _handleSignUp() async {
   if (_formKey.currentState!.validate()) {
     try {
-      print("signing up");
+      print("handling sign up");
       String name = fullname.text;
       String email = mail.text;
       String passwordValue = password.text;
       String mobileValue = mobile.text;
-      String genderValue = gender ?? ''; // Default value to handle null
-      String roleValue = role ?? ''; // Default value to handle null
+      String genderValue = gender ?? ''; 
+      String roleValue = role ?? ''; 
 
       String imageValue = '';
       if (selectedImage != null) {
-        imageValue = await uploadImage(selectedImage!.path);
+       imageValue = await uploadImage(selectedImage!.path);
       }
 
-      print("Signing up with: $name, $email, $passwordValue, $mobileValue, $genderValue, $roleValue");
+      print("Signing up as: $name, $email, $passwordValue, $mobileValue, $genderValue, $roleValue");
 
       Map<String, dynamic> result = await authService.signUp(
         name,
@@ -112,11 +154,9 @@ void _handleSignUp() async {
         print("Sign-up failed: ${result['error']}");
       } else {
         print("Sign-up successful: ${result['message']}");
-        // Navigate to the login screen or perform any other action upon successful sign-up
       }
     } catch (error) {
       print("Error during sign-up: $error");
-      // Handle error accordingly
     }
   }
 }
@@ -461,7 +501,7 @@ void _handleSignUp() async {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               image: DecorationImage(
-                                image: FileImage(File(selectedImage!.path)), // Convert XFile to File
+                                image: FileImage(selectedImage!),
                                 fit: BoxFit.cover,
                               ),
                             ),

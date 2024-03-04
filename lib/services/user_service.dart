@@ -1,14 +1,12 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:pma/const.dart';
 import 'package:pma/services/shared_preferences.dart';
 import '../models/user_model.dart';
 
-//const ip = "192.168.32.1";
-const ip = "192.168.10.1";
-const port = 3002;
 
 class UserService{
-  final String apiUrl = 'http://$ip:$port/api/v1/users';
+  final String apiUrl = '$baseUrl/api/v1/users';
 
 
 
@@ -171,6 +169,31 @@ class UserService{
     } catch (error) {
       print('Error confirming: $error');
       throw Exception('Failed to confirm user');
+    }
+  }
+
+  Future<void> changePassword(String userId, String newPassword) async {
+    String? authToken = await SharedPrefs.getAuthToken();
+    
+    try {
+      final response = await http.patch(
+        Uri.parse('$apiUrl/change-psw/$userId'),
+           headers: <String, String>{
+           'Content-Type': 'application/json; charset=UTF-8',
+           'Authorization': 'Bearer $authToken',
+         },
+        body: jsonEncode({'password': newPassword}),
+      );
+
+  if (response.statusCode == 200) {
+        print('Password changed successfully');
+      } else {
+        print('Failed to change password. Status Code: ${response.statusCode}, Response: ${response.body}');
+        throw Exception('Failed to change password');
+      }
+    } catch (error) {
+      print('Error changing password: $error');
+      throw Exception('Failed to change password');
     }
   }
 
