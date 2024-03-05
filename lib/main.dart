@@ -10,7 +10,6 @@ import 'package:pma/admin/screens/clients/all_clients.dart';
 import 'package:pma/admin/screens/signup_requests.dart';
 import 'package:pma/authentication/sign_in.dart';
 import 'package:pma/authentication/sign_up.dart';
-import 'package:pma/custom_snackbar.dart';
 import 'package:pma/engineer/screens/engineer_dashboard.dart';
 import 'package:pma/profile/profile_screen.dart';
 import 'package:pma/services/authentication_service.dart';
