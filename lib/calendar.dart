@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
+import 'package:pma/add_event.dart';
 import 'package:pma/admin/widgets/admin_drawer.dart';
 import 'package:pma/custom_appbar.dart';
 import 'package:pma/theme.dart';
@@ -23,6 +24,8 @@ class Calendar extends StatefulWidget {
 }
 
 class _CalendarState extends State<Calendar> {
+  String? userId;
+
 
   DateTime today = DateTime.now();
   CalendarFormat calendarFormat = CalendarFormat.month;
@@ -39,6 +42,7 @@ class _CalendarState extends State<Calendar> {
   final EventService eventService = GetIt.instance<EventService>();
   List<Event> userEvents = [];
 Map<DateTime, List<Event>> eventsByDay = {};
+
 
   @override
   void initState() {
@@ -86,6 +90,17 @@ for (Event event in userEvents) {
 }
 
 
+Future<void> createEvent() async {
+    String? userId = await SharedPrefs().getLoggedUserIdFromPrefs();
+       showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        print("id:::::::$userId");
+        return AddEventContainer(userId: userId!);
+      });
+}
+
+
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) async {
     setState(() {
       today = selectedDay;
@@ -111,7 +126,7 @@ for (Event event in userEvents) {
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 30.sp,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w600,
                     fontFamily: AppTheme.fontName
                   ),
                 ),
@@ -144,7 +159,6 @@ for (Event event in userEvents) {
                     ),
                     Flexible(
                       child: Container(
-                       //width: 200,
                         height: 200,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
@@ -229,7 +243,10 @@ Color _markerColor(DateTime date, List events) {
                     ),
                     SizedBox(width: 15.h),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+
+                        createEvent();
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue[900],
                         shape: RoundedRectangleBorder(

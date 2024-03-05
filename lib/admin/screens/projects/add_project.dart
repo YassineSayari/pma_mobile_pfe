@@ -569,7 +569,8 @@ class _AddProjectState extends State<AddProject> {
 
       Map<String, dynamic> projectData = {
         'Projectname': title.text,
-        'description': 'dessc sqxws',
+        //'description': 'dessc sqxws',
+        'description':description.text,
         'TeamLeader': teamLeader,
         'type': projectType,
         'equipe': jsonEncode(equipe),
@@ -608,6 +609,7 @@ class _AddProjectState extends State<AddProject> {
         SnackBar(
           content: Text('Failed to add project. Please try again.'),
           duration: Duration(seconds: 2),
+          behavior: SnackBarBehavior.floating,
         ),
       );
     }

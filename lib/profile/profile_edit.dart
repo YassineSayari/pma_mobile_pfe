@@ -5,6 +5,8 @@ import 'package:pma/models/user_model.dart';
 import 'package:pma/services/user_service.dart';
 import 'package:pma/theme.dart';
 
+import 'edit_profile_photo.dart';
+
 
 class EditProfile extends StatefulWidget {
   final User user;
@@ -69,9 +71,17 @@ class _EditProfileState extends State<EditProfile> {
                     Row(
                       children: [
                         ElevatedButton(
-                          onPressed: (){},
-                                     child: Text("Change",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 12.5.sp,fontFamily: AppTheme.fontName),),
-                                     style: ElevatedButton.styleFrom(
+                          onPressed: (){
+                            print("change pressed");
+                             showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return EditProfileImageDialog(idUser: widget.user.id);
+                                  },
+                                );
+                                },
+                                child: Text("Change",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 12.5.sp,fontFamily: AppTheme.fontName),),
+                                style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFF9F7BFF),
                                   shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10.0),

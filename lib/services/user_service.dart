@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:pma/const.dart';
 import 'package:pma/services/shared_preferences.dart';
 import '../models/user_model.dart';
@@ -124,6 +126,91 @@ class UserService{
       throw Exception('Failed to update user');
     }
   }
+
+
+final ImagePicker _imagePicker = ImagePicker();
+
+  Future<void> UploadImageUser(String idUser) async {
+    try {
+      final XFile? pickedFile = await _imagePicker.pickImage(source: ImageSource.gallery);
+
+      if (pickedFile == null) {
+        print('No image selected');
+        return;
+      }
+
+      final file = File(pickedFile.path);
+      final request = http.MultipartRequest(
+        'POST',
+        Uri.parse('$imageUrl'),
+      );
+
+      request.files.add(await http.MultipartFile.fromPath('image', file.path));
+
+      final response = await request.send();
+      final responseString = await response.stream.bytesToString();
+
+      print('Image Upload Response Code: ${response.statusCode}');
+      print('Image Upload Response Body: $responseString');
+
+      if (response.statusCode == 200) {
+        final data = {
+          "image": file.path.split('/').last, // Get only the filename from the path
+        };
+
+        await updateUser(idUser, data);
+        print('User updated successfully with new image');
+      } else {
+        print('Failed to upload image. Status Code: ${response.statusCode}, Response: $responseString');
+      }
+    } on SocketException catch (e) {
+      print('Error: No internet connection. $e');
+    } on http.ClientException catch (e) {
+      print('Error: Client exception occurred. $e');
+    } on FormatException catch (e) {
+      print('Error: Invalid server response format. $e');
+    } catch (e) {
+      print('Error picking/uploading image: $e');
+    }
+  }
+
+// Future<void> UploadImageUser(String idUser) async {
+//   try {
+//     final XFile? pickedFile = await _imagePicker.pickImage(source: ImageSource.gallery);
+//     if (pickedFile != null) {
+//       final file = File(pickedFile.path);
+//       print("file::::::$file");
+//       print("backend path:::::$imageUrl");
+//       final request = http.MultipartRequest(
+//         'POST',
+//         Uri.parse('$imageUrl'),
+//       );
+
+//       request.files.add(await http.MultipartFile.fromPath('image', file.path));
+
+//       final response = await request.send();
+//       final responseString = await response.stream.bytesToString();
+
+//       print('Image Upload Response Code: ${response.statusCode}');
+//       print('Image Upload Response Body: $responseString');
+
+//       if (response.statusCode == 200) {
+//         final data = {
+//           "image": file.path.split('/').last, // Get only the filename from the path
+//         };
+
+//         await updateUser(idUser, data);
+//         print('User updated successfully with new image');
+//       } else {
+//         print('Failed to upload image. Status Code: ${response.statusCode}, Response: $responseString');
+//       }
+//     }
+//   } catch (e) {
+//     print('Error picking/uploading image: $e');
+//   }
+// }
+
+
 
 
 

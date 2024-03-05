@@ -1,7 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
-import 'package:http/http.dart' as http;
+
 
 import '../services/authentication_service.dart';
 
@@ -25,141 +26,54 @@ class _SignUpState extends State<SignUp> {
 
   String? gender;
   String? role;
+XFile? selectedImage;
 
 
 
-File? selectedImage;
-PickedFile? _pickedFile;
-final _picker=ImagePicker();
+final ImagePicker _imagePicker = ImagePicker();
 
-  Future<void> _pickImage() async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+  Future<XFile?> _pickImage() async {
+      final XFile? pickedFile = await _imagePicker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       setState(() {
-        selectedImage = File(pickedFile!.path);
-      print("Selected Image Path::::::::::: ${selectedImage!}");
+        selectedImage=pickedFile;
       });
+              return pickedFile;
+
     }
   }
 
 
-// final ImagePicker _imagePicker = ImagePicker();
-// Future<void> UploadImageUser(String idUser,String Token,Function() onPhotoUpdated) async {
-//     try {
-//       final XFile? pickedFile = await _imagePicker.pickImage(source: ImageSource.gallery);
-//       if (pickedFile != null) {
-//         final file = File(pickedFile.path);
-//         final request = http.MultipartRequest(
-//           'POST',
-//           Uri.parse('http://192.168.32.1:3002/static/images'),
-//         );
-
-//         request.files.add(await http.MultipartFile.fromPath('image', file.path));
-
-//         final response = await request.send();
-//         if (response.statusCode == 200) {
-//           final data = {
-//             "image": file.path.split('/').last, // Get only the filename from the path
-//           };
-
-//           //await updateUser(idUser,Token, data);
-
-
-//         } else {
-//           print('Failed to upload image');
-//         }
-//       }
-//     } catch (e) {
-//       print('Error picking image: $e');
-//     }
-//   }
-
-
- 
-Future<String> uploadImage(String imagePath) async {
+Future<void> _handleSignUp() async {
   try {
-    var request = http.MultipartRequest('POST', Uri.parse('http://192.168.32.1:3002/static/images'));
-    var file = File(imagePath);
-    var fileName = file.path.split('/').last;
-    print("file name:::::::::::::::::::$fileName");
-    print("file path:::::::::::::::::::${file.path}");
 
-        request.files.add(
-      await http.MultipartFile.fromPath('image', file.path, filename: fileName),
-    );
+    if (_formKey.currentState!.validate()) {
 
-// request.files.add(
-//   await http.MultipartFile.fromPath('image', fileName, filename: fileName),
-// );
 
-    print("Image Upload Request: $request");
-
-    var response = await request.send();
-    print("Image Upload Response Code: ${response.statusCode}");
-
-    if (response.statusCode == 200) {
-      print("Image uploaded successfully");
-      return response.stream.bytesToString();
-    } else {
-      print("Image upload failed. Status code: ${response.statusCode}");
-      print("Response body: ${await response.stream.bytesToString()}");
-      if (response.statusCode == 404) {
-        throw Exception('The server did not find the requested URL.');
-      } else {
-        throw Exception('Failed to upload image');
+      XFile? pickedFile = await _pickImage();
+      
+      if (pickedFile != null) {
+        Map<String, dynamic> userData = {
+        'fullname': fullname.text,
+        'email': mail.text,
+        'password': password.text,
+        'mobile': mobile.text,
+        'role': role,
+        'gender': gender,
+      };
+        await authService.UploadImageUser(pickedFile,userData);
       }
+
     }
-  } catch (error) {
-    print('Error uploading image: $error');
-    if (error is http.ClientException && error.message.contains('404')) {
-      throw Exception('no Url Found.');
-    } else {
-      throw error;
-    }
+  } catch (e) {
+    print('Error during signup: $e');
   }
 }
 
 
 
 
-void _handleSignUp() async {
-  if (_formKey.currentState!.validate()) {
-    try {
-      print("handling sign up");
-      String name = fullname.text;
-      String email = mail.text;
-      String passwordValue = password.text;
-      String mobileValue = mobile.text;
-      String genderValue = gender ?? ''; 
-      String roleValue = role ?? ''; 
 
-      String imageValue = '';
-      if (selectedImage != null) {
-       imageValue = await uploadImage(selectedImage!.path);
-      }
-
-      print("Signing up as: $name, $email, $passwordValue, $mobileValue, $genderValue, $roleValue");
-
-      Map<String, dynamic> result = await authService.signUp(
-        name,
-        email,
-        passwordValue,
-        mobileValue,
-        genderValue,
-        roleValue,
-        imageValue,
-      );
-
-      if (result.containsKey('error')) {
-        print("Sign-up failed: ${result['error']}");
-      } else {
-        print("Sign-up successful: ${result['message']}");
-      }
-    } catch (error) {
-      print("Error during sign-up: $error");
-    }
-  }
-}
 
 
   @override
@@ -501,7 +415,7 @@ void _handleSignUp() async {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               image: DecorationImage(
-                                image: FileImage(selectedImage!),
+                              image: FileImage(File(selectedImage!.path)),
                                 fit: BoxFit.cover,
                               ),
                             ),

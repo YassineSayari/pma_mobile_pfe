@@ -50,6 +50,7 @@ dependencies:
   flutter_animate: ^4.5.0
   flutter_spinkit: ^5.2.0
   flutter_screenutil: ^5.9.0
+  flutter_svg: ^2.0.10+1
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -81,6 +82,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+    - assets/icons/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
