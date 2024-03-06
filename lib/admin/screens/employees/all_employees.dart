@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 //import 'package:http/http.dart';
 import 'package:pma/admin/widgets/admin_drawer.dart';
 import 'package:pma/custom_appbar.dart';
+import 'package:pma/custom_snackbar.dart';
 import 'package:pma/services/user_service.dart';
 import 'package:pma/theme.dart';
 
@@ -284,9 +285,11 @@ void _sort<T>(Comparable<T> Function(User user) getField, {required bool ascendi
                       Navigator.of(context).pop();
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text('Employee deleted successfully.'),
+                          content: SuccessSnackBar(message: "Employee deleted successfully !"),
                           duration: Duration(seconds: 2),
-                          backgroundColor: Colors.yellow,
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Colors.transparent,
+                          elevation: 0,
                         ),
                       );
                     },

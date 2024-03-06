@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pma/custom_snackbar.dart';
 import 'package:pma/services/user_service.dart';
 import 'package:pma/theme.dart';
 import '../../../models/user_model.dart';
@@ -54,14 +55,25 @@ else{
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Client updated successfully!',style:TextStyle(color: Colors.black45,fontWeight: FontWeight.w600),),
+          content: SuccessSnackBar(message: "Client updated successfully!"),
           duration: Duration(seconds: 2),
-          backgroundColor: Colors.yellowAccent,
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
         ),
       );
 
     } catch (error) {
       print('Error updating client: $error');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: FailSnackBar(message: "Failed to  update client!"),
+          duration: Duration(seconds: 2),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          elevation: 0,          
+        ),
+      );
     }
     }
   }

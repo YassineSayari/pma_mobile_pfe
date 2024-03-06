@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pma/const.dart';
+import 'package:pma/custom_snackbar.dart';
 import 'package:pma/models/user_model.dart';
 import 'package:pma/profile/profile_edit.dart';
 import 'package:pma/theme.dart';
@@ -177,18 +178,22 @@ class SecuritySettings extends StatelessWidget {
       await UserService().changePassword(userId, newPassword);
           ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Password changed successfully!', style: TextStyle(color: Colors.black45, fontWeight: FontWeight.w600)),
+        content: SuccessSnackBar(message: "Password changed successfully"),
         duration: Duration(seconds: 2),
-        backgroundColor: Colors.yellowAccent,
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
     );
       print("password changed");
     } catch (error) {
                 ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Failed to change password', style: TextStyle(color: Colors.black45, fontWeight: FontWeight.w600)),
+        content: FailSnackBar(message: "Failed to change password, please try again"),
         duration: Duration(seconds: 2),
-        backgroundColor: Colors.red,
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
     );
       print('Error changing password: $error');

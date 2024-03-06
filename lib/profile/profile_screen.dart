@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pma/admin/widgets/admin_drawer.dart';
 import 'package:pma/client/widgets/client_drawer.dart';
 import 'package:pma/engineer/widgets/engineer_drawer.dart';
@@ -48,7 +49,7 @@ class _ProfileState extends State<Profile> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
-              child: CircularProgressIndicator(),
+              child: SpinKitDualRing(color: Colors.blue,),
             );
           } else if (snapshot.hasError) {
             return Center(

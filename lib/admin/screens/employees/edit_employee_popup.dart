@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:pma/custom_snackbar.dart';
 import 'package:pma/theme.dart';
 import '../../../models/user_model.dart';
 import '../../../services/user_service.dart';
@@ -68,13 +69,24 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
         Navigator.of(context).pushReplacementNamed("/allemployees");
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Employee updated successfully!',style:TextStyle(color: Colors.black45,fontWeight: FontWeight.w600),),
+            content: SuccessSnackBar(message: "Employee updated successfully!"),
             duration: Duration(seconds: 2),
-            backgroundColor: Colors.yellowAccent,
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
           ),
         );
       } catch (error) {
         print('Error updating employee: $error');
+                ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: FailSnackBar(message: "failed to update eployee!"),
+            duration: Duration(seconds: 2),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+          ),
+        );
       }
     }
   }

@@ -1,9 +1,11 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:intl/intl.dart';
 import 'package:pma/custom_appbar.dart';
+import 'package:pma/theme.dart';
 
 import '../../../services/user_service.dart';
 import '../../widgets/admin_drawer.dart';
@@ -72,20 +74,20 @@ class _AddClientState extends State<AddClient> {
                           keyboardType: TextInputType.text,
                           style: TextStyle(
                             color: Color(0xFF000000),
-                            fontSize: 25,
-                            fontFamily: 'Poppins',
+                            fontSize: 25.sp,
+                            fontFamily: AppTheme.fontName,
                             fontWeight: FontWeight.w500,
                           ),
                           decoration: InputDecoration(
                             labelText: 'Name*',
                             labelStyle: TextStyle(
                               color: Color(0xFF7743DB),
-                              fontSize: 20,
-                              fontFamily: 'Poppins',
+                              fontSize: 20.sp,
+                              fontFamily: AppTheme.fontName,
                               fontWeight: FontWeight.w600,
                             ),
                             enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                              borderRadius: BorderRadius.all(Radius.circular(10.r)),
                               borderSide: BorderSide(
                                 width: 3,
                                 color: Colors.grey,
@@ -112,16 +114,16 @@ class _AddClientState extends State<AddClient> {
                           keyboardType: TextInputType.text,
                           style: TextStyle(
                             color: Color(0xFF000000),
-                            fontSize: 25,
-                            fontFamily: 'Poppins',
+                            fontSize: 25.sp,
+                            fontFamily: AppTheme.fontName,
                             fontWeight: FontWeight.w500,
                           ),
                           decoration: InputDecoration(
                             labelText: 'Company name*',
                             labelStyle: TextStyle(
                               color: Color(0xFF7743DB),
-                              fontSize: 20,
-                              fontFamily: 'Poppins',
+                              fontSize: 20.sp,
+                              fontFamily:AppTheme.fontName,
                               fontWeight: FontWeight.w600,
                             ),
                             enabledBorder: OutlineInputBorder(
@@ -155,16 +157,16 @@ class _AddClientState extends State<AddClient> {
                           keyboardType: TextInputType.text,
                           style: TextStyle(
                             color: Color(0xFF000000),
-                            fontSize: 25,
-                            fontFamily: 'Poppins',
+                            fontSize: 25.sp,
+                            fontFamily:AppTheme.fontName,
                             fontWeight: FontWeight.w500,
                           ),
                           decoration: InputDecoration(
                             labelText: 'Email*',
                             labelStyle: TextStyle(
                               color: Color(0xFF755DC1),
-                              fontSize: 20,
-                              fontFamily: 'Poppins',
+                              fontSize: 20.sp,
+                              fontFamily: AppTheme.fontName,
                               fontWeight: FontWeight.w600,
                             ),
                             enabledBorder: OutlineInputBorder(
@@ -197,16 +199,16 @@ class _AddClientState extends State<AddClient> {
                           keyboardType: TextInputType.number,
                           style: TextStyle(
                             color: Color(0xFF000000),
-                            fontSize: 27,
-                            fontFamily: 'Poppins',
+                            fontSize: 27.sp,
+                            fontFamily: AppTheme.fontName,
                             fontWeight: FontWeight.w500,
                           ),
                           decoration: InputDecoration(
                             labelText: 'Mobile*',
                             labelStyle: TextStyle(
                               color: Color(0xFF755DC1),
-                              fontSize: 15,
-                              fontFamily: 'Poppins',
+                              fontSize: 15.sp,
+                              fontFamily:AppTheme.fontName,
                               fontWeight: FontWeight.w600,
                             ),
                             enabledBorder: OutlineInputBorder(
@@ -258,8 +260,8 @@ class _AddClientState extends State<AddClient> {
                                   labelText: 'Date*',
                                   labelStyle: TextStyle(
                                     color: Color(0xFF7743DB),
-                                    fontSize: 15,
-                                    fontFamily: 'Poppins',
+                                    fontSize: 15.sp,
+                                    fontFamily: AppTheme.fontName,
                                     fontWeight: FontWeight.w600,
                                   ),
                                   enabledBorder: OutlineInputBorder(
@@ -297,16 +299,16 @@ class _AddClientState extends State<AddClient> {
                           obscureText: true,
                           style: TextStyle(
                             color: Color(0xFF000000),
-                            fontSize: 25,
-                            fontFamily: 'Poppins',
+                            fontSize: 25.sp,
+                            fontFamily: AppTheme.fontName,
                             fontWeight: FontWeight.w500,
                           ),
                           decoration: InputDecoration(
                             labelText: 'Password*',
                             labelStyle: TextStyle(
                               color: Color(0xFF755DC1),
-                              fontSize: 20,
-                              fontFamily: 'Poppins',
+                              fontSize: 20.sp,
+                              fontFamily: AppTheme.fontName,
                               fontWeight: FontWeight.w600,
                             ),
                             enabledBorder: OutlineInputBorder(
@@ -338,16 +340,16 @@ class _AddClientState extends State<AddClient> {
                           obscureText: true,
                           style: TextStyle(
                             color: Color(0xFF000000),
-                            fontSize: 25,
-                            fontFamily: 'Poppins',
+                            fontSize: 25.sp,
+                            fontFamily: AppTheme.fontName,
                             fontWeight: FontWeight.w500,
                           ),
                           decoration: InputDecoration(
                             labelText: 'Re-Enter Password',
                             labelStyle: TextStyle(
                               color: Color(0xFF755DC1),
-                              fontSize: 20,
-                              fontFamily: 'Poppins',
+                              fontSize: 20.sp,
+                              fontFamily: AppTheme.fontName,
                               fontWeight: FontWeight.w600,
                             ),
                             enabledBorder: OutlineInputBorder(
@@ -380,8 +382,8 @@ class _AddClientState extends State<AddClient> {
                             children: [
                               if (selectedImage != null)
                                 Container(
-                                  width: 100,
-                                  height: 100,
+                                  width: 100.w,
+                                  height: 100.h,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
@@ -401,8 +403,8 @@ class _AddClientState extends State<AddClient> {
                                 'Upload Image',
                                 style: TextStyle(
                                   color: Colors.grey[600],
-                                  fontSize: 15,
-                                  fontFamily: 'Poppins',
+                                  fontSize: 15.sp,
+                                  fontFamily: AppTheme.fontName,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -416,46 +418,50 @@ class _AddClientState extends State<AddClient> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              ElevatedButton(
-                                onPressed: () {
-                                  print("submit pressed");
-                                  if (_formKey.currentState!.validate()) {
-                                      addClient();
-                                  }
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xFF9F7BFF),
-                                    shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                        ),
-                                ),
-                                child: Text('Submit',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 30,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w500,
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    print("submit pressed");
+                                    if (_formKey.currentState!.validate()) {
+                                        addClient();
+                                    }
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xFF9F7BFF),
+                                      shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                                        ),
+                                  ),
+                                  child: Text('Submit',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 30.sp,
+                                      fontFamily: AppTheme.fontName,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                 ),
                               ),
                               SizedBox(width: 10),
-                              ElevatedButton(
-                                onPressed: () {
-                                    print("resetting...");
-                                    resetForm();
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.red,
-                                    shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                      print("resetting...");
+                                      resetForm();
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.red,
+                                      shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
                                 ),
-                                child: Text('Cancel',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 30,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  child: Text('Cancel',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 30.sp,
+                                      fontFamily: AppTheme.fontName,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                 ),
                               ),

@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
+import 'package:pma/const.dart';
+import 'package:pma/custom_snackbar.dart';
+import 'package:pma/theme.dart';
 
 import '../../services/user_service.dart';
 
@@ -9,6 +14,7 @@ class SignUpRequester extends StatelessWidget {
   final String role;
   final String mobile;
   final String email;
+  final String image;
 
   const SignUpRequester({
     Key? key,
@@ -17,54 +23,50 @@ class SignUpRequester extends StatelessWidget {
     required this.mobile,
     required this.email,
     required this.userId,
+     required this.image,
   }) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        shape: BoxShape.rectangle,
-        color: Color(0xff8191da),
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 5,
-            blurRadius: 7,
-            offset: Offset(0, 3),
-          ),
-        ],
-      ),
-      width: 200,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              '$name - $role',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
+        child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+                Container(
+                  width: 200.w,
+                  height: 200.w,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: NetworkImage("$imageUrl/${image}"),
+                      fit: BoxFit.cover,
+                    ),
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              'Mobile: $mobile\nEmail: $email',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 25,
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center(
-              child: Row(
+              SizedBox(height: 20.h),
+                  Text(
+                    "Details",
+                style: TextStyle(fontSize: 35.sp, fontWeight: FontWeight.w600,fontFamily: AppTheme.fontName),
+                  ),
+                  SizedBox(height: 15.h),
+                  buildInfoRow(Icons.person, "Full Name:", name),
+                  buildInfoRow(Icons.people_rounded, "Role:", role),
+                  buildInfoRow(Icons.email, "Email:", email),
+                  buildInfoRow(Icons.phone, "Phone:", mobile),
+              SizedBox(height: 20.h),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child:  Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   IconButton(
@@ -73,20 +75,51 @@ class SignUpRequester extends StatelessWidget {
                       },
                     icon: Icon(Icons.check_box_outlined),
                     tooltip: 'Approve',
-                    iconSize: 40,
+                    iconSize: 40.sp,
+                    color: Colors.blue,
 
                   ),
-                  SizedBox(width: 8),
+                  SizedBox(width: 50.w),
                   IconButton(
                     onPressed: () {
                       _showDeleteDialog(context, userId);
                     },
                     icon: Icon(Icons.delete_outline_rounded),
                     tooltip: 'Delete',
-                    iconSize: 40,
+                    iconSize: 40.sp,
+                    color: Colors.red,
                   ),
                 ],
               ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+  }
+
+    Widget buildInfoRow(IconData icon, String label, String value) {
+    return Padding(
+      padding:  EdgeInsets.symmetric(vertical: 8.0.h,horizontal: 8.0.h),
+      child: Row(
+        children: [
+          Icon(
+            icon,
+            color: AppTheme.buildLightTheme().primaryColor,
+            size: 25.sp,
+          ),
+          SizedBox(width: 10.h),
+          Text(
+            label,
+            style: TextStyle(fontSize: 20.sp,fontWeight:FontWeight.w500,fontFamily: AppTheme.fontName),
+          ),
+                    SizedBox(width: 10.w),
+
+          Flexible(
+            child: Text(
+              value,
+              style: TextStyle(fontSize: 20.sp,fontFamily: AppTheme.fontName),
             ),
           ),
         ],
@@ -100,53 +133,73 @@ class SignUpRequester extends StatelessWidget {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title:
-          /* Text Simple :
-           content: Text("Are you sure you want to deny $name's signup? \n Name: $name \n Role:$role \n Mobile: $mobile"),
-           */
-          //Text Styled bl bold:
-          Text("Delete Confirmation"),
-          content: RichText(
-            text: TextSpan(
-              text: "Are you sure you want to deny $name's signup?\n",
-              style: DefaultTextStyle.of(context).style,
-              children: <TextSpan>[
-                TextSpan(
-                  text: 'Name: ',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+        return Dialog(
+           shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0.r),
+      ),
+      insetPadding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 28.h),
+      child:Container(
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
+        child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+
+          Text("Denial Confirmation",
+          style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w600,fontFamily: AppTheme.fontName),
+          ),
+          SizedBox(height: 10.h),
+          Text(
+            "Are you sure you want to deny $name's signup?",  
+            style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w500,fontFamily: AppTheme.fontName),
+          ),
+          SizedBox(height: 10.h),
+          Text("Name: $name",
+            style: TextStyle(fontSize: 20.sp,fontFamily: AppTheme.fontName),
+          ),
+          Text("Email: $email",
+             style: TextStyle(fontSize: 20.sp,fontFamily: AppTheme.fontName),
+          ),
+          Text("Role: $role",
+             style: TextStyle(fontSize: 20.sp,fontFamily: AppTheme.fontName),
+          ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: () async {
+                    print("delete pressed");
+                    UserService userService = GetIt.I<UserService>();
+                    await userService.deleteUser(userId);
+                    Navigator.of(context).pushReplacementNamed('/signuprequests');
+                        ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: SuccessSnackBar(message: "Request denied successfully !"),
+                          duration: Duration(seconds: 2),
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Colors.transparent,
+                          elevation: 0,
+                        ),
+                      );
+                  },
+                  child: Text("Delete",style: TextStyle(color:Colors.red,fontFamily: AppTheme.fontName,fontWeight: FontWeight.w500,fontSize: 20.sp)),
                 ),
-                TextSpan(text: '$name\n'),
-                TextSpan(
-                  text: 'Role: ',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("Cancel",style: TextStyle(fontFamily: AppTheme.fontName,fontWeight: FontWeight.w500,fontSize: 20.sp)),
                 ),
-                TextSpan(text: '$role\n'),
-                TextSpan(
-                  text: 'Mobile: ',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                TextSpan(text: '$mobile'),
               ],
             ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () async {
-                UserService userService = GetIt.I<UserService>();
-                await userService.deleteUser(userId);
-                Navigator.of(context).pushReplacementNamed('/signuprequests');
-              },
-              child: Text("Delete"),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text("Cancel"),
-            ),
           ],
-        );
+                      
+            ),
+        ),
+      ),
+      ).animate(delay: 100.ms).fade().scale();
       },
     );
   }
@@ -154,53 +207,75 @@ class SignUpRequester extends StatelessWidget {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title:
-          /* Text Simple :
-           content: Text("Are you sure you want to Accept $name's signup? \n Name: $name \n Role:$role \n Mobile: $mobile"),
-           */
-          //Text Styled bl bold:
-          Text("Confirmation"),
-          content: RichText(
-            text: TextSpan(
-              text: "Are you sure you want to Accept $name's signup?\n",
-              style: DefaultTextStyle.of(context).style,
-              children: <TextSpan>[
-                TextSpan(
-                  text: 'Name: ',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                TextSpan(text: '$name\n'),
-                TextSpan(
-                  text: 'Role: ',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                TextSpan(text: '$role\n'),
-                TextSpan(
-                  text: 'Mobile: ',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                TextSpan(text: '$mobile'),
-              ],
-            ),
+        return Dialog(
+           shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0.r),
+      ),
+      insetPadding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 28.h),
+      child:Container(
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
+        child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+
+          Text("Acceptance Confirmation",
+          style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w600,fontFamily: AppTheme.fontName),
           ),
-          actions: [
-            TextButton(
-              onPressed: () async {
-                UserService userService = GetIt.I<UserService>();
-                await userService.confirmSignupRequests(userId);
-              },
-              child: Text("Accept"),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text("Cancel"),
+          SizedBox(height: 10.h),
+          Text(
+            "Are you sure you want to accept $name's signup?",  
+            style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w500,fontFamily: AppTheme.fontName),
+          ),
+          SizedBox(height: 10.h),
+          Text("Name: $name",
+            style: TextStyle(fontSize: 20.sp,fontFamily: AppTheme.fontName),
+          ),
+          Text("Email: $email",
+             style: TextStyle(fontSize: 20.sp,fontFamily: AppTheme.fontName),
+          ),
+          Text("Role: $role",
+             style: TextStyle(fontSize: 20.sp,fontFamily: AppTheme.fontName),
+          ),
+          SizedBox(height: 10.h),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: () async {
+                    UserService userService = GetIt.I<UserService>();
+                    await userService.confirmSignupRequests(userId);
+                    Navigator.of(context).pushReplacementNamed('/signuprequests');
+                    ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: SuccessSnackBar(message: "Request accepted successfully !"),
+                              duration: Duration(seconds: 2),
+                              behavior: SnackBarBehavior.floating,
+                              backgroundColor: Colors.transparent,
+                              elevation: 0,
+                            ),
+                          );
+                  },
+                  child: Text("Accept",style: TextStyle(fontFamily: AppTheme.fontName,fontWeight: FontWeight.w500,fontSize: 20.sp)),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("Cancel",style: TextStyle(fontFamily: AppTheme.fontName,fontWeight: FontWeight.w500,fontSize: 20.sp)),
+                ),
+              ],
             ),
 
           ],
-        );
+                      
+            ),
+        ),
+      ),
+      ).animate(delay: 100.ms).fade().scale();
       },
     );
   }

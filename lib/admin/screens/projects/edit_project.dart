@@ -7,6 +7,7 @@ import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:pma/custom_appbar.dart';
+import 'package:pma/custom_snackbar.dart';
 import 'package:pma/models/user_model.dart';
 import 'package:pma/services/user_service.dart';
 
@@ -89,17 +90,21 @@ class _EditProjectState extends State<EditProject> {
       await projectService.updateProject(widget.projectId, updatedProjectData);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Project Updated successfully',style: TextStyle(color: Colors.black45, fontWeight: FontWeight.w600)),
+          content:SuccessSnackBar(message: "Project Updated successfully!"),
         duration: Duration(seconds: 2),
-        backgroundColor: Colors.yellowAccent,
+        behavior: SnackBarBehavior.floating,
+         backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
       );
     } catch (error) {
             ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Failed to update project',style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
+          content: FailSnackBar(message: "Failed to update project, please try again"),
         duration: Duration(seconds: 2),
-        backgroundColor: Colors.grey,
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
       );
       print("Error updating project: $error");

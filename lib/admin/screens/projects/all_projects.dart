@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pma/admin/widgets/admin_drawer.dart';
+import 'package:pma/custom_snackbar.dart';
 import 'package:pma/theme.dart';
 import '../../../custom_appbar.dart';
 import '../../../services/project_service.dart';
@@ -141,11 +142,13 @@ class _AllProjectsState extends State<AllProjects> {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content:
-                      Text('Project Updated to: $newStatus',style: TextStyle(color: Colors.black45, fontWeight: FontWeight.w600)),
-        duration: Duration(seconds: 2),
-        backgroundColor: Colors.yellowAccent,
-      ),
-      );
+                      SuccessSnackBar(message: 'Project Updated to: $newStatus'),
+                  duration: Duration(seconds: 2),
+                  behavior: SnackBarBehavior.floating,
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                 ),
+              );
               Navigator.of(context).pushReplacementNamed('/allprojects');
 
             },

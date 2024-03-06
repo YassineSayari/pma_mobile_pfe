@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:pma/custom_appbar.dart';
+import 'package:pma/custom_snackbar.dart';
 import 'package:pma/models/user_model.dart';
 import 'package:pma/services/project_service.dart';
 import '../../../services/user_service.dart';
@@ -594,9 +595,11 @@ class _AddProjectState extends State<AddProject> {
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Project added successfully',style: TextStyle(color: Colors.black45, fontWeight: FontWeight.w600)),
+          content: SuccessSnackBar(message: "Project added successfully!"),
         duration: Duration(seconds: 2),
-        backgroundColor: Colors.yellowAccent,
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
       );
 
@@ -607,7 +610,7 @@ class _AddProjectState extends State<AddProject> {
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Failed to add project. Please try again.'),
+          content: FailSnackBar(message: "Failed to add project. Please try again!"),
           duration: Duration(seconds: 2),
           behavior: SnackBarBehavior.floating,
         ),

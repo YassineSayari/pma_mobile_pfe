@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:pma/admin/screens/projects/edit_project.dart';
+import 'package:pma/custom_snackbar.dart';
 import 'package:pma/theme.dart';
 
 import '../../services/project_service.dart';
@@ -361,9 +362,11 @@ class _ProjectContainerState extends State<ProjectContainer> {
                           Navigator.of(context).pushReplacementNamed("/allprojects");
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text('Project deleted successfully.'),
+                              content: SuccessSnackBar(message: "Project deleted successfylly!"),
                               duration: Duration(seconds: 2),
-                              backgroundColor: Colors.yellow,
+                              behavior: SnackBarBehavior.floating,
+                              backgroundColor: Colors.transparent,
+                              elevation: 0,
                             ),
                           );
                         },

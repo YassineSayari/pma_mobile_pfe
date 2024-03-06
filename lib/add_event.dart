@@ -369,7 +369,6 @@ if (!_formKey.currentState!.validate()) {
         SnackBar(
           content:SuccessSnackBar(message: "Event added successfully",
           ),
-          // Text('Event added successfully',style: TextStyle(color: Colors.black45, fontWeight: FontWeight.w600)),
                   behavior: SnackBarBehavior.floating,
                   backgroundColor: Colors.transparent,
                   elevation: 0,

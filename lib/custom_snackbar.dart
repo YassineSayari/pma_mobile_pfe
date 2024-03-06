@@ -10,13 +10,14 @@ class CustomSnackBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Center(
               child: ElevatedButton(
             onPressed: () {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: FailSnackBar(message: 'fdqqdsfdgvbfdvlkfms;chnj,lk;l',),
+                  content: FailSnackBar(message: 'Failed to update ......., please try again',),
                   behavior: SnackBarBehavior.floating,
                   backgroundColor: Colors.transparent,
                   elevation: 0,
@@ -30,7 +31,7 @@ class CustomSnackBar extends StatelessWidget {
             onPressed: () {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: SuccessSnackBar(message: 'fdqqdsfdgvbfdvlkfms;chnj,lk;l',),
+                  content: SuccessSnackBar(message: 'finished .., client updated... successfully!',),
                   behavior: SnackBarBehavior.floating,
                   backgroundColor: Colors.transparent,
                   elevation: 0,
@@ -58,8 +59,8 @@ class FailSnackBar extends StatelessWidget {
       clipBehavior: Clip.none,
       children: [
           Container(
-          padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 16.h),
-          height: 90.h,
+          padding: EdgeInsets.symmetric(horizontal: 2.w,vertical: 16.h),
+          height: 92.h,
           decoration: BoxDecoration(
             color: Colors.red,
             borderRadius: BorderRadius.all(Radius.circular(20.r)),
@@ -88,7 +89,7 @@ class FailSnackBar extends StatelessWidget {
           bottom: 0,
           child: ClipRRect(
             borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(20),
+              bottomLeft: Radius.circular(20.r),
             ),
             child: SvgPicture.asset("assets/icons/bubbles.svg",
             height: 48.h,
@@ -134,7 +135,7 @@ class SuccessSnackBar extends StatelessWidget {
       children: [
           Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 16.h),
-          height: 90.h,
+          height: 92.h,
           decoration: BoxDecoration(
             color: Colors.green,
             borderRadius: BorderRadius.all(Radius.circular(20.r)),
