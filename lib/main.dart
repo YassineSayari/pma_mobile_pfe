@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pma/admin/reclamations/add_reclamation.dart';
 import 'package:pma/admin/reclamations/all_reclamations.dart';
 import 'package:pma/admin/screens/clients/add_client.dart';
 import 'package:pma/admin/screens/employees/add_employee.dart';
@@ -110,6 +111,8 @@ class _MyAppState extends State<MyApp> {
         '/addproject':(context)=>AddProject(),
 
         '/reclamations':(context)=>AllReclamations(),
+        '/addreclamation':(context)=>AddReclamation(),
+
 
         '/allclients':(context)=>AllClients(),
         '/addclient':(context)=>AddClient(),

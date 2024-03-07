@@ -1,91 +1,7 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter_screenutil/flutter_screenutil.dart';
-// import 'package:flutter_spinkit/flutter_spinkit.dart';
-// import 'package:pma/admin/reclamations/reclamation_container.dart';
-// import 'package:pma/admin/widgets/admin_drawer.dart';
-// import 'package:pma/admin/widgets/search_bar.dart';
-// import 'package:pma/custom_appbar.dart';
-// import 'package:pma/models/reclamation_model.dart';
-// import 'package:pma/services/reclamation_service.dart';
-
-// class AllReclamations extends StatefulWidget {
-//   const AllReclamations({super.key});
-
-//   @override
-//   State<AllReclamations> createState() => _AllReclamationsState();
-// }
-
-// class _AllReclamationsState extends State<AllReclamations> {
-//   late Future<List<Reclamation>> reclamations;
-//   List<Reclamation> allReclamations = [];
-//   late Reclamation reclamation;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     reclamations = ReclamationService().getAllReclamations();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       drawer: AdminDrawer(selectedRoute: '/reclamations'),
-//       body: Column(
-//         children: [
-//           CustomAppBar(title: "Claims"),
-//           SizedBox(height: 15.h),
-//           UserSearchBar(onChanged: onSearchTextChanged,  onTap: (){
-//                 initState();
-//                 print("refresh tapped");
-//                 },), // Pass the callback function
-//           SizedBox(height: 15.h),
-//           Expanded(
-//             child: FutureBuilder<List<Reclamation>>(
-//               future: reclamations,
-//               builder: (context, snapshot) {
-//                 if (snapshot.connectionState == ConnectionState.done) {
-//                   List<Reclamation> data = snapshot.data!;
-//                   return Padding(
-//                     padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
-//                     child: ListView.builder(
-//                       itemCount: data.length,
-//                       itemBuilder: (context, index) {
-//                         return Column(
-//                           children: [
-//                             Text("${data[index].title}"),
-//                             ReclamationContainer(reclamation: data[index]),
-//                             SizedBox(height: 5.h),
-//                           ],
-//                         );
-//                       },
-//                     ),
-//                   );
-//                 } else {
-//                   return Center(child: SpinKitCubeGrid(color: Colors.blue));
-//                 }
-//               },
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-
-//   void onSearchTextChanged(String text) {
-//     print('Search text changed: $text');
-//     setState(() {
-//       reclamations = ReclamationService().getAllReclamations().then((allReclamations) {
-//         return allReclamations.where((reclamation) {
-//           final titleMatch = reclamation.title.toLowerCase().contains(text.toLowerCase());
-//           return titleMatch;
-//         }).toList();
-//       });
-//     });
-//   }
-// }
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:pma/admin/reclamations/add_reclamation.dart';
 import 'package:pma/admin/reclamations/reclamation_container.dart';
 import 'package:pma/admin/widgets/admin_drawer.dart';
 import 'package:pma/admin/widgets/search_bar.dart';
@@ -131,10 +47,11 @@ class _AllReclamationsState extends State<AllReclamations> {
           SizedBox(height: 15.h),
           UserSearchBar(onChanged: onSearchTextChanged,
           onTap: (){
-
+            Navigator.of(context).pushNamed("/addreclamation");
           },
           ), 
           SizedBox(height: 10.h),
+          
           Padding(
             padding: const EdgeInsets.only(left: 12.0),
             child: Row(
@@ -143,8 +60,26 @@ class _AllReclamationsState extends State<AllReclamations> {
                 style: TextStyle(fontSize: 18.sp,fontFamily: AppTheme.fontName,fontWeight: FontWeight.w500
                 ),
                 ),
+                SizedBox(width: 30),
+                GestureDetector(
+                   onTap: (){
+                      showDialog(context: context, builder: (context)=>AddReclamation());
+                            // Navigator.of(context).pushReplacementNamed('/addreclamation');
+                                  },
+                   child: Container(
+                   decoration: BoxDecoration(
+                   color: Colors.blue, 
+                  borderRadius: BorderRadius.circular(4.0.r),  
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 4.0.w,vertical: 4.0.h),
+                   child: Icon(
+                  Icons.add,
+                 size: 30.sp,
+                 ),
+                ),
+                ),
                 Spacer(),
-                                PopupMenuButton<String>(
+                PopupMenuButton<String>(
                   onSelected: (value) {
                     _handleSortOption(value);
                   },

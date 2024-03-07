@@ -220,12 +220,13 @@ class _ReclamationContainerState extends State<ReclamationContainer> {
                   children: [
                       GestureDetector(
                       onTap: () {
-                          Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => EditReclamationPopup(reclamation: widget.reclamation),
-                                ),
-                              );                      
+                        showDialog(context: context, builder: (context)=> EditReclamationPopup(reclamation: widget.reclamation));
+                          // Navigator.push(
+                          //       context,
+                          //       MaterialPageRoute(
+                          //         builder: (context) => EditReclamationPopup(reclamation: widget.reclamation),
+                          //       ),
+                          //     );                      
                           },
                       child: Icon(
                         Icons.edit_outlined,
@@ -301,7 +302,7 @@ class _ReclamationContainerState extends State<ReclamationContainer> {
                           ReclamationService().deleteReclamation(id);
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: SuccessSnackBar(message: "Reclamation deleted successfully!"),
+                              content: SuccessSnackBar(message: "Reclamation deleted !"),
                               duration: Duration(seconds: 2),
                               behavior: SnackBarBehavior.floating,
                               backgroundColor: Colors.transparent,

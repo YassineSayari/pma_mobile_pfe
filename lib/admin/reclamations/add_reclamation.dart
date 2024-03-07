@@ -11,19 +11,18 @@ import 'package:pma/services/reclamation_service.dart';
 import 'package:pma/services/user_service.dart';
 import 'package:pma/theme.dart';
 
-class EditReclamationPopup extends StatefulWidget {
-  final Reclamation reclamation;
-  const EditReclamationPopup({super.key, required this.reclamation});
+class AddReclamation extends StatefulWidget {
+  const AddReclamation({super.key});
 
   @override
-  State<EditReclamationPopup> createState() => _EditReclamationPopupState();
+  State<AddReclamation> createState() => _addReclamationState();
 }
 
-class _EditReclamationPopupState extends State<EditReclamationPopup> {
+class _addReclamationState extends State<AddReclamation> {
 
     final _formKey = GlobalKey<FormState>();
 
-    late TextEditingController titleController;
+    final TextEditingController titleController = TextEditingController();
     late Future<List<Map<String, dynamic>>> projects;
     late Future<List<User>> clients;
 
@@ -35,8 +34,8 @@ class _EditReclamationPopupState extends State<EditReclamationPopup> {
 
     DateTime? creationDate;
     final TextEditingController creationDateController = TextEditingController();
-    late TextEditingController commentController;
-    late TextEditingController responseController;
+    late TextEditingController commentController= TextEditingController();
+    late TextEditingController responseController= TextEditingController();
 
   final ProjectService projectService = GetIt.I<ProjectService>();
   final ReclamationService reclamationService = GetIt.I<ReclamationService>();
@@ -46,23 +45,7 @@ class _EditReclamationPopupState extends State<EditReclamationPopup> {
     super.initState();
     projects = projectService.getAllProjects();
     clients=UserService().getAllClients();
-
-    titleController = TextEditingController(text: widget.reclamation.title);
-    commentController= TextEditingController(text: widget.reclamation.comment);
-    responseController=TextEditingController(text: widget.reclamation.reponse);
-    projectid = widget.reclamation.project["_id"];
-    clientid=widget.reclamation.client["_id"];
-    reclamationStatus= widget.reclamation.status;
-    reclamationType= widget.reclamation.typeReclamation;
-
-    creationDate = DateTime.parse(widget.reclamation.addedDate);
-    creationDateController.text = DateFormat('yyyy-MM-dd').format(creationDate!);
-
-    
-
-    print("proejct id::::: $projectid");
-    print("client id::::: $clientid");
-    
+    reclamationStatus = 'Pending';
 
   }
 
@@ -86,7 +69,7 @@ class _EditReclamationPopupState extends State<EditReclamationPopup> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Center(child: Text("Edit",style: TextStyle(fontFamily: AppTheme.fontName,fontWeight: FontWeight.w600,fontSize: 34.sp),)),
+                Center(child: Text("New Reclamation",style: TextStyle(fontFamily: AppTheme.fontName,fontWeight: FontWeight.w600,fontSize: 34.sp),)),
                 SizedBox(height: 30.h),
                 TextFormField(
                   controller: titleController,
@@ -478,7 +461,7 @@ class _EditReclamationPopupState extends State<EditReclamationPopup> {
                               Expanded(
                                 child: ElevatedButton(
                                   onPressed: (){
-                                    _updateReclamation();
+                                   _addReclamation();
                                         Navigator.of(context).pushReplacementNamed('/reclamations');
                                   },
                                              child: Text("Save",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily:AppTheme.fontName),),
@@ -515,43 +498,46 @@ class _EditReclamationPopupState extends State<EditReclamationPopup> {
     );
   }
 
-   Future<void> _updateReclamation() async {
+   Future<void> _addReclamation() async {
+    final List<Map<String, dynamic>> projectsList = await projects;
         try {
-          Reclamation updatedReclamation = Reclamation(
-            id: widget.reclamation.id,
-            title: titleController.text,
-            status:reclamationStatus,
-            comment: commentController.text,
-            typeReclamation:reclamationType! ,
-            client: {'_id': clientid},
-            addedDate: DateFormat('yyyy-MM-dd').format(creationDate!),
-            project: {'_id': projectid},
+          Map<String, dynamic> newReclamation = {
+                  'Title' : titleController.text,
+                  'Comment': commentController.text,
+                  'reponse': responseController.text,
+                  'Type_Reclamation': reclamationType,
+                  'Addeddate': creationDate?.toIso8601String(),
+                  'project': projectsList
+                  .firstWhere((project) => project['_id'] == projectid),
+                  'client' :clientid,
+                  'status' : reclamationStatus,
             
-          );
-          await reclamationService.updateReclamation(widget.reclamation.id,updatedReclamation);
+          };
+
+          await reclamationService.addReclamation(newReclamation);
 
            ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-            content: SuccessSnackBar(message: "Reclamation updated !"),
+            content: SuccessSnackBar(message: "Reclamation added !"),
             duration: Duration(seconds: 2),
             behavior: SnackBarBehavior.floating,
             backgroundColor: Colors.transparent,
             elevation: 0,
           ),
           );
-          Navigator.of(context).pushReplacementNamed('/reclamations');
+          print("cbon::::");
         }catch(error) {
-        print('Error updating reclamation: $error');
+        print('Error adding reclamation: $error');
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-            content: FailSnackBar(message: "failed to update reclamation!"),
+            content: FailSnackBar(message: "failed to add reclamation!"),
             duration: Duration(seconds: 2),
             behavior: SnackBarBehavior.floating,
             backgroundColor: Colors.transparent,
             elevation: 0,
           ),
           );
-          Navigator.of(context).pop();
+         // Navigator.of(context).pop();
       }
 
    }

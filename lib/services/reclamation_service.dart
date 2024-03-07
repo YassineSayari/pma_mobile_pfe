@@ -26,6 +26,29 @@ class ReclamationService {
     }
   }
 
+
+
+  Future<void>addReclamation(Map<String, dynamic> reclamation) async{
+      String? authToken = await SharedPrefs.getAuthToken();
+      print("adding reclamation-----");
+      print("new reclamation data::::::::: $reclamation");
+      
+ final response = await http.post(
+    Uri.parse('$apiUrl/AddReclamation'),
+    headers: {
+      'Authorization': 'Bearer $authToken',
+      'Content-Type': 'application/json',
+    },
+    body: jsonEncode(reclamation),
+  );
+
+  if (response.statusCode == 200) {
+    print("reclamation added");
+  } else {
+    throw Exception('Failed to add reclamation');
+  }
+  }
+
   Future<void> updateReclamation(String id, Reclamation updatedReclamation) async {
   String? authToken = await SharedPrefs.getAuthToken();
 
