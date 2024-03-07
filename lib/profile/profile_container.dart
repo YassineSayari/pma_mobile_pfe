@@ -8,8 +8,7 @@ import 'package:pma/theme.dart';
 
 import '../services/user_service.dart';
 
-const ip = "192.168.32.1";
-const port = 3002;
+
 
 class ProfileContainer extends StatelessWidget {
   final User user;
@@ -103,10 +102,12 @@ class Information extends StatelessWidget {
                 Row(   
                 children: [
                   Icon(Icons.home_outlined,size: 30.sp,),
-                  Text(
-                    " ${user.address}",
-                    style: TextStyle(fontSize: 25.sp,fontFamily: AppTheme.fontName),
-                    
+                  Flexible(
+                    child: Text(
+                      " ${user.address}",
+                      style: TextStyle(fontSize: 25.sp,fontFamily: AppTheme.fontName),
+                      
+                    ),
                   ),
                 ],
               ),

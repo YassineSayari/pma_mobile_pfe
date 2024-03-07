@@ -51,7 +51,7 @@ else{
       print("updating client");
       await userService.updateUser(widget.client.id, updatedData);
 
-      Navigator.of(context).pop();
+      Navigator.of(context).pushReplacementNamed('/allclients');
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

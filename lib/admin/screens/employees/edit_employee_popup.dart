@@ -87,6 +87,7 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
             elevation: 0,
           ),
         );
+        Navigator.of(context).pop();
       }
     }
   }

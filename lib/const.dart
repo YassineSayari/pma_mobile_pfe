@@ -4,8 +4,8 @@
 
 
 
-//const String ip="192.168.32.1";
-const String ip="192.168.0.19";
+const String ip="192.168.32.1";
+//const String ip="192.168.0.19";
 const String port="3002";
 
 const String baseUrl="http://$ip:$port";

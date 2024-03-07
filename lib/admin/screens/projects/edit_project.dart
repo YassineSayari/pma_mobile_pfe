@@ -255,7 +255,7 @@ Widget build(BuildContext context) {
                             return null;
                           },
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: 10.h),
                         // Project Type and Priority
                         DropdownButtonFormField(
                           value: projectType,
@@ -344,7 +344,7 @@ Widget build(BuildContext context) {
                             return null;
                           },
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: 10.h),
                                     TextFormField(
                                     onTap: () async {
                                       DateTime? pickedDate = await showDatePicker(
@@ -543,7 +543,7 @@ Widget build(BuildContext context) {
                             return null;
                           },
                         ),
-                         SizedBox(height: 10),
+                         SizedBox(height: 10.h),
           
                           Row(
                             children: [

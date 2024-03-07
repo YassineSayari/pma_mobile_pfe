@@ -33,9 +33,6 @@ class _AllEmployeesState extends State<AllEmployees> {
   List<User> employees = [];
   String _selectedSortOption=" ";
 
-  // int _rowsPerPage = 2;
-  // int _sortColumnIndex = 0;
-  // bool _sortAscending = true;
 
   final ExportEmployees exportEmployees = ExportEmployees();
 

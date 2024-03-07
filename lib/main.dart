@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pma/admin/reclamations/all_reclamations.dart';
 import 'package:pma/admin/screens/clients/add_client.dart';
 import 'package:pma/admin/screens/employees/add_employee.dart';
 import 'package:pma/admin/screens/projects/add_project.dart';
@@ -16,6 +17,7 @@ import 'package:pma/profile/profile_screen.dart';
 import 'package:pma/services/authentication_service.dart';
 import 'package:pma/services/export_utils.dart';
 import 'package:pma/services/project_service.dart';
+import 'package:pma/services/reclamation_service.dart';
 import 'package:pma/services/shared_preferences.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pma/services/user_service.dart';
@@ -30,7 +32,8 @@ void setupLocator() {
   GetIt.instance.registerLazySingleton(() => AuthService());
   GetIt.instance.registerLazySingleton(() => UserService());
   GetIt.instance.registerLazySingleton(() => ProjectService());
-   GetIt.instance.registerLazySingleton(() => EventService());
+  GetIt.instance.registerLazySingleton(() => ReclamationService());
+  GetIt.instance.registerLazySingleton(() => EventService());
   GetIt.instance.registerLazySingleton(() => ExportEmployees());
 }
 
@@ -106,7 +109,7 @@ class _MyAppState extends State<MyApp> {
         '/allprojects':(context)=>AllProjects(),
         '/addproject':(context)=>AddProject(),
 
-
+        '/reclamations':(context)=>AllReclamations(),
 
         '/allclients':(context)=>AllClients(),
         '/addclient':(context)=>AddClient(),

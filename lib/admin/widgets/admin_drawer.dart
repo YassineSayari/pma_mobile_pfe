@@ -160,7 +160,10 @@ class _AdminDrawerState extends State<AdminDrawer> {
             leading: Icon(Icons.receipt_long),
             title: Text('Reclamations',style: customStyle()),
             onTap: () {
+               Navigator.of(context).pushNamed('/reclamations');
             },
+            selected: widget.selectedRoute == '/reclamations',
+                  selectedTileColor: selectedColor,
           ),
           ListTile(
             leading: Icon(Icons.shield_outlined),

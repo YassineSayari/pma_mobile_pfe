@@ -267,7 +267,7 @@ final ImagePicker _imagePicker = ImagePicker();
       final response = await http.patch(
         Uri.parse('$apiUrl/change-psw/$userId'),
            headers: <String, String>{
-           'Content-Type': 'application/json; charset=UTF-8',
+           'Content-Type': 'application/json',
            'Authorization': 'Bearer $authToken',
          },
         body: jsonEncode({'password': newPassword}),

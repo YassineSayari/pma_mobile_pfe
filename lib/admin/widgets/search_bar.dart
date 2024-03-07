@@ -19,6 +19,7 @@ class UserSearchBar extends StatelessWidget {
           Expanded(
             child: Container(
               width: 300.w,
+              height: 50.h,
                     decoration: BoxDecoration(
                      color: Colors.white,
                      borderRadius:BorderRadius.circular(8.r),
