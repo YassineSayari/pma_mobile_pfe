@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
+import 'package:pma/add_event.dart';
 import 'package:pma/admin/widgets/admin_drawer.dart';
+import 'package:pma/custom_appbar.dart';
+import 'package:pma/theme.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import 'client/widgets/client_drawer.dart';
@@ -20,6 +24,8 @@ class Calendar extends StatefulWidget {
 }
 
 class _CalendarState extends State<Calendar> {
+  String? userId;
+
 
   DateTime today = DateTime.now();
   CalendarFormat calendarFormat = CalendarFormat.month;
@@ -36,6 +42,7 @@ class _CalendarState extends State<Calendar> {
   final EventService eventService = GetIt.instance<EventService>();
   List<Event> userEvents = [];
 Map<DateTime, List<Event>> eventsByDay = {};
+
 
   @override
   void initState() {
@@ -83,6 +90,17 @@ for (Event event in userEvents) {
 }
 
 
+Future<void> createEvent() async {
+    String? userId = await SharedPrefs().getLoggedUserIdFromPrefs();
+       showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        print("id:::::::$userId");
+        return AddEventContainer(userId: userId!);
+      });
+}
+
+
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) async {
     setState(() {
       today = selectedDay;
@@ -94,7 +112,7 @@ for (Event event in userEvents) {
         String formattedDate = DateFormat('EEEE, MMM d y').format(selectedDay);
         return Container(
           width: double.infinity,
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 16.h),
           decoration: BoxDecoration(
             color: Color.fromARGB(255, 188, 199, 220),
             borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -107,18 +125,19 @@ for (Event event in userEvents) {
                   '$formattedDate',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
+                    fontSize: 30.sp,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: AppTheme.fontName
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 10.h),
               Expanded(
                 child: Row(
                   children: [
                     Container(
-                      width: 125,
-                      padding:EdgeInsets.all(4),
+                      width: 125.w,
+                      padding:EdgeInsets.symmetric(horizontal: 4.w,vertical: 4.h),
                       child: ListView.builder(
                         itemCount: 17, // number of hours
                         itemBuilder: (context, index) {
@@ -126,7 +145,7 @@ for (Event event in userEvents) {
                           String formattedHour =
                               DateFormat('HH:mm a').format(DateTime(2022, 1, 1, hour));
                           return ListTile(
-                            title: Text('$formattedHour '),
+                            title: Text('$formattedHour ',style: TextStyle(fontFamily: AppTheme.fontName,fontSize: 15.sp,fontWeight: FontWeight.w500),),
                           );
                         },
                       ),
@@ -134,18 +153,18 @@ for (Event event in userEvents) {
                     VerticalDivider(
                       color: Color.fromARGB(255, 67, 20, 125),
                       thickness: 1,
-                      width: 40,
+                      width: 40.w,
                       indent: 30,
                       endIndent: 40,
                     ),
                     Flexible(
                       child: Container(
-                       //width: 200,
                         height: 200,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             color: Colors.amber,
                           ),
+                          child: Text(" "),
                         ),
                     ),
                     
@@ -164,18 +183,19 @@ Widget _buildEventsMarker(DateTime date, List events) {
   return AnimatedContainer(
     duration: const Duration(milliseconds:  300),
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(3),
+      borderRadius: BorderRadius.circular(3.r),
       shape: BoxShape.rectangle,
       color: _markerColor(date, events),
     ),
-    width:  16.0,
-    height:  16.0,
+    width:  20.0.w,
+    height:  20.0.h,
     child: Center(
       child: Text(
         '${events.length}',
         style: TextStyle().copyWith(
           color: Colors.white,
-          fontSize:  12.0,
+          fontSize:  15.0.sp,
+          fontFamily: AppTheme.fontName
         ),
       ),
     ),
@@ -197,118 +217,128 @@ Color _markerColor(DateTime date, List events) {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Calendar"),
-        centerTitle: true,
-      ),
       drawer: _buildDrawer(),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Row(
+      body: Column(
+        children: [
+          CustomAppBar(title: 'Calendar'),
+          SizedBox(height: 15.h),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
+            child: Column(
               children: [
-                Expanded(
-                  child: MultiSelectDropDown(
-                    onOptionSelected: (options) {
+                Row(
+                  children: [
+                    Expanded(
+                      child: MultiSelectDropDown(
+                        onOptionSelected: (options) {
+                          setState(() {
+                            selectedCategories = options;
+                          });
+                        },
+                        options: categories,
+                        selectionType: SelectionType.multi,
+                        chipConfig: const ChipConfig(wrapType: WrapType.scroll),
+                        optionTextStyle:  TextStyle(fontSize: 20.sp,fontFamily: AppTheme.fontName),
+                        selectedOptionIcon: const Icon(Icons.check_circle),
+                      ),
+                    ),
+                    SizedBox(width: 15.h),
+                    ElevatedButton(
+                      onPressed: () {
+
+                        createEvent();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue[900],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0.r),
+                        ),
+                      ),
+                      child: Text(
+                        "Add Event",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: AppTheme.fontName,
+                          fontSize: 20.sp
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10.h),
+                Container(
+                  child: TableCalendar(
+                    rowHeight: 65.h,
+                    headerStyle: HeaderStyle(
+                      titleCentered: true,
+                      titleTextStyle: TextStyle(
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: AppTheme.fontName
+                      ),
+                    ),
+          
+                calendarBuilders: CalendarBuilders(
+                  markerBuilder: (context, date, events) {
+                      if (events.isNotEmpty &&eventsByDay.containsKey(date)) {
+                      return Positioned(
+                        right:   1,
+                        bottom:   1,
+                        child: _buildEventsMarker(date, events),
+                        );
+                      }
+                      else{return Container();}
+            },
+          ),
+          
+                    availableGestures: AvailableGestures.all,
+                    startingDayOfWeek: StartingDayOfWeek.monday,
+                    daysOfWeekStyle: DaysOfWeekStyle(
+                      weekdayStyle: TextStyle(
+                        color: Color.fromARGB(255, 20, 27, 47),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 11.sp,
+                        fontFamily: AppTheme.fontName
+                      ),
+                      weekendStyle: TextStyle(
+                        color: Color.fromARGB(255, 20, 27, 47),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 11.sp,
+                        fontFamily: AppTheme.fontName
+                      ),
+                    ),
+          eventLoader: (day) {
+            print("Loading events for day: $day");
+            List<Event> events = [];
+          
+            for (Event event in userEvents) {
+          if ((event.startDate.isBefore(day) || isSameDay(event.startDate, day)) &&
+              (event.endDate.isAfter(day) || isSameDay(event.endDate, day))) {
+                events.add(event);
+            }
+          }
+          
+            print("Events for $day: ${events.length}");
+            return events;
+          },
+                    focusedDay: today,
+                    firstDay: DateTime.utc(2010, 01, 01),
+                    lastDay: DateTime.utc(2030, 01, 01),
+                    selectedDayPredicate: (selectedDay) => isSameDay(selectedDay, today),
+                    onDaySelected: _onDaySelected,
+                    calendarFormat: calendarFormat,
+                    onFormatChanged: (format) {
                       setState(() {
-                        selectedCategories = options;
+                        calendarFormat = format;
                       });
                     },
-                    options: categories,
-                    selectionType: SelectionType.multi,
-                    chipConfig: const ChipConfig(wrapType: WrapType.scroll),
-                    optionTextStyle: const TextStyle(fontSize: 16),
-                    selectedOptionIcon: const Icon(Icons.check_circle),
-                  ),
-                ),
-                SizedBox(width: 15),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue[900],
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                  ),
-                  child: Text(
-                    "Add Event",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 10),
-            Container(
-              child: TableCalendar(
-                rowHeight: 70,
-                headerStyle: HeaderStyle(
-                  titleCentered: true,
-                  titleTextStyle: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-
-            calendarBuilders: CalendarBuilders(
-              markerBuilder: (context, date, events) {
-                  if (events.isNotEmpty &&eventsByDay.containsKey(date)) {
-                  return Positioned(
-                    right:   1,
-                    bottom:   1,
-                    child: _buildEventsMarker(date, events),
-                    );
-                  }
-                  else{return Container();}
-  },
-),
-
-                availableGestures: AvailableGestures.all,
-                startingDayOfWeek: StartingDayOfWeek.monday,
-                daysOfWeekStyle: DaysOfWeekStyle(
-                  weekdayStyle: TextStyle(
-                    color: Color.fromARGB(255, 20, 27, 47),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
-                  ),
-                  weekendStyle: TextStyle(
-                    color: Color.fromARGB(255, 20, 27, 47),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
-                  ),
-                ),
-eventLoader: (day) {
-  print("Loading events for day: $day");
-  List<Event> events = [];
-
-  for (Event event in userEvents) {
-      if ((event.startDate.isBefore(day) || isSameDay(event.startDate, day)) &&
-          (event.endDate.isAfter(day) || isSameDay(event.endDate, day))) {
-            events.add(event);
-        }
-      }
-
-  print("Events for $day: ${events.length}");
-  return events;
-},
-                focusedDay: today,
-                firstDay: DateTime.utc(2010, 01, 01),
-                lastDay: DateTime.utc(2030, 01, 01),
-                selectedDayPredicate: (selectedDay) => isSameDay(selectedDay, today),
-                onDaySelected: _onDaySelected,
-                calendarFormat: calendarFormat,
-                onFormatChanged: (format) {
-                  setState(() {
-                    calendarFormat = format;
-                  });
-                },
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -330,13 +360,13 @@ Widget _buildDrawer() {
         String userRole = snapshot.data ?? '';
 
         if (userRole == 'Admin') {
-          return AdminDrawer(selectedRoute: "/profile");
+          return AdminDrawer(selectedRoute: "/calendar");
         } else if (userRole == 'Engineer') {
-          return EngineerDrawer(selectedRoute: "/profile");
+          return EngineerDrawer(selectedRoute: "/calendar");
         } else if (userRole == 'Team Leader') {
-          return TeamLeaderDrawer(selectedRoute: "/profile");
+          return TeamLeaderDrawer(selectedRoute: "/calendar");
         } else {
-          return ClientDrawer(selectedRoute: "/profile");
+          return ClientDrawer(selectedRoute: "/calendar");
         }
       }
     },

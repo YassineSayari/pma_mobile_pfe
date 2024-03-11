@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 //import 'package:http/http.dart';
 import 'package:pma/admin/widgets/admin_drawer.dart';
+import 'package:pma/custom_appbar.dart';
+import 'package:pma/custom_snackbar.dart';
 import 'package:pma/services/user_service.dart';
+import 'package:pma/theme.dart';
 
 import '../../../models/user_model.dart';
 import '../../../services/export_utils.dart';
@@ -28,9 +33,6 @@ class _AllEmployeesState extends State<AllEmployees> {
   List<User> employees = [];
   String _selectedSortOption=" ";
 
-  // int _rowsPerPage = 2;
-  // int _sortColumnIndex = 0;
-  // bool _sortAscending = true;
 
   final ExportEmployees exportEmployees = ExportEmployees();
 
@@ -68,23 +70,8 @@ class _AllEmployeesState extends State<AllEmployees> {
 
  body: Column(
     children: [
-      Container(
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              //spreadRadius: 1,
-              blurRadius: 3,
-              offset: Offset(0, 1),
-            ),
-          ],
-        ),
-        child: AppBar(
-          title: Text('All Employees',style: TextStyle(fontWeight: FontWeight.w600,fontSize: 30),),
-          centerTitle: true,
-        ),
-      ),
-          SizedBox(height: 30),
+        CustomAppBar(title: "Employees"),
+          SizedBox(height: 15.h),
           UserSearchBar(
             onChanged: onSearchTextChanged,
             onTap: (){
@@ -93,23 +80,22 @@ class _AllEmployeesState extends State<AllEmployees> {
                 },
           ), 
 
-          SizedBox(height: 30),
+          SizedBox(height: 15.h),
 
           Padding(
-                  padding: const EdgeInsets.only(top:8.0,left: 20.0,right: 25.0,bottom: 20.0),
+                  padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
             child: Row(
               children: [
                    Align(
                     alignment: Alignment.topLeft,
-                    child: Text("Total Employees : ${employees.length}",style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold),)
+                    child: Text("Total Employees : ${employees.length}",style: TextStyle(fontSize:  AppTheme.totalObjectFontSize.sp,fontFamily: AppTheme.fontName,fontWeight: FontWeight.w500),)
                     ),
                 
                 Spacer(),
                 Icon(Icons.tune_outlined,
-                        size: 35,
-                        //color: Color.fromARGB(255, 20, 14, 188),
+                        size: AppTheme.sortandfilterIconFontSize.sp,
                         ),
-               SizedBox(width: 15),            
+               SizedBox(width: 15.w),            
                 PopupMenuButton<String>(
                   onSelected: (value) {
                     _handleSortOption(value);
@@ -126,7 +112,7 @@ class _AllEmployeesState extends State<AllEmployees> {
                               onChanged: (_) {},
                             ),
                             Text('Name Ascending',
-                            style:TextStyle(fontSize: 20),
+                            style:TextStyle(fontSize: 17.sp),
                             ),
                           ],
                         ),
@@ -145,7 +131,7 @@ class _AllEmployeesState extends State<AllEmployees> {
                               onChanged: (_) {},
                             ),
                             Text('Name Descending',
-                              style:TextStyle(fontSize: 20),
+                              style:TextStyle(fontSize: 17.sp),
                               ),
                           ],
                         ),
@@ -164,7 +150,7 @@ class _AllEmployeesState extends State<AllEmployees> {
                               onChanged: (_) {},
                             ),
                             Text('Role Ascending',
-                            style:TextStyle(fontSize: 20),
+                            style:TextStyle(fontSize: 17.sp),
                             ),
                           ],
                         ),
@@ -183,7 +169,7 @@ class _AllEmployeesState extends State<AllEmployees> {
                               onChanged: (_) {},
                             ),
                             Text('Role Descending',
-                              style:TextStyle(fontSize: 20),
+                              style:TextStyle(fontSize: 17.sp),
                               ),
                           ],
                         ),
@@ -195,7 +181,7 @@ class _AllEmployeesState extends State<AllEmployees> {
                   ],
                   icon: Icon(
                     Icons.swap_vert,
-                    size: 35,
+                    size: AppTheme.sortandfilterIconFontSize.sp,
                   ),
                 )
               ],
@@ -204,7 +190,7 @@ class _AllEmployeesState extends State<AllEmployees> {
 
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(4.0),
+                  padding: EdgeInsets.symmetric(horizontal: 4.w,vertical: 4.h),
                   child:
                   ListView.builder(
                   itemCount: employees.length,
@@ -214,7 +200,7 @@ class _AllEmployeesState extends State<AllEmployees> {
                       children: [
                         UserContainer(user: employees[index],onDelete: deleteEmployee
                     ),
-                        SizedBox(height:5),
+                        SizedBox(height:5.h),
                       ],
                     );
                   }
@@ -262,35 +248,56 @@ void _sort<T>(Comparable<T> Function(User user) getField, {required bool ascendi
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Confirm Deletion"),
-          content: Text("Are you sure you want to delete this Employee?"),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text("Cancel"),
+        return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0.r),
+      ),
+      insetPadding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 210.h),
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
+          width: double.infinity,
+           child: Column(
+             children: [
+               Text("Delete Employee",style: TextStyle(fontSize: 35.sp,fontFamily: AppTheme.fontName,fontWeight: FontWeight.w600),
+                       ),
+                SizedBox(height: 10.h),
+             Text("Are you sure you want to delete this Employee?",style: TextStyle(fontFamily: AppTheme.fontName,fontSize: 24.sp),
             ),
-            TextButton(
-              onPressed: () {
-                UserService().deleteUser(id);
-                setState(() {
-                  employees.removeWhere((user) => user.id == id);
-                });
-                Navigator.of(context).pop();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Employee deleted successfully.'),
-                    duration: Duration(seconds: 2),
-                    backgroundColor: Colors.yellow,
+            SizedBox(height: 10.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text("Cancel",style: TextStyle(fontFamily: AppTheme.fontName,fontWeight: FontWeight.w500,fontSize: 24.sp),),
                   ),
-                );
-              },
-              child: Text("Delete",style: TextStyle(color: Colors.red),),
-            ),
-          ],
-        );
+                  TextButton(
+                    onPressed: () {
+                      UserService().deleteUser(id);
+                      setState(() {
+                        employees.removeWhere((user) => user.id == id);
+                      });
+                      Navigator.of(context).pop();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: SuccessSnackBar(message: "Employee deleted successfully !"),
+                          duration: Duration(seconds: 2),
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Colors.transparent,
+                          elevation: 0,
+                        ),
+                      );
+                    },
+                    child: Text("Delete",style: TextStyle(color: Colors.red,fontFamily: AppTheme.fontName,fontWeight: FontWeight.w500,fontSize: 24.sp),),
+                  ),
+                ],
+              ),
+            ],
+           ),
+         ),
+        ).animate(delay: 100.ms).fade().scale();
       },
     );
   }

@@ -1,11 +1,15 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
+import 'package:pma/custom_appbar.dart';
+import 'package:pma/custom_snackbar.dart';
 import 'package:pma/models/user_model.dart';
 import 'package:pma/services/project_service.dart';
+import 'package:pma/theme.dart';
 import '../../../services/user_service.dart';
 import '../../widgets/admin_drawer.dart';
 class AddProject extends StatefulWidget {
@@ -62,24 +66,9 @@ class _AddProjectState extends State<AddProject> {
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-         Container(
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 1,
-              blurRadius: 3,
-              offset: Offset(0, 1),
-            ),
-          ],
-        ),
-        child: AppBar(
-          title: Text('All Projects',style: TextStyle(fontWeight: FontWeight.w600,fontSize: 40),),
-          centerTitle: true,
-        ),
-      ),
+          CustomAppBar(title: "Add Project"),
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
             child: Form(
               key: _formKey,
               child: Column(
@@ -89,35 +78,13 @@ class _AddProjectState extends State<AddProject> {
                   TextFormField(
                     controller: title,
                     keyboardType: TextInputType.text,
-                    style: TextStyle(
-                      color: Color(0xFF000000),
-                      fontSize: 25,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w500,
-                    ),
-                    decoration: InputDecoration(
-                      labelText: 'Project Title*',
-                      labelStyle: TextStyle(
-                        color: Color(0xFF7743DB),
-                        fontSize: 20,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w600,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                          width: 3,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                          width: 3,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
+                                     style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Project Title*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Project title is required';
@@ -125,39 +92,24 @@ class _AddProjectState extends State<AddProject> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 10.h),
           
                   // Project Type and Priority
                   DropdownButtonFormField(
                     value: projectType,
-                    decoration: InputDecoration(
-                      labelText: 'Project Type*',
-                      labelStyle: TextStyle(
-                        color: Color(0xFF7743DB),
-                        fontSize: 20,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w600,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                          width: 3,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                          width: 3,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
+                                    style: AppTextFieldStyles.textStyle,
+                                    isExpanded: true,
+                                          decoration: InputDecoration(
+                                            labelText: 'Project Type*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                     items: [
-                      DropdownMenuItem(child: Text('-Systems Infrastructure',style: TextStyle(fontSize:20),), value: 'Systems Infrastructure'),
-                      DropdownMenuItem(child: Text('-Network Infrastructure',style: TextStyle(fontSize: 20),), value: 'Network Infrastructure'),
-                      DropdownMenuItem(child: Text('-Systems And Networks Infrastructure',style: TextStyle(fontSize: 20),), value: 'Systems And Networks Infrastructure'),
-                      DropdownMenuItem(child: Text('-Development',style: TextStyle(fontSize: 20),), value: 'Development'),
+                      DropdownMenuItem(child: Text('-Systems Infrastructure',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'Systems Infrastructure'),
+                      DropdownMenuItem(child: Text('-Network Infrastructure',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'Network Infrastructure'),
+                      DropdownMenuItem(child: Text('-Systems And Networks Infrastructure',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'Systems And Networks Infrastructure'),
+                      DropdownMenuItem(child: Text('-Development',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'Development'),
                     ],
                     onChanged: (selectedValue) {
                       setState(() {
@@ -171,37 +123,21 @@ class _AddProjectState extends State<AddProject> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 10.h),
                   
                   DropdownButtonFormField(
                     value: projectPriority,
-                    decoration: InputDecoration(
-                      labelText: 'Project Priority*',
-                      labelStyle: TextStyle(
-                        color: Color(0xFF7743DB),
-                        fontSize: 20,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w600,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                          width: 3,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                          width: 3,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Project priority*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                     items: [
-                      DropdownMenuItem(child: Text('Low',style: TextStyle(fontSize:20),), value: 'Low'),
-                      DropdownMenuItem(child: Text('Medium',style: TextStyle(fontSize:20),), value: 'Medium'),
-                      DropdownMenuItem(child: Text('High',style: TextStyle(fontSize:20),), value: 'High'),
+                      DropdownMenuItem(child: Text('Low',style:TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'Low'),
+                      DropdownMenuItem(child: Text('Medium',style:TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'Medium'),
+                      DropdownMenuItem(child: Text('High',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'High'),
                     ],
                     onChanged: (selectedValue) {
                       setState(() {
@@ -215,7 +151,7 @@ class _AddProjectState extends State<AddProject> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 10.h),
           
                   // Client Dropdown
                   FutureBuilder<List<User>>(
@@ -230,33 +166,17 @@ class _AddProjectState extends State<AddProject> {
                       } else {
                         return DropdownButtonFormField(
                           value: client,
-                          decoration: InputDecoration(
-                            labelText: 'Client*',
-                            labelStyle: TextStyle(
-                              color: Color(0xFF7743DB),
-                              fontSize: 20,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w600,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 3,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 3,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Client*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                           items: snapshot.data!.map<DropdownMenuItem<String>>((User user) {
                             return DropdownMenuItem<String>(
                               value: user.id.toString(),
-                              child: Text(user.fullName,style: TextStyle(fontSize:20),),
+                              child: Text(user.fullName,style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),),
                             );
                           }).toList(),
                           onChanged: (selectedValue) {
@@ -274,132 +194,94 @@ class _AddProjectState extends State<AddProject> {
                       }
                     },
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 10.h),
           
                   // Project Dates
-                  Row(
+                  Column(
                     children: [
-                      Expanded(
-                        child: Column(
-                          children: [
-                            // Project Start Date
-                            TextFormField(
-                              onTap: () async {
-          
-                                DateTime? pickedDate = await showDatePicker(
-                                  context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: DateTime(1900),
-                                  lastDate: DateTime.now(),
-                                );
-                                if (pickedDate != null && pickedDate != projectStartDate) {
-                                  setState(() {
-                                    projectStartDate = pickedDate;
-                                    projectStartDateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
-                                  });
-                                }
-                              },
-                              controller: projectStartDateController,
-                              readOnly: true,
-                              decoration: InputDecoration(
-                                labelText: 'Project Start Date*',
-                                labelStyle: TextStyle(
-                                  color: Color(0xFF7743DB),
-                                  fontSize: 15,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                                  borderSide: BorderSide(
-                                    width: 3,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                                  borderSide: BorderSide(
-                                    width: 3,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                                prefixIcon: Icon(
-                                  Icons.calendar_today,
-                                  color: Colors.grey[400],
-                                ),
-                              ),
-                              validator: (value) {
-                                if (projectStartDate == null) {
-                                  return 'Project Start Date is required';
-                                }
-                                return null;
-                              },
-                            ),
-                          ],
+                      // Project Start Date
+                      TextFormField(
+                        onTap: () async {
+                          
+                          DateTime? pickedDate = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime.now(),
+                          );
+                          if (pickedDate != null && pickedDate != projectStartDate) {
+                            setState(() {
+                              projectStartDate = pickedDate;
+                              projectStartDateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
+                            });
+                          }
+                        },
+                        controller: projectStartDateController,
+                        readOnly: true,
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Start Date*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          
+                          prefixIcon: Icon(
+                            Icons.calendar_today,
+                            color: Colors.grey[400],
+                          ),
                         ),
-                      ),
-                      SizedBox(width: 16),
-                      Expanded(
-                        child: Column(
-                          children: [
-                            // Project End Date
-                            TextFormField(
-                              onTap: () async {
-                                DateTime? pickedDate = await showDatePicker(
-                                  context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: DateTime.now(),
-                                  lastDate: DateTime(2025),
-                                );
-                                if (pickedDate != null && pickedDate != projectEndDate) {
-                                  setState(() {
-                                    projectEndDate = pickedDate;
-                                    projectEndDateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
-                                  });
-                                }
-                              },
-                              controller: projectEndDateController,
-                              readOnly: true,
-                              decoration: InputDecoration(
-                                labelText: 'Project End Date*',
-                                labelStyle: TextStyle(
-                                  color: Color(0xFF7743DB),
-                                  fontSize: 15,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                                  borderSide: BorderSide(
-                                    width: 3,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                                  borderSide: BorderSide(
-                                    width: 3,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                                prefixIcon: Icon(
-                                  Icons.calendar_today,
-                                  color: Colors.grey[400],
-                                ),
-                              ),
-                              validator: (value) {
-                                if (projectEndDate == null) {
-                                  return 'Project End Date is required';
-                                }
-                                return null;
-                              },
-                            ),
-                          ],
-                        ),
+                        validator: (value) {
+                          if (projectStartDate == null) {
+                            return 'Project Start Date is required';
+                          }
+                          return null;
+                        },
                       ),
                     ],
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 10.h),
+                  Column(
+                    children: [
+                      // Project End Date
+                      TextFormField(
+                        onTap: () async {
+                          DateTime? pickedDate = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime.now(),
+                            lastDate: DateTime(2025),
+                          );
+                          if (pickedDate != null && pickedDate != projectEndDate) {
+                            setState(() {
+                              projectEndDate = pickedDate;
+                              projectEndDateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
+                            });
+                          }
+                        },
+                        controller: projectEndDateController,
+                        readOnly: true,
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Client*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          
+                          prefixIcon: Icon(
+                            Icons.calendar_today,
+                            color: Colors.grey[400],
+                          ),
+                        ),
+                        validator: (value) {
+                          if (projectEndDate == null) {
+                            return 'Project End Date is required';
+                          }
+                          return null;
+                        },
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10.h),
           
                   Column(
                     children: [
@@ -434,15 +316,16 @@ class _AddProjectState extends State<AddProject> {
                                   .map((user) => ValueItem(label: user.fullName, value: user.id.toString()))
                                   .toList(),
                               maxItems: 11,
-                              hint: "Select Team",
-                              hintStyle: TextStyle(fontSize:20),
-                              hintFontSize: 20,
-                              //disabledOptions: const [ValueItem(label: 'Option 1', value: '1')],
-                              selectionType: SelectionType.multi,
-                              chipConfig: const ChipConfig(wrapType: WrapType.scroll),
-                              dropdownHeight: dropdownHeight,
-                              optionTextStyle: const TextStyle(fontSize: 25),
-                              selectedOptionIcon: const Icon(Icons.check_circle),
+            hint: "Select Team",
+            hintStyle: AppTheme.multiSelectDropDownTextStyle,
+            hintFontSize: 20,
+            selectionType: SelectionType.multi,
+            chipConfig: const ChipConfig(wrapType: WrapType.scroll),
+            dropdownHeight: dropdownHeight,
+            optionTextStyle: AppTheme.multiSelectDropDownTextStyle,
+            selectedOptionIcon: const Icon(Icons.check_circle),
+            // border: AppTheme.multiSelectDropDownEnabledBorder,
+            // focusedBorder: AppTheme.multiSelectDropDownFocusedBorder,
                               
                             );
                           }
@@ -450,7 +333,7 @@ class _AddProjectState extends State<AddProject> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 10.h),
                   Column(
                     children: [
                       FutureBuilder<List<User>>(
@@ -466,33 +349,17 @@ class _AddProjectState extends State<AddProject> {
                             print('team leaders: $teamLeaders');
                             return DropdownButtonFormField(
                               value: teamLeader,
-                              decoration: InputDecoration(
-                                labelText: 'Team Leader*',
-                                labelStyle: TextStyle(
-                                  color: Color(0xFF7743DB),
-                                  fontSize: 20,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                                  borderSide: BorderSide(
-                                    width: 3,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                                  borderSide: BorderSide(
-                                    width: 3,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ),
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Team Leader*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                               items: snapshot.data!.map<DropdownMenuItem<String>>((User user) {
                                 return DropdownMenuItem<String>(
                                   value: user.id.toString(),
-                                  child: Text(user.fullName,style: TextStyle(fontSize:20),),
+                                  child: Text(user.fullName,style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),),
                                 );
                               }).toList(),
                               onChanged: (selectedValue) {
@@ -514,50 +381,45 @@ class _AddProjectState extends State<AddProject> {
                     ],
                   ),
           
-                  SizedBox(height: 10),
+                  SizedBox(height: 10.h),
           
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          print("add project button pressed");
-                          addProject();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF9F7BFF),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
-                        child: Text(
-                          'Submit',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 30,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w500,
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            print("add project button pressed");
+                            addProject();
+                          },
+                          style: AppButtonStyles.submitButtonStyle,
+                          
+                          child: Text(
+                            'Submit',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 30,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
                       ),
-                      SizedBox(width: 10),
-                      ElevatedButton(
-                        onPressed: () {
-                          resetForm();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
-                        child: Text(
-                          'Cancel',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 30,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w500,
+                      SizedBox(width: 10.w),
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            resetForm();
+                          },
+                          style: AppButtonStyles.cancelButtonStyle,
+                          child: Text(
+                            'Cancel',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 30,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
                       ),
@@ -583,7 +445,8 @@ class _AddProjectState extends State<AddProject> {
 
       Map<String, dynamic> projectData = {
         'Projectname': title.text,
-        'description': 'dessc sqxws',
+        //'description': 'dessc sqxws',
+        'description':description.text,
         'TeamLeader': teamLeader,
         'type': projectType,
         'equipe': jsonEncode(equipe),
@@ -607,9 +470,11 @@ class _AddProjectState extends State<AddProject> {
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Project added successfully',style: TextStyle(color: Colors.black45, fontWeight: FontWeight.w600)),
+          content: SuccessSnackBar(message: "Project added successfully!"),
         duration: Duration(seconds: 2),
-        backgroundColor: Colors.yellowAccent,
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
       );
 
@@ -620,8 +485,9 @@ class _AddProjectState extends State<AddProject> {
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Failed to add project. Please try again.'),
+          content: FailSnackBar(message: "Failed to add project. Please try again!"),
           duration: Duration(seconds: 2),
+          behavior: SnackBarBehavior.floating,
         ),
       );
     }
@@ -637,6 +503,7 @@ class _AddProjectState extends State<AddProject> {
       projectEndDate = null;
       team = null;
       teamLeader = null;
+      client=null;
       projectType = null;
     });
   }

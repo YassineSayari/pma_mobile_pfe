@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:pma/theme.dart';
 import '../../const.dart';
 import '../../services/authentication_service.dart';
 import '../../services/shared_preferences.dart';
@@ -57,7 +58,7 @@ class _AdminDrawerState extends State<AdminDrawer> {
           ),
           ListTile(
             leading: Icon(Icons.tv),
-            title: Text('Dashboard'),
+            title: Text('Dashboard',style: customStyle()),
             onTap: (){
               Navigator.pushNamed(context, '/admindashboard');
             },
@@ -66,12 +67,12 @@ class _AdminDrawerState extends State<AdminDrawer> {
           ),
           ExpansionTile(
             leading: Icon(Icons.folder_copy),
-            title: Text('Projects'),
+            title: Text('Projects',style: customStyle()),
             children: [
               Padding(
                 padding: const EdgeInsets.only(left: 16.0),
                 child: ListTile(
-                  title: Text('All Projects'),
+                  title: Text('All Projects',style: customStyle()),
                   onTap: () {
                     Navigator.pushNamed(context,'/allprojects');
                   },
@@ -82,7 +83,7 @@ class _AdminDrawerState extends State<AdminDrawer> {
               Padding(
                 padding: const EdgeInsets.only(left: 16.0),
                 child: ListTile(
-                  title: Text('Add Project'),
+                  title: Text('Add Project',style: customStyle()),
                   onTap: () {
                     Navigator.of(context).pushReplacementNamed('/addproject');
                   },
@@ -94,12 +95,12 @@ class _AdminDrawerState extends State<AdminDrawer> {
           ),
           ExpansionTile(
             leading: Icon(Icons.people_outlined),
-            title: Text('Employees'),
+            title: Text('Employees',style: customStyle()),
             children: [
               Padding(
                 padding: const EdgeInsets.only(left: 16.0),
                 child: ListTile(
-                  title: Text('All Employees'),
+                  title: Text('All Employees',style: customStyle()),
                   onTap: () {
                     Navigator.of(context).pushReplacementNamed('/allemployees');
                   },
@@ -111,7 +112,7 @@ class _AdminDrawerState extends State<AdminDrawer> {
               Padding(
                 padding: const EdgeInsets.only(left: 16.0),
                 child: ListTile(
-                  title: Text('Add Employee'),
+                  title: Text('Add Employee',style: customStyle()),
                   onTap: () {
                         Navigator.of(context).pushNamed('/addemployee');
                   },
@@ -122,12 +123,12 @@ class _AdminDrawerState extends State<AdminDrawer> {
           ),
           ExpansionTile(
             leading: Icon(Icons.person),
-            title: Text('Clients'),
+            title: Text('Clients',style: customStyle()),
             children: [
               Padding(
                 padding: const EdgeInsets.only(left: 16.0),
                 child: ListTile(
-                  title: Text('All Clients'),
+                  title: Text('All Clients',style: customStyle()),
                   onTap: () {
                     Navigator.of(context).pushNamed('/allclients');
                   },
@@ -137,7 +138,7 @@ class _AdminDrawerState extends State<AdminDrawer> {
               Padding(
                 padding: const EdgeInsets.only(left: 16.0),
                 child: ListTile(
-                  title: Text('Add Client'),
+                  title: Text('Add Client',style: customStyle()),
                   onTap: () {
                     Navigator.pushNamed(context,'/addclient');
                   },
@@ -149,7 +150,7 @@ class _AdminDrawerState extends State<AdminDrawer> {
           ),
           ListTile(
             leading: Icon(Icons.people),
-            title: Text('Signup-Requests'),
+            title: Text('Signup-Requests',style: customStyle()),
             onTap: () {
               Navigator.pushNamed(context,'/signuprequests');
             },
@@ -157,19 +158,22 @@ class _AdminDrawerState extends State<AdminDrawer> {
           ),
           ListTile(
             leading: Icon(Icons.receipt_long),
-            title: Text('Reclamations'),
+            title: Text('Reclamations',style: customStyle()),
             onTap: () {
+               Navigator.of(context).pushNamed('/reclamations');
             },
+            selected: widget.selectedRoute == '/reclamations',
+                  selectedTileColor: selectedColor,
           ),
           ListTile(
             leading: Icon(Icons.shield_outlined),
-            title: Text('Risks'),
+            title: Text('Risks',style: customStyle()),
             onTap: () {
             },
           ),
           ListTile(
             leading: Icon(Icons.settings),
-            title: Text('Profile'),
+            title: Text('Profile',style: customStyle()),
             onTap: () {
                     Navigator.of(context).pushNamed('/profile');
                   },
@@ -178,35 +182,35 @@ class _AdminDrawerState extends State<AdminDrawer> {
           ),
           ListTile(
             leading: Icon(Icons.calendar_today_outlined),
-            title: Text('Calendar'),
+            title: Text('Calendar',style: customStyle(),),
             onTap: () {
               Navigator.of(context).pushReplacementNamed('/calendar');
             },
-            selected: widget.selectedRoute == '/allemployees',
+            selected: widget.selectedRoute == '/calendar',
             selectedTileColor: selectedColor,
 
           ),
           ListTile(
             leading: Icon(Icons.task_alt),
-            title: Text('Task'),
+            title: Text('Task',style: customStyle()),
             onTap: () {
             },
           ),
           ListTile(
             leading: Icon(Icons.insert_chart_outlined),
-            title: Text('Proces-Verbal'),
+            title: Text('Proces-Verbal',style: customStyle()),
             onTap: () {
             },
           ),
           ListTile(
             leading: Icon(Icons.email_outlined),
-            title: Text('Email'),
+            title: Text('Email',style: customStyle()),
             onTap: () {
             },
           ),
           ListTile(
             leading: Icon(Icons.logout),
-            title: Text('Logout'),
+            title: Text('Logout',style: customStyle(),),
             onTap: () {
               print("logout clicked");
               _handleLogout(context);
@@ -223,5 +227,12 @@ class _AdminDrawerState extends State<AdminDrawer> {
     AuthService authService = GetIt.I<AuthService>();
     authService.logout();
     Navigator.of(context).pushReplacementNamed('/signin');
+  }
+  
+  TextStyle customStyle(){
+    return TextStyle(
+      fontFamily: AppTheme.fontName,
+      fontWeight: FontWeight.w500
+    );
   }
 }

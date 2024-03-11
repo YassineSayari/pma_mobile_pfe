@@ -45,6 +45,33 @@ Future<List<Event>> getEventsByUser(String? userId) async {
 }
 
 
+Future<void> addEvent(Map<String,dynamic> event) async {
+    String? authToken = await SharedPrefs.getAuthToken();
+
+    try{
+      print("event::::::$event");
+    final response= await http.post(
+      Uri.parse('$apiUrl/createEvent'),
+       headers: {'Authorization': 'Bearer $authToken',
+       'Content-Type': 'application/json',
+       },
+       body: jsonEncode(event),
+    );
+     if (response.statusCode == 200) {
+        print("event added");
+        print(response.statusCode);
+      } else {
+        print("Failed to add event. Status code: ${response.statusCode}");
+        print("Response body: ${response.body}");
+        throw Exception('Failed to add event. Server error.');
+      }
+    } catch (error) {
+      print("Error adding event: $error");
+      throw Exception('Failed to add event. $error');
+    }
+}
+
+
 
 
 }

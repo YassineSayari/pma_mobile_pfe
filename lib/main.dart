@@ -1,6 +1,9 @@
 //import 'dart:html';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pma/admin/screens/reclamations/add_reclamation.dart';
+import 'package:pma/admin/screens/reclamations/all_reclamations.dart';
 import 'package:pma/admin/screens/clients/add_client.dart';
 import 'package:pma/admin/screens/employees/add_employee.dart';
 import 'package:pma/admin/screens/projects/add_project.dart';
@@ -9,13 +12,13 @@ import 'package:pma/admin/screens/clients/all_clients.dart';
 import 'package:pma/admin/screens/signup_requests.dart';
 import 'package:pma/authentication/sign_in.dart';
 import 'package:pma/authentication/sign_up.dart';
-//import 'package:pma/const.dart';
+//import 'package:pma/custom_snackbar.dart';
 import 'package:pma/engineer/screens/engineer_dashboard.dart';
-// import 'package:pma/profile_edit.dart';
-import 'package:pma/profile_screen.dart';
+import 'package:pma/profile/profile_screen.dart';
 import 'package:pma/services/authentication_service.dart';
 import 'package:pma/services/export_utils.dart';
 import 'package:pma/services/project_service.dart';
+import 'package:pma/services/reclamation_service.dart';
 import 'package:pma/services/shared_preferences.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pma/services/user_service.dart';
@@ -30,7 +33,8 @@ void setupLocator() {
   GetIt.instance.registerLazySingleton(() => AuthService());
   GetIt.instance.registerLazySingleton(() => UserService());
   GetIt.instance.registerLazySingleton(() => ProjectService());
-   GetIt.instance.registerLazySingleton(() => EventService());
+  GetIt.instance.registerLazySingleton(() => ReclamationService());
+  GetIt.instance.registerLazySingleton(() => EventService());
   GetIt.instance.registerLazySingleton(() => ExportEmployees());
 }
 
@@ -54,7 +58,6 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     initUser();
-    //getIp();
   }
 
   initUser() async {
@@ -87,13 +90,17 @@ class _MyAppState extends State<MyApp> {
       });
     }
   }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+ @override
+ Widget build(BuildContext context) {
+    return ScreenUtilInit(
+      designSize: const Size(360, 640),
+      minTextAdapt: false,
+      splitScreenMode: true,
+      builder: (context,child)=>MaterialApp(
       debugShowCheckedModeBanner: false,
       routes: {
         '/': (context) => current_page,
+        //'/':(context)=>CustomSnackBar(),
         '/signin':(context) =>Signin(controller: controller),
         '/signup':(context) =>SignUp(controller: controller),
 
@@ -103,6 +110,8 @@ class _MyAppState extends State<MyApp> {
         '/allprojects':(context)=>AllProjects(),
         '/addproject':(context)=>AddProject(),
 
+        '/reclamations':(context)=>AllReclamations(),
+        '/addreclamation':(context)=>AddReclamation(),
 
 
         '/allclients':(context)=>AllClients(),
@@ -115,11 +124,10 @@ class _MyAppState extends State<MyApp> {
         '/calendar':(context)=>Calendar(),
 
         '/profile':(context)=>Profile(),
-        // '/editprofile':(context)=>EditProfile(user: user),
-
 
       },
 
+    ),
     );
   }
 }
