@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:pma/custom_appbar.dart';
@@ -69,7 +70,7 @@ class _AddEmployeeState extends State<AddEmployee> {
               children: [
                 
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: EdgeInsets.symmetric(horizontal:8.w,vertical: 8.h ),
                   child:
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -77,35 +78,13 @@ class _AddEmployeeState extends State<AddEmployee> {
                       TextFormField(
                         controller: fullname,
                         keyboardType: TextInputType.text,
-                        style: TextStyle(
-                          color: Color(0xFF000000),
-                          fontSize: 27,
-                          fontFamily: AppTheme.fontName,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        decoration: InputDecoration(
-                          labelText: 'FullName*',
-                          labelStyle: TextStyle(
-                            color: Color(0xFF7743DB),
-                            fontSize: 25,
-                            fontFamily: AppTheme.fontName,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ),
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Full Name*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Full Name is required';
@@ -113,39 +92,16 @@ class _AddEmployeeState extends State<AddEmployee> {
                           return null;
                         },
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 10.h),
                       TextFormField(
                         controller: mail,
-                        keyboardType: TextInputType.text,
-                        style: TextStyle(
-                          color: Color(0xFF000000),
-                          fontSize: 27,
-                          fontFamily: AppTheme.fontName,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        decoration: InputDecoration(
-                          labelText: 'Email*',
-                          labelStyle: TextStyle(
-                            color: Color(0xFF7743DB),
-                            fontSize: 25,
-                            fontFamily: AppTheme.fontName,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ),
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Email*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Email is required';
@@ -154,34 +110,18 @@ class _AddEmployeeState extends State<AddEmployee> {
                         },
                       ),
             
-                      SizedBox(height: 10),
+                      SizedBox(height: 10.h),
             
                       DropdownButtonFormField(
                         value: gender,
                         isExpanded: true,
-                        decoration: InputDecoration(
-                          labelText: 'Gender*',
-                          labelStyle: TextStyle(
-                            color: Color(0xFF7743DB),
-                            fontSize: 27,
-                            fontFamily: AppTheme.fontName,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ),
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Gender*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                         items: [
                           DropdownMenuItem(child: Text('Male',style: TextStyle(fontSize: 20,fontFamily: AppTheme.fontName,),),value:'Male'),
                           DropdownMenuItem(child: Text('Female',style: TextStyle(fontSize: 20,fontFamily: AppTheme.fontName,),),value:'Female'),
@@ -197,40 +137,18 @@ class _AddEmployeeState extends State<AddEmployee> {
                           return null;
                         },
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 10.h),
                       
                       TextFormField(
                         controller: mobile,
                         keyboardType: TextInputType.number,
-                        style: TextStyle(
-                          color: Color(0xFF000000),
-                          fontSize: 27,
-                          fontFamily: AppTheme.fontName,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        decoration: InputDecoration(
-                          labelText: 'Mobile*',
-                          labelStyle: TextStyle(
-                            color: Color(0xFF755DC1),
-                            fontSize: 25,
-                            fontFamily: AppTheme.fontName,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ),
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Mobile*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Mobile number is required';
@@ -239,41 +157,19 @@ class _AddEmployeeState extends State<AddEmployee> {
                         },
                       ),
             
-                      SizedBox(height: 10),
+                      SizedBox(height: 10.h),
             
                       TextFormField(
                         controller: password,
                         keyboardType: TextInputType.text,
                         obscureText: true,
-                        style: TextStyle(
-                          color: Color(0xFF000000),
-                          fontSize: 27,
-                          fontFamily: AppTheme.fontName,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        decoration: InputDecoration(
-                          labelText: 'Password*',
-                          labelStyle: TextStyle(
-                            color: Color(0xFF755DC1),
-                            fontSize: 25,
-                            fontFamily: AppTheme.fontName,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ),
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Password*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Password is required';
@@ -286,35 +182,13 @@ class _AddEmployeeState extends State<AddEmployee> {
                         controller: passwordconf,
                         keyboardType: TextInputType.text,
                         obscureText: true,
-                        style: TextStyle(
-                          color: Color(0xFF000000),
-                          fontSize: 27,
-                          fontFamily: AppTheme.fontName,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        decoration: InputDecoration(
-                          labelText: 'Re-Enter Password',
-                          labelStyle: TextStyle(
-                            color: Color(0xFF755DC1),
-                            fontSize: 25,
-                            fontFamily: AppTheme.fontName,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ),
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Re-Enter Password*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Re-Enter password is required';
@@ -323,69 +197,31 @@ class _AddEmployeeState extends State<AddEmployee> {
                         },
                       ),
             
-                      SizedBox(height: 10),
+                      SizedBox(height: 10.h),
             
                       TextFormField(
                         controller: address,
                         keyboardType: TextInputType.text,
                         obscureText: true,
-                        style: TextStyle(
-                          color: Color(0xFF000000),
-                          fontSize: 27,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w500,
-                        ),
-                        decoration: InputDecoration(
-                          labelText: 'Address',
-                          labelStyle: TextStyle(
-                            color: Color(0xFF755DC1),
-                            fontSize: 25,
-                            fontFamily: AppTheme.fontName,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ),
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Address*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 10.h),
                       DropdownButtonFormField(
                         value: department,
                         isExpanded: true,
-                        decoration: InputDecoration(
-                          labelText: 'Department*',
-                          labelStyle: TextStyle(
-                            color: Color(0xFF7743DB),
-                            fontSize: 25,
-                            fontFamily: AppTheme.fontName,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ),
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Department*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                         items: [
                           DropdownMenuItem(child: Text('Development',style: TextStyle(fontSize: 18,fontFamily: AppTheme.fontName,),),value:'Development'),
                           DropdownMenuItem(child: Text('System',style: TextStyle(fontSize: 18,fontFamily: AppTheme.fontName,),),value:'System'),
@@ -404,136 +240,89 @@ class _AddEmployeeState extends State<AddEmployee> {
                         },
                       ),
             
-                      SizedBox(height: 10),
+                      SizedBox(height: 10.h),
             
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Column(
-                              children: [
-                                // Birthdate Field
-                                TextFormField(
-                                  onTap: () async {
-            
-                                    DateTime today = DateTime.now();
-                                    DateTime eighteenYearsAgo = today.subtract(Duration(days: 18 * 365));
-                                    DateTime sixtyYearsAgo = today.subtract(Duration(days: 60 * 365));
-            
-                                    DateTime? pickedDate = await showDatePicker(
-                                      context: context,
-                                      initialDate: eighteenYearsAgo,
-                                      firstDate: sixtyYearsAgo,
-                                      lastDate: eighteenYearsAgo,
-                                    );
-                                    if (pickedDate != null && pickedDate != birthDate) {
-                                      setState(() {
-                                        birthDate = pickedDate;
-                                        birthDateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
-                                      });
-                                    }
-                                  },
-                                  controller: birthDateController,
-                                  readOnly: true,
-                                  decoration: InputDecoration(
-                                    labelText: 'Birthdate*',
-                                    labelStyle: TextStyle(
-                                      color: Color(0xFF7743DB),
-                                      fontSize: 25,
-                                      fontFamily: AppTheme.fontName,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                                      borderSide: BorderSide(
-                                        width: 3,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                                      borderSide: BorderSide(
-                                        width: 3,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                    prefixIcon: Icon(
-                                      Icons.calendar_today,
-                                      color: Colors.grey[400],
-                                    ),
-                                  ),
-                                  validator: (value) {
-                                    if (birthDate == null) {
-                                      return 'Birthdate is required';
-                                    }
-                                    return null;
-                                  },
-                                ),
-                              ],
-                            ),
+                      TextFormField(
+                        onTap: () async {
+                            
+                          DateTime today = DateTime.now();
+                          DateTime eighteenYearsAgo = today.subtract(Duration(days: 18 * 365));
+                          DateTime sixtyYearsAgo = today.subtract(Duration(days: 60 * 365));
+                            
+                          DateTime? pickedDate = await showDatePicker(
+                            context: context,
+                            initialDate: eighteenYearsAgo,
+                            firstDate: sixtyYearsAgo,
+                            lastDate: eighteenYearsAgo,
+                          );
+                          if (pickedDate != null && pickedDate != birthDate) {
+                            setState(() {
+                              birthDate = pickedDate;
+                              birthDateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
+                            });
+                          }
+                        },
+                        controller: birthDateController,
+                        readOnly: true,
+                          style: AppTextFieldStyles.textStyle,
+                                decoration: InputDecoration(
+                                  labelText: 'Birthdate*',
+                                  labelStyle: AppTextFieldStyles.labelStyle,
+                                  enabledBorder: AppTextFieldStyles.enabledBorder,
+                                  focusedBorder: AppTextFieldStyles.focusedBorder,
+                                
+                          prefixIcon: Icon(
+                            Icons.calendar_today,
+                            color: Colors.grey[400],
                           ),
-                          SizedBox(width: 16),
-                          Expanded(
-                            child: Column(
-                              children: [
-                                TextFormField(
-                                  onTap: () async {
-                                    DateTime? pickedDate = await showDatePicker(
-                                      context: context,
-                                      initialDate: DateTime.now(),
-                                      firstDate: DateTime(1900),
-                                      lastDate: DateTime.now(),
-                                    );
-                                    if (pickedDate != null && pickedDate != hiringDate) {
-                                      setState(() {
-                                        hiringDate = pickedDate;
-                                        hiringDateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
-            
-                                      });
-                                    }
-                                  },
-                                  controller:hiringDateController ,
-                                  readOnly: true,
-                                  decoration: InputDecoration(
-                                    labelText: 'Hiring Date*',
-                                    labelStyle: TextStyle(
-                                      color: Color(0xFF7743DB),
-                                      fontSize: 25,
-                                      fontFamily: AppTheme.fontName,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                                      borderSide: BorderSide(
-                                        width: 3,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                                      borderSide: BorderSide(
-                                        width: 3,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                    prefixIcon: Icon(
-                                      Icons.calendar_today,
-                                      color: Colors.grey[400],
-                                    ),
-                                  ),
-                                  validator: (value) {
-                                    if (hiringDate == null) {
-                                      return 'Hiring Date is required';
-                                    }
-                                    return null;
-                                  },
-                                ),
-                              ],
-                            ),
+                        ),
+                        validator: (value) {
+                          if (birthDate == null) {
+                            return 'Birthdate is required';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 10.h),
+                      TextFormField(
+                        onTap: () async {
+                          DateTime? pickedDate = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime.now(),
+                          );
+                          if (pickedDate != null && pickedDate != hiringDate) {
+                            setState(() {
+                              hiringDate = pickedDate;
+                              hiringDateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
+                            
+                            });
+                          }
+                        },
+                        controller:hiringDateController ,
+                        readOnly: true,
+                          style: AppTextFieldStyles.textStyle,
+                                decoration: InputDecoration(
+                                  labelText: 'hriring date*',
+                                  labelStyle: AppTextFieldStyles.labelStyle,
+                                  enabledBorder: AppTextFieldStyles.enabledBorder,
+                                  focusedBorder: AppTextFieldStyles.focusedBorder,
+                                
+                          prefixIcon: Icon(
+                            Icons.calendar_today,
+                            color: Colors.grey[400],
                           ),
-                        ],
+                        ),
+                        validator: (value) {
+                          if (hiringDate == null) {
+                            return 'Hiring Date is required';
+                          }
+                          return null;
+                        },
                       ),
             
-                      SizedBox(height: 30),
+                      SizedBox(height: 30.h),
                       GestureDetector(
                         onTap: _pickImage,
                         child: Column(
@@ -584,12 +373,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                                           print("form valid");
                                       }
                                     },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color(0xFF9F7BFF),
-                                      shape: RoundedRectangleBorder(
-                                       borderRadius: BorderRadius.circular(10.0),
-                                          ),
-                                    ),
+                                    style: AppButtonStyles.submitButtonStyle,
                                     child: Text('Submit',
                                       style: TextStyle(
                                         color: Colors.white,
@@ -600,19 +384,14 @@ class _AddEmployeeState extends State<AddEmployee> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(width: 10),
+                                SizedBox(width: 10.w),
                                 Expanded(
                                   child: ElevatedButton(
                                     onPressed: () {
                                       print("reset");
                                       resetForm();
                                     },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.red,
-                                      shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                          ),
-                                    ),
+                                    style: AppButtonStyles.cancelButtonStyle,
                                     child: Text('Cancel',
                                       style: TextStyle(
                                         color: Colors.white,

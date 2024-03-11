@@ -31,13 +31,10 @@ class ProfileContainer extends StatelessWidget {
               padding:  EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
               child: ListView(
                 children: [
-
-                   SizedBox(height: 16.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [],
                   ),
-                   SizedBox(height: 16.h),
                   Information(user: user),
                   SecuritySettings(userId: user.id,context: context),
                 ],
@@ -57,7 +54,7 @@ class Information extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-                padding:EdgeInsets.symmetric(horizontal: 12.w,vertical: 12.h),
+                padding:EdgeInsets.symmetric(horizontal: 12.w,vertical: 8.h),
 
       decoration: BoxDecoration(
           color: Colors.white,
@@ -213,35 +210,13 @@ class SecuritySettings extends StatelessWidget {
                             controller: oldpassword,
                             keyboardType: TextInputType.text,
                             obscureText: true,
-                            style: TextStyle(
-                              color: Color(0xFF000000),
-                              fontSize: 25.sp,
-                              fontFamily: AppTheme.fontName,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            decoration: InputDecoration(
-                              labelText: 'Current Password',
-                              labelStyle: TextStyle(
-                                color: Color(0xFF755DC1),
-                                fontSize: 20.sp,
-                                fontFamily: AppTheme.fontName,
-                                fontWeight: FontWeight.w600,
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(
-                                  width: 3.w,
-                                  color: Colors.grey,
+                            style: AppTextFieldStyles.textStyle,
+                                decoration: InputDecoration(
+                                  labelText: 'Current Password*',
+                                  labelStyle: AppTextFieldStyles.labelStyle,
+                                  enabledBorder: AppTextFieldStyles.enabledBorder,
+                                  focusedBorder: AppTextFieldStyles.focusedBorder,
                                 ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(
-                                  width: 3.w,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                            ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter a password';
@@ -254,35 +229,13 @@ class SecuritySettings extends StatelessWidget {
                             controller: newpassword,
                             keyboardType: TextInputType.text,
                             obscureText: true,
-                            style: TextStyle(
-                              color: Color(0xFF000000),
-                              fontSize: 27.sp,
-                              fontFamily: AppTheme.fontName,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            decoration: InputDecoration(
-                              labelText: 'New Password',
-                              labelStyle: TextStyle(
-                                color: Color(0xFF755DC1),
-                                fontSize: 20.sp,
-                                fontFamily: AppTheme.fontName,
-                                fontWeight: FontWeight.w600,
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(
-                                  width: 3,
-                                  color: Colors.grey,
+                            style: AppTextFieldStyles.textStyle,
+                                decoration: InputDecoration(
+                                  labelText: 'New Password*',
+                                  labelStyle: AppTextFieldStyles.labelStyle,
+                                  enabledBorder: AppTextFieldStyles.enabledBorder,
+                                  focusedBorder: AppTextFieldStyles.focusedBorder,
                                 ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(
-                                  width: 3,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                            ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter a new password';
@@ -295,35 +248,13 @@ class SecuritySettings extends StatelessWidget {
                             controller: confirmnewpassword,
                             keyboardType: TextInputType.text,
                             obscureText: true,
-                            style: TextStyle(
-                              color: Color(0xFF000000),
-                              fontSize: 27.sp,
-                              fontFamily: AppTheme.fontName,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            decoration: InputDecoration(
-                              labelText: 'Confirm New Password',
-                              labelStyle: TextStyle(
-                                color: Color(0xFF755DC1),
-                                fontSize: 20.sp,
-                                fontFamily:AppTheme.fontName,
-                                fontWeight: FontWeight.w600,
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(
-                                  width: 3,
-                                  color: Colors.grey,
+                            style: AppTextFieldStyles.textStyle,
+                                decoration: InputDecoration(
+                                  labelText: 'Re-Enter New Password*',
+                                  labelStyle: AppTextFieldStyles.labelStyle,
+                                  enabledBorder: AppTextFieldStyles.enabledBorder,
+                                  focusedBorder: AppTextFieldStyles.focusedBorder,
                                 ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(
-                                  width: 3.w,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                            ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please confirm new password';

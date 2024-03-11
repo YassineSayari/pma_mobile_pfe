@@ -164,6 +164,7 @@ Future<void> createEvent() async {
                             borderRadius: BorderRadius.circular(10),
                             color: Colors.amber,
                           ),
+                          child: Text(" "),
                         ),
                     ),
                     
@@ -297,13 +298,13 @@ Color _markerColor(DateTime date, List events) {
                       weekdayStyle: TextStyle(
                         color: Color.fromARGB(255, 20, 27, 47),
                         fontWeight: FontWeight.w500,
-                        fontSize: 15.sp,
+                        fontSize: 11.sp,
                         fontFamily: AppTheme.fontName
                       ),
                       weekendStyle: TextStyle(
                         color: Color.fromARGB(255, 20, 27, 47),
                         fontWeight: FontWeight.w500,
-                        fontSize: 15.sp,
+                        fontSize: 11.sp,
                         fontFamily: AppTheme.fontName
                       ),
                     ),

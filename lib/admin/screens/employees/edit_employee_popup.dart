@@ -115,35 +115,13 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
                 SizedBox(height: 30.h),
                 TextFormField(
                   controller: nameController,
-                  style: TextStyle(
-                    color: Color(0xFF000000),
-                    fontSize: 27.sp,
-                    fontFamily: AppTheme.fontName,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  decoration: InputDecoration(
-                    labelText: 'Name*',
-                    labelStyle: TextStyle(
-                      color: Color(0xFF7743DB),
-                      fontSize: 25.sp,
-                      fontFamily:  AppTheme.fontName,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3.w,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3.w,
-                        color: Colors.deepPurple,
-                      ),
-                    ),
-                  ),
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Name*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter a valid name';
@@ -167,69 +145,25 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
                       child: Text(department),
                     );
                   }).toList(),
-                  style: TextStyle(
-                    color: Color(0xFF000000),
-                    fontSize: 27.sp,
-                    fontFamily:  AppTheme.fontName,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  decoration: InputDecoration(
-                    labelText: 'Department*',
-                    labelStyle: TextStyle(
-                      color: Color(0xFF7743DB),
-                      fontSize: 25.sp,
-                      fontFamily:  AppTheme.fontName,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3.w,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3.w,
-                        color: Colors.deepPurple,
-                      ),
-                    ),
-                  ),
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Department*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                 ),
             
                 SizedBox(height: 15.h),
                 TextFormField(
                   controller: roleController,
-                  style: TextStyle(
-                    color: Color(0xFF000000),
-                    fontSize: 27.sp,
-                    fontFamily:  AppTheme.fontName,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  decoration: InputDecoration(
-                    labelText: 'Role*',
-                    labelStyle: TextStyle(
-                      color: Color(0xFF7743DB),
-                      fontSize: 25.sp,
-                      fontFamily:  AppTheme.fontName,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3.w,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3.w,
-                        color: Colors.deepPurple,
-                      ),
-                    ),
-                  ),
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Role*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter a valid role';
@@ -252,70 +186,26 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
                       child: Text(gender),
                     );
                   }).toList(),
-                  style: TextStyle(
-                    color: Color(0xFF000000),
-                    fontSize: 27.sp,
-                    fontFamily:  AppTheme.fontName,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  decoration: InputDecoration(
-                    labelText: 'Gender*',
-                    labelStyle: TextStyle(
-                      color: Color(0xFF7743DB),
-                      fontSize: 25.sp,
-                      fontFamily:  AppTheme.fontName,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3.w,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3.w,
-                        color: Colors.deepPurple,
-                      ),
-                    ),
-                  ),
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Gender*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                 ),
             
                 SizedBox(height: 15.h),
             
                 TextFormField(
                   controller: mobileController,
-                  style: TextStyle(
-                    color: Color(0xFF000000),
-                    fontSize: 27.sp,
-                    fontFamily:  AppTheme.fontName,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  decoration: InputDecoration(
-                    labelText: 'Mobile*',
-                    labelStyle: TextStyle(
-                      color: Color(0xFF7743DB),
-                      fontSize: 25.sp,
-                      fontFamily:  AppTheme.fontName,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3.w,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3.w,
-                        color: Colors.deepPurple,
-                      ),
-                    ),
-                  ),
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Mobile*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter a valid mobile';
@@ -328,35 +218,13 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
             
                 TextFormField(
                   controller: emailController,
-                  style: TextStyle(
-                    color: Color(0xFF000000),
-                    fontSize: 27.sp,
-                    fontFamily:  AppTheme.fontName,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  decoration: InputDecoration(
-                    labelText: 'Email*',
-                    labelStyle: TextStyle(
-                      color: Color(0xFF7743DB),
-                      fontSize: 25.sp,
-                      fontFamily:  AppTheme.fontName,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3.w,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3.w,
-                        color: Colors.deepPurple,
-                      ),
-                    ),
-                  ),
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Email*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter a valid email';
@@ -386,28 +254,13 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
                     }
                   },
                   readOnly: true,
-                  decoration: InputDecoration(
-                    labelText: 'Hiring Date*',
-                    labelStyle: TextStyle(
-                      color: Color(0xFF7743DB),
-                      fontSize: 27.sp,
-                      fontFamily: AppTheme.fontName,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3.w,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3.w,
-                        color: Colors.grey,
-                      ),
-                    ),
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Hiring Date*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          
                     prefixIcon: Icon(
                       Icons.calendar_today,
                       color: Colors.grey[400],
@@ -431,27 +284,17 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
                           updateEmployee();
                         },
                         child: Text('Save',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily: AppTheme.fontName ),),
-                                   style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF9F7BFF),
-                                shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                        ),
-                                      ),
+                                   style: AppButtonStyles.submitButtonStyle
                       ),
                     ),
-                    SizedBox(width: 10),
+                    SizedBox(width: 10.w),
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
                         child: Text('Cancel',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily: AppTheme.fontName ),),
-                                   style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.red,
-                                shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                        ),
-                                      ),
+                                   style: AppButtonStyles.cancelButtonStyle
                       ),
                     ),
                   ],

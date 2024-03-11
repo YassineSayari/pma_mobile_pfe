@@ -85,7 +85,7 @@ class EmployeeInfo extends StatelessWidget {
         children: [
           Icon(
             icon,
-            color: AppTheme.buildLightTheme().primaryColor,
+            //color: AppTheme.buildLightTheme().primaryColor,
             size: 25,
           ),
           SizedBox(width: 10.w),

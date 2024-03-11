@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:pma/admin/reclamations/edit_reclamations_popup.dart';
+import 'package:pma/admin/screens/reclamations/edit_reclamations_popup.dart';
 import 'package:pma/custom_snackbar.dart';
 import 'package:pma/models/reclamation_model.dart';
 import 'package:pma/services/reclamation_service.dart';

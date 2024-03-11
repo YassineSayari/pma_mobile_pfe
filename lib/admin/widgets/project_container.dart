@@ -284,7 +284,7 @@ class _ProjectContainerState extends State<ProjectContainer> {
                 percent: widget.progress.toDouble()/100,
                 progressColor: Colors.blue,
                 animation: true,
-                animationDuration: 1400,
+                animationDuration: 800,
               ),
             ),
             SizedBox(height: 10),

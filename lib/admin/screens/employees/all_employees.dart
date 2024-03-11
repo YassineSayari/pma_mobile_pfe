@@ -88,12 +88,12 @@ class _AllEmployeesState extends State<AllEmployees> {
               children: [
                    Align(
                     alignment: Alignment.topLeft,
-                    child: Text("Total Employees : ${employees.length}",style: TextStyle(fontSize: 22.sp,fontFamily: AppTheme.fontName,fontWeight: FontWeight.w500),)
+                    child: Text("Total Employees : ${employees.length}",style: TextStyle(fontSize:  AppTheme.totalObjectFontSize.sp,fontFamily: AppTheme.fontName,fontWeight: FontWeight.w500),)
                     ),
                 
                 Spacer(),
                 Icon(Icons.tune_outlined,
-                        size: 30.sp,
+                        size: AppTheme.sortandfilterIconFontSize.sp,
                         ),
                SizedBox(width: 15.w),            
                 PopupMenuButton<String>(
@@ -181,7 +181,7 @@ class _AllEmployeesState extends State<AllEmployees> {
                   ],
                   icon: Icon(
                     Icons.swap_vert,
-                    size: 30.sp,
+                    size: AppTheme.sortandfilterIconFontSize.sp,
                   ),
                 )
               ],

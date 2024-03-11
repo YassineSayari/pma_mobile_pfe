@@ -66,7 +66,6 @@ class _AllClientsState extends State<AllClients> {
       body: Column(
         children: [
             CustomAppBar(title: "Clients"),
-          SizedBox(height: 15.h),
           UserSearchBar(
             onChanged: onSearchTextChanged,
             onTap: () {
@@ -74,7 +73,6 @@ class _AllClientsState extends State<AllClients> {
               print("refresh tapped");
             },
           ),
-          SizedBox(height: 15.h),
 
           Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
@@ -83,7 +81,7 @@ class _AllClientsState extends State<AllClients> {
                 Align(
                   alignment: Alignment.topLeft,
                   child: Text("Total Clients : ${clients.length}",
-                  style: TextStyle(fontSize: 22.sp,fontFamily: AppTheme.fontName,fontWeight: FontWeight.w500)        
+                  style: TextStyle(fontSize: AppTheme.totalObjectFontSize.sp,fontFamily: AppTheme.fontName,fontWeight: FontWeight.w500)        
                   ),
                 ),
                 Spacer(),
@@ -144,7 +142,7 @@ class _AllClientsState extends State<AllClients> {
             ],
             icon: Icon(
               Icons.file_download,
-                    size: 30.sp,
+                    size: AppTheme.sortandfilterIconFontSize.sp,
             ),
           ),
 
@@ -197,7 +195,7 @@ class _AllClientsState extends State<AllClients> {
                   ],
                   icon: Icon(
                     Icons.swap_vert,
-                    size: 30.sp,
+                    size: AppTheme.sortandfilterIconFontSize.sp,
                   ),
                 )
               ],

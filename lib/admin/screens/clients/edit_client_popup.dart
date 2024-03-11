@@ -98,35 +98,13 @@ else{
                 SizedBox(height: 30.h),
                 TextFormField(
                     controller: nameController,
-                  style: TextStyle(
-                    color: Color(0xFF000000),
-                    fontSize: 27.sp,
-                    fontFamily: AppTheme.fontName,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  decoration: InputDecoration(
-                    labelText: 'Name*',
-                    labelStyle: TextStyle(
-                      color: Color(0xFF7743DB),
-                      fontSize: 25.sp,
-                      fontFamily: AppTheme.fontName,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3.w,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3.w,
-                        color: Colors.deepPurple,
-                      ),
-                    ),
-                  ),
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Name*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter a valid name';
@@ -139,35 +117,13 @@ else{
          
                 TextFormField(
                     controller: mobileController,
-                  style: TextStyle(
-                    color: Color(0xFF000000),
-                    fontSize: 27.sp,
-                    fontFamily: AppTheme.fontName,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  decoration: InputDecoration(
-                    labelText: 'Mobile*',
-                    labelStyle: TextStyle(
-                      color: Color(0xFF7743DB),
-                      fontSize: 25.sp,
-                      fontFamily: AppTheme.fontName,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3.w,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3.w,
-                        color: Colors.deepPurple,
-                      ),
-                    ),
-                  ),
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Mobile*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter a valid mobile';
@@ -180,35 +136,13 @@ else{
          
                 TextFormField(
                     controller: emailController,
-                  style: TextStyle(
-                    color: Color(0xFF000000),
-                    fontSize: 27.sp,
-                    fontFamily: AppTheme.fontName,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  decoration: InputDecoration(
-                    labelText: 'Email*',
-                    labelStyle: TextStyle(
-                      color: Color(0xFF7743DB),
-                      fontSize: 25.sp,
-                      fontFamily: AppTheme.fontName,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3.w,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3.dg,
-                        color: Colors.deepPurple,
-                      ),
-                    ),
-                  ),
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Email*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter an email';
@@ -221,35 +155,13 @@ else{
          
                 TextFormField(
                     controller: companyController,
-                  style: TextStyle(
-                    color: Color(0xFF000000),
-                    fontSize: 27.sp,
-                    fontFamily: AppTheme.fontName,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  decoration: InputDecoration(
-                    labelText: 'Company Name*',
-                    labelStyle: TextStyle(
-                      color: Color(0xFF7743DB),
-                      fontSize: 25.sp,
-                      fontFamily: AppTheme.fontName,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3.w,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3.w,
-                        color: Colors.deepPurple,
-                      ),
-                    ),
-                  ),
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Company name*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter a company name';
@@ -269,12 +181,7 @@ else{
                         updateClient();
                         },
                         child: Text('Save',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily: AppTheme.fontName ),),
-                                     style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFF9F7BFF),
-                                  shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                          ),
-                                        ),
+                                     style: AppButtonStyles.submitButtonStyle,
                       ),
                     ),
                     SizedBox(width: 10.w),
@@ -284,12 +191,7 @@ else{
                           Navigator.of(context).pop();
                         },
                         child: Text('Cancel',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily: AppTheme.fontName ),),
-                                     style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.red,
-                                  shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                          ),
-                                        ),
+                                     style: AppButtonStyles.cancelButtonStyle,
                       ),
                     ),
                   ],

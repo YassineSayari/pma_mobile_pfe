@@ -90,34 +90,13 @@ class _EditReclamationPopupState extends State<EditReclamationPopup> {
                 SizedBox(height: 30.h),
                 TextFormField(
                   controller: titleController,
-                  style: TextStyle(
-                    color: Color(0xFF000000),
-                    fontSize: 20.sp,
-                    fontFamily: AppTheme.fontName,
-                  ),
-                  decoration: InputDecoration(
-                    labelText: 'Title*',
-                    labelStyle: TextStyle(
-                      color: const Color.fromARGB(255, 186, 170, 170) ,
-                      fontSize: 25.sp,
-                      fontFamily:  AppTheme.fontName,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 2.w,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 2.w,
-                        color: Colors.deepPurple,
-                      ),
-                    ),
-                  ),
+                  style: AppTextFieldStyles.textStyle,
+                        decoration: InputDecoration(
+                          labelText: 'Title*',
+                          labelStyle: AppTextFieldStyles.labelStyle,
+                          enabledBorder: AppTextFieldStyles.enabledBorder,
+                          focusedBorder: AppTextFieldStyles.focusedBorder,
+                        ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter a valid title';
@@ -139,34 +118,18 @@ class _EditReclamationPopupState extends State<EditReclamationPopup> {
                                   print('Projects:: $projects');
                                   return DropdownButtonFormField(
                                     value: projectid,
-                                    decoration: InputDecoration(
-                                      labelText: 'Project*',
-                                      labelStyle: TextStyle(
-                                        color: const Color.fromARGB(255, 186, 170, 170) ,
-                                        fontSize: 25.sp,
-                                        fontFamily:  AppTheme.fontName,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                                        borderSide: BorderSide(
-                                          width: 2.w,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                                        borderSide: BorderSide(
-                                          width: 2.w,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                    ),
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Project*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
 
                                     items: snapshot.data!.map<DropdownMenuItem<String>>((Map<String, dynamic> project) {
                                       return DropdownMenuItem<String>(
                                         value: project['_id'],
-                                        child: Text(project['Projectname'], style: TextStyle(fontSize: 20, fontFamily: AppTheme.fontName)),
+                                        child: Text(project['Projectname'], style: TextStyle(fontSize: 20.sp, fontFamily: AppTheme.fontName)),
                                       );
                                     }).toList(),
 
@@ -191,33 +154,17 @@ class _EditReclamationPopupState extends State<EditReclamationPopup> {
                         
                         DropdownButtonFormField(
                           value: reclamationStatus,
-                          decoration: InputDecoration(
-                            labelText: 'Status*',
-                            labelStyle: TextStyle(
-                              color: const Color.fromARGB(255, 186, 170, 170) ,
-                              fontSize: 25.sp,
-                              fontFamily:  AppTheme.fontName,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 3,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 3,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
+                          style: AppTextFieldStyles.textStyle,
+                                decoration: InputDecoration(
+                                  labelText: 'Status*',
+                                  labelStyle: AppTextFieldStyles.labelStyle,
+                                  enabledBorder: AppTextFieldStyles.enabledBorder,
+                                  focusedBorder: AppTextFieldStyles.focusedBorder,
+                                ),
                           items: [
-                            DropdownMenuItem(child: Text('Pending',style: TextStyle(fontSize:20,fontFamily:AppTheme.fontName),), value: 'Pending'),
-                            DropdownMenuItem(child: Text('In Treatment',style: TextStyle(fontSize: 20,fontFamily:AppTheme.fontName),), value: 'In treatment'),
-                            DropdownMenuItem(child: Text('Treated',style: TextStyle(fontSize: 20,fontFamily:AppTheme.fontName),), value: 'Treated'),
+                            DropdownMenuItem(child: Text('Pending',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'Pending'),
+                            DropdownMenuItem(child: Text('In Treatment',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'In treatment'),
+                            DropdownMenuItem(child: Text('Treated',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'Treated'),
                           ],
                           
                           onChanged: (selectedValue) {
@@ -235,32 +182,16 @@ class _EditReclamationPopupState extends State<EditReclamationPopup> {
                         SizedBox(height: 10.h),
                        DropdownButtonFormField(
                           value: reclamationType,
-                          decoration: InputDecoration(
-                            labelText: 'Type*',
-                            labelStyle: TextStyle(
-                              color: const Color.fromARGB(255, 186, 170, 170) ,
-                              fontSize: 25.sp,
-                              fontFamily:  AppTheme.fontName,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 3,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 3,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
+                          style: AppTextFieldStyles.textStyle,
+                                decoration: InputDecoration(
+                                  labelText: 'Type*',
+                                  labelStyle: AppTextFieldStyles.labelStyle,
+                                  enabledBorder: AppTextFieldStyles.enabledBorder,
+                                  focusedBorder: AppTextFieldStyles.focusedBorder,
+                                ),
                           items: [
-                            DropdownMenuItem(child: Text('Technical',style: TextStyle(fontSize:20,fontFamily:AppTheme.fontName),), value: 'Technical'),
-                            DropdownMenuItem(child: Text('Commercial',style: TextStyle(fontSize: 20,fontFamily:AppTheme.fontName),), value: 'Commercial'),
+                            DropdownMenuItem(child: Text('Technical',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'Technical'),
+                            DropdownMenuItem(child: Text('Commercial',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'Commercial'),
                           ],
                           
                           onChanged: (selectedValue) {
@@ -290,34 +221,18 @@ class _EditReclamationPopupState extends State<EditReclamationPopup> {
                                   return DropdownButtonFormField(
                                     value: clientid,
                                     itemHeight: 60,
-                                    decoration: InputDecoration(
-                                      labelText: 'Client*',
-                                      labelStyle: TextStyle(
-                                        color: const Color.fromARGB(255, 186, 170, 170) ,
-                                        fontSize: 25.sp,
-                                        fontFamily:  AppTheme.fontName,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                                        borderSide: BorderSide(
-                                          width: 2.w,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                                        borderSide: BorderSide(
-                                          width: 2.w,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                    ),
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Client*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
 
                                     items: snapshot.data!.map<DropdownMenuItem<String>>((User client) {
                                       return DropdownMenuItem<String>(
                                         value: client.id,
-                                        child: Text(client.fullName, style: TextStyle(fontSize: 20, fontFamily: AppTheme.fontName)),
+                                        child: Text(client.fullName, style: TextStyle(fontSize: 20.sp, fontFamily: AppTheme.fontName)),
                                       );
                                     }).toList(),
 
@@ -355,37 +270,19 @@ class _EditReclamationPopupState extends State<EditReclamationPopup> {
                                     },
                                     controller: creationDateController,
                                     readOnly: true,
-                                    style: TextStyle( 
-                                      fontFamily: AppTheme.fontName,
-                                      fontSize: 20,
-                                      ),
-                                    decoration: InputDecoration(
-                                      labelText: 'Creation date*',
-                                      labelStyle: TextStyle(
-                                        color: const Color.fromARGB(255, 186, 170, 170) ,
-                                        fontSize: 25.sp,
-                                        fontFamily:  AppTheme.fontName,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                                        borderSide: BorderSide(
-                                          width: 3,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                                        borderSide: BorderSide(
-                                          width: 3,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                      prefixIcon: Icon(
-                                        Icons.calendar_today,
-                                        color: Colors.grey[400],
-                                      ),
-                                    ),
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Creation Date*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                            prefixIcon: Icon(
+                                                        Icons.calendar_today,
+                                                        color: Colors.grey[400],
+                                             ),
+                                          ),
+                                      
+                                   
                                     validator: (value) {
                                       if (creationDate == null) {
                                         return 'Creation date is required';
@@ -397,34 +294,13 @@ class _EditReclamationPopupState extends State<EditReclamationPopup> {
                                   TextFormField(
                                   controller: commentController,
                                   maxLines: 3,
-                                  style: TextStyle(
-                                    color: Color(0xFF000000),
-                                    fontSize: 20.sp,
-                                    fontFamily: AppTheme.fontName,
-                                  ),
-                                  decoration: InputDecoration(
-                                    labelText: 'Comment*',
-                                    labelStyle: TextStyle(
-                                      color: const Color.fromARGB(255, 186, 170, 170) ,
-                                      fontSize: 25.sp,
-                                      fontFamily:  AppTheme.fontName,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                                      borderSide: BorderSide(
-                                        width: 2.w,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                                      borderSide: BorderSide(
-                                        width: 2.w,
-                                        color: Colors.deepPurple,
-                                      ),
-                                    ),
-                                  ),
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Comment*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return 'Please enter a valid comment';
@@ -437,34 +313,13 @@ class _EditReclamationPopupState extends State<EditReclamationPopup> {
                                   TextFormField(
                                   controller: responseController,
                                   maxLines: 3,
-                                  style: TextStyle(
-                                    color: Color(0xFF000000),
-                                    fontSize: 20.sp,
-                                    fontFamily: AppTheme.fontName,
-                                  ),
-                                  decoration: InputDecoration(
-                                    labelText: 'Response*',
-                                    labelStyle: TextStyle(
-                                      color: const Color.fromARGB(255, 186, 170, 170) ,
-                                      fontSize: 25.sp,
-                                      fontFamily:  AppTheme.fontName,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                                      borderSide: BorderSide(
-                                        width: 2.w,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                                      borderSide: BorderSide(
-                                        width: 2.w,
-                                        color: Colors.deepPurple,
-                                      ),
-                                    ),
-                                  ),
+                                  style: AppTextFieldStyles.textStyle,
+                                        decoration: InputDecoration(
+                                          labelText: 'response*',
+                                          labelStyle: AppTextFieldStyles.labelStyle,
+                                          enabledBorder: AppTextFieldStyles.enabledBorder,
+                                          focusedBorder: AppTextFieldStyles.focusedBorder,
+                                        ),
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return 'Please enter a valid response';
@@ -482,12 +337,7 @@ class _EditReclamationPopupState extends State<EditReclamationPopup> {
                                         Navigator.of(context).pushReplacementNamed('/reclamations');
                                   },
                                              child: Text("Save",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily:AppTheme.fontName),),
-                                             style: ElevatedButton.styleFrom(
-                                        backgroundColor: const Color(0xFF9F7BFF),
-                                          shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10.0),
-                                                  ),
-                                                ),
+                                             style: AppButtonStyles.submitButtonStyle
                                               ),
                               ),
                           SizedBox(width: 10.w),
@@ -497,12 +347,7 @@ class _EditReclamationPopupState extends State<EditReclamationPopup> {
                                 Navigator.of(context).pop();
                               },
                                          child: Text("Cancel",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily:AppTheme.fontName),),
-                                         style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.red,
-                                      shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                              ),
-                                            ),
+                                         style: AppButtonStyles.cancelButtonStyle
                                           ),
                           ),
                             ],

@@ -106,7 +106,7 @@ class SignUpRequester extends StatelessWidget {
         children: [
           Icon(
             icon,
-            color: AppTheme.buildLightTheme().primaryColor,
+           // color: AppTheme.buildLightTheme().primaryColor,
             size: 25.sp,
           ),
           SizedBox(width: 10.h),

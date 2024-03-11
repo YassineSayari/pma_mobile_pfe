@@ -11,7 +11,7 @@ class UserSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.w,vertical: 20.h),
+      padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
             
 
       child: Row(

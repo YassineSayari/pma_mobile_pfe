@@ -58,7 +58,7 @@ class _EditProfileState extends State<EditProfile> {
       ),
 
       body: Padding(
-        padding: const EdgeInsets.all(24.0),
+        padding:  EdgeInsets.symmetric(horizontal: 8.w,vertical:8.h),
         child: ListView(
           children: [
             Row(
@@ -126,35 +126,13 @@ class _EditProfileState extends State<EditProfile> {
             TextFormField(
              controller: nameController,
               keyboardType: TextInputType.text,
-              style: TextStyle(
-              color: Color(0xFF000000),
-               fontSize: 27.sp,
-               fontFamily: AppTheme.fontName,
-               fontWeight: FontWeight.w500,
-                ),
-                decoration: InputDecoration(
-                labelText: 'Full Name',
-                labelStyle: TextStyle(
-                  color: Color(0xFF755DC1),
-                  fontSize: 25.sp,  
-                  fontFamily: AppTheme.fontName,
-                  fontWeight: FontWeight.w600,
-                  ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  borderSide: BorderSide(
-                     width: 3.w,
-                     color: Colors.grey,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                          width: 3.w,
-                           color: Colors.grey,
-                          ),
-                       ),
-                    ),
+              style: AppTextFieldStyles.textStyle,
+                                decoration: InputDecoration(
+                                  labelText: 'Full Name*',
+                                  labelStyle: AppTextFieldStyles.labelStyle,
+                                  enabledBorder: AppTextFieldStyles.enabledBorder,
+                                  focusedBorder: AppTextFieldStyles.focusedBorder,
+                                ),
                       validator: (value) {
                              if (value == null || value.isEmpty) {
                                return 'Please enter a full name';
@@ -163,40 +141,18 @@ class _EditProfileState extends State<EditProfile> {
                              },
             ),
 
-            SizedBox(height: 20.h),  
+            SizedBox(height: 10.h),  
 
             TextFormField(
              controller: cityController,
               keyboardType: TextInputType.text,
-              style: TextStyle(
-              color: Color(0xFF000000),
-               fontSize: 27.sp,
-                  fontFamily: AppTheme.fontName,
-               fontWeight: FontWeight.w500,
-                ),
-                decoration: InputDecoration(
-                labelText: 'City',
-                labelStyle: TextStyle(
-                  color: Color(0xFF755DC1),
-                  fontSize: 25.sp,
-                  fontFamily: AppTheme.fontName,
-                  fontWeight: FontWeight.w600,
-                  ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  borderSide: BorderSide(
-                     width: 3.w,
-                     color: Colors.grey,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                          width: 3.w,
-                           color: Colors.grey,
-                          ),
-                       ),
-                    ),
+              style: AppTextFieldStyles.textStyle,
+                                decoration: InputDecoration(
+                                  labelText: 'City*',
+                                  labelStyle: AppTextFieldStyles.labelStyle,
+                                  enabledBorder: AppTextFieldStyles.enabledBorder,
+                                  focusedBorder: AppTextFieldStyles.focusedBorder,
+                                ),
                       validator: (value) {
                              if (value == null || value.isEmpty) {
                                return 'Please enter a city';
@@ -205,40 +161,18 @@ class _EditProfileState extends State<EditProfile> {
                              },
             ),
 
-            SizedBox(height: 20),
+            SizedBox(height: 10.h),
 
             TextFormField(
              controller: phoneController,
               keyboardType: TextInputType.number,
-              style: TextStyle(
-              color: Color(0xFF000000),
-               fontSize: 27.sp,
-                  fontFamily: AppTheme.fontName,
-               fontWeight: FontWeight.w500,
-                ),
-                decoration: InputDecoration(
-                labelText: 'Phone',
-                labelStyle: TextStyle(
-                  color: Color(0xFF755DC1),
-                  fontSize: 25.sp,
-                  fontFamily: AppTheme.fontName,
-                  fontWeight: FontWeight.w600,
-                  ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  borderSide: BorderSide(
-                     width: 3,
-                     color: Colors.grey,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                          width: 3.w,
-                           color: Colors.grey,
-                          ),
-                       ),
-                    ),
+              style: AppTextFieldStyles.textStyle,
+                                decoration: InputDecoration(
+                                  labelText: 'Phone*',
+                                  labelStyle: AppTextFieldStyles.labelStyle,
+                                  enabledBorder: AppTextFieldStyles.enabledBorder,
+                                  focusedBorder: AppTextFieldStyles.focusedBorder,
+                                ),
                       validator: (value) {
                              if (value == null || value.isEmpty) {
                                return 'Please enter a phone number';
@@ -247,40 +181,19 @@ class _EditProfileState extends State<EditProfile> {
                              },
             ),
 
-            SizedBox(height: 20.h),
+            SizedBox(height: 10.h),
 
             TextFormField(
              controller: countryController,
               keyboardType: TextInputType.text,
-              style: TextStyle(
-              color: Color(0xFF000000),
-               fontSize: 27.sp,
-                  fontFamily: AppTheme.fontName,
-               fontWeight: FontWeight.w500,
-                ),
-                decoration: InputDecoration(
-                labelText: 'Country',
-                labelStyle: TextStyle(
-                  color: Color(0xFF755DC1),
-                  fontSize: 25.sp,
-                  fontFamily: AppTheme.fontName,
-                  fontWeight: FontWeight.w600,
-                  ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  borderSide: BorderSide(
-                     width: 3,
-                     color: Colors.grey,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                          width: 3,
-                           color: Colors.grey,
-                          ),
-                       ),
-                    ),
+              style: AppTextFieldStyles.textStyle,
+                                decoration: InputDecoration(
+                                  labelText: 'Country*',
+                                  labelStyle: AppTextFieldStyles.labelStyle,
+                                  enabledBorder: AppTextFieldStyles.enabledBorder,
+                                  focusedBorder: AppTextFieldStyles.focusedBorder,
+                                ),
+              
                       validator: (value) {
                              if (value == null || value.isEmpty) {
                                return 'Please enter a country';
@@ -289,40 +202,18 @@ class _EditProfileState extends State<EditProfile> {
                              },
             ),
 
-            SizedBox(height: 20.w),
+            SizedBox(height: 10.h),
 
             TextFormField(
              controller: addressController,
               keyboardType: TextInputType.text,
-              style: TextStyle(
-              color: Color(0xFF000000),
-               fontSize: 27.sp,
-                  fontFamily: AppTheme.fontName,
-               fontWeight: FontWeight.w500,
-                ),
-                decoration: InputDecoration(
-                labelText: 'Address',
-                labelStyle: TextStyle(
-                  color: Color(0xFF755DC1),
-                  fontSize: 25.sp,
-                  fontFamily: AppTheme.fontName,
-                  fontWeight: FontWeight.w600,
-                  ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  borderSide: BorderSide(
-                     width: 3.w,
-                     color: Colors.grey,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                          width: 3.w,
-                           color: Colors.grey,
-                          ),
-                       ),
-                    ),
+              style: AppTextFieldStyles.textStyle,
+                                decoration: InputDecoration(
+                                  labelText: 'Address*',
+                                  labelStyle: AppTextFieldStyles.labelStyle,
+                                  enabledBorder: AppTextFieldStyles.enabledBorder,
+                                  focusedBorder: AppTextFieldStyles.focusedBorder,
+                                ),
                       validator: (value) {
                              if (value == null || value.isEmpty) {
                                return 'Please enter an adress';
@@ -331,40 +222,18 @@ class _EditProfileState extends State<EditProfile> {
                              },
             ),
 
-            SizedBox(height: 20.h),
+            SizedBox(height: 10.h),
 
             TextFormField(
              controller: nationalityController,
               keyboardType: TextInputType.text,
-              style: TextStyle(
-              color: Color(0xFF000000),
-               fontSize: 27.sp,
-                  fontFamily: AppTheme.fontName,
-               fontWeight: FontWeight.w500,
-                ),
-                decoration: InputDecoration(
-                labelText: 'Nationality',
-                labelStyle: TextStyle(
-                  color: Color(0xFF755DC1),
-                  fontSize: 25.sp,
-                  fontFamily: AppTheme.fontName,
-                  fontWeight: FontWeight.w600,
-                  ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  borderSide: BorderSide(
-                     width: 3.w,
-                     color: Colors.grey,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                          width: 3.w,
-                           color: Colors.grey,
-                          ),
-                       ),
-                    ),
+              style: AppTextFieldStyles.textStyle,
+                                decoration: InputDecoration(
+                                  labelText: 'Nationality*',
+                                  labelStyle: AppTextFieldStyles.labelStyle,
+                                  enabledBorder: AppTextFieldStyles.enabledBorder,
+                                  focusedBorder: AppTextFieldStyles.focusedBorder,
+                                ),
                       validator: (value) {
                              if (value == null || value.isEmpty) {
                                return 'Please enter a nationality';
@@ -373,7 +242,7 @@ class _EditProfileState extends State<EditProfile> {
                              },
             ),
 
-            SizedBox(height: 20),
+            SizedBox(height: 10.h),
 
             ElevatedButton(onPressed: (){
               updateEmployee();

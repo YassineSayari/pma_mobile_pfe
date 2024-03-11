@@ -174,35 +174,13 @@ Widget build(BuildContext context) {
                         TextFormField(
                           controller: title,
                           keyboardType: TextInputType.text,
-                          style: TextStyle(
-                            color: Color(0xFF000000),
-                            fontSize: 27.sp,
-                            fontFamily:  AppTheme.fontName,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          decoration: InputDecoration(
-                            labelText: 'Project Title*',
-                            labelStyle: TextStyle(
-                              color: Color(0xFF7743DB),
-                              fontSize: 25.sp,
-                              fontFamily:  AppTheme.fontName,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 3,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 3,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
+                          style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Project Title*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Project title is required';
@@ -214,29 +192,13 @@ Widget build(BuildContext context) {
                         
                         DropdownButtonFormField(
                           value: projectStatus,
-                          decoration: InputDecoration(
-                            labelText: 'Status*',
-                            labelStyle: TextStyle(
-                              color: Color(0xFF7743DB),
-                              fontSize: 25.sp,
-                              fontFamily:  AppTheme.fontName,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 3,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 3,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
+                          style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Status*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                           items: [
                             DropdownMenuItem(child: Text('Pending',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'Pending'),
                             DropdownMenuItem(child: Text('In Progress',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'In Progress'),
@@ -259,29 +221,14 @@ Widget build(BuildContext context) {
                         // Project Type and Priority
                         DropdownButtonFormField(
                           value: projectType,
-                          decoration: InputDecoration(
-                            labelText: 'Type*',
-                            labelStyle: TextStyle(
-                              color: Color(0xFF7743DB),
-                              fontSize: 25.sp,
-                              fontFamily:  AppTheme.fontName,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10.r)),
-                              borderSide: BorderSide(
-                                width: 3,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10.r)),
-                              borderSide: BorderSide(
-                                width: 3,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
+                          isExpanded: true,
+                          style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Type*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                           items: [
                             DropdownMenuItem(child: Text('-Systems Infrastructure',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'Systems Infrastructure'),
                             DropdownMenuItem(child: Text('-Network Infrastructure',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'Network Infrastructure'),
@@ -300,33 +247,17 @@ Widget build(BuildContext context) {
                             return null;
                           },
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: 10.h),
                         
                         DropdownButtonFormField(
                           value: projectPriority,
-                          decoration: InputDecoration(
-                            labelText: 'Priority*',
-                            labelStyle: TextStyle(
-                              color: Color(0xFF7743DB),
-                              fontSize: 25.sp,
-                              fontFamily:  AppTheme.fontName,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 3,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 3,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
+                          style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Priority*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                           items: [
                             DropdownMenuItem(child: Text('Low',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'Low'),
                             DropdownMenuItem(child: Text('Medium',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'Medium'),
@@ -362,33 +293,18 @@ Widget build(BuildContext context) {
                                     },
                                     controller: projectEndDateController,
                                     readOnly: true,
-                                    decoration: InputDecoration(
-                                      labelText: 'Project End Date*',
-                                      labelStyle: TextStyle(
-                                        color: Color(0xFF7743DB),
-                                        fontSize: 25.sp,
-                                        fontFamily:  AppTheme.fontName,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                                        borderSide: BorderSide(
-                                          width: 3,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                                        borderSide: BorderSide(
-                                          width: 3,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                      prefixIcon: Icon(
-                                        Icons.calendar_today,
-                                        color: Colors.grey[400],
-                                      ),
-                                    ),
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'End Date*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          
+                          prefixIcon: Icon(
+                            Icons.calendar_today,
+                            color: Colors.grey[400],
+                          ),
+                        ),
                                     validator: (value) {
                                       if (projectEndDate == null) {
                                         return 'Project End Date is required';
@@ -410,29 +326,13 @@ Widget build(BuildContext context) {
                                   print('team leaders: $teamLeaders');
                                   return DropdownButtonFormField(
                                     value: teamLeader,
-                                    decoration: InputDecoration(
-                                      labelText: 'Team Leader*',
-                                      labelStyle: TextStyle(
-                                        color: Color(0xFF7743DB),
-                                        fontSize: 25.sp,
-                                        fontFamily:  AppTheme.fontName,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                                        borderSide: BorderSide(
-                                          width: 3,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                                        borderSide: BorderSide(
-                                          width: 3,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                    ),
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Team Leader*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                                     items: snapshot.data!.map<DropdownMenuItem<String>>((User user) {
                                       return DropdownMenuItem<String>(
                                         value: user.id.toString(),
@@ -455,7 +355,7 @@ Widget build(BuildContext context) {
                                 }
                               },
                             ),
-                            SizedBox(height: 10),
+                            SizedBox(height: 10.h),
                                                   FutureBuilder<List<User>>(
                               future: engineers,
                               builder: (context, snapshot) {
@@ -507,38 +407,16 @@ Widget build(BuildContext context) {
                           controller: description,
                           keyboardType: TextInputType.text,
                           maxLines: 3,
-                          style: TextStyle(
-                            color: Color(0xFF000000),
-                            fontSize: 27.sp,
-                            fontFamily:  AppTheme.fontName,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          decoration: InputDecoration(
-                            labelText: 'Description*',
-                            labelStyle: TextStyle(
-                              color: Color(0xFF7743DB),
-                              fontSize: 25.sp,
-                              fontFamily:  AppTheme.fontName,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 3,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 3,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
+                          style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Description*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Project title is required';
+                              return 'Description is required';
                             }
                             return null;
                           },
@@ -554,12 +432,7 @@ Widget build(BuildContext context) {
                                         Navigator.of(context).pushReplacementNamed('/allprojects');
                                   },
                                              child: Text("Save",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily:AppTheme.fontName),),
-                                             style: ElevatedButton.styleFrom(
-                                        backgroundColor: const Color(0xFF9F7BFF),
-                                          shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10.0),
-                                                  ),
-                                                ),
+                                             style: AppButtonStyles.submitButtonStyle
                                               ),
                               ),
                           SizedBox(width: 10.w),
@@ -569,12 +442,7 @@ Widget build(BuildContext context) {
                                 Navigator.of(context).pushReplacementNamed('/allprojects');
                               },
                                          child: Text("Cancel",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily:AppTheme.fontName),),
-                                         style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.red,
-                                      shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                              ),
-                                            ),
+                                         style: AppButtonStyles.cancelButtonStyle
                                           ),
                           ),
                             ],

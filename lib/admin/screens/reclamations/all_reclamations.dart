@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:pma/admin/reclamations/add_reclamation.dart';
-import 'package:pma/admin/reclamations/reclamation_container.dart';
+import 'package:pma/admin/screens/reclamations/add_reclamation.dart';
+import 'package:pma/admin/screens/reclamations/reclamation_container.dart';
 import 'package:pma/admin/widgets/admin_drawer.dart';
 import 'package:pma/admin/widgets/search_bar.dart';
 import 'package:pma/custom_appbar.dart';
@@ -40,6 +40,20 @@ class _AllReclamationsState extends State<AllReclamations> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: AdminDrawer(selectedRoute: '/reclamations'),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            showDialog(context: context, builder: (context) => AddReclamation());
+            // Navigator.of(context).pushReplacementNamed('/addreclamation');
+          },
+          backgroundColor: Colors.blue,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(4.0.r),
+          ),
+          child: Icon(
+            Icons.add,
+            size: 30.sp,
+          ),
+        ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -47,9 +61,10 @@ class _AllReclamationsState extends State<AllReclamations> {
           SizedBox(height: 15.h),
           UserSearchBar(onChanged: onSearchTextChanged,
           onTap: (){
-            Navigator.of(context).pushNamed("/addreclamation");
           },
           ), 
+
+          
           SizedBox(height: 10.h),
           
           Padding(
@@ -57,27 +72,10 @@ class _AllReclamationsState extends State<AllReclamations> {
             child: Row(
               children: [
                 Text("Total Reclmations : ${displayedReclamations.length}",
-                style: TextStyle(fontSize: 18.sp,fontFamily: AppTheme.fontName,fontWeight: FontWeight.w500
+                style: TextStyle(fontSize:  AppTheme.totalObjectFontSize.sp,fontFamily: AppTheme.fontName,fontWeight: FontWeight.w500
                 ),
                 ),
-                SizedBox(width: 30),
-                GestureDetector(
-                   onTap: (){
-                      showDialog(context: context, builder: (context)=>AddReclamation());
-                            // Navigator.of(context).pushReplacementNamed('/addreclamation');
-                                  },
-                   child: Container(
-                   decoration: BoxDecoration(
-                   color: Colors.blue, 
-                  borderRadius: BorderRadius.circular(4.0.r),  
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 4.0.w,vertical: 4.0.h),
-                   child: Icon(
-                  Icons.add,
-                 size: 30.sp,
-                 ),
-                ),
-                ),
+
                 Spacer(),
                 PopupMenuButton<String>(
                   onSelected: (value) {
@@ -164,7 +162,7 @@ class _AllReclamationsState extends State<AllReclamations> {
                   ],
                   icon: Icon(
                     Icons.swap_vert,
-                    size: 30.sp,
+                    size: AppTheme.sortandfilterIconFontSize.sp,
                   ),
                 )
               ],
