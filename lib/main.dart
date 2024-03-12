@@ -11,6 +11,7 @@ import 'package:pma/admin/screens/admin_dashboard.dart';
 import 'package:pma/admin/screens/clients/all_clients.dart';
 import 'package:pma/admin/screens/risks/all_risks.dart';
 import 'package:pma/admin/screens/signup_requests.dart';
+import 'package:pma/admin/tasks/all_tasks.dart';
 import 'package:pma/authentication/sign_in.dart';
 import 'package:pma/authentication/sign_up.dart';
 //import 'package:pma/custom_snackbar.dart';
@@ -22,6 +23,7 @@ import 'package:pma/services/project_service.dart';
 import 'package:pma/services/reclamation_service.dart';
 import 'package:pma/services/shared_preferences.dart';
 import 'package:get_it/get_it.dart';
+import 'package:pma/services/task_service.dart';
 import 'package:pma/services/user_service.dart';
 
 import 'admin/screens/employees/all_employees.dart';
@@ -35,6 +37,7 @@ void setupLocator() {
   GetIt.instance.registerLazySingleton(() => UserService());
   GetIt.instance.registerLazySingleton(() => ProjectService());
   GetIt.instance.registerLazySingleton(() => ReclamationService());
+  GetIt.instance.registerLazySingleton(() => TaskService());
   GetIt.instance.registerLazySingleton(() => EventService());
   GetIt.instance.registerLazySingleton(() => ExportEmployees());
 }
@@ -116,6 +119,7 @@ class _MyAppState extends State<MyApp> {
 
         '/risks':(context)=>AllRisks(),
 
+        '/tasks':(context)=>AllTasks(),
 
         '/allclients':(context)=>AllClients(),
         '/addclient':(context)=>AddClient(),

@@ -198,7 +198,11 @@ class _AdminDrawerState extends State<AdminDrawer> {
             leading: Icon(Icons.task_alt),
             title: Text('Task',style: customStyle()),
             onTap: () {
+              Navigator.of(context).pushReplacementNamed('/tasks');
             },
+            selected: widget.selectedRoute == '/tasks',
+            selectedTileColor: selectedColor,
+
           ),
           ListTile(
             leading: Icon(Icons.insert_chart_outlined),
