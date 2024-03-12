@@ -7,7 +7,6 @@ import 'package:pma/services/shared_preferences.dart';
 import '../models/user_model.dart';
 
 
-
 class UserService{
   final String apiUrl = '$baseUrl/api/v1/users';
 
