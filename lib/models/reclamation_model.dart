@@ -1,5 +1,3 @@
-import 'package:http/http.dart';
-
 class Reclamation {
   late String id;
   late String title;

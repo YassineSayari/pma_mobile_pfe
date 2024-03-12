@@ -9,6 +9,7 @@ import 'package:pma/admin/screens/employees/add_employee.dart';
 import 'package:pma/admin/screens/projects/add_project.dart';
 import 'package:pma/admin/screens/admin_dashboard.dart';
 import 'package:pma/admin/screens/clients/all_clients.dart';
+import 'package:pma/admin/screens/risks/all_risks.dart';
 import 'package:pma/admin/screens/signup_requests.dart';
 import 'package:pma/authentication/sign_in.dart';
 import 'package:pma/authentication/sign_up.dart';
@@ -112,6 +113,8 @@ class _MyAppState extends State<MyApp> {
 
         '/reclamations':(context)=>AllReclamations(),
         '/addreclamation':(context)=>AddReclamation(),
+
+        '/risks':(context)=>AllRisks(),
 
 
         '/allclients':(context)=>AllClients(),

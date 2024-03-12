@@ -169,7 +169,11 @@ class _AdminDrawerState extends State<AdminDrawer> {
             leading: Icon(Icons.shield_outlined),
             title: Text('Risks',style: customStyle()),
             onTap: () {
-            },
+               Navigator.of(context).pushNamed('/risks');
+                  },
+                  selected: widget.selectedRoute == '/risks',
+                  selectedTileColor: selectedColor,
+            
           ),
           ListTile(
             leading: Icon(Icons.settings),

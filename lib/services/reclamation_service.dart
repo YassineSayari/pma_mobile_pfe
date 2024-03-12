@@ -84,7 +84,7 @@ class ReclamationService {
       print("reclamation deleted");
        }
       else{
-         throw Exception('Failed to load reclamations');
+         throw Exception('Failed to delete reclamations');
       }
     
   }
