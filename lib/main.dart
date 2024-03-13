@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pma/admin/screens/procesv/all_procesv.dart';
 import 'package:pma/admin/screens/reclamations/add_reclamation.dart';
 import 'package:pma/admin/screens/reclamations/all_reclamations.dart';
 import 'package:pma/admin/screens/clients/add_client.dart';
@@ -11,7 +12,7 @@ import 'package:pma/admin/screens/admin_dashboard.dart';
 import 'package:pma/admin/screens/clients/all_clients.dart';
 import 'package:pma/admin/screens/risks/all_risks.dart';
 import 'package:pma/admin/screens/signup_requests.dart';
-import 'package:pma/admin/tasks/all_tasks.dart';
+import 'package:pma/admin/screens/tasks/all_tasks.dart';
 import 'package:pma/authentication/sign_in.dart';
 import 'package:pma/authentication/sign_up.dart';
 //import 'package:pma/custom_snackbar.dart';
@@ -19,6 +20,7 @@ import 'package:pma/engineer/screens/engineer_dashboard.dart';
 import 'package:pma/profile/profile_screen.dart';
 import 'package:pma/services/authentication_service.dart';
 import 'package:pma/services/export_utils.dart';
+import 'package:pma/services/procesv_service..dart';
 import 'package:pma/services/project_service.dart';
 import 'package:pma/services/reclamation_service.dart';
 import 'package:pma/services/shared_preferences.dart';
@@ -38,6 +40,7 @@ void setupLocator() {
   GetIt.instance.registerLazySingleton(() => ProjectService());
   GetIt.instance.registerLazySingleton(() => ReclamationService());
   GetIt.instance.registerLazySingleton(() => TaskService());
+  GetIt.instance.registerLazySingleton(() => ProcesVService());
   GetIt.instance.registerLazySingleton(() => EventService());
   GetIt.instance.registerLazySingleton(() => ExportEmployees());
 }
@@ -120,6 +123,8 @@ class _MyAppState extends State<MyApp> {
         '/risks':(context)=>AllRisks(),
 
         '/tasks':(context)=>AllTasks(),
+
+        '/procesv':(context)=>AllProcesv(),
 
         '/allclients':(context)=>AllClients(),
         '/addclient':(context)=>AddClient(),

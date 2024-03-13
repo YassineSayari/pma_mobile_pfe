@@ -260,14 +260,14 @@ final ImagePicker _imagePicker = ImagePicker();
   }
 
   Future<void> changePassword(String userId, String newPassword) async {
-    String? authToken = await SharedPrefs.getAuthToken();
+    //String? authToken = await SharedPrefs.getAuthToken();
     
     try {
       final response = await http.patch(
         Uri.parse('$apiUrl/change-psw/$userId'),
            headers: <String, String>{
            'Content-Type': 'application/json',
-           'Authorization': 'Bearer $authToken',
+          // 'Authorization': 'Bearer $authToken',
          },
         body: jsonEncode({'password': newPassword}),
       );

@@ -265,7 +265,7 @@ class _EditTaskPopupState extends State<EditTaskPopup> {
                                         .map((user) => ValueItem(label: user.fullName, value: user.id.toString()))
                                         .toList(),
                                     maxItems: 11,
-                  hint: "Select Team",
+                  hint: "Select executors",
                   hintStyle: AppTheme.multiSelectDropDownTextStyle,
                   hintFontSize: 20,
                   selectionType: SelectionType.multi,
@@ -414,6 +414,11 @@ class _EditTaskPopupState extends State<EditTaskPopup> {
    Future<void> _updateTask() async {
         try {
     List<String> executorIds = selectedExecutors.map((user) => user.id).toList();
+    if (executorIds.isEmpty) {
+  executorIds = (widget.task.executor as List< dynamic>)
+      .map((user) => user['_id'].toString())  // Assuming '_id' is the key for the user id
+      .toList();
+}
     print("executors:::$executorIds");
 
           Task updatedTask= Task(

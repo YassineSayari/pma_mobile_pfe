@@ -208,7 +208,10 @@ class _AdminDrawerState extends State<AdminDrawer> {
             leading: Icon(Icons.insert_chart_outlined),
             title: Text('Proces-Verbal',style: customStyle()),
             onTap: () {
+              Navigator.of(context).pushReplacementNamed('/procesv');
             },
+            selected: widget.selectedRoute == '/procesv',
+            selectedTileColor: selectedColor,
           ),
           ListTile(
             leading: Icon(Icons.email_outlined),

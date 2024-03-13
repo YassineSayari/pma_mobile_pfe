@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:pma/admin/tasks/task_container.dart';
+import 'package:pma/admin/screens/tasks/task_container.dart';
 import 'package:pma/admin/widgets/admin_drawer.dart';
 import 'package:pma/admin/widgets/search_bar.dart';
 import 'package:pma/custom_appbar.dart';

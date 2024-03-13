@@ -22,7 +22,7 @@ class RiskService {
       return jsonData.map((eventData) => Risk.fromJson(eventData)).toList();
     } else {
       throw Exception('Failed to load problems');
-    }
+    } 
   }
 
 

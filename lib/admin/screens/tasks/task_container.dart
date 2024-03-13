@@ -3,7 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'package:pma/admin/tasks/edit_task_popup.dart';
+import 'package:pma/admin/screens/tasks/edit_task_popup.dart';
 import 'package:pma/custom_snackbar.dart';
 import 'package:pma/models/task_model.dart';
 import 'package:pma/services/task_service.dart';
