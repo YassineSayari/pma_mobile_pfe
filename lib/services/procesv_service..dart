@@ -30,6 +30,47 @@ class ProcesVService {
     }
   }
 
+  //  Future<List<Procesv>> getProcesvByProject(Map<String, dynamic> project) async {
+  //   print("getting proces for project ${project['_id']}");
+  //   final response = await http.get(
+  //     Uri.parse('$apiUrl/getProcesByProject')
+  //   );
+
+  //   if (response.statusCode == 200) {
+  //     print("got proces for project");
+  //     final List<dynamic> jsonData = json.decode(response.body);
+  //     return jsonData.map((eventData) => Procesv.fromJson(eventData)).toList();
+  //   } else {
+  //     throw Exception('Failed to load proces for project');
+  //   }
+  // }
+
+Future<List<Procesv>> getProcesvByProject(Map<String, dynamic> project) async {
+  try {
+    print("Getting proces for project ${project['_id']}");
+
+    // Construct the URL with the project ID
+
+    final response = await http.get(Uri.parse('$apiUrl/getProcesByProject/${project['_id']}'));
+
+    if (response.statusCode == 200) {
+      print("Got proces for project");
+
+      final List<dynamic> jsonData = json.decode(response.body);
+
+      List<Procesv> procesvList = jsonData.map((eventData) => Procesv.fromJson(eventData)).toList();
+
+      return procesvList;
+    } else {
+      print("Failed to load proces for project. Status code: ${response.statusCode}");
+      print("Response body: ${response.body}");
+      throw Exception('Failed to load proces for project. Server error.');
+    }
+  } catch (error) {
+    print("Error loading proces for project: $error");
+    throw Exception('Failed to load proces for project. $error');
+  }
+}
 
 
   Future<void> addProcesv(Map<String, dynamic> procesv) async {

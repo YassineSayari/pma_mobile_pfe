@@ -15,6 +15,9 @@ import 'package:pma/admin/screens/signup_requests.dart';
 import 'package:pma/admin/screens/tasks/all_tasks.dart';
 import 'package:pma/authentication/sign_in.dart';
 import 'package:pma/authentication/sign_up.dart';
+import 'package:pma/client/screens/client_dashboard.dart';
+import 'package:pma/client/screens/my_reclamations.dart/client_reclamations.dart';
+import 'package:pma/client/screens/procesv/client_procesv.dart';
 //import 'package:pma/custom_snackbar.dart';
 import 'package:pma/engineer/screens/engineer_dashboard.dart';
 import 'package:pma/profile/profile_screen.dart';
@@ -89,6 +92,13 @@ class _MyAppState extends State<MyApp> {
             current_page = EngineerDashboard();
           });
         }
+        else if(role=="Client")
+        {
+          print('redirecting to client page');
+          setState(() {
+            current_page = ClientDashboard();
+          });
+        }
 
     } else {
       print("redirecting to sign in");
@@ -112,12 +122,15 @@ class _MyAppState extends State<MyApp> {
         '/signup':(context) =>SignUp(controller: controller),
 
         '/admindashboard': (context) => AdminDashboard(),
+        '/clientdashboard': (context) => ClientDashboard(),
+
         '/engineerdashboard': (context) => EngineerDashboard(),
 
         '/allprojects':(context)=>AllProjects(),
         '/addproject':(context)=>AddProject(),
 
         '/reclamations':(context)=>AllReclamations(),
+        '/client_reclamations':(context)=>ClientReclamations(),
         '/addreclamation':(context)=>AddReclamation(),
 
         '/risks':(context)=>AllRisks(),
@@ -125,6 +138,8 @@ class _MyAppState extends State<MyApp> {
         '/tasks':(context)=>AllTasks(),
 
         '/procesv':(context)=>AllProcesv(),
+        '/client_pv':(context)=>ClientProcesV(),
+
 
         '/allclients':(context)=>AllClients(),
         '/addclient':(context)=>AddClient(),

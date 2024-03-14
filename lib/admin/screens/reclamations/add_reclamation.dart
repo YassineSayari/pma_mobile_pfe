@@ -379,7 +379,7 @@ class _addReclamationState extends State<AddReclamation> {
             elevation: 0,
           ),
           );
-         // Navigator.of(context).pop();
+          Navigator.of(context).pop();
       }
 
    }
