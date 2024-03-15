@@ -169,7 +169,11 @@ class _AdminDrawerState extends State<AdminDrawer> {
             leading: Icon(Icons.shield_outlined),
             title: Text('Risks',style: customStyle()),
             onTap: () {
-            },
+               Navigator.of(context).pushNamed('/risks');
+                  },
+                  selected: widget.selectedRoute == '/risks',
+                  selectedTileColor: selectedColor,
+            
           ),
           ListTile(
             leading: Icon(Icons.settings),
@@ -194,13 +198,20 @@ class _AdminDrawerState extends State<AdminDrawer> {
             leading: Icon(Icons.task_alt),
             title: Text('Task',style: customStyle()),
             onTap: () {
+              Navigator.of(context).pushReplacementNamed('/tasks');
             },
+            selected: widget.selectedRoute == '/tasks',
+            selectedTileColor: selectedColor,
+
           ),
           ListTile(
             leading: Icon(Icons.insert_chart_outlined),
             title: Text('Proces-Verbal',style: customStyle()),
             onTap: () {
+              Navigator.of(context).pushReplacementNamed('/procesv');
             },
+            selected: widget.selectedRoute == '/procesv',
+            selectedTileColor: selectedColor,
           ),
           ListTile(
             leading: Icon(Icons.email_outlined),

@@ -2,21 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:pma/admin/screens/reclamations/edit_reclamations_popup.dart';
-import 'package:pma/custom_snackbar.dart';
+import 'package:pma/client/screens/my_reclamations.dart/client_edit_reclamation.dart';
 import 'package:pma/models/reclamation_model.dart';
-import 'package:pma/services/reclamation_service.dart';
 import 'package:pma/theme.dart';
 
-class ReclamationContainer extends StatefulWidget {
+class ClientReclamationContainer extends StatefulWidget {
   final Reclamation reclamation;
-  const ReclamationContainer({super.key, required this.reclamation});
+  const ClientReclamationContainer({super.key, required this.reclamation});
 
   @override
-  State<ReclamationContainer> createState() => _ReclamationContainerState();
+  State<ClientReclamationContainer> createState() => _ClientReclamationContainerState();
 }
 
-class _ReclamationContainerState extends State<ReclamationContainer> {
+class _ClientReclamationContainerState extends State<ClientReclamationContainer> {
     bool isExpanded = false;
 
   @override
@@ -122,25 +120,7 @@ class _ReclamationContainerState extends State<ReclamationContainer> {
           if(isExpanded)
             Column(
               children: [ 
-                SizedBox(height: 20),
-                               Row(
-                                 children: [
-                                  Text("Client: ",
-                                   style: TextStyle(
-                                                fontSize: 20.sp,
-                                                fontFamily: AppTheme.fontName,
-                                                fontWeight: FontWeight.w500
-                                              ),
-                                              ),
-                                   Text("${widget.reclamation.client['fullName']}",
-                                      style: TextStyle(
-                                                fontSize: 20.sp,
-                                                fontFamily: AppTheme.fontName,
-                                              ),
-                                              ),
-                                 ],
-                               ),
-                               SizedBox(height: 10.h),
+                SizedBox(height: 20),                
                                 Row(
                                   children: [
                                     Text("Type:",style: TextStyle(
@@ -220,7 +200,7 @@ class _ReclamationContainerState extends State<ReclamationContainer> {
                   children: [
                       GestureDetector(
                       onTap: () {
-                        showDialog(context: context, builder: (context)=> EditReclamationPopup(reclamation: widget.reclamation));                    
+                        showDialog(context: context, builder: (context)=> ClientEditReclamationPopup(reclamation: widget.reclamation));                    
                           },
                       child: Icon(
                         Icons.edit_outlined,
@@ -228,18 +208,7 @@ class _ReclamationContainerState extends State<ReclamationContainer> {
                         color: Color.fromARGB(255, 102, 31, 184),
                       ),
                     ),
-                    SizedBox(width: 20.w),
-                    GestureDetector(
-                      onTap: () {
-                        print("deleting reclamation : ${widget.reclamation.id}");
-                       deleteReclamation(widget.reclamation.id);
-                       },
-                      child: Icon(
-                        Icons.delete_outline,
-                        size: 35,
-                        color: Color.fromARGB(255, 188, 14, 14),
-                      ),
-                    ),
+                  
                   ],
                 ),
               ],
@@ -264,58 +233,4 @@ class _ReclamationContainerState extends State<ReclamationContainer> {
     }
   }
 
-
-  void deleteReclamation(String id) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-                shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0.r),
-      ),
-      insetPadding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 225.h),
-      child:Container(
-          padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
-          width: double.infinity,
-             child: Column(
-               children: [
-                 Text("Confirm Deletion",style: TextStyle(fontFamily: AppTheme.fontName,fontSize: 35.sp,fontWeight: FontWeight.w600)),
-                           Text("Are you sure you want to delete this Reclamation?",style: TextStyle(fontFamily: AppTheme.fontName,fontSize: 24.sp)),
-                           
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Text("Cancel",style: TextStyle(fontFamily: AppTheme.fontName,fontWeight: FontWeight.w500,fontSize: 24.sp)),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          ReclamationService().deleteReclamation(id);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: SuccessSnackBar(message: "Reclamation deleted !"),
-                              duration: Duration(seconds: 2),
-                              behavior: SnackBarBehavior.floating,
-                              backgroundColor: Colors.transparent,
-                              elevation: 0,
-                            ),
-                          );
-                          Navigator.of(context).pushReplacementNamed("/reclamations");
-                        },
-                        child: Text("Delete",style: TextStyle(color: Colors.red,fontFamily: AppTheme.fontName,fontWeight: FontWeight.w500,fontSize: 24.sp),),
-                      ),
-                    ],
-                  ),
-               ],
-             ),
-           ),
-        
-        ).animate(delay: 100.ms)
-        .fade().scale();
-      },
-    );
-  }
 }

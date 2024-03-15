@@ -56,6 +56,32 @@ Future<Project> getProject(String projectId) async {
 }
 
 
+Future<List<Map<String, dynamic>>> getProjectsByClient(String id) async{
+  print("getting projects for :::: $id");
+    try{
+      final response=await http.get(
+        Uri.parse('$apiUrl/getprojectbyClient/$id')
+      );
+      if (response.statusCode==200)
+        {
+          print("got projects for client");
+          List<dynamic> projectsJson = json.decode(response.body);
+          print("got ${projectsJson.length} projects for the client");
+          return projectsJson.cast<Map<String, dynamic>>();
+        }
+      else {
+        print("Failed to load projects for client. Status code: ${response.statusCode}");
+        print("Response body: ${response.body}");
+        throw Exception('Failed to load projects for client. Server error.');
+      }
+    }catch(error){
+      print("Error loading projects: $error");
+      throw Exception('Failed to load projects for client. $error');
+    }
+
+}
+
+
   Future<void> addProject(Map<String, dynamic> projectData) async {
     print("adding project");
     try {
@@ -143,6 +169,56 @@ Future<void> updateProject(String projectId, Map<String, dynamic> projectData) a
       print('Error updating project status: $error');
     }
   }
+
+
+  Future<void> noteClient(String projectId, int rate) async {
+    try {
+      print("Adding client note");
+      final response = await http.patch(
+        Uri.parse("$apiUrl/updateStatus/$projectId"), 
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'note_Client': rate,
+        }),
+      );
+
+      print("Response status code: ${response.statusCode}");
+      print("Response body: ${response.body}");
+
+      if (response.statusCode == 200) {
+        print('Note added successfully');
+      } else {
+        print('Failed to add note. ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Error adding note: $error');
+    }
+  }
+
+  // Future<void> noteClient(String projectId,int rate) async{
+  //   try {
+  //     print("adding client note");
+  //     final response = await http.patch(
+  //       Uri.parse("$apiUrl/noteCleint/$projectId"),
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: jsonEncode({
+  //         'note_Client': rate,
+  //       }),
+  //     );
+
+  //     if (response.statusCode == 201) {
+  //       print('Note added successfully');
+  //     } else {
+  //       print('Failed to add note . ${response.statusCode}');
+  //     }
+  //   } catch (error) {
+  //     print('Error adding note : $error');
+  //   }
+  // }
 
 
 

@@ -2,28 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:pma/admin/screens/reclamations/edit_reclamations_popup.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:pma/admin/screens/tasks/edit_task_popup.dart';
 import 'package:pma/custom_snackbar.dart';
-import 'package:pma/models/reclamation_model.dart';
-import 'package:pma/services/reclamation_service.dart';
+import 'package:pma/models/task_model.dart';
+import 'package:pma/services/task_service.dart';
 import 'package:pma/theme.dart';
 
-class ReclamationContainer extends StatefulWidget {
-  final Reclamation reclamation;
-  const ReclamationContainer({super.key, required this.reclamation});
+class TaskContainer extends StatefulWidget {
+  final Task task;
+  const TaskContainer({super.key, required this.task});
 
   @override
-  State<ReclamationContainer> createState() => _ReclamationContainerState();
+  State<TaskContainer> createState() => _TaskContainerState();
 }
 
-class _ReclamationContainerState extends State<ReclamationContainer> {
+class _TaskContainerState extends State<TaskContainer> {
     bool isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
     
-        String formattedDate = DateFormat('MMMM dd, yyyy').format(DateTime.parse(widget.reclamation.addedDate));
-        print("added date::::${widget.reclamation.addedDate}}");
+        String formattedStartDate = DateFormat('MMMM dd, yyyy').format(DateTime.parse(widget.task.startDate));
+        String formattedDeadline = DateFormat('MMMM dd, yyyy').format(DateTime.parse(widget.task.deadLine));
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 4.w,vertical: 8.h),
       child: Container(
@@ -45,7 +47,7 @@ class _ReclamationContainerState extends State<ReclamationContainer> {
             children: [
               Row(
                 children: [
-                  Text("${widget.reclamation.title}",
+                  Text("${widget.task.title}",
                   style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 25.sp,
@@ -54,11 +56,11 @@ class _ReclamationContainerState extends State<ReclamationContainer> {
                           ),
                           ),
                   Spacer(),
-                  Text("${widget.reclamation.status}",
+                  Text("${widget.task.priority}",
                   style: TextStyle(
                             fontSize: 19.sp,
                             fontFamily: AppTheme.fontName,
-                            color: getColorForStatus(widget.reclamation.status),
+                            color: getColorForPriority(widget.task.priority),
                           ),
                           ),
               IconButton(
@@ -75,91 +77,31 @@ class _ReclamationContainerState extends State<ReclamationContainer> {
               ),
                 ],
               ),
-              //  Row(
-              //   crossAxisAlignment: CrossAxisAlignment.start,
-              //    children: [
-              //      Expanded(
-              //        child: Row(
-              //          children: [
-              //           Text("Client: ",
-              //            style: TextStyle(
-              //                         fontSize: 20.sp,
-              //                         fontFamily: AppTheme.fontName,
-              //                         fontWeight: FontWeight.w500
-              //                       ),
-              //                       ),
-              //            Text("${widget.reclamation.client['fullName']}",
-              //               style: TextStyle(
-              //                         fontSize: 20.sp,
-              //                         fontFamily: AppTheme.fontName,
-              //                       ),
-              //                       ),
-              //          ],
-              //        ),
-              //      ),
-              //       Expanded(
-              //         child: Row(
-              //           children: [
-              //             Text("Type:",style: TextStyle(
-              //                         fontSize: 20.sp,
-              //                         fontFamily: AppTheme.fontName,
-              //                         fontWeight: FontWeight.w500
-              //                       ),
-              //                       ),
-              //             Flexible(
-              //               child: Text(" ${widget.reclamation.typeReclamation}",
-              //                 style: TextStyle(
-              //                           fontSize: 18.sp,
-              //                           fontFamily: AppTheme.fontName,
-              //                         ),
-              //                         ),
-              //             ),
-              //           ],
-              //         ),
-              //       ),                      
-              //    ],
-              //  ),
           if(isExpanded)
             Column(
               children: [ 
                 SizedBox(height: 20),
-                               Row(
-                                 children: [
-                                  Text("Client: ",
-                                   style: TextStyle(
-                                                fontSize: 20.sp,
-                                                fontFamily: AppTheme.fontName,
-                                                fontWeight: FontWeight.w500
-                                              ),
-                                              ),
-                                   Text("${widget.reclamation.client['fullName']}",
-                                      style: TextStyle(
-                                                fontSize: 20.sp,
-                                                fontFamily: AppTheme.fontName,
-                                              ),
-                                              ),
-                                 ],
-                               ),
-                               SizedBox(height: 10.h),
-                                Row(
-                                  children: [
-                                    Text("Type:",style: TextStyle(
-                                                fontSize: 20.sp,
-                                                fontFamily: AppTheme.fontName,
-                                                fontWeight: FontWeight.w500
-                                              ),
-                                              ),
-                                    Flexible(
-                                      child: Text(" ${widget.reclamation.typeReclamation}",
-                                        style: TextStyle(
-                                                  fontSize: 18.sp,
-                                                  fontFamily: AppTheme.fontName,
-                                                ),
-                                                ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 10.h),
+                    Row(
+                          children: [
+                                Text(
+                              "Executors: ",
+                              style: TextStyle(
+                                fontSize: 20.sp,
+                                fontFamily: AppTheme.fontName,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+
+                             Text( widget.task.executor.map((executor)  => executor['fullName']).join(', '),
+                             style: TextStyle(
+                                        fontSize: 20.sp,
+                                        fontFamily: AppTheme.fontName,
+                                      ),),
+                          
+
+                          ],
+                        ),
+                       SizedBox(height: 10.h),
                       Row(
                        children: [
                         Text("Project: ",
@@ -170,7 +112,7 @@ class _ReclamationContainerState extends State<ReclamationContainer> {
                                     ),
                                     ),
                          Expanded(
-                           child: Text("${widget.reclamation.project['Projectname']}",
+                           child: Text("${widget.task.project['Projectname']}",
                               style: TextStyle(
                                         fontSize: 20.sp,
                                         fontFamily: AppTheme.fontName,
@@ -182,7 +124,7 @@ class _ReclamationContainerState extends State<ReclamationContainer> {
                      SizedBox(height: 10.h),
                       Row(
                        children: [
-                        Text("Comment: ",
+                        Text("Status: ",
                          style: TextStyle(
                                       fontSize: 20.sp,
                                       fontFamily: AppTheme.fontName,
@@ -190,7 +132,7 @@ class _ReclamationContainerState extends State<ReclamationContainer> {
                                     ),
                                     ),
                          Expanded(
-                           child: Text("${widget.reclamation.comment}",
+                           child: Text("${widget.task.status}",
                               style: TextStyle(
                                         fontSize: 20.sp,
                                         fontFamily: AppTheme.fontName,
@@ -200,14 +142,50 @@ class _ReclamationContainerState extends State<ReclamationContainer> {
                        ],
                      ),
                      SizedBox(height: 10.h),
+                      Row(
+                       children: [
+                        Text("Description: ",
+                         style: TextStyle(
+                                      fontSize: 20.sp,
+                                      fontFamily: AppTheme.fontName,
+                                      fontWeight: FontWeight.w500
+                                    ),
+                                    ),
+                         Expanded(
+                           child: Text("${widget.task.details}",
+                              style: TextStyle(
+                                        fontSize: 20.sp,
+                                        fontFamily: AppTheme.fontName,
+                                        overflow: TextOverflow.ellipsis
+                                      ),
+                                      ),
+                         ),
+                       ],
+                     ),
+                     SizedBox(height: 10.h),
                 Row(
                   children: [
-                    Text("Date: ", style: TextStyle(
+                    Text("Start date: ", style: TextStyle(
                             fontSize: 20.sp,
                             fontFamily: AppTheme.fontName,
                             fontWeight: FontWeight.w500,
                           ),),
-                    Text(formattedDate,
+                    Text(formattedStartDate,
+                          style: TextStyle(
+                            fontSize: 20.sp,
+                            fontFamily: AppTheme.fontName,
+                          ),),
+                  ],
+                ),
+                SizedBox(height: 10.h),
+                                Row(
+                  children: [
+                    Text("Deadline: ", style: TextStyle(
+                            fontSize: 20.sp,
+                            fontFamily: AppTheme.fontName,
+                            fontWeight: FontWeight.w500,
+                          ),),
+                    Text(formattedDeadline,
                           style: TextStyle(
                             fontSize: 20.sp,
                             fontFamily: AppTheme.fontName,
@@ -216,11 +194,39 @@ class _ReclamationContainerState extends State<ReclamationContainer> {
                 ),
                 SizedBox(height: 10.h),
                 Row(
+                  children: [
+                    Text("Progress: ",style: TextStyle(
+                                  fontSize: 20.sp,
+                                  fontFamily: AppTheme.fontName,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                ),
+                    Text("${widget.task.progress} %", style: TextStyle(
+                            fontSize: 20.sp,
+                            fontFamily: AppTheme.fontName,
+                          ),
+                          ),
+                  ],
+                ),
+                                SizedBox(height: 10.h),
+
+                Container(
+                width: 400.0.w,
+                child: LinearPercentIndicator(
+                  lineHeight: 10,
+                  percent: widget.task.progress!.toDouble()/100,
+                  progressColor: Colors.blue,
+                  animation: true,
+                  animationDuration: 800,
+                ),
+                            ),
+                SizedBox(height: 10.h),
+                Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                      GestureDetector(
+                    GestureDetector(
                       onTap: () {
-                        showDialog(context: context, builder: (context)=> EditReclamationPopup(reclamation: widget.reclamation));                    
+                        showDialog(context: context, builder: (context)=> EditTaskPopup(task: widget.task));                     
                           },
                       child: Icon(
                         Icons.edit_outlined,
@@ -228,11 +234,11 @@ class _ReclamationContainerState extends State<ReclamationContainer> {
                         color: Color.fromARGB(255, 102, 31, 184),
                       ),
                     ),
-                    SizedBox(width: 20.w),
-                    GestureDetector(
+                   SizedBox(width: 20.w),
+                   GestureDetector(
                       onTap: () {
-                        print("deleting reclamation : ${widget.reclamation.id}");
-                       deleteReclamation(widget.reclamation.id);
+                        print("deleting task : ${widget.task.id}");
+                       deleteTask(widget.task.id);
                        },
                       child: Icon(
                         Icons.delete_outline,
@@ -251,21 +257,21 @@ class _ReclamationContainerState extends State<ReclamationContainer> {
     ).animate(delay: 200.ms).slideX().shimmer(duration: 1500.ms);
   }
 
-    Color getColorForStatus(String status) {
-    switch (status) {
-      case 'Pending':
-        return  Colors.red;
-      case 'In treatment':
+    Color getColorForPriority(String? priority) {
+    switch (priority) {
+      case 'Low':
+        return  Colors.green;
+      case 'Medium':
         return Colors.blue;
-      case 'Treated':
-        return Colors.green;
+      case 'High':
+        return Colors.red;
       default:
         return Colors.black;
     }
   }
 
 
-  void deleteReclamation(String id) {
+  void deleteTask(String id) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -280,7 +286,7 @@ class _ReclamationContainerState extends State<ReclamationContainer> {
              child: Column(
                children: [
                  Text("Confirm Deletion",style: TextStyle(fontFamily: AppTheme.fontName,fontSize: 35.sp,fontWeight: FontWeight.w600)),
-                           Text("Are you sure you want to delete this Reclamation?",style: TextStyle(fontFamily: AppTheme.fontName,fontSize: 24.sp)),
+                           Text("Are you sure you want to delete this Task?",style: TextStyle(fontFamily: AppTheme.fontName,fontSize: 24.sp)),
                            
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -293,17 +299,17 @@ class _ReclamationContainerState extends State<ReclamationContainer> {
                       ),
                       TextButton(
                         onPressed: () {
-                          ReclamationService().deleteReclamation(id);
+                          TaskService().deleteTask(id);
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: SuccessSnackBar(message: "Reclamation deleted !"),
+                              content: SuccessSnackBar(message: "Task deleted !"),
                               duration: Duration(seconds: 2),
                               behavior: SnackBarBehavior.floating,
                               backgroundColor: Colors.transparent,
                               elevation: 0,
                             ),
                           );
-                          Navigator.of(context).pushReplacementNamed("/reclamations");
+                          Navigator.of(context).pushReplacementNamed("/tasks");
                         },
                         child: Text("Delete",style: TextStyle(color: Colors.red,fontFamily: AppTheme.fontName,fontWeight: FontWeight.w500,fontSize: 24.sp),),
                       ),

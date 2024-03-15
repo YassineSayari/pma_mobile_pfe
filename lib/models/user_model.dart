@@ -52,4 +52,23 @@ class User {
       hiringDate: DateTime.parse(json['hiringDate']),
     );
   }
-}
+
+Map<String, dynamic> toJson() {
+  return {
+    'id': id,
+    'fullName': fullName,
+    'phone': phone,
+    'email': email,
+    'roles': roles,
+    'image': image,
+    'nationality': nationality,
+    'address': address,
+    'gender': gender,
+    'department': department,
+    'company': company,
+    'isEnabled': isEnabled,
+    'experience': experience,
+    'title': title,
+    'hiringDate': hiringDate.toIso8601String(),
+  };
+}}

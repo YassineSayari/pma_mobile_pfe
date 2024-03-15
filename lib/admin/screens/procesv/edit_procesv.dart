@@ -3,50 +3,79 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
+import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:pma/custom_snackbar.dart';
+import 'package:pma/models/procesv_model.dart';
 import 'package:pma/models/user_model.dart';
+import 'package:pma/services/procesv_service..dart';
 import 'package:pma/services/project_service.dart';
-import 'package:pma/services/reclamation_service.dart';
+import 'package:pma/services/shared_preferences.dart';
 import 'package:pma/services/user_service.dart';
 import 'package:pma/theme.dart';
 
-class AddReclamation extends StatefulWidget {
-  const AddReclamation({super.key});
+class EditProcesv extends StatefulWidget {
+ final Procesv procesv;
+  const EditProcesv({super.key,required this.procesv});
 
   @override
-  State<AddReclamation> createState() => _addReclamationState();
+  State<EditProcesv> createState() => _EditProcesvState();
 }
 
-class _addReclamationState extends State<AddReclamation> {
+class _EditProcesvState extends State<EditProcesv> {
 
     final _formKey = GlobalKey<FormState>();
 
-    final TextEditingController titleController = TextEditingController();
     late Future<List<Map<String, dynamic>>> projects;
-    late Future<List<User>> clients;
+    late Future<List<User>> teamLeaders;
 
     String? projectid;
-    String? clientid;
+  final MultiSelectController teamController = MultiSelectController();
+  List<User> seletedTeam = [];
 
-    late String reclamationStatus;
-    String? reclamationType;
+    DateTime? date;
+    final TextEditingController dateController = TextEditingController();
 
-    DateTime? creationDate;
-    final TextEditingController creationDateController = TextEditingController();
-    late TextEditingController commentController= TextEditingController();
-    late TextEditingController responseController= TextEditingController();
+
+    late String type_com='internal meeting';
+    late TextEditingController titleController;
+    late TextEditingController descriptionController;
+
+
+    final TextEditingController progressController= TextEditingController();
+
+    DateTime? deadLine;
+    final TextEditingController deadLineController = TextEditingController();
 
   final ProjectService projectService = GetIt.I<ProjectService>();
-  final ReclamationService reclamationService = GetIt.I<ReclamationService>();
+  final UserService userService = GetIt.I<UserService>();
+  final ProcesVService procesvService = GetIt.I<ProcesVService>();
+  final SharedPrefs prefs = GetIt.I<SharedPrefs>();
 
-      @override
-  void initState() {
-    super.initState();
-    projects = projectService.getAllProjects();
-    clients=UserService().getAllClients();
-    reclamationStatus = 'Pending';
 
-  }
+  @override
+void initState() {
+  super.initState();
+  initializeData();
+    titleController = TextEditingController(text: widget.procesv.title);
+    projectid = widget.procesv.project["_id"];
+    type_com=widget.procesv.Type_Communication;
+    descriptionController= TextEditingController(text: widget.procesv.description);
+    date = DateTime.parse(widget.procesv.date);
+    dateController.text = DateFormat('yyyy-MM-dd').format(date!);
+    }
+
+Future<void> initializeData() async {
+  projects = projectService.getAllProjects();
+  teamLeaders = UserService().getAllTeamLeaders();
+  
+
+  
+  //print("sender::::: $sender");
+  print("proejct id::::: $projectid");
+
+
+}
+
 
 
   @override
@@ -68,7 +97,7 @@ class _addReclamationState extends State<AddReclamation> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Center(child: Text("New Reclamation",style: TextStyle(fontFamily: AppTheme.fontName,fontWeight: FontWeight.w600,fontSize: 34.sp),)),
+                Center(child: Text("Edit",style: TextStyle(fontFamily: AppTheme.fontName,fontWeight: FontWeight.w600,fontSize: 34.sp),)),
                 SizedBox(height: 30.h),
                 TextFormField(
                   controller: titleController,
@@ -135,23 +164,24 @@ class _addReclamationState extends State<AddReclamation> {
                         SizedBox(height: 10.h),
                         
                         DropdownButtonFormField(
-                          value: reclamationStatus,
+                          value: type_com,
                           style: AppTextFieldStyles.textStyle,
                                 decoration: InputDecoration(
-                                  labelText: 'Status*',
+                                  labelText: 'Communication Type*',
                                   labelStyle: AppTextFieldStyles.labelStyle,
                                   enabledBorder: AppTextFieldStyles.enabledBorder,
                                   focusedBorder: AppTextFieldStyles.focusedBorder,
                                 ),
                           items: [
-                            DropdownMenuItem(child: Text('Pending',style: TextStyle(fontSize:20,fontFamily:AppTheme.fontName),), value: 'Pending'),
-                            DropdownMenuItem(child: Text('In Treatment',style: TextStyle(fontSize: 20,fontFamily:AppTheme.fontName),), value: 'In treatment'),
-                            DropdownMenuItem(child: Text('Treated',style: TextStyle(fontSize: 20,fontFamily:AppTheme.fontName),), value: 'Treated'),
+                            DropdownMenuItem(child: Text('internal meeting',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'internal meeting'),
+                            DropdownMenuItem(child: Text('official meeting',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'official meeting'),
+                            DropdownMenuItem(child: Text('client request',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'client request'),
+
                           ],
                           
                           onChanged: (selectedValue) {
                             setState(() {
-                              reclamationStatus = selectedValue as String;
+                              type_com = selectedValue as String;
                             });
                           },
                           validator: (value) {
@@ -161,80 +191,59 @@ class _addReclamationState extends State<AddReclamation> {
                             return null;
                           },
                         ),
-                        SizedBox(height: 10.h),
-                       DropdownButtonFormField(
-                          value: reclamationType,
-                          style: AppTextFieldStyles.textStyle,
-                                decoration: InputDecoration(
-                                  labelText: 'Type*',
-                                  labelStyle: AppTextFieldStyles.labelStyle,
-                                  enabledBorder: AppTextFieldStyles.enabledBorder,
-                                  focusedBorder: AppTextFieldStyles.focusedBorder,
-                                ),
-                          items: [
-                            DropdownMenuItem(child: Text('Technical',style: TextStyle(fontSize:20,fontFamily:AppTheme.fontName),), value: 'Technical'),
-                            DropdownMenuItem(child: Text('Commercial',style: TextStyle(fontSize: 20,fontFamily:AppTheme.fontName),), value: 'Commercial'),
-                          ],
                           
-                          onChanged: (selectedValue) {
-                            setState(() {
-                              reclamationType = selectedValue as String?;
-                            });
-                          },
-                          validator: (value) {
-                            if (value == null ) {
-                              return 'type is required';
-                            }
-                            return null;
-                          },
-                        ),
-                        SizedBox(height: 10),
-                        FutureBuilder<List<User>>(
-                              future: clients,
+                        SizedBox(height: 10.h),
+                        Column(
+                          children: [
+                            FutureBuilder<List<User>>(
+                              future: teamLeaders,
                               builder: (context, snapshot) {
                                 if (snapshot.connectionState == ConnectionState.waiting) {
-                                  return SpinKitThreeBounce(color: Colors.blueAccent,size: 30,);
+                                  return CircularProgressIndicator();
                                 } else if (snapshot.hasError) {
                                   return Text('Error: ${snapshot.error}');
                                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                                  return Text('No clients available.');
+                                  return Text('No engineers available.');
                                 } else {
-                                  print('clients:: $clients');
-                                  return DropdownButtonFormField(
-                                    value: clientid,
-                                    itemHeight: 60,
-                                    style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Client*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          ),
-
-                                    items: snapshot.data!.map<DropdownMenuItem<String>>((User client) {
-                                      return DropdownMenuItem<String>(
-                                        value: client.id,
-                                        child: Text(client.fullName, style: TextStyle(fontSize: 20, fontFamily: AppTheme.fontName)),
-                                      );
-                                    }).toList(),
-
-                                    onChanged: (selectedValue) {
+                                      
+                                  // padding + (length * height per option)
+                                  double dropdownHeight = 50.0 + (snapshot.data!.length * 50.0);
+                                  return MultiSelectDropDown(
+                                    borderColor:Colors.grey, 
+                                    borderWidth: 3,
+                                    focusedBorderWidth: 3,
+                                    
+                                    controller: teamController,
+                                    onOptionSelected: (options) {
                                       setState(() {
-                                        clientid = selectedValue as String?;
+                                        seletedTeam = options
+                                            .map((valueItem) => snapshot.data!
+                                            .firstWhere((user) => user.fullName == valueItem.label))
+                                            .toList();
                                       });
                                     },
-                                    validator: (value) {
-                                      if (value == null) {
-                                        return 'Client is required';
-                                      }
-                                      return null;
-                                    },
+                                    options: snapshot.data!
+                                        .map((user) => ValueItem(label: user.fullName, value: user.id.toString()))
+                                        .toList(),
+                                    maxItems: 11,
+                  hint: "Present Members",
+                  hintStyle: AppTheme.multiSelectDropDownTextStyle,
+                  hintFontSize: 20,
+                  selectionType: SelectionType.multi,
+                  chipConfig: const ChipConfig(wrapType: WrapType.scroll),
+                  dropdownHeight: dropdownHeight,
+                  optionTextStyle: AppTheme.multiSelectDropDownTextStyle,
+                  selectedOptionIcon: const Icon(Icons.check_circle),
+                  // border: AppTheme.multiSelectDropDownEnabledBorder,
+                  // focusedBorder: AppTheme.multiSelectDropDownFocusedBorder,
                                     
                                   );
                                 }
                               },
                             ),
-                            SizedBox(height: 10.h),
+                          ],
+                        ),
+                        SizedBox(height: 10.h),
                             TextFormField(
                                     onTap: () async {
                                       DateTime? pickedDate = await showDatePicker(
@@ -243,78 +252,63 @@ class _addReclamationState extends State<AddReclamation> {
                                         firstDate: DateTime.now(),
                                         lastDate: DateTime.now().add(Duration(days: 365 * 2)),
                                       );
-                                      if (pickedDate != null && pickedDate != creationDate) {
+                                      if (pickedDate != null && pickedDate != date) {
                                         setState(() {
-                                          creationDate = pickedDate;
-                                          creationDateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
+                                          date = pickedDate;
+                                          dateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
                                         });
                                       }
                                     },
-                                    controller: creationDateController,
-                                    readOnly: true,    
+                                    controller: dateController,
+                                    readOnly: true,
                                     style: AppTextFieldStyles.textStyle,
                                           decoration: InputDecoration(
-                                            labelText: 'Creation date*',
+                                            labelText: 'Date*',
                                             labelStyle: AppTextFieldStyles.labelStyle,
                                             enabledBorder: AppTextFieldStyles.enabledBorder,
                                             focusedBorder: AppTextFieldStyles.focusedBorder,
                                             prefixIcon: Icon(
-                                        Icons.calendar_today,
-                                        color: Colors.grey[400],
-                                      ),
+                                                        Icons.calendar_today,
+                                                        color: Colors.grey[400],
+                                             ),
                                           ),
+                                      
+                                   
                                     validator: (value) {
-                                      if (creationDate == null) {
-                                        return 'Creation date is required';
+                                      if (date == null) {
+                                        return 'start date is required';
                                       }
                                       return null;
                                     },
                                   ),
+
                                   SizedBox(height: 10.h),
                                   TextFormField(
-                                  controller: commentController,
+                                  controller: descriptionController,
                                   maxLines: 3,
-                                  style: AppTextFieldStyles.textStyle,
-                                        decoration: InputDecoration(
-                                          labelText: 'Comment*',
-                                          labelStyle: AppTextFieldStyles.labelStyle,
-                                          enabledBorder: AppTextFieldStyles.enabledBorder,
-                                          focusedBorder: AppTextFieldStyles.focusedBorder,
-                                        ),
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Description',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return 'Please enter a valid comment';
+                                      return 'Please enter a valid description';
                                     }
                                     return null;
                                   },
                                 ),
                                 SizedBox(height: 10.h),
 
-                                  TextFormField(
-                                  controller: responseController,
-                                  maxLines: 3,
-                                  style: AppTextFieldStyles.textStyle,
-                                        decoration: InputDecoration(
-                                          labelText: 'Response*',
-                                          labelStyle: AppTextFieldStyles.labelStyle,
-                                          enabledBorder: AppTextFieldStyles.enabledBorder,
-                                          focusedBorder: AppTextFieldStyles.focusedBorder,
-                                        ),
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please enter a valid response';
-                                    }
-                                    return null;
-                                  },
-                                ),
-                                SizedBox(height: 10.h),
-                                                          Row(
+                                 
+                             Row(
                             children: [
                               Expanded(
                                 child: ElevatedButton(
                                   onPressed: (){
-                                   _addReclamation();
-                                        Navigator.of(context).pushReplacementNamed('/reclamations');
+                                    _editProcesv();
                                   },
                                              child: Text("Save",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily:AppTheme.fontName),),
                                              style: AppButtonStyles.submitButtonStyle
@@ -340,39 +334,44 @@ class _addReclamationState extends State<AddReclamation> {
     );
   }
 
-   Future<void> _addReclamation() async {
-    final List<Map<String, dynamic>> projectsList = await projects;
+   Future<void> _editProcesv() async {
         try {
-          Map<String, dynamic> newReclamation = {
-                  'Title' : titleController.text,
-                  'Comment': commentController.text,
-                  'reponse': responseController.text,
-                  'Type_Reclamation': reclamationType,
-                  'Addeddate': creationDate?.toIso8601String(),
-                  'project': projectsList
-                  .firstWhere((project) => project['_id'] == projectid),
-                  'client' :clientid,
-                  'status' : reclamationStatus,
-            
-          };
-
-          await reclamationService.addReclamation(newReclamation);
+    List<String> memberIds = seletedTeam.map((user) => user.id).toList();
+    if (memberIds.isEmpty) {
+      memberIds = widget.procesv.equipe.map((user) => user["_id"]).cast<String>().toList();
+    }
+    print("equipe:::$memberIds");
+    String? userId = await prefs.getLoggedUserIdFromPrefs();
+    print("used id:::: $userId");
+    User sender = await userService.getUserbyId(userId!);
+    print("sender:::: ${sender.id} ::::  ${sender.fullName}");
+          Map<String, dynamic> procesv = {
+            'Titre' : titleController.text,
+            'description': descriptionController.text,
+            'Project': {'_id': projectid},
+            'Type_Communication': type_com,
+            'Sender':sender.toJson(),
+            'equipe': memberIds,
+            'Date' : DateFormat('yyyy-MM-dd').format(date!),
+            };  
+          
+          await procesvService.updateProcesv(widget.procesv.id,procesv);
 
            ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-            content: SuccessSnackBar(message: "Reclamation added !"),
+            content: SuccessSnackBar(message: "Proces Verbal updated !"),
             duration: Duration(seconds: 2),
             behavior: SnackBarBehavior.floating,
             backgroundColor: Colors.transparent,
             elevation: 0,
           ),
           );
-          print("cbon::::");
+          Navigator.of(context).pushReplacementNamed('/procesv');
         }catch(error) {
-        print('Error adding reclamation: $error');
+        print('Error updating procesv: $error');
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-            content: FailSnackBar(message: "failed to add reclamation!"),
+            content: FailSnackBar(message: "failed to update Proces Verbal!"),
             duration: Duration(seconds: 2),
             behavior: SnackBarBehavior.floating,
             backgroundColor: Colors.transparent,
@@ -383,4 +382,63 @@ class _addReclamationState extends State<AddReclamation> {
       }
 
    }
+}
+
+class VerticalNumberPicker extends StatefulWidget {
+  final int initialValue;
+  final int minValue;
+  final int maxValue;
+  final Function(int) onChanged;
+
+  VerticalNumberPicker({
+    required this.initialValue,
+    required this.minValue,
+    required this.maxValue,
+    required this.onChanged,
+  });
+
+  @override
+  _VerticalNumberPickerState createState() => _VerticalNumberPickerState();
+}
+
+class _VerticalNumberPickerState extends State<VerticalNumberPicker> {
+  late int selectedValue;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedValue = widget.initialValue;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 50.h,
+      child: ListWheelScrollView(
+        itemExtent: 40,
+        diameterRatio: 1.5,
+        //useMagnifier: true,
+       // magnification:1.5,
+        physics: FixedExtentScrollPhysics(),
+        children: List.generate(
+          widget.maxValue - widget.minValue + 1,
+          (index) => Center(
+            child: Text(
+              (widget.minValue + index).toString(),
+              style: TextStyle(fontSize: 20.sp,fontFamily: AppTheme.fontName),
+            ),
+          ),
+        ),
+        onSelectedItemChanged: (index) {
+          setState(() {
+            selectedValue = widget.minValue + index;
+            widget.onChanged(selectedValue);
+          });
+        },
+        controller: FixedExtentScrollController(
+          initialItem: widget.initialValue - widget.minValue,
+        ),
+      ),
+    );
+  }
 }
