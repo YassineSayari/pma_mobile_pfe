@@ -18,6 +18,7 @@ import 'package:pma/authentication/sign_up.dart';
 import 'package:pma/client/screens/client_dashboard.dart';
 import 'package:pma/client/screens/my_reclamations.dart/client_reclamations.dart';
 import 'package:pma/client/screens/procesv/client_procesv.dart';
+import 'package:pma/client/screens/projects/client_projects.dart';
 //import 'package:pma/custom_snackbar.dart';
 import 'package:pma/engineer/screens/engineer_dashboard.dart';
 import 'package:pma/profile/profile_screen.dart';
@@ -79,33 +80,38 @@ class _MyAppState extends State<MyApp> {
 
 
     if (id != null) {
-      if (role=="Admin"){
+switch (role) {
+      case "Admin":
         print('redirecting to admin page');
         setState(() {
           current_page = AdminDashboard();
         });
-      }
-      else if(role=="Engineer")
-        {
-          print('redirecting to engineer page');
-          setState(() {
-            current_page = EngineerDashboard();
-          });
-        }
-        else if(role=="Client")
-        {
-          print('redirecting to client page');
-          setState(() {
-            current_page = ClientDashboard();
-          });
-        }
-
-    } else {
-      print("redirecting to sign in");
-      setState(() {
-        current_page = Signin(controller: controller);
-      });
+        break;
+      case "Engineer":
+        print('redirecting to engineer page');
+        setState(() {
+          current_page = EngineerDashboard();
+        });
+        break;
+      case "Client":
+        print('redirecting to client page');
+        setState(() {
+          current_page = ClientDashboard();
+        });
+        break;
+      default:
+        print('Unknown role, redirecting to sign in');
+        setState(() {
+          current_page = Signin(controller: controller);
+        });
+        break;
     }
+  } else {
+    print("redirecting to sign in");
+    setState(() {
+      current_page = Signin(controller: controller);
+    });
+  }
   }
  @override
  Widget build(BuildContext context) {
@@ -127,6 +133,7 @@ class _MyAppState extends State<MyApp> {
         '/engineerdashboard': (context) => EngineerDashboard(),
 
         '/allprojects':(context)=>AllProjects(),
+        '/client_projects':(context)=>ClientProjects(),
         '/addproject':(context)=>AddProject(),
 
         '/reclamations':(context)=>AllReclamations(),

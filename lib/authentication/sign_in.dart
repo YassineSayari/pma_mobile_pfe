@@ -62,21 +62,46 @@ class SigninState extends State<Signin> {
           //redirect according to role
           if (userRole == 'Admin') {
             print('redirecting to admin page');
-            Navigator.pushReplacementNamed(
-              context,'/admindashboard',
-            );
+           
           } else if (userRole == 'Engineer') {
             print('redirecting to engineer page');
 
-            Navigator.pushReplacementNamed(
+            
+          }
+
+          switch (userRole) {
+      case "Admin":
+        print('redirecting to admin page');
+        setState(() {
+           Navigator.pushReplacementNamed(
+              context,'/admindashboard',
+            );
+        });
+        break;
+      case "Engineer":
+        print('redirecting to engineer page');
+        setState(() {
+          Navigator.pushReplacementNamed(
               context,'/engineerdashboard',
             );
-          }
+        });
+        break;
+      case "Client":
+        print('redirecting to client page');
+        setState(() {
+          Navigator.pushReplacementNamed(
+              context,'/clientdashboard',
+            );
+        });
+        break;
+      default:
+        print('Unknown role, redirecting to sign in');
+        break;
+    }
+  } else {
+    print("Failed to login. Please try again.");
+  }
         }
-      } else {
-        print('check mail or password ');
-        showErrorMessage(result['error'] ?? 'Failed to login, check email or password');
-      }
     } catch (error) {
       print('Login error: $error');
       showErrorMessage('Failed to login. Please try again.');

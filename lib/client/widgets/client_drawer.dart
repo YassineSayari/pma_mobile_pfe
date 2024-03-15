@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:pma/client/screens/projects/client_projects.dart';
 import 'package:pma/const.dart';
 import 'package:pma/services/authentication_service.dart';
 import 'package:pma/services/shared_preferences.dart';
@@ -17,6 +18,7 @@ class _ClientDrawerState extends State<ClientDrawer> {
 
     final SharedPrefs sharedPrefs = GetIt.instance<SharedPrefs>();
   late Map<String, String> userInfo={};
+  late String? userId=" ";
 
  @override
   void initState() {
@@ -29,7 +31,9 @@ class _ClientDrawerState extends State<ClientDrawer> {
       final data = await SharedPrefs.getUserInfo();
       setState(() {
         userInfo = data;
+        userId=data["userId"];
       });
+      print("user id drawer::::: $userId");
     } catch (error) {
       // Handle error
     }
@@ -70,7 +74,14 @@ class _ClientDrawerState extends State<ClientDrawer> {
             leading: Icon(Icons.book),
             title: Text('Projects',style: customStyle()),
             onTap: () {
-            },
+              
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => ClientProjects(id: userId),
+        ),
+      );
+    
+           },
           ),
           ListTile(
             leading: Icon(Icons.receipt_long),
@@ -85,7 +96,10 @@ class _ClientDrawerState extends State<ClientDrawer> {
             leading: Icon(Icons.settings),
             title: Text('Profile',style: customStyle()),
             onTap: () {
+              Navigator.of(context).pushReplacementNamed('/profile');
             },
+            selected: widget.selectedRoute == '/profile',
+                  selectedTileColor: selectedColor,
           ),
           ListTile(
             leading: Icon(Icons.logout),
