@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pma/custom_snackbar.dart';
 import 'package:pma/services/authentication_service.dart';
 import 'package:pma/theme.dart';
 
@@ -44,7 +45,7 @@ class SigninState extends State<Signin> {
 
       if (result.containsKey('token')) {
         print('Login successful');
-        if (result.containsKey('token')) {
+
           List<dynamic> roles = result['roles'];
           String userRole = roles.isNotEmpty ? roles[0] : '';
 
@@ -98,26 +99,20 @@ class SigninState extends State<Signin> {
         print('Unknown role, redirecting to sign in');
         break;
     }
-  } else {
-    print("Failed to login. Please try again.");
-  }
-        }
+   }
     } catch (error) {
       print('Login error: $error');
-      showErrorMessage('Failed to login. Please try again.');
-    }
-  }
-
-  void showErrorMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          message,
-          style: TextStyle(fontSize: 16),
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: FailSnackBar(message: "Wrong email or password !"),
+          duration: Duration(seconds: 2),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
         ),
-        backgroundColor: Colors.red,
-      ),
-    );
+      );
+      
+    }
   }
 
 

@@ -1,35 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:pma/client/screens/projects/client_project_container.dart';
-import 'package:pma/client/widgets/client_drawer.dart';
+import 'package:pma/engineer/screens/projects/engineer_project_container.dart';
+import 'package:pma/engineer/widgets/engineer_drawer.dart';
 import 'package:pma/theme.dart';
 import '../../../custom_appbar.dart';
 import '../../../services/project_service.dart';
-class ClientProjects extends StatefulWidget {
+class MyProjects extends StatefulWidget {
   final String? id;
-  ClientProjects({Key? key, this.id}) : super(key: key);
+  MyProjects({Key? key, this.id}) : super(key: key);
 
   @override
-  State<ClientProjects> createState() => _ClientProjectsState();
+  State<MyProjects> createState() => _MyProjectsState();
 }
 
-class _ClientProjectsState extends State<ClientProjects> {
+class _MyProjectsState extends State<MyProjects> {
   late Future<List<Map<String, dynamic>>> projects;
 
   @override
   void initState() {
     super.initState();
-    projects = ProjectService().getProjectsByClient(widget.id!);
+    projects = ProjectService().getProjectsByEmployee(widget.id!);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: ClientDrawer(selectedRoute: '/client_projects'),
+      drawer: EngineerDrawer(selectedRoute: '/engineer_projects'),
       body: Column(
         children: [
-          CustomAppBar(title: 'Projects'),
+          CustomAppBar(title: 'My Projects'),
           Expanded(
             child: FutureBuilder<List<Map<String, dynamic>>>(
               future: projects,
@@ -83,29 +83,7 @@ class _ClientProjectsState extends State<ClientProjects> {
         for (var project in sectionProjects)
           LongPressDraggable<Map<String, dynamic>>(
             data: project,
-            child: ClientProjectContainer(
-              projectId: project['_id'],
-              projectName: project['Projectname'] ?? '',
-              type: project['type'] ?? '',
-              status: project['status'] ?? '',
-              description: project['description'] ?? '',
-              dateDebut: project['dateDebut'] ?? '',
-              teamLeaderId: project['TeamLeader']?['fullName'] ?? '',
-              priority: project['priority'] ?? '',
-              dateFin: project['dateFin'] ?? '',
-              clientNote: project['note_Client'] ??0,
-              equipe: project['equipe'] ?? [],
-              progress: project['progress'] ?? 0,
-            ),
-            feedback: Material(
-              elevation: 5.0,
-              child: Container(
-                padding: EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: ClientProjectContainer(
+            child: MyProjectContainer(
                   projectName: project['Projectname'] ?? '',
                   type: project['type'] ?? '',
                   status: project['status'] ?? '',
@@ -115,7 +93,29 @@ class _ClientProjectsState extends State<ClientProjects> {
                       project['TeamLeader']?['fullName'] ?? '',
                   priority: project['priority'] ?? '',
                   dateFin: project['dateFin'] ?? '',
-                  clientNote: project['note_Client']??0,
+                  client: project['client']?['fullName'] ?? '',
+                  equipe: project['equipe'] ?? [],
+                  progress: project['progress'] ?? 0,
+                ),
+            feedback: Material(
+              elevation: 5.0,
+              child: Container(
+                padding: EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: MyProjectContainer(
+                  projectName: project['Projectname'] ?? '',
+                  type: project['type'] ?? '',
+                  status: project['status'] ?? '',
+                  description: project['description'] ?? '',
+                  dateDebut: project['dateDebut'] ?? '',
+                  teamLeaderId:
+                      project['TeamLeader']?['fullName'] ?? '',
+                  priority: project['priority'] ?? '',
+                  dateFin: project['dateFin'] ?? '',
+                  client: project['client']?['fullName'] ?? '',
                   equipe: project['equipe'] ?? [],
                   progress: project['progress'] ?? 0,
                 ),
@@ -127,7 +127,6 @@ class _ClientProjectsState extends State<ClientProjects> {
             onDraggableCanceled: (velocity, offset) {
             },
             onDragEnd: (details) async {
-
             },
             onDragCompleted: () {
             },
@@ -136,8 +135,6 @@ class _ClientProjectsState extends State<ClientProjects> {
       ],
     );
   }
-
-
 
 
   Color getColorForSection(String section) {

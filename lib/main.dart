@@ -21,12 +21,14 @@ import 'package:pma/client/screens/procesv/client_procesv.dart';
 import 'package:pma/client/screens/projects/client_projects.dart';
 //import 'package:pma/custom_snackbar.dart';
 import 'package:pma/engineer/screens/engineer_dashboard.dart';
+import 'package:pma/engineer/screens/tasks/my_tasks..dart';
 import 'package:pma/profile/profile_screen.dart';
 import 'package:pma/services/authentication_service.dart';
 import 'package:pma/services/export_utils.dart';
 import 'package:pma/services/procesv_service..dart';
 import 'package:pma/services/project_service.dart';
 import 'package:pma/services/reclamation_service.dart';
+import 'package:pma/services/risk_service.dart';
 import 'package:pma/services/shared_preferences.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pma/services/task_service.dart';
@@ -44,6 +46,7 @@ void setupLocator() {
   GetIt.instance.registerLazySingleton(() => ProjectService());
   GetIt.instance.registerLazySingleton(() => ReclamationService());
   GetIt.instance.registerLazySingleton(() => TaskService());
+  GetIt.instance.registerLazySingleton(() => RiskService());
   GetIt.instance.registerLazySingleton(() => ProcesVService());
   GetIt.instance.registerLazySingleton(() => EventService());
   GetIt.instance.registerLazySingleton(() => ExportEmployees());
@@ -141,6 +144,7 @@ switch (role) {
         '/addreclamation':(context)=>AddReclamation(),
 
         '/risks':(context)=>AllRisks(),
+        '/engineer_tasks':(context)=>EngineerTasks(),
 
         '/tasks':(context)=>AllTasks(),
 

@@ -47,7 +47,7 @@ class _ClientReclamationsState extends State<ClientReclamations> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: ClientDrawer(selectedRoute: '/reclamations'),
+      drawer: ClientDrawer(selectedRoute: '/client_reclamations'),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
             showDialog(context: context, builder: (context) => ClientAddReclamation(idClient: displayedReclamations[0].client["_id"]));

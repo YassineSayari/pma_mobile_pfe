@@ -68,20 +68,18 @@ class _ClientDrawerState extends State<ClientDrawer> {
                     Navigator.of(context).pushReplacementNamed('/client_pv');
                   },
                   selected: widget.selectedRoute == '/client_pv',
-                  selectedTileColor: selectedColor,
           ),
           ListTile(
             leading: Icon(Icons.book),
             title: Text('Projects',style: customStyle()),
             onTap: () {
-              
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => ClientProjects(id: userId),
         ),
       );
-    
            },
+           selected: widget.selectedRoute == '/client_projects',
           ),
           ListTile(
             leading: Icon(Icons.receipt_long),
@@ -99,7 +97,6 @@ class _ClientDrawerState extends State<ClientDrawer> {
               Navigator.of(context).pushReplacementNamed('/profile');
             },
             selected: widget.selectedRoute == '/profile',
-                  selectedTileColor: selectedColor,
           ),
           ListTile(
             leading: Icon(Icons.logout),
