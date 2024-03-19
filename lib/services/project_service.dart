@@ -3,7 +3,6 @@ import 'package:http/http.dart' as http;
 import 'package:pma/const.dart';
 import 'package:pma/services/shared_preferences.dart';
 
-import '../models/project_model.dart';
 
 
 
@@ -36,14 +35,14 @@ class ProjectService {
   }
 
 
-Future<Project> getProject(String projectId) async {
+Future<Map<String, dynamic>> getProject(String projectId) async {
   print("getting project $projectId");
   try {
     final response = await http.get(Uri.parse('$apiUrl/getproject/$projectId'));
 
     if (response.statusCode == 200) {
       Map<String, dynamic> projectJson = json.decode(response.body);
-      return Project.fromJson(projectJson);
+       return projectJson;
     } else {
       print("Failed to get project. Status code: ${response.statusCode}");
       print("Response body: ${response.body}");
@@ -54,6 +53,7 @@ Future<Project> getProject(String projectId) async {
     throw Exception('Failed to get project. $error');
   }
 }
+      //return Project.fromJson(projectJson);
 
 
 Future<List<Map<String, dynamic>>> getProjectsByClient(String id) async{

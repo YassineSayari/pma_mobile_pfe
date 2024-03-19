@@ -287,11 +287,11 @@ class _EditRiskPopupState extends State<EditRiskPopup> {
    Future<void> _updateRisk() async {
         try {
     
-
+          Map<String,dynamic> updatedProject= await projectService.getProject(projectid!);
           Risk updatedRisk= Risk(
             id: widget.risk.id,
             title: titleController.text,
-            project: {'_id': projectid},
+            project: updatedProject,/*{'_id': projectid},*/
             details: descriptionController.text,
             date: DateFormat('yyyy-MM-dd').format(date!),
             action: actionController.text,

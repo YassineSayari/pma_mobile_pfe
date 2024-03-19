@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pma/const.dart';
+import 'package:pma/engineer/screens/myteam/my_team.dart';
 import 'package:pma/engineer/screens/projects/my_projects.dart';
 import 'package:pma/engineer/screens/risks/my_risks.dart';
 import 'package:pma/theme.dart';
@@ -69,7 +70,14 @@ class _EngineerDrawerState extends State<EngineerDrawer> {
             leading: Icon(Icons.people_outline),
             title: Text('My Team',style: customStyle()),
             onTap: () {
-            },
+              Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => MyTeam(id: userId),
+        ),
+        );
+          },
+            selected: widget.selectedRoute == '/myteam',
+            selectedTileColor: selectedColor,
           ),
           ListTile(
             leading: Icon(Icons.layers),
@@ -78,11 +86,11 @@ class _EngineerDrawerState extends State<EngineerDrawer> {
               Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => MyProjects(id: userId),
-        ),
-      );
+          ),
+        );
             },
             selected: widget.selectedRoute == '/engineer_projects',
-                  selectedTileColor: selectedColor,
+            selectedTileColor: selectedColor,
           ),
           ListTile(
             leading: Icon(Icons.task_alt),

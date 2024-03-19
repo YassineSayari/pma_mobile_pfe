@@ -42,29 +42,31 @@ class RiskService {
 
 
 
-  Future<void> updateRisk(String id, Risk updatedRisk) async {
+Future<void> updateRisk(String id, Risk updatedRisk) async {
+  try {
+    final response = await http.patch(
+      Uri.parse('$apiUrl/updateProbleme/$id'),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: json.encode(updatedRisk.toJson()),
+    );
 
-  print("------------updating risk $id");
-  print("updated risk:::${updatedRisk.toJson()}");
+    print("Response code: ${response.statusCode}");
+    print("Response body: ${response.body}");
 
-  final response = await http.patch(
-    Uri.parse('$apiUrl/updateProbleme/$id'),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: json.encode(updatedRisk.toJson()),
-  );
-
-  print("Response code: ${response.statusCode}");
-  print("Response body: ${response.body}");
-
-  if (response.statusCode == 201) {
-    print("Risk updated successfully!");
-  } else {
-    print("Failed to update risk. Error: ${response.reasonPhrase}");
-    throw Exception('Failed to update risk');
+    if (response.statusCode == 201) {
+      print("Risk updated successfully!");
+    } else {
+      print("Failed to update risk. Error: ${response.reasonPhrase}");
+      throw Exception('Failed to update risk');
+    }
+  } catch (error) {
+    print('Error updating risk: $error');
+    throw error; // Rethrow the error to handle it in the calling function
   }
 }
+
 
 
 

@@ -9,7 +9,7 @@ class Risk {
   late Map<String,dynamic> user;
 
   Risk({
-    required this.id,
+     required this.id,
     required this.title,
     this.details,
     required this.action,
