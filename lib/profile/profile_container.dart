@@ -36,7 +36,7 @@ class ProfileContainer extends StatelessWidget {
                     children: [],
                   ),
                   Information(user: user),
-                  SecuritySettings(userId: user.id,context: context),
+                  SecuritySettings(userId: user.id,userEmail: user.email,context: context),
                 ],
               ),
             ),
@@ -150,8 +150,9 @@ class SecuritySettings extends StatelessWidget {
   final TextEditingController newpassword = TextEditingController();
   final TextEditingController confirmnewpassword = TextEditingController();
   final String userId;
+  final String userEmail;
   final BuildContext context;
-   SecuritySettings({super.key, required this.userId, required this.context});
+   SecuritySettings({super.key, required this.userId, required this.context, required this.userEmail});
 
    void verifier(){
     if(oldpassword.text.isEmpty)
@@ -167,13 +168,13 @@ class SecuritySettings extends StatelessWidget {
       String newpw;
       newpw=newpassword.text.toString();
       print("valid========Changing password to $newpw");
-      changePassword(userId, newpw);
+      changePassword(userId,userEmail, newpw);
     }
    }
 
-    Future<void> changePassword(String userId, String newPassword) async {
+    Future<void> changePassword(String userId,String userEmail, String newPassword) async {
     try {
-      await UserService().changePassword(userId, newPassword);
+      await UserService().changePassword(userId,userEmail, newPassword);
           ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: SuccessSnackBar(message: "Password changed successfully"),
