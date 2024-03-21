@@ -22,18 +22,19 @@ class Reclamation {
     required this.project,
   });
 
-  Reclamation.fromJson(Map<String, dynamic> json) {
-     id = json['_id'];
-    title = json['Title'];
-    codeRec = json['CodeRec'];
-    comment = json['Comment'];
-    reponse = json['reponse'] ?? "Waiting for response";
-    typeReclamation = json['Type_Reclamation'];
-    addedDate = json['Addeddate'];
-    client = json['client'];
-    project = json['project'];
-    status = json['status'] ?? "Pending";
-  }
+Reclamation.fromJson(Map<String, dynamic> json) {
+  id = json['_id'];
+  title = json['Title'];
+  codeRec = json['CodeRec'];
+  comment = json['Comment'];
+  reponse = json['reponse'] ?? "Waiting for response";
+  typeReclamation = json['Type_Reclamation'];
+  addedDate = json['Addeddate'];
+  client = json['client'] ?? {}; // Assign an empty map if client is null
+  project = json['project'] ?? {}; // Assign an empty map if project is null
+  status = json['status'] ?? "Pending";
+}
+
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
