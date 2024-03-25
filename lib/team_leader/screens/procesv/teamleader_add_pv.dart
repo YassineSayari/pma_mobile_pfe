@@ -12,14 +12,14 @@ import 'package:pma/services/shared_preferences.dart';
 import 'package:pma/services/user_service.dart';
 import 'package:pma/theme.dart';
 
-class AddProcesv extends StatefulWidget {
-  const AddProcesv({super.key});
+class TeamLeaderAddPv extends StatefulWidget {
+  const TeamLeaderAddPv({super.key});
 
   @override
-  State<AddProcesv> createState() => _AddProcesvState();
+  State<TeamLeaderAddPv> createState() => _TeamLeaderAddPvState();
 }
 
-class _AddProcesvState extends State<AddProcesv> {
+class _TeamLeaderAddPvState extends State<TeamLeaderAddPv> {
 
     final _formKey = GlobalKey<FormState>();
 
@@ -342,19 +342,19 @@ Future<void> initializeData() async {
 
            ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-            content: SuccessSnackBar(message: "Proces Verbal updated !"),
+            content: SuccessSnackBar(message: "Proces Verbal added !"),
             duration: Duration(seconds: 2),
             behavior: SnackBarBehavior.floating,
             backgroundColor: Colors.transparent,
             elevation: 0,
           ),
           );
-          Navigator.of(context).pushReplacementNamed('/procesv');
+          Navigator.of(context).pushReplacementNamed('/teamleader_pv');
         }catch(error) {
-        print('Error updating task: $error');
+        print('Error adding pv : $error');
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-            content: FailSnackBar(message: "failed to update Proces Verbal!"),
+            content: FailSnackBar(message: "failed to add Proces Verbal!"),
             duration: Duration(seconds: 2),
             behavior: SnackBarBehavior.floating,
             backgroundColor: Colors.transparent,

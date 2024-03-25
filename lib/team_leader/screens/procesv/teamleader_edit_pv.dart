@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:pma/custom_snackbar.dart';
+import 'package:pma/models/procesv_model.dart';
 import 'package:pma/models/user_model.dart';
 import 'package:pma/services/procesv_service..dart';
 import 'package:pma/services/project_service.dart';
@@ -12,14 +13,15 @@ import 'package:pma/services/shared_preferences.dart';
 import 'package:pma/services/user_service.dart';
 import 'package:pma/theme.dart';
 
-class AddProcesv extends StatefulWidget {
-  const AddProcesv({super.key});
+class TeamLeaderEditPv extends StatefulWidget {
+ final Procesv procesv;
+  const TeamLeaderEditPv({super.key,required this.procesv});
 
   @override
-  State<AddProcesv> createState() => _AddProcesvState();
+  State<TeamLeaderEditPv> createState() => _TeamLeaderEditPvState();
 }
 
-class _AddProcesvState extends State<AddProcesv> {
+class _TeamLeaderEditPvState extends State<TeamLeaderEditPv> {
 
     final _formKey = GlobalKey<FormState>();
 
@@ -27,16 +29,16 @@ class _AddProcesvState extends State<AddProcesv> {
     late Future<List<User>> teamLeaders;
 
     String? projectid;
-  final MultiSelectController executorController = MultiSelectController();
-  List<User> selectedExecutors = [];
+  final MultiSelectController teamController = MultiSelectController();
+  List<User> seletedTeam = [];
 
     DateTime? date;
     final TextEditingController dateController = TextEditingController();
 
 
     late String type_com='internal meeting';
-    final TextEditingController titleController = TextEditingController();
-    final TextEditingController descriptionController= TextEditingController();
+    late TextEditingController titleController;
+    late TextEditingController descriptionController;
 
 
     final TextEditingController progressController= TextEditingController();
@@ -54,14 +56,27 @@ class _AddProcesvState extends State<AddProcesv> {
 void initState() {
   super.initState();
   initializeData();
-}
+    titleController = TextEditingController(text: widget.procesv.title);
+    projectid = widget.procesv.project["_id"];
+    type_com=widget.procesv.Type_Communication;
+    descriptionController= TextEditingController(text: widget.procesv.description);
+    date = DateTime.parse(widget.procesv.date);
+    dateController.text = DateFormat('yyyy-MM-dd').format(date!);
+    }
 
 Future<void> initializeData() async {
   projects = projectService.getAllProjects();
   teamLeaders = UserService().getAllTeamLeaders();
+  
+
+  
   //print("sender::::: $sender");
   print("proejct id::::: $projectid");
+
+
 }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -198,10 +213,10 @@ Future<void> initializeData() async {
                                     borderWidth: 3,
                                     focusedBorderWidth: 3,
                                     
-                                    controller: executorController,
+                                    controller: teamController,
                                     onOptionSelected: (options) {
                                       setState(() {
-                                        selectedExecutors = options
+                                        seletedTeam = options
                                             .map((valueItem) => snapshot.data!
                                             .firstWhere((user) => user.fullName == valueItem.label))
                                             .toList();
@@ -293,7 +308,7 @@ Future<void> initializeData() async {
                               Expanded(
                                 child: ElevatedButton(
                                   onPressed: (){
-                                    _addProcesv();
+                                    _editProcesv();
                                   },
                                              child: Text("Save",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily:AppTheme.fontName),),
                                              style: AppButtonStyles.submitButtonStyle
@@ -319,16 +334,18 @@ Future<void> initializeData() async {
     );
   }
 
-   Future<void> _addProcesv() async {
+   Future<void> _editProcesv() async {
         try {
-    List<String> memberIds = selectedExecutors.map((user) => user.id).toList();
+    List<String> memberIds = seletedTeam.map((user) => user.id).toList();
+    if (memberIds.isEmpty) {
+      memberIds = widget.procesv.equipe.map((user) => user["_id"]).cast<String>().toList();
+    }
     print("equipe:::$memberIds");
     String? userId = await prefs.getLoggedUserIdFromPrefs();
     print("used id:::: $userId");
     User sender = await userService.getUserbyId(userId!);
     print("sender:::: ${sender.id} ::::  ${sender.fullName}");
           Map<String, dynamic> procesv = {
-     
             'Titre' : titleController.text,
             'description': descriptionController.text,
             'Project': {'_id': projectid},
@@ -338,7 +355,7 @@ Future<void> initializeData() async {
             'Date' : DateFormat('yyyy-MM-dd').format(date!),
             };  
           
-          await procesvService.addProcesv(procesv);
+          await procesvService.updateProcesv(widget.procesv.id,procesv);
 
            ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
@@ -349,9 +366,9 @@ Future<void> initializeData() async {
             elevation: 0,
           ),
           );
-          Navigator.of(context).pushReplacementNamed('/procesv');
+          Navigator.of(context).pushReplacementNamed('/teamleader_pv');
         }catch(error) {
-        print('Error updating task: $error');
+        print('Error updating procesv: $error');
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
             content: FailSnackBar(message: "failed to update Proces Verbal!"),

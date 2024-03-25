@@ -95,13 +95,38 @@ Future<List<Map<String, dynamic>>> getProjectsByEmployee(String id) async{
           return projectsJson.cast<Map<String, dynamic>>();
         }
       else {
-        print("Failed to load projects for client. Status code: ${response.statusCode}");
+        print("Failed to load projects for employee. Status code: ${response.statusCode}");
         print("Response body: ${response.body}");
         throw Exception('Failed to load projects for employee. Server error.');
       }
     }catch(error){
       print("Error loading projects: $error");
       throw Exception('Failed to load projects for employee. $error');
+    }
+
+}
+
+Future<List<Map<String, dynamic>>> getProjectsByTeamLeader(String id) async{
+  print("getting projects for :::: $id");
+    try{
+      final response=await http.get(
+        Uri.parse('$apiUrl/getProjectsByTeamleader/$id')
+      );
+      if (response.statusCode==200)
+        {
+          print("got projects for team leader");
+          List<dynamic> projectsJson = json.decode(response.body);
+          print("got ${projectsJson.length} projects for employee");
+          return projectsJson.cast<Map<String, dynamic>>();
+        }
+      else {
+        print("Failed to load projects for team leader. Status code: ${response.statusCode}");
+        print("Response body: ${response.body}");
+        throw Exception('Failed to load projects for team leader. Server error.');
+      }
+    }catch(error){
+      print("Error loading projects: $error");
+      throw Exception('Failed to load projects for team leader. $error');
     }
 
 }

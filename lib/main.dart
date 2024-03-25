@@ -33,6 +33,8 @@ import 'package:pma/services/shared_preferences.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pma/services/task_service.dart';
 import 'package:pma/services/user_service.dart';
+import 'package:pma/team_leader/screens/procesv/teamleader_pv.dart';
+import 'package:pma/team_leader/screens/teamleader_dashboard.dart';
 
 import 'admin/screens/employees/all_employees.dart';
 import 'admin/screens/projects/all_projects.dart';
@@ -96,6 +98,11 @@ switch (role) {
           current_page = EngineerDashboard();
         });
         break;
+        case "Team Leader":
+        print('redirecting to team leader page');
+        setState(() {
+          current_page = TeamLeaderDashboard();
+        });
       case "Client":
         print('redirecting to client page');
         setState(() {
@@ -132,7 +139,7 @@ switch (role) {
 
         '/admindashboard': (context) => AdminDashboard(),
         '/clientdashboard': (context) => ClientDashboard(),
-
+        '/teamleaderdashboard': (context) => TeamLeaderDashboard(),
         '/engineerdashboard': (context) => EngineerDashboard(),
 
         '/allprojects':(context)=>AllProjects(),
@@ -150,7 +157,7 @@ switch (role) {
 
         '/procesv':(context)=>AllProcesv(),
         '/client_pv':(context)=>ClientProcesV(),
-
+        '/teamleader_pv':(context)=>TeamLeaderPv(),
 
         '/allclients':(context)=>AllClients(),
         '/addclient':(context)=>AddClient(),

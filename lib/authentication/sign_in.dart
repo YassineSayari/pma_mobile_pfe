@@ -46,6 +46,16 @@ class SigninState extends State<Signin> {
       if (result.containsKey('token')) {
         print('Login successful');
 
+        ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: SuccessSnackBar(message: "Login Successfull !"),
+          duration: Duration(seconds: 2),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
+      );
+
           List<dynamic> roles = result['roles'];
           String userRole = roles.isNotEmpty ? roles[0] : '';
 
@@ -58,19 +68,9 @@ class SigninState extends State<Signin> {
              result['image'] ?? '',
           );
 
-          SharedPrefs.saveAuthToken(result['token']);
+      SharedPrefs.saveAuthToken(result['token']);
 
-          //redirect according to role
-          if (userRole == 'Admin') {
-            print('redirecting to admin page');
-           
-          } else if (userRole == 'Engineer') {
-            print('redirecting to engineer page');
-
-            
-          }
-
-          switch (userRole) {
+      switch (userRole) {
       case "Admin":
         print('redirecting to admin page');
         setState(() {
@@ -79,6 +79,14 @@ class SigninState extends State<Signin> {
             );
         });
         break;
+      case "Team Leader":
+        print('redirecting to team leader page');
+        setState(() {
+          Navigator.pushReplacementNamed(
+              context,'/teamleaderdashboard',
+            );
+        });
+        break;  
       case "Engineer":
         print('redirecting to engineer page');
         setState(() {
@@ -100,8 +108,7 @@ class SigninState extends State<Signin> {
         break;
     }
    }
-    } catch (error) {
-      print('Login error: $error');
+   else{
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: FailSnackBar(message: "Wrong email or password !"),
@@ -111,6 +118,9 @@ class SigninState extends State<Signin> {
           elevation: 0,
         ),
       );
+   }
+    } catch (error) {
+      print('Login error: $error');
       
     }
   }
