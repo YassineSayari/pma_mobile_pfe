@@ -1,14 +1,18 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
+import 'package:pma/custom_appbar.dart';
+import 'package:pma/custom_snackbar.dart';
 import 'package:pma/models/user_model.dart';
 import 'package:pma/services/user_service.dart';
-// import 'package:get_it/get_it.dart';
-// import 'package:pma/models/project_model.dart';
+
  import 'package:pma/services/project_service.dart';
+import 'package:pma/theme.dart';
 
 class EditProject extends StatefulWidget {
   final String projectId;
@@ -66,9 +70,6 @@ class _EditProjectState extends State<EditProject> {
   final TextEditingController description = TextEditingController();
 
 
-  // late ProjectService projectService;
-  //  Project? project;
-
 
     Future<void> _updateProject() async {
         print("equipe::::::${widget.equipe}");
@@ -89,17 +90,21 @@ class _EditProjectState extends State<EditProject> {
       await projectService.updateProject(widget.projectId, updatedProjectData);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Project Updated successfully',style: TextStyle(color: Colors.black45, fontWeight: FontWeight.w600)),
+          content:SuccessSnackBar(message: "Project Updated successfully!"),
         duration: Duration(seconds: 2),
-        backgroundColor: Colors.yellowAccent,
+        behavior: SnackBarBehavior.floating,
+         backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
       );
     } catch (error) {
             ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Failed to update project',style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
+          content: FailSnackBar(message: "Failed to update project, please try again"),
         duration: Duration(seconds: 2),
-        backgroundColor: Colors.grey,
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
       );
       print("Error updating project: $error");
@@ -153,466 +158,303 @@ class _EditProjectState extends State<EditProject> {
 @override
 Widget build(BuildContext context) {
   return Scaffold(
-    body: ListView(
+    body: Column(
       children: [
-        Column(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    blurRadius: 3,
-                    offset: Offset(0, 1),
-                  ),
-                ],
-              ),
-              child: AppBar(
-                title: Text(
-                  'Edit Project',
-                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 40),
-                ),
-                centerTitle: true,
-              ),
-            ),
-          ],
-        ),
-          // Text("Project title: ${widget.projectTitle}"),
-          // Text("Project Name: ${widget.type}"),
-          // Text("Description: ${widget.description}"),
-          // Text("Status: ${widget.status}"),
-          // Text("team leader:${widget.teamLeaderId}"),
-            Text("equipe:${widget.equipe}"),
-
-
-          Padding(padding: EdgeInsets.all(16),
-          child: Form(
-                  key: _formKey,
-
-            child:Column(
-              children: [
-                  TextFormField(
-                    controller: title,
-                    keyboardType: TextInputType.text,
-                    style: TextStyle(
-                      color: Color(0xFF000000),
-                      fontSize: 25,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w500,
-                    ),
-                    decoration: InputDecoration(
-                      labelText: 'Project Title*',
-                      labelStyle: TextStyle(
-                        color: Color(0xFF7743DB),
-                        fontSize: 20,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w600,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                          width: 3,
-                          color: Colors.grey,
+        CustomAppBar(title: "Edit Project"),
+        Expanded(
+          child: ListView(
+            children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 16.h),
+                child: Form(
+                        key: _formKey,
+          
+                  child:Column(
+                    children: [
+                        TextFormField(
+                          controller: title,
+                          keyboardType: TextInputType.text,
+                          style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Project Title*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Project title is required';
+                            }
+                            return null;
+                          },
                         ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                          width: 3,
-                          color: Colors.grey,
+                         SizedBox(height: 10.h),
+                        
+                        DropdownButtonFormField(
+                          value: projectStatus,
+                          style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Status*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
+                          items: [
+                            DropdownMenuItem(child: Text('Pending',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'Pending'),
+                            DropdownMenuItem(child: Text('In Progress',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'In Progress'),
+                            DropdownMenuItem(child: Text('On Hold',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'On Hold'),
+                            DropdownMenuItem(child: Text('Completed',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'Completed'),
+                          ],
+                          onChanged: (selectedValue) {
+                            setState(() {
+                              projectStatus = selectedValue as String?;
+                            });
+                          },
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Status is required';
+                            }
+                            return null;
+                          },
                         ),
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Project title is required';
-                      }
-                      return null;
-                    },
-                  ),
-                   SizedBox(height: 10),
-                  
-                  DropdownButtonFormField(
-                    value: projectStatus,
-                    decoration: InputDecoration(
-                      labelText: 'Status*',
-                      labelStyle: TextStyle(
-                        color: Color(0xFF7743DB),
-                        fontSize: 20,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w600,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                          width: 3,
-                          color: Colors.grey,
+                        SizedBox(height: 10.h),
+                        // Project Type and Priority
+                        DropdownButtonFormField(
+                          value: projectType,
+                          isExpanded: true,
+                          style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Type*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
+                          items: [
+                            DropdownMenuItem(child: Text('-Systems Infrastructure',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'Systems Infrastructure'),
+                            DropdownMenuItem(child: Text('-Network Infrastructure',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'Network Infrastructure'),
+                            DropdownMenuItem(child: Flexible(child: Text('-Systems And Networks Infrastructure',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),)), value: 'Systems And Networks Infrastructure'),
+                            DropdownMenuItem(child: Text('-Development',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'Development'),
+                          ],
+                          onChanged: (selectedValue) {
+                            setState(() {
+                              projectType = selectedValue as String?;
+                            });
+                          },
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Project Type is required';
+                            }
+                            return null;
+                          },
                         ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                          width: 3,
-                          color: Colors.grey,
+                        SizedBox(height: 10.h),
+                        
+                        DropdownButtonFormField(
+                          value: projectPriority,
+                          style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Priority*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
+                          items: [
+                            DropdownMenuItem(child: Text('Low',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'Low'),
+                            DropdownMenuItem(child: Text('Medium',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'Medium'),
+                            DropdownMenuItem(child: Text('High',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'High'),
+                          ],
+                          onChanged: (selectedValue) {
+                            setState(() {
+                              projectPriority = selectedValue as String?;
+                            });
+                          },
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Project Priority is required';
+                            }
+                            return null;
+                          },
                         ),
-                      ),
-                    ),
-                    items: [
-                      DropdownMenuItem(child: Text('Pending',style: TextStyle(fontSize:20),), value: 'Pending'),
-                      DropdownMenuItem(child: Text('In Progress',style: TextStyle(fontSize: 20),), value: 'In Progress'),
-                      DropdownMenuItem(child: Text('On Hold',style: TextStyle(fontSize: 20),), value: 'On Hold'),
-                      DropdownMenuItem(child: Text('Completed',style: TextStyle(fontSize: 20),), value: 'Completed'),
-                    ],
-                    onChanged: (selectedValue) {
-                      setState(() {
-                        projectStatus = selectedValue as String?;
-                      });
-                    },
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Status is required';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 10),
-                  // Project Type and Priority
-                  DropdownButtonFormField(
-                    value: projectType,
-                    decoration: InputDecoration(
-                      labelText: 'Type*',
-                      labelStyle: TextStyle(
-                        color: Color(0xFF7743DB),
-                        fontSize: 20,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w600,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                          width: 3,
-                          color: Colors.grey,
+                        SizedBox(height: 10.h),
+                                    TextFormField(
+                                    onTap: () async {
+                                      DateTime? pickedDate = await showDatePicker(
+                                        context: context,
+                                        initialDate: DateTime.now(),
+                                        firstDate: DateTime.now(),
+                                        lastDate: DateTime(2025),
+                                      );
+                                      if (pickedDate != null && pickedDate != projectEndDate) {
+                                        setState(() {
+                                          projectEndDate = pickedDate;
+                                          projectEndDateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
+                                        });
+                                      }
+                                    },
+                                    controller: projectEndDateController,
+                                    readOnly: true,
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'End Date*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          
+                          prefixIcon: Icon(
+                            Icons.calendar_today,
+                            color: Colors.grey[400],
+                          ),
                         ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                          width: 3,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                    items: [
-                      DropdownMenuItem(child: Text('-Systems Infrastructure',style: TextStyle(fontSize:20),), value: 'Systems Infrastructure'),
-                      DropdownMenuItem(child: Text('-Network Infrastructure',style: TextStyle(fontSize: 20),), value: 'Network Infrastructure'),
-                      DropdownMenuItem(child: Text('-Systems And Networks Infrastructure',style: TextStyle(fontSize: 20),), value: 'Systems And Networks Infrastructure'),
-                      DropdownMenuItem(child: Text('-Development',style: TextStyle(fontSize: 20),), value: 'Development'),
-                    ],
-                    onChanged: (selectedValue) {
-                      setState(() {
-                        projectType = selectedValue as String?;
-                      });
-                    },
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Project Type is required';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 10),
-                  
-                  DropdownButtonFormField(
-                    value: projectPriority,
-                    decoration: InputDecoration(
-                      labelText: 'Priority*',
-                      labelStyle: TextStyle(
-                        color: Color(0xFF7743DB),
-                        fontSize: 20,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w600,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                          width: 3,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                          width: 3,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                    items: [
-                      DropdownMenuItem(child: Text('Low',style: TextStyle(fontSize:20),), value: 'Low'),
-                      DropdownMenuItem(child: Text('Medium',style: TextStyle(fontSize:20),), value: 'Medium'),
-                      DropdownMenuItem(child: Text('High',style: TextStyle(fontSize:20),), value: 'High'),
-                    ],
-                    onChanged: (selectedValue) {
-                      setState(() {
-                        projectPriority = selectedValue as String?;
-                      });
-                    },
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Project Priority is required';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 10),
-                              TextFormField(
-                              onTap: () async {
-                                DateTime? pickedDate = await showDatePicker(
-                                  context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: DateTime.now(),
-                                  lastDate: DateTime(2025),
-                                );
-                                if (pickedDate != null && pickedDate != projectEndDate) {
-                                  setState(() {
-                                    projectEndDate = pickedDate;
-                                    projectEndDateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
-                                  });
+                                    validator: (value) {
+                                      if (projectEndDate == null) {
+                                        return 'Project End Date is required';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                  SizedBox(height: 10),
+                            FutureBuilder<List<User>>(
+                              future: teamLeaders,
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState == ConnectionState.waiting) {
+                                  return SpinKitThreeBounce(color: Colors.blueAccent,size: 30,);
+                                } else if (snapshot.hasError) {
+                                  return Text('Error: ${snapshot.error}');
+                                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                                  return Text('No team leaders available.');
+                                } else {
+                                  print('team leaders: $teamLeaders');
+                                  return DropdownButtonFormField(
+                                    value: teamLeader,
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Team Leader*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
+                                    items: snapshot.data!.map<DropdownMenuItem<String>>((User user) {
+                                      return DropdownMenuItem<String>(
+                                        value: user.id.toString(),
+                                        child: Text(user.fullName,style: TextStyle(fontSize:20,fontFamily:AppTheme.fontName),),
+                                      );
+                                    }).toList(),
+                                    onChanged: (selectedValue) {
+                                      setState(() {
+                                        teamLeader = selectedValue as String?;
+                                      });
+                                    },
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Team Leader is required';
+                                      }
+                                      return null;
+                                    },
+                                    
+                                  );
                                 }
                               },
-                              controller: projectEndDateController,
-                              readOnly: true,
-                              decoration: InputDecoration(
-                                labelText: 'Project End Date*',
-                                labelStyle: TextStyle(
-                                  color: Color(0xFF7743DB),
-                                  fontSize: 15,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                                  borderSide: BorderSide(
-                                    width: 3,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                                  borderSide: BorderSide(
-                                    width: 3,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                                prefixIcon: Icon(
-                                  Icons.calendar_today,
-                                  color: Colors.grey[400],
-                                ),
-                              ),
-                              validator: (value) {
-                                if (projectEndDate == null) {
-                                  return 'Project End Date is required';
+                            ),
+                            SizedBox(height: 10.h),
+                                                  FutureBuilder<List<User>>(
+                              future: engineers,
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState == ConnectionState.waiting) {
+                                  return SpinKitThreeBounce(color: Colors.blueAccent,size: 30);
+                                } else if (snapshot.hasError) {
+                                  return Text('Error: ${snapshot.error}');
+                                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                                  return Text('No engineers available.');
+                                } else {
+                                      
+                                  // padding + (length * height per option)
+                                  double dropdownHeight = 50.0 + (snapshot.data!.length * 50.0);
+                                  return MultiSelectDropDown(
+                                    borderColor:Colors.grey, 
+                                    borderWidth: 3,
+                                    focusedBorderWidth: 3,
+                                    
+                                    controller: teamController,
+                                    onOptionSelected: (options) {
+                                      setState(() {
+                                        selectedEngineers = options
+                                            .map((valueItem) => snapshot.data!
+                                            .firstWhere((user) => user.fullName == valueItem.label))
+                                            .toList();
+                                      });
+                                    },
+                                    options: snapshot.data!
+                                        .map((user) => ValueItem(label: user.fullName, value: user.id.toString()))
+                                        .toList(),
+                                    maxItems: 11,
+                                    hint: "Select Team",
+                                    hintStyle: TextStyle(fontSize:25,fontFamily:AppTheme.fontName),
+                                    hintFontSize: 25,
+                                    //disabledOptions: const [ValueItem(label: 'Option 1', value: '1')],
+                                    selectionType: SelectionType.multi,
+                                    chipConfig: const ChipConfig(wrapType: WrapType.scroll),
+                                    dropdownHeight: dropdownHeight,
+                                    optionTextStyle: const TextStyle(fontSize: 25,fontFamily:AppTheme.fontName),
+                                    selectedOptionIcon: const Icon(Icons.check_circle),
+                                    
+                                  );
                                 }
-                                return null;
                               },
                             ),
                             SizedBox(height: 10),
-                      FutureBuilder<List<User>>(
-                        future: teamLeaders,
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState == ConnectionState.waiting) {
-                            return CircularProgressIndicator();
-                          } else if (snapshot.hasError) {
-                            return Text('Error: ${snapshot.error}');
-                          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                            return Text('No team leaders available.');
-                          } else {
-                            print('team leaders: $teamLeaders');
-                            return DropdownButtonFormField(
-                              value: teamLeader,
-                              decoration: InputDecoration(
-                                labelText: 'Team Leader*',
-                                labelStyle: TextStyle(
-                                  color: Color(0xFF7743DB),
-                                  fontSize: 20,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                                  borderSide: BorderSide(
-                                    width: 3,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                                  borderSide: BorderSide(
-                                    width: 3,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ),
-                              items: snapshot.data!.map<DropdownMenuItem<String>>((User user) {
-                                return DropdownMenuItem<String>(
-                                  value: user.id.toString(),
-                                  child: Text(user.fullName,style: TextStyle(fontSize:20),),
-                                );
-                              }).toList(),
-                              onChanged: (selectedValue) {
-                                setState(() {
-                                  teamLeader = selectedValue as String?;
-                                });
-                              },
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Team Leader is required';
-                                }
-                                return null;
-                              },
-                              
-                            );
-                          }
-                        },
-                      ),
-                      SizedBox(height: 10),
-                                            FutureBuilder<List<User>>(
-                        future: engineers,
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState == ConnectionState.waiting) {
-                            return CircularProgressIndicator();
-                          } else if (snapshot.hasError) {
-                            return Text('Error: ${snapshot.error}');
-                          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                            return Text('No engineers available.');
-                          } else {
-                                
-                            // padding + (length * height per option)
-                            double dropdownHeight = 50.0 + (snapshot.data!.length * 50.0);
-                            return MultiSelectDropDown(
-                              borderColor:Colors.grey, 
-                              borderWidth: 3,
-                              focusedBorderWidth: 3,
-                              
-                              controller: teamController,
-                              onOptionSelected: (options) {
-                                setState(() {
-                                  selectedEngineers = options
-                                      .map((valueItem) => snapshot.data!
-                                      .firstWhere((user) => user.fullName == valueItem.label))
-                                      .toList();
-                                });
-                              },
-                              options: snapshot.data!
-                                  .map((user) => ValueItem(label: user.fullName, value: user.id.toString()))
-                                  .toList(),
-                              maxItems: 11,
-                              hint: "Select Team",
-                              hintStyle: TextStyle(fontSize:20),
-                              hintFontSize: 20,
-                              //disabledOptions: const [ValueItem(label: 'Option 1', value: '1')],
-                              selectionType: SelectionType.multi,
-                              chipConfig: const ChipConfig(wrapType: WrapType.scroll),
-                              dropdownHeight: dropdownHeight,
-                              optionTextStyle: const TextStyle(fontSize: 25),
-                              selectedOptionIcon: const Icon(Icons.check_circle),
-                              
-                            );
-                          }
-                        },
-                      ),
-                      SizedBox(height: 10),
-
-                    TextFormField(
-                    controller: description,
-                    keyboardType: TextInputType.text,
-                    maxLines: 3,
-                    style: TextStyle(
-                      color: Color(0xFF000000),
-                      fontSize: 25,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w500,
-                    ),
-                    decoration: InputDecoration(
-                      labelText: 'Description*',
-                      labelStyle: TextStyle(
-                        color: Color(0xFF7743DB),
-                        fontSize: 20,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w600,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                          width: 3,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                          width: 3,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Project title is required';
-                      }
-                      return null;
-                    },
-                  ),
-                   SizedBox(height: 10),
-
-                    Row(
-                      children: [
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: (){
-                              _updateProject();
-                                  Navigator.of(context).pushReplacementNamed('/allprojects');
-                            },
-                                       child: Text("Save",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15),),
-                                       style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xFF9F7BFF),
-                                    shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                            ),
+          
+                          TextFormField(
+                          controller: description,
+                          keyboardType: TextInputType.text,
+                          maxLines: 3,
+                          style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Description*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
                                           ),
-                                        ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Description is required';
+                            }
+                            return null;
+                          },
                         ),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: (){
-                          Navigator.of(context).pushReplacementNamed('/allprojects');
-                        },
-                                   child: Text("Cancel",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 15),),
-                                   style: ElevatedButton.styleFrom(
-                              backgroundColor: Color.fromARGB(255, 172, 19, 19),
-                                shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                        ),
-                                      ),
-                                    ),
-                    ),
-                      ],
-                    ),
-              ],
-            ),
-             ),
+                         SizedBox(height: 10.h),
+          
+                          Row(
+                            children: [
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: (){
+                                    _updateProject();
+                                        Navigator.of(context).pushReplacementNamed('/allprojects');
+                                  },
+                                             child: Text("Save",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily:AppTheme.fontName),),
+                                             style: AppButtonStyles.submitButtonStyle
+                                              ),
+                              ),
+                          SizedBox(width: 10.w),
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: (){
+                                Navigator.of(context).pushReplacementNamed('/allprojects');
+                              },
+                                         child: Text("Cancel",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily:AppTheme.fontName),),
+                                         style: AppButtonStyles.cancelButtonStyle
+                                          ),
+                          ),
+                            ],
+                          ),
+                    ],
+                  ),
+                   ),
+                ),
+          
+            ],
           ),
-
-
-        // if (project != null) ...[
-         
-        //   Text("Project ID: ${project!.id}"),
-        //   Text("Project Name: ${project!.projectName}"),
-        //   Text("Description: ${project!.description}"),
-        //   Text("Status: ${project!.status}"),
-
-        // ] 
+        ),
       ],
     ),
   );

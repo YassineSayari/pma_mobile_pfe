@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pma/admin/widgets/admin_drawer.dart';
+import 'package:pma/custom_snackbar.dart';
+import 'package:pma/theme.dart';
+import '../../../custom_appbar.dart';
 import '../../../services/project_service.dart';
 import '../../widgets/project_container.dart';
-
 class AllProjects extends StatefulWidget {
   AllProjects({Key? key}) : super(key: key);
 
@@ -25,31 +29,13 @@ class _AllProjectsState extends State<AllProjects> {
       drawer: AdminDrawer(selectedRoute: '/allprojects'),
       body: Column(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 1,
-                  blurRadius: 3,
-                  offset: Offset(0, 1),
-                ),
-              ],
-            ),
-            child: AppBar(
-              title: Text(
-                'All Projects',
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 30),
-              ),
-              centerTitle: true,
-            ),
-          ),
+          CustomAppBar(title: 'Projects'),
           Expanded(
             child: FutureBuilder<List<Map<String, dynamic>>>(
               future: projects,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return Center(child: SpinKitCubeGrid(color: Colors.blueAccent));
                 } else if (snapshot.hasError) {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 } else {
@@ -81,14 +67,15 @@ class _AllProjectsState extends State<AllProjects> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding:  EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
           child: Center(
             child: Text(
               sectionTitle,
               style: TextStyle(
-                fontSize: 35,
+                fontSize: 35.sp,
                 fontWeight: FontWeight.bold,
                 color: getColorForSection(sectionStatus),
+                fontFamily: AppTheme.fontName
               ),
             ),
           ),
@@ -155,11 +142,13 @@ class _AllProjectsState extends State<AllProjects> {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content:
-                      Text('Project Updated to: $newStatus',style: TextStyle(color: Colors.black45, fontWeight: FontWeight.w600)),
-        duration: Duration(seconds: 2),
-        backgroundColor: Colors.yellowAccent,
-      ),
-      );
+                      SuccessSnackBar(message: 'Project Updated to: $newStatus'),
+                  duration: Duration(seconds: 2),
+                  behavior: SnackBarBehavior.floating,
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                 ),
+              );
               Navigator.of(context).pushReplacementNamed('/allprojects');
 
             },

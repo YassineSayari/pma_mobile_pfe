@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pma/custom_snackbar.dart';
 import 'package:pma/services/user_service.dart';
+import 'package:pma/theme.dart';
 import '../../../models/user_model.dart';
 
 class EditClientPopup extends StatefulWidget {
@@ -47,218 +51,156 @@ else{
       print("updating client");
       await userService.updateUser(widget.client.id, updatedData);
 
-      Navigator.of(context).pop();
+      Navigator.of(context).pushReplacementNamed('/allclients');
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Client updated successfully!',style:TextStyle(color: Colors.black45,fontWeight: FontWeight.w600),),
+          content: SuccessSnackBar(message: "Client updated successfully!"),
           duration: Duration(seconds: 2),
-          backgroundColor: Colors.yellowAccent,
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
         ),
       );
 
     } catch (error) {
       print('Error updating client: $error');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: FailSnackBar(message: "Failed to  update client!"),
+          duration: Duration(seconds: 2),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          elevation: 0,          
+        ),
+      );
     }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text('Edit Client'),
-      content: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-
-              TextFormField(
-                  controller: nameController,
-                style: TextStyle(
-                  color: Color(0xFF000000),
-                  fontSize: 15,
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w500,
-                ),
-                decoration: InputDecoration(
-                  labelText: 'Name*',
-                  labelStyle: TextStyle(
-                    color: Color(0xFF7743DB),
-                    fontSize: 15,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w600,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(
-                      width: 3,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(
-                      width: 3,
-                      color: Colors.deepPurple,
-                    ),
-                  ),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a valid name';
-                  }
-                  return null;
-                },
-              ),
-
-              SizedBox(height: 10),
-
-              TextFormField(
-                  controller: mobileController,
-                style: TextStyle(
-                  color: Color(0xFF000000),
-                  fontSize: 15,
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w500,
-                ),
-                decoration: InputDecoration(
-                  labelText: 'Mobile*',
-                  labelStyle: TextStyle(
-                    color: Color(0xFF7743DB),
-                    fontSize: 15,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w600,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(
-                      width: 3,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(
-                      width: 3,
-                      color: Colors.deepPurple,
-                    ),
-                  ),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a valid mobile';
-                  }
-                  return null;
-                },
-              ),
-
-              SizedBox(height: 10),
-
-              TextFormField(
-                  controller: emailController,
-                style: TextStyle(
-                  color: Color(0xFF000000),
-                  fontSize: 15,
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w500,
-                ),
-                decoration: InputDecoration(
-                  labelText: 'Email*',
-                  labelStyle: TextStyle(
-                    color: Color(0xFF7743DB),
-                    fontSize: 15,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w600,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(
-                      width: 3,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(
-                      width: 3,
-                      color: Colors.deepPurple,
-                    ),
-                  ),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter an email';
-                  }
-                  return null;
-                },
-              ),
-
-              SizedBox(height: 10),
-
-              TextFormField(
-                  controller: companyController,
-                style: TextStyle(
-                  color: Color(0xFF000000),
-                  fontSize: 15,
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w500,
-                ),
-                decoration: InputDecoration(
-                  labelText: 'Company Name*',
-                  labelStyle: TextStyle(
-                    color: Color(0xFF7743DB),
-                    fontSize: 15,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w600,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(
-                      width: 3,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(
-                      width: 3,
-                      color: Colors.deepPurple,
-                    ),
-                  ),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a company name';
-                  }
-                  return null;
-                },
-              ),
-
-              SizedBox(height: 10),
-
-              Row(
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      print("update pressed");
-                    updateClient();
-                    },
-                    child: Text('Save'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text('Cancel'),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
+    return Dialog(
+         shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8.0.r),
       ),
-    );
+      insetPadding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 28.h),
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
+         child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+            Center(child: Text("Edit Client",style: TextStyle(fontFamily: AppTheme.fontName,fontWeight: FontWeight.w600,fontSize: 34.sp),)),
+                SizedBox(height: 30.h),
+                TextFormField(
+                    controller: nameController,
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Name*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a valid name';
+                    }
+                    return null;
+                  },
+                ),
+         
+                SizedBox(height: 10.h),
+         
+                TextFormField(
+                    controller: mobileController,
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Mobile*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a valid mobile';
+                    }
+                    return null;
+                  },
+                ),
+         
+                SizedBox(height: 10.h),
+         
+                TextFormField(
+                    controller: emailController,
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Email*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter an email';
+                    }
+                    return null;
+                  },
+                ),
+         
+                SizedBox(height: 10.h),
+         
+                TextFormField(
+                    controller: companyController,
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Company name*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a company name';
+                    }
+                    return null;
+                  },
+                ),
+         
+                SizedBox(height: 10.h),
+         
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          print("update pressed");
+                        updateClient();
+                        },
+                        child: Text('Save',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily: AppTheme.fontName ),),
+                                     style: AppButtonStyles.submitButtonStyle,
+                      ),
+                    ),
+                    SizedBox(width: 10.w),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('Cancel',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily: AppTheme.fontName ),),
+                                     style: AppButtonStyles.cancelButtonStyle,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+               ),
+       ),
+    ).animate(delay: 100.ms).fade(duration: 500.ms).slideY();
   }
 }

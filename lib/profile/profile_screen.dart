@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pma/admin/widgets/admin_drawer.dart';
 import 'package:pma/client/widgets/client_drawer.dart';
 import 'package:pma/engineer/widgets/engineer_drawer.dart';
 import 'package:pma/team_leader/widgets/teamleader_drawer.dart';
 
-import 'models/user_model.dart';
+import '../models/user_model.dart';
 import 'profile_container.dart';
-import 'services/shared_preferences.dart';
-import 'services/user_service.dart';
+import '../services/shared_preferences.dart';
+import '../services/user_service.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -15,7 +16,7 @@ class Profile extends StatefulWidget {
   @override
   State<Profile> createState() => _ProfileState();
 }
-
+  
 class _ProfileState extends State<Profile> {
   late String userId;
   late Future<User> user;
@@ -48,7 +49,7 @@ class _ProfileState extends State<Profile> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
-              child: CircularProgressIndicator(),
+              child: SpinKitDualRing(color: Colors.blue,),
             );
           } else if (snapshot.hasError) {
             return Center(

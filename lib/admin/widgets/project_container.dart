@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:pma/admin/screens/projects/edit_project.dart';
+import 'package:pma/custom_snackbar.dart';
+import 'package:pma/theme.dart';
 
 import '../../services/project_service.dart';
 
@@ -55,16 +60,16 @@ class _ProjectContainerState extends State<ProjectContainer> {
         : 'Invalid Date';
 
     return Container(
-      margin: EdgeInsets.all(10),
-      padding: EdgeInsets.all(8),
+      margin: EdgeInsets.symmetric(horizontal: 10.w,vertical: 10.h),
+      padding: EdgeInsets.symmetric(horizontal: 10.w,vertical: 10.h),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(8.0),
+          color: AppTheme.nearlyWhite,
+          borderRadius: BorderRadius.circular(8.0.r),
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 5,
-              blurRadius: 7,
+              spreadRadius: 2,
+              blurRadius: 5,
               offset: Offset(0, 3),
             ),
           ],
@@ -81,16 +86,10 @@ class _ProjectContainerState extends State<ProjectContainer> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Icon(Icons.task_alt, size: 30),
-                    Text(widget.projectName,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 30)),
-                  ],
-                ),
-                SizedBox(width: 20),
+                Text(widget.projectName,
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600, fontSize: 25.sp,fontFamily: AppTheme.fontName)),
+                SizedBox(width: 10.h),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,11 +99,11 @@ class _ProjectContainerState extends State<ProjectContainer> {
                           color: getColorForType(widget.type)['background'],
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        padding: EdgeInsets.all(8),
+                        padding: EdgeInsets.symmetric(horizontal: 10.w,vertical: 10.h),
                         child: Text(
                           '${widget.type}',
                           style: TextStyle(
-                            color: getColorForType(widget.type)['text'],
+                            color: getColorForType(widget.type)['text'],fontFamily: AppTheme.fontName,fontSize: 15.sp
                           ),
                         ),
                       ),
@@ -131,19 +130,19 @@ class _ProjectContainerState extends State<ProjectContainer> {
             SizedBox(height: 10),
             Table(
               columnWidths: {
-                0: FlexColumnWidth(1),
-                1: FlexColumnWidth(2),
+                0: FlexColumnWidth(3),
+                1: FlexColumnWidth(4),
               },
               children: [
                 TableRow(
                   children: [
                     TableCell(
                       child: Text('Description :',
-                          style: TextStyle(fontWeight: FontWeight.bold,fontSize:20)),
+                          style: TextStyle(fontWeight: FontWeight.w500,fontSize:22.sp,fontFamily: AppTheme.fontName)),
                     ),
                     TableCell(
                       child: Text(widget.description,
-                      style: TextStyle(fontSize:20),
+                      style: TextStyle(fontSize:22.sp,fontFamily: AppTheme.fontName),
                       ),
                     ),
                   ],
@@ -152,16 +151,16 @@ class _ProjectContainerState extends State<ProjectContainer> {
                   children: [
                     TableCell(
                       child: Text('Start Date :',
-                          style: TextStyle(fontWeight: FontWeight.bold,fontSize:20)),
+                          style: TextStyle(fontWeight: FontWeight.w500,fontSize:22.sp,fontFamily: AppTheme.fontName)),
                     ),
                     TableCell(
                       child: Row(
                         children: [
                           Icon(Icons.calendar_today_outlined,
-                              size: 18), // Calendar icon
+                              size: 18.sp), // Calendar icon
                           SizedBox(width: 5),
                           Text(formattedDateDebut,
-                          style: TextStyle(fontSize:20),
+                          style: TextStyle(fontSize:22.sp,fontFamily: AppTheme.fontName),
                           ),
                         ],
                       ),
@@ -171,12 +170,12 @@ class _ProjectContainerState extends State<ProjectContainer> {
               TableRow(
                   children: [
                     TableCell(
-                      child: Text('Team Leader :',
-                          style: TextStyle(fontWeight: FontWeight.bold,fontSize:20)),
+                      child: Text('Team Leader:',
+                          style: TextStyle(fontWeight: FontWeight.w500,fontSize:22.sp,fontFamily: AppTheme.fontName)),
                     ),
                     TableCell(
                       child: Text(widget.teamLeaderId,
-                      style: TextStyle(fontSize:20),
+                      style: TextStyle(fontSize:22.sp,fontFamily: AppTheme.fontName),
                       ),
                     ),
                   ],
@@ -185,11 +184,11 @@ class _ProjectContainerState extends State<ProjectContainer> {
                   children: [
                     TableCell(
                       child: Text('Status :',
-                          style: TextStyle(fontWeight: FontWeight.bold,fontSize:20)),
+                          style: TextStyle(fontWeight: FontWeight.w500,fontSize:22.sp,fontFamily: AppTheme.fontName)),
                     ),
                     TableCell(
                       child: Text(widget.status,
-                      style: TextStyle(fontSize:20),
+                      style: TextStyle(fontSize:22.sp,fontFamily: AppTheme.fontName),
                       ),
                     ),
                   ],
@@ -198,7 +197,7 @@ class _ProjectContainerState extends State<ProjectContainer> {
                   children: [
                     TableCell(
                       child: Text('Priority :',
-                          style: TextStyle(fontWeight: FontWeight.bold,fontSize:20)),
+                          style: TextStyle(fontWeight: FontWeight.w500,fontSize:22.sp,fontFamily: AppTheme.fontName)),
                     ),
                     TableCell(
                       child: Row(
@@ -206,7 +205,7 @@ class _ProjectContainerState extends State<ProjectContainer> {
                           getPriorityIcon(widget.priority),
                           SizedBox(width: 5),
                           Text(widget.priority,
-                          style: TextStyle(fontSize:20),
+                          style: TextStyle(fontSize:22.sp,fontFamily: AppTheme.fontName),
                           ),
                         ],
                       ),
@@ -217,16 +216,16 @@ class _ProjectContainerState extends State<ProjectContainer> {
                   children: [
                     TableCell(
                       child: Text('Deadline :',
-                          style: TextStyle(fontWeight: FontWeight.bold,fontSize:20)),
+                          style: TextStyle(fontWeight: FontWeight.w500,fontSize:22.sp,fontFamily: AppTheme.fontName)),
                     ),
                     TableCell(
                       child: Row(
                         children: [
                           Icon(Icons.calendar_today_outlined,
-                              size: 18), // Calendar icon
+                              size: 18), 
                           SizedBox(width: 5),
                           Text(formattedDateFin,
-                          style: TextStyle(fontSize:20),
+                          style: TextStyle(fontSize:22.sp,fontFamily: AppTheme.fontName),
                           ),
                         ],
                       ),
@@ -237,11 +236,11 @@ class _ProjectContainerState extends State<ProjectContainer> {
                   children: [
                     TableCell(
                       child: Text('Client :',
-                          style: TextStyle(fontWeight: FontWeight.bold,fontSize:20)),
+                          style: TextStyle(fontWeight: FontWeight.w500,fontSize:22.sp,fontFamily: AppTheme.fontName)),
                     ),
                     TableCell(
                       child: Text(widget.client,
-                      style: TextStyle(fontSize:20),
+                      style: TextStyle(fontSize:22.sp,fontFamily: AppTheme.fontName),
                       ),
                     ),
                   ],
@@ -250,11 +249,11 @@ class _ProjectContainerState extends State<ProjectContainer> {
                   children: [
                     TableCell(
                       child: Text('Team :',
-                          style: TextStyle(fontWeight: FontWeight.bold,fontSize:20)),
+                          style: TextStyle(fontWeight: FontWeight.w500,fontSize:22.sp,fontFamily: AppTheme.fontName)),
                     ),
                     TableCell(
                       child: Text(getTeamNames(widget.equipe),
-                      style: TextStyle(fontSize:20),
+                      style: TextStyle(fontSize:22.sp,fontFamily: AppTheme.fontName),
                       ),
                     ),
                   ],
@@ -266,24 +265,26 @@ class _ProjectContainerState extends State<ProjectContainer> {
                           style: TextStyle(
                               color: Colors.grey,
                               fontWeight: FontWeight.bold,
-                              fontSize: 20)),
+                              fontSize: 22.sp,fontFamily: AppTheme.fontName)),
                     ),
                     TableCell(
                       child: Text('${widget.progress}%',
-                          style: TextStyle(color: Colors.grey,fontSize: 20)),
+                          style: TextStyle(color: Colors.grey,fontSize: 22.sp,fontFamily: AppTheme.fontName)),
                     ),
                   ],
                 ),
               ],
-            ),
+            ).animate()
+            .slideX(duration: 700.ms),
             SizedBox(height: 10),
             Container(
-              width: 250.0,
-              child: LinearProgressIndicator(
-                value: widget.progress / 100.0,
-                backgroundColor: Colors.grey,
-                valueColor:
-                    AlwaysStoppedAnimation<Color>(Colors.blue),
+              width: 400.0.w,
+              child: LinearPercentIndicator(
+                lineHeight: 10,
+                percent: widget.progress.toDouble()/100,
+                progressColor: Colors.blue,
+                animation: true,
+                animationDuration: 800,
               ),
             ),
             SizedBox(height: 10),
@@ -331,34 +332,54 @@ class _ProjectContainerState extends State<ProjectContainer> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Confirm Deletion"),
-          content: Text("Are you sure you want to delete this Project?"),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text("Cancel"),
-            ),
-            TextButton(
-              onPressed: () {
-                ProjectService().deleteProject(id);
-                setState(() {
-                });
-                Navigator.of(context).pushReplacementNamed("/allprojects");
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Project deleted successfully.'),
-                    duration: Duration(seconds: 2),
-                    backgroundColor: Colors.yellow,
+        return Dialog(
+                shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0.r),
+      ),
+      insetPadding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 225.h),
+      child:Container(
+          padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
+          width: double.infinity,
+             child: Column(
+               children: [
+                 Text("Confirm Deletion",style: TextStyle(fontFamily: AppTheme.fontName,fontSize: 35.sp,fontWeight: FontWeight.w600)),
+                           Text("Are you sure you want to delete this Project?",style: TextStyle(fontFamily: AppTheme.fontName,fontSize: 24.sp)),
+                           
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text("Cancel",style: TextStyle(fontFamily: AppTheme.fontName,fontWeight: FontWeight.w500,fontSize: 24.sp)),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          ProjectService().deleteProject(id);
+                          setState(() {
+                          });
+                          Navigator.of(context).pushReplacementNamed("/allprojects");
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: SuccessSnackBar(message: "Project deleted successfylly!"),
+                              duration: Duration(seconds: 2),
+                              behavior: SnackBarBehavior.floating,
+                              backgroundColor: Colors.transparent,
+                              elevation: 0,
+                            ),
+                          );
+                        },
+                        child: Text("Delete",style: TextStyle(color: Colors.red,fontFamily: AppTheme.fontName,fontWeight: FontWeight.w500,fontSize: 24.sp),),
+                      ),
+                    ],
                   ),
-                );
-              },
-              child: Text("Delete",style: TextStyle(color: Colors.red),),
-            ),
-          ],
-        );
+               ],
+             ),
+           ),
+        
+        ).animate(delay: 100.ms)
+        .fade().scale();
       },
     );
   }

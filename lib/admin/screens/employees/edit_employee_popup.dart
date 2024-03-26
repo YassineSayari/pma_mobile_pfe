@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:pma/custom_snackbar.dart';
+import 'package:pma/theme.dart';
 import '../../../models/user_model.dart';
 import '../../../services/user_service.dart';
 
@@ -62,64 +66,62 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
 
         print("updating employee");
         await userService.updateUser(widget.employee.id, updatedData);
-        Navigator.of(context).pop();
+        Navigator.of(context).pushReplacementNamed("/allemployees");
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Employee updated successfully!',style:TextStyle(color: Colors.black45,fontWeight: FontWeight.w600),),
+            content: SuccessSnackBar(message: "Employee updated successfully!"),
             duration: Duration(seconds: 2),
-            backgroundColor: Colors.yellowAccent,
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
           ),
         );
       } catch (error) {
         print('Error updating employee: $error');
+                ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: FailSnackBar(message: "failed to update eployee!"),
+            duration: Duration(seconds: 2),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+          ),
+        );
+        Navigator.of(context).pop();
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      child: AlertDialog(
-        title: Center(child: Text('Edit Employee',style: TextStyle(fontWeight: FontWeight.w600),)),
-        content: SingleChildScrollView(
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8.0.r),
+        
+      ),
+            insetPadding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 28.h),
+
+      child: Container(
+        width: double.infinity,
+        height: double.infinity,
+        padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
+        child: SingleChildScrollView(
           child: Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-      
+                Center(child: Text("Edit",style: TextStyle(fontFamily: AppTheme.fontName,fontWeight: FontWeight.w600,fontSize: 34.sp),)),
+                SizedBox(height: 30.h),
                 TextFormField(
                   controller: nameController,
-                  style: TextStyle(
-                    color: Color(0xFF000000),
-                    fontSize: 15,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w500,
-                  ),
-                  decoration: InputDecoration(
-                    labelText: 'Name*',
-                    labelStyle: TextStyle(
-                      color: Color(0xFF7743DB),
-                      fontSize: 15,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w600,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3,
-                        color: Colors.deepPurple,
-                      ),
-                    ),
-                  ),
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Name*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter a valid name';
@@ -127,9 +129,9 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
                     return null;
                   },
                 ),
-      
-                SizedBox(height: 10),
-      
+            
+                SizedBox(height: 15.h),
+            
                 DropdownButtonFormField<String>(
                   value: departments.contains(selectedDepartment) ? selectedDepartment : null,
                   onChanged: (value) {
@@ -143,69 +145,25 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
                       child: Text(department),
                     );
                   }).toList(),
-                  style: TextStyle(
-                    color: Color(0xFF000000),
-                    fontSize: 15,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w500,
-                  ),
-                  decoration: InputDecoration(
-                    labelText: 'Department*',
-                    labelStyle: TextStyle(
-                      color: Color(0xFF7743DB),
-                      fontSize: 15,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w600,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3,
-                        color: Colors.deepPurple,
-                      ),
-                    ),
-                  ),
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Department*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                 ),
-      
-                SizedBox(height: 10),
+            
+                SizedBox(height: 15.h),
                 TextFormField(
                   controller: roleController,
-                  style: TextStyle(
-                    color: Color(0xFF000000),
-                    fontSize: 15,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w500,
-                  ),
-                  decoration: InputDecoration(
-                    labelText: 'Role*',
-                    labelStyle: TextStyle(
-                      color: Color(0xFF7743DB),
-                      fontSize: 15,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w600,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3,
-                        color: Colors.deepPurple,
-                      ),
-                    ),
-                  ),
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Role*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter a valid role';
@@ -213,8 +171,8 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
                     return null;
                   },
                 ),
-                SizedBox(height: 10),
-      
+                SizedBox(height: 15.h),
+            
                 DropdownButtonFormField<String>(
                   value: selectedGender,
                   onChanged: (value) {
@@ -228,70 +186,26 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
                       child: Text(gender),
                     );
                   }).toList(),
-                  style: TextStyle(
-                    color: Color(0xFF000000),
-                    fontSize: 15,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w500,
-                  ),
-                  decoration: InputDecoration(
-                    labelText: 'Gender*',
-                    labelStyle: TextStyle(
-                      color: Color(0xFF7743DB),
-                      fontSize: 15,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w600,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3,
-                        color: Colors.deepPurple,
-                      ),
-                    ),
-                  ),
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Gender*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                 ),
-      
-                SizedBox(height: 10),
-      
+            
+                SizedBox(height: 15.h),
+            
                 TextFormField(
                   controller: mobileController,
-                  style: TextStyle(
-                    color: Color(0xFF000000),
-                    fontSize: 15,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w500,
-                  ),
-                  decoration: InputDecoration(
-                    labelText: 'Mobile*',
-                    labelStyle: TextStyle(
-                      color: Color(0xFF7743DB),
-                      fontSize: 15,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w600,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3,
-                        color: Colors.deepPurple,
-                      ),
-                    ),
-                  ),
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Mobile*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter a valid mobile';
@@ -299,40 +213,18 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
                     return null;
                   },
                 ),
-      
-                SizedBox(height: 10),
-      
+            
+                SizedBox(height: 15.h),
+            
                 TextFormField(
                   controller: emailController,
-                  style: TextStyle(
-                    color: Color(0xFF000000),
-                    fontSize: 15,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w500,
-                  ),
-                  decoration: InputDecoration(
-                    labelText: 'Email*',
-                    labelStyle: TextStyle(
-                      color: Color(0xFF7743DB),
-                      fontSize: 15,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w600,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3,
-                        color: Colors.deepPurple,
-                      ),
-                    ),
-                  ),
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Email*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter a valid email';
@@ -340,9 +232,9 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
                     return null;
                   },
                 ),
-      
-                SizedBox(height: 10),
-      
+            
+                SizedBox(height: 15.h),
+            
                 TextFormField(
                   controller: TextEditingController(
                     //toLocal khatr date was converted to utc earlier so we need to convert to local to prevent conflict
@@ -362,28 +254,13 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
                     }
                   },
                   readOnly: true,
-                  decoration: InputDecoration(
-                    labelText: 'Hiring Date*',
-                    labelStyle: TextStyle(
-                      color: Color(0xFF7743DB),
-                      fontSize: 15,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w600,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        width: 3,
-                        color: Colors.grey,
-                      ),
-                    ),
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Hiring Date*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          
                     prefixIcon: Icon(
                       Icons.calendar_today,
                       color: Colors.grey[400],
@@ -396,22 +273,29 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
                     return null;
                   },
                 ),
-                SizedBox(height: 16),
+                SizedBox(height: 16.h),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        print("update pressed");
-                        updateEmployee();
-                      },
-                      child: Text('Save'),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          print("update pressed");
+                          updateEmployee();
+                        },
+                        child: Text('Save',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily: AppTheme.fontName ),),
+                                   style: AppButtonStyles.submitButtonStyle
+                      ),
                     ),
-                    SizedBox(width: 10),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Text('Cancel'),
+                    SizedBox(width: 10.w),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('Cancel',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily: AppTheme.fontName ),),
+                                   style: AppButtonStyles.cancelButtonStyle
+                      ),
                     ),
                   ],
                 ),
@@ -420,6 +304,6 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
           ),
         ),
       ),
-    );
+    ).animate(delay: 100.ms).fade(duration: 500.ms).slideY();
   }
 }

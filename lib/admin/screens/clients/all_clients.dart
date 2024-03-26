@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pma/admin/widgets/admin_drawer.dart';
 import 'package:pma/admin/widgets/client_container.dart';
+import 'package:pma/custom_appbar.dart';
+import 'package:pma/custom_snackbar.dart';
 import 'package:pma/services/user_service.dart';
+import 'package:pma/theme.dart';
 
 import '../../../models/user_model.dart';
 import '../../../services/export_utils.dart';
@@ -60,25 +65,7 @@ class _AllClientsState extends State<AllClients> {
       drawer: AdminDrawer(selectedRoute: '/allclients'),
       body: Column(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  blurRadius: 3,
-                  offset: Offset(0, 1),
-                ),
-              ],
-            ),
-            child: AppBar(
-              title: Text(
-                'All Clients',
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 30),
-              ),
-              centerTitle: true,
-            ),
-          ),
-          SizedBox(height: 30),
+            CustomAppBar(title: "Clients"),
           UserSearchBar(
             onChanged: onSearchTextChanged,
             onTap: () {
@@ -86,18 +73,16 @@ class _AllClientsState extends State<AllClients> {
               print("refresh tapped");
             },
           ),
-          SizedBox(height: 30),
+
           Padding(
-            padding: const EdgeInsets.only(
-                top: 8.0, left: 20.0, right: 25.0, bottom: 20.0),
+                  padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
             child: Row(
               children: [
                 Align(
                   alignment: Alignment.topLeft,
                   child: Text("Total Clients : ${clients.length}",
-                      style: TextStyle(
-                          fontSize: 24, fontWeight: FontWeight.bold)
-                          ),
+                  style: TextStyle(fontSize: AppTheme.totalObjectFontSize.sp,fontFamily: AppTheme.fontName,fontWeight: FontWeight.w500)        
+                  ),
                 ),
                 Spacer(),
 
@@ -110,10 +95,10 @@ class _AllClientsState extends State<AllClients> {
                 value: 'Export as Text',
                 child: Row(
                   children: [
-                    Image.asset('assets/images/txt.png', width: 40, height: 40),
-                    SizedBox(width: 8),
+                    Image.asset('assets/images/txt.png', width: 40.sp, height: 40.sp),
+                    SizedBox(width: 8.w),
                     Text('Export as Text',
-                    style:TextStyle(fontSize: 20),
+                    style:TextStyle(fontSize: 20.sp),
                     ),
                   ],
                 ),
@@ -122,10 +107,10 @@ class _AllClientsState extends State<AllClients> {
                 value: 'Export as CSV',
                 child: Row(
                   children: [
-                    Image.asset('assets/images/csv.png', width: 40, height: 40),
-                    SizedBox(width: 8),
+                    Image.asset('assets/images/csv.png', width: 40.sp, height: 40.sp),
+                    SizedBox(width: 8.w),
                     Text('Export as CSV',
-                    style:TextStyle(fontSize: 20),
+                    style:TextStyle(fontSize: 20.sp),
                     ),
                   ],
                 ),
@@ -134,10 +119,10 @@ class _AllClientsState extends State<AllClients> {
                 value: 'Export as Excel',
                 child: Row(
                   children: [
-                    Image.asset('assets/images/xlsx.png', width: 40, height: 40),
-                    SizedBox(width: 8),
+                    Image.asset('assets/images/xlsx.png',width: 40.sp, height: 40.sp),
+                    SizedBox(width: 8.w),
                     Text('Export as Excel',
-                    style:TextStyle(fontSize: 20),
+                    style:TextStyle(fontSize: 20.sp),
                     ),
                   ],
                 ),
@@ -146,10 +131,10 @@ class _AllClientsState extends State<AllClients> {
                 value: 'Export as JSON',
                 child: Row(
                   children: [
-                    Image.asset('assets/images/json.png', width: 40, height: 40),
-                    SizedBox(width: 8),
+                    Image.asset('assets/images/json.png', width: 40.sp, height: 40.sp),
+                    SizedBox(width: 8.w),
                     Text('Export as JSON',
-                    style:TextStyle(fontSize: 20),
+                    style:TextStyle(fontSize: 20.sp),
                     ),
                   ],
                 ),
@@ -157,7 +142,7 @@ class _AllClientsState extends State<AllClients> {
             ],
             icon: Icon(
               Icons.file_download,
-              size: 35,
+                    size: AppTheme.sortandfilterIconFontSize.sp,
             ),
           ),
 
@@ -179,7 +164,7 @@ class _AllClientsState extends State<AllClients> {
                             ),
                             Text(
                               'Name Ascending',
-                              style: TextStyle(fontSize: 20),
+                              style: TextStyle(fontSize: 20.sp),
                             ),
                           ],
                         ),
@@ -199,7 +184,7 @@ class _AllClientsState extends State<AllClients> {
                             ),
                             Text(
                               'Name Descending',
-                              style: TextStyle(fontSize: 20),
+                              style: TextStyle(fontSize: 20.sp),
                             ),
                           ],
                         ),
@@ -210,7 +195,7 @@ class _AllClientsState extends State<AllClients> {
                   ],
                   icon: Icon(
                     Icons.swap_vert,
-                    size: 35,
+                    size: AppTheme.sortandfilterIconFontSize.sp,
                   ),
                 )
               ],
@@ -218,7 +203,7 @@ class _AllClientsState extends State<AllClients> {
           ),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.all(4.0),
+                  padding: EdgeInsets.symmetric(horizontal: 4.w,vertical: 4.h),
               child: ListView.builder(
                   itemCount: clients.length,
                   itemBuilder: (context, index) {
@@ -227,7 +212,7 @@ class _AllClientsState extends State<AllClients> {
                       children: [
                         ClientContainer(
                             user: clients[index], onDelete: deleteClient),
-                        SizedBox(height: 5),
+                        SizedBox(height: 5.h),
                       ],
                     );
                   }),
@@ -313,34 +298,56 @@ class _AllClientsState extends State<AllClients> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(
-            "Confirm Deletion",
-            style: TextStyle(fontWeight: FontWeight.w600),
-          ),
-          content: Text("Are you sure you want to delete this client?"),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text("Cancel"),
+        return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0.r),
+      ),
+      insetPadding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 210.h),
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
+          width: double.infinity,
+           child: Column(
+             children: [
+               Text("Delete Client",style: TextStyle(fontSize: 35.sp,fontFamily: AppTheme.fontName,fontWeight: FontWeight.w600),
+                       ),
+                SizedBox(height: 10.h),
+             Text("Are you sure you want to delete this Client?",style: TextStyle(fontFamily: AppTheme.fontName,fontSize: 24.sp),
             ),
-            TextButton(
-              onPressed: () {
-                UserService().deleteUser(id);
-                setState(() {
-                  clients.removeWhere((user) => user.id == id);
-                });
-                Navigator.of(context).pop();
-              },
-              child: Text(
-                "Delete",
-                style: TextStyle(color: Colors.red),
+            SizedBox(height: 10.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text("Cancel",style: TextStyle(fontFamily: AppTheme.fontName,fontWeight: FontWeight.w500,fontSize: 24.sp),),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      UserService().deleteUser(id);
+                      setState(() {
+                        clients.removeWhere((user) => user.id == id);
+                      });
+                      Navigator.of(context).pop();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: SuccessSnackBar(message: "Employee deleted successfully."),
+                          duration: Duration(seconds: 2),
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Colors.transparent,
+                          elevation: 0,
+                        ),
+                      );
+                    },
+                    child: Text("Delete",style: TextStyle(color: Colors.red,fontFamily: AppTheme.fontName,fontWeight: FontWeight.w500,fontSize: 24.sp),),
+                  ),
+                ],
               ),
-            ),
-          ],
-        );
+            ],
+           ),
+         ),
+        ).animate(delay: 100.ms).fade().scale();
       },
     );
   }

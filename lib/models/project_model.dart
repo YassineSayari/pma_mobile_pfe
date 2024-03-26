@@ -1,7 +1,7 @@
 class Project {
   String id;
   String projectName;
-  String description;
+  String? description;
   String status;
   String teamLeaderId;
   DateTime dateFin;
@@ -28,7 +28,7 @@ class Project {
   Project({
     required this.id,
     required this.projectName,
-    required this.description,
+    this.description,
     required this.status,
     required this.teamLeaderId,
     required this.dateFin,
@@ -110,7 +110,7 @@ class Project {
   Map<String, dynamic> toJson() {
     return {
       'Projectname': projectName,
-      'description': description,
+      'description': description??"",
       'status': status,
       'TeamLeader': teamLeaderId,
       'dateFin': dateFin.toIso8601String(),

@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pma/admin/screens/employees/edit_employee_popup.dart';
+import 'package:pma/const.dart';
 import 'package:pma/models/user_model.dart';
 import 'package:pma/admin/widgets/user_info_popup.dart';
+import 'package:pma/theme.dart';
 
-const ip = "192.168.32.1";
-const port = 3002;
+
 
 class UserContainer extends StatelessWidget {
   final User user;
-  final String imageUrl = "http://$ip:$port/static/images";
-  final String noImageUrl ="http://$ip:$port/static/images/16-02-2024--no-image.jpg";
+
         
   final Function(String) onDelete;
 
@@ -18,127 +20,130 @@ class UserContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(right:20.0,left:20.0,bottom:20.0),
+      padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppTheme.nearlyWhite,
           borderRadius: BorderRadius.circular(8.0),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 5,
-              blurRadius: 7,
-              offset: Offset(0, 3),
+              color: Colors.grey.withOpacity(0.8),
+              blurRadius: 2,
+              offset: Offset(0, 2),
             ),
           ],
         ),
-        child: Stack(
+        child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding:  EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
               child: Row(
                 children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
+                    borderRadius: BorderRadius.circular(8.0.r),
                     child: Image.network(
                       "$imageUrl/${user.image}",
-                      width: 90.0,
-                      height: 90.0,
-                      fit: BoxFit.cover,
+                      width: 120.0.w,
+                      height: 120.0.h,
+                      fit: BoxFit.fill,
                       errorBuilder: (context, error, stackTrace) {
                         return Image.network(
                           noImageUrl,
-                          width: 60.0,
-                          height: 60.0,
-                          fit: BoxFit.cover,
+                          width: 120.0.w,
+                          height: 120.0.h,
+                          fit: BoxFit.fill,
                         );
                       },
                     ),
                   ),
-                  SizedBox(width: 16),
+                  SizedBox(width: 16.h),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      
                       Text(
                         user.fullName,
                         style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 25.sp,
+                          fontFamily: AppTheme.fontName,
+                          
                         ),
                       ),
                       Text(
                         user.roles[0],
-                        style: TextStyle(fontSize: 15, color: Colors.grey[500]),
+                        style: TextStyle(fontSize: 15.sp, color: Colors.grey[600],fontFamily: AppTheme.fontName),
                       ),
-                      Text(
-                        user.email,
-                        style: TextStyle(fontSize: 15, color: Colors.grey[500]),
+                      Row(
+                        children: [
+                          Text(
+                            user.email,
+                            style: TextStyle(fontSize: 15.sp, color: Colors.grey[600],fontFamily: AppTheme.fontName),
+                          ),
+                        ],
                       ),
                       Text(
                         user.phone,
-                        style: TextStyle(fontSize: 15, color: Colors.grey[500]),
+                        style: TextStyle(fontSize: 15.sp, color: Colors.grey[600],fontFamily: AppTheme.fontName),
                       ),
                     ],
                   ),
+                  
                 ],
               ),
             ),
-            Positioned(
-              top: 12.0,
-              right: 12.0,
-              child: GestureDetector(
-                      onTap: () {
-                      print("info clicked");
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                        return EmployeeInfo(employee: user);
-                         },
-                      );
-                    },
-                child: Icon(
-                  Icons.info_outline,
-                  size: 27,
-                  color: Color.fromARGB(255, 102, 31, 184),
-                ),
-              ),
-            ),
-
-            Positioned(
-              bottom: 12.0,
-              right: 12.0,
-              child: Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                        return EditEmployeePopup(employee: user);
-                         },
-                      );
-                    },
-                    child: Icon(
-                      Icons.edit_outlined,
-                      size: 27,
-                      color: Color.fromARGB(255, 102, 31, 184),
-                    ),
-                  ),
-                  SizedBox(width: 20),
-                  GestureDetector(
-                    onTap: () => onDelete(user.id),
-                    child: Icon(
-                      Icons.delete_outline,
-                      size: 27,
-                      color: Color.fromARGB(255, 188, 14, 14),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                        Padding(
+                         padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 2.h),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [   
+                                          GestureDetector(
+                                            onTap: () {
+                                              print("info clicked");
+                                              showDialog(
+                                                context: context,
+                                                builder: (BuildContext context) {
+                                                  return EmployeeInfo(employee: user);
+                                                },
+                                              );
+                                            },
+                                            child: Icon(
+                                              Icons.info_outline,
+                                              size: 30.sp,
+                                              color: Color.fromARGB(255, 102, 31, 184),
+                                            ),
+                                          ),     
+                                          Spacer(),                    
+                              GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                    return EditEmployeePopup(employee: user);
+                                     },
+                                  );
+                                },
+                                child: Icon(
+                                  Icons.edit_outlined,
+                                  size: 30.sp,
+                                  color: Color.fromARGB(255, 102, 31, 184),
+                                ),
+                              ),
+                              SizedBox(width: 20.h),
+                              GestureDetector(
+                                onTap: () => onDelete(user.id),
+                                child: Icon(
+                                  Icons.delete_outline,
+                                  size: 30.sp,
+                                  color: Color.fromARGB(255, 188, 14, 14),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
           ],
         ),
-      ),
+      ).animate(delay: 100.ms).slideX().shimmer(duration: 1500.ms),
     );
   }
 }

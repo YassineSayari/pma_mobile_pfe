@@ -1,8 +1,11 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:intl/intl.dart';
+import 'package:pma/custom_appbar.dart';
+import 'package:pma/theme.dart';
 
 import '../../../services/user_service.dart';
 import '../../widgets/admin_drawer.dart';
@@ -49,419 +52,265 @@ class _AddClientState extends State<AddClient> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Add Client',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30),),
-        centerTitle: true,
-      ),
+
       drawer: AdminDrawer(selectedRoute: '/addclient'),
       resizeToAvoidBottomInset: false,
-      body: ListView(
+      body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child:
-            Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  TextFormField(
-                    controller: name,
-                    keyboardType: TextInputType.text,
-                    style: TextStyle(
-                      color: Color(0xFF000000),
-                      fontSize: 25,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w500,
-                    ),
-                    decoration: InputDecoration(
-                      labelText: 'Name*',
-                      labelStyle: TextStyle(
-                        color: Color(0xFF7743DB),
-                        fontSize: 20,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w600,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                          width: 3,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                          width: 3,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Name is required';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 10),
-                  TextFormField(
-                    controller: company,
-                    keyboardType: TextInputType.text,
-                    style: TextStyle(
-                      color: Color(0xFF000000),
-                      fontSize: 25,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w500,
-                    ),
-                    decoration: InputDecoration(
-                      labelText: 'Company name*',
-                      labelStyle: TextStyle(
-                        color: Color(0xFF7743DB),
-                        fontSize: 20,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w600,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                          width: 3,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                          width: 3,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Company name is required';
-                      }
-                      return null;
-                    },
-                  ),
-
-                  SizedBox(height: 10),
-
-
-                  TextFormField(
-                    controller: mail,
-                    keyboardType: TextInputType.text,
-                    style: TextStyle(
-                      color: Color(0xFF000000),
-                      fontSize: 25,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w500,
-                    ),
-                    decoration: InputDecoration(
-                      labelText: 'Email*',
-                      labelStyle: TextStyle(
-                        color: Color(0xFF755DC1),
-                        fontSize: 20,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w600,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                          width: 3,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                          width: 3,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Email is required';
-                      }
-                      return null;
-                    },
-                  ),
-                  
-                  SizedBox(height: 10),
-                  
-                  TextFormField(
-                    controller: mobile,
-                    keyboardType: TextInputType.number,
-                    style: TextStyle(
-                      color: Color(0xFF000000),
-                      fontSize: 27,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w500,
-                    ),
-                    decoration: InputDecoration(
-                      labelText: 'Mobile*',
-                      labelStyle: TextStyle(
-                        color: Color(0xFF755DC1),
-                        fontSize: 15,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w600,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                          width: 3,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                          width: 3,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Mobile number is required';
-                      }
-                      return null;
-                    },
-                  ),
-
-                  SizedBox(height: 10),
-                  Column(
+          CustomAppBar(title: "Add Client"),
+          Expanded(
+            child: ListView(
+              children: [
+                Padding(
+                  padding:  EdgeInsets.symmetric(horizontal:8.w,vertical: 8.h),
+                  child:
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        // Hiring Date Field
                         TextFormField(
-                          onTap: () async {
-                            DateTime? pickedDate = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(1900),
-                              lastDate: DateTime.now(),
-                            );
-
-                            if (pickedDate != null && pickedDate != clientDate) {
-                              setState(() {
-                                clientDate = pickedDate;
-                                dateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
-                              });
-                            }
-                          },
-                          controller: dateController,
-                          readOnly: true,
-                          decoration: InputDecoration(
-                            labelText: 'Date*',
-                            labelStyle: TextStyle(
-                              color: Color(0xFF7743DB),
-                              fontSize: 15,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w600,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 3,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 3,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            prefixIcon: Icon(
-                              Icons.calendar_today,
-                              color: Colors.grey[400],
-                            ),
-                          ),
+                          controller: name,
+                          keyboardType: TextInputType.text,
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Name*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
                           validator: (value) {
-                            if (clientDate == null) {
-                              return 'Date is required';
+                            if (value == null || value.isEmpty) {
+                              return 'Name is required';
                             }
                             return null;
                           },
-                        )
-                      ],
-                    ),
-                  SizedBox(height: 10),
-                  TextFormField(
-                    controller: password,
-                    keyboardType: TextInputType.text,
-                    obscureText: true,
-                    style: TextStyle(
-                      color: Color(0xFF000000),
-                      fontSize: 25,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w500,
-                    ),
-                    decoration: InputDecoration(
-                      labelText: 'Password*',
-                      labelStyle: TextStyle(
-                        color: Color(0xFF755DC1),
-                        fontSize: 20,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w600,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                          width: 3,
-                          color: Colors.grey,
                         ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                          width: 3,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Password is required';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 10),
-                  TextFormField(
-                    controller: passwordconf,
-                    keyboardType: TextInputType.text,
-                    obscureText: true,
-                    style: TextStyle(
-                      color: Color(0xFF000000),
-                      fontSize: 25,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w500,
-                    ),
-                    decoration: InputDecoration(
-                      labelText: 'Re-Enter Password',
-                      labelStyle: TextStyle(
-                        color: Color(0xFF755DC1),
-                        fontSize: 20,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w600,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                          width: 3,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderSide: BorderSide(
-                          width: 3,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Re-Enter password is required';
-                      }
-                      return null;
-                    },
-                  ),
-
-                  SizedBox(height: 30),
-                  GestureDetector(
-                    onTap: _pickImage,
-                    child: Column(
-                      children: [
-                        if (selectedImage != null)
-                          Container(
-                            width: 100,
-                            height: 100,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                image: FileImage(File(selectedImage!.path)), // Convert XFile to File
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          )
-                        else
-                          Icon(
-                            Icons.add_a_photo,
-                            size: 40,
-                            color: Colors.grey[600],
-                          ),
-                        SizedBox(height: 8),
-                        Text(
-                          'Upload Image',
-                          style: TextStyle(
-                            color: Colors.grey[600],
-                            fontSize: 15,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  SizedBox(height: 10),
-
-                  Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            print("submit pressed");
-                            if (_formKey.currentState!.validate()) {
-                                addClient();
+                        SizedBox(height: 10.h),
+                        TextFormField(
+                          controller: company,
+                          keyboardType: TextInputType.text,
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Company*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Company name is required';
                             }
+                            return null;
                           },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF9F7BFF),
-                              shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                  ),
+                        ),
+            
+                        SizedBox(height: 10.h),
+
+                        TextFormField(
+                          controller: mail,
+                          keyboardType: TextInputType.text,
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Email*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Email is required';
+                            }
+                            return null;
+                          },
+                        ),
+                        
+                        SizedBox(height: 10.h),
+                        
+                        TextFormField(
+                          controller: mobile,
+                          keyboardType: TextInputType.number,
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Mobile*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Mobile number is required';
+                            }
+                            return null;
+                          },
+                        ),
+            
+                        SizedBox(height: 10),
+                        Column(
+                            children: [
+                              // Hiring Date Field
+                              TextFormField(
+                                onTap: () async {
+                                  DateTime? pickedDate = await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(1900),
+                                    lastDate: DateTime.now(),
+                                  );
+            
+                                  if (pickedDate != null && pickedDate != clientDate) {
+                                    setState(() {
+                                      clientDate = pickedDate;
+                                      dateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
+                                    });
+                                  }
+                                },
+                                controller: dateController,
+                                readOnly: true,
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Date*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
+                                validator: (value) {
+                                  if (clientDate == null) {
+                                    return 'Date is required';
+                                  }
+                                  return null;
+                                },
+                              )
+                            ],
                           ),
-                          child: Text('Submit',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 30,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w500,
-                            ),
+                        SizedBox(height: 10.h),
+                        TextFormField(
+                          controller: password,
+                          keyboardType: TextInputType.text,
+                          obscureText: true,
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Password*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Password is required';
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(height: 10.h),
+                        TextFormField(
+                          controller: passwordconf,
+                          keyboardType: TextInputType.text,
+                          obscureText: true,
+                                    style: AppTextFieldStyles.textStyle,
+                                          decoration: InputDecoration(
+                                            labelText: 'Re-Enter Password*',
+                                            labelStyle: AppTextFieldStyles.labelStyle,
+                                            enabledBorder: AppTextFieldStyles.enabledBorder,
+                                            focusedBorder: AppTextFieldStyles.focusedBorder,
+                                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Re-Enter password is required';
+                            }
+                            return null;
+                          },
+                        ),
+            
+                        SizedBox(height: 30.h),
+                        GestureDetector(
+                          onTap: _pickImage,
+                          child: Column(
+                            children: [
+                              if (selectedImage != null)
+                                Container(
+                                  width: 100.w,
+                                  height: 100.h,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                      image: FileImage(File(selectedImage!.path)), // Convert XFile to File
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                )
+                              else
+                                Icon(
+                                  Icons.add_a_photo,
+                                  size: 40,
+                                  color: Colors.grey[600],
+                                ),
+                              SizedBox(height: 8),
+                              Text(
+                                'Upload Image',
+                                style: TextStyle(
+                                  color: Colors.grey[600],
+                                  fontSize: 15.sp,
+                                  fontFamily: AppTheme.fontName,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        SizedBox(width: 10),
-                        ElevatedButton(
-                          onPressed: () {
-                              print("resetting...");
-                              resetForm();
-                          },
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red,
-                              shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                          ),
-                          child: Text('Cancel',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 30,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w500,
-                            ),
+            
+                        SizedBox(height: 10.h),
+            
+                        Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    print("submit pressed");
+                                    if (_formKey.currentState!.validate()) {
+                                        addClient();
+                                    }
+                                  },
+                                  style: AppButtonStyles.submitButtonStyle,
+                                  child: Text('Submit',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 30.sp,
+                                      fontFamily: AppTheme.fontName,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                      print("resetting...");
+                                      resetForm();
+                                  },
+                                  style: AppButtonStyles.cancelButtonStyle,
+                                  
+                                  child: Text('Cancel',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 30.sp,
+                                      fontFamily: AppTheme.fontName,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ],
