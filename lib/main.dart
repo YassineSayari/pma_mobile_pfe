@@ -15,6 +15,7 @@ import 'package:pma/admin/screens/signup_requests.dart';
 import 'package:pma/admin/screens/tasks/all_tasks.dart';
 import 'package:pma/authentication/sign_in.dart';
 import 'package:pma/authentication/sign_up.dart';
+//import 'package:pma/calendar/today_page.dart';
 import 'package:pma/client/screens/client_dashboard.dart';
 import 'package:pma/client/screens/my_reclamations.dart/client_reclamations.dart';
 import 'package:pma/client/screens/procesv/client_procesv.dart';
@@ -123,9 +124,11 @@ switch (role) {
     });
   }
   }
+  
  @override
  Widget build(BuildContext context) {
     return ScreenUtilInit(
+      
       designSize: const Size(360, 640),
       minTextAdapt: false,
       splitScreenMode: true,
@@ -167,7 +170,7 @@ switch (role) {
 
         '/signuprequests':(context)=>SignUpRequests(),
         '/calendar':(context)=>Calendar(),
-
+         // '/calendar':(context)=>TodayPage(),
         '/profile':(context)=>Profile(),
 
       },
