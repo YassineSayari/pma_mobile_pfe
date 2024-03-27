@@ -62,8 +62,8 @@ Future<void> _initializeData() async {
       eventsByDay.clear();
 
 for (Event event in userEvents) {
-  DateTime startDate = event.startDate!;
-  DateTime endDate = event.endDate!;
+  DateTime startDate = event.startDate;
+  DateTime endDate = event.endDate;
   print("Start date: $startDate");
   print("End date : $endDate");
 

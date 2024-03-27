@@ -272,6 +272,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  full_expandable_fab:
+    dependency: "direct main"
+    description:
+      name: full_expandable_fab
+      sha256: "21e3806e4527310e704adb09832ecbc91e6507939d2e2bd9c8e7c6c6c216a279"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.1"
   get_ip_address:
     dependency: "direct main"
     description:
