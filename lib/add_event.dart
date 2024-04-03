@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 import 'package:pma/custom_snackbar.dart';
 import 'package:pma/services/event_service.dart';
 import 'package:pma/theme.dart';
@@ -141,7 +142,7 @@ class _AddEventState extends State<AddEventContainer> {
                                            TextFormField(
                                 onTap: () async {
                                    
-                                  DateTime? pickedDate = await showDatePicker(
+                                  DateTime? pickedDate = await showOmniDateTimePicker(
                                     context: context,
                                     initialDate: DateTime.now(),
                                     firstDate: DateTime(1900),
@@ -193,14 +194,13 @@ class _AddEventState extends State<AddEventContainer> {
                               ),
                             
                                                
-                                               SizedBox(height: 10.h),
-                         
-                                               TextFormField(
+                          SizedBox(height: 10.h),
+                          TextFormField(
                           onTap: () async {
-                            DateTime? pickedDate = await showDatePicker(
+                            DateTime? pickedDate = await showOmniDateTimePicker(
                               context: context,
                               initialDate: DateTime.now(),
-                              firstDate: DateTime.now(),
+                              firstDate: DateTime(2023),
                               lastDate: DateTime(2025),
                             );
                             if (pickedDate != null && pickedDate != eventEndDate) {
@@ -374,14 +374,17 @@ if (!_formKey.currentState!.validate()) {
                   elevation: 0,
       ),
       );
-      Navigator.of(context).pop();
+      Navigator.of(context).pushReplacementNamed('/calendar');
       resetForm();
      }
      catch(error){
   ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Failed to add project. Please try again.'),
-          duration: Duration(seconds: 2),
+           content:FailSnackBar(message: "Failed to add event. Please try again",
+          ),
+                  behavior: SnackBarBehavior.floating,
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
         ),
       );
      }

@@ -3,65 +3,62 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
-import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:pma/custom_snackbar.dart';
-import 'package:pma/models/user_model.dart';
-import 'package:pma/services/procesv_service..dart';
+import 'package:pma/models/risk_model.dart';
 import 'package:pma/services/project_service.dart';
-import 'package:pma/services/shared_preferences.dart';
-import 'package:pma/services/user_service.dart';
+import 'package:pma/services/risk_service.dart';
 import 'package:pma/theme.dart';
 
-class AddProcesv extends StatefulWidget {
-  const AddProcesv({super.key});
+class EditRiskPopup extends StatefulWidget {
+  final Risk risk;
+  const EditRiskPopup({super.key, required this.risk});
 
   @override
-  State<AddProcesv> createState() => _AddProcesvState();
+  State<EditRiskPopup> createState() => _EditRiskPopupState();
 }
 
-class _AddProcesvState extends State<AddProcesv> {
+class _EditRiskPopupState extends State<EditRiskPopup> {
 
     final _formKey = GlobalKey<FormState>();
 
+    late TextEditingController titleController;
+    late TextEditingController actionController;
     late Future<List<Map<String, dynamic>>> projects;
-    late Future<List<User>> teamLeaders;
+
 
     String? projectid;
-  final MultiSelectController executorController = MultiSelectController();
-  List<User> selectedExecutors = [];
+
+
+
+    late String riskImpact;
+    late String priority;
 
     DateTime? date;
-    final TextEditingController dateController = TextEditingController();
+    final TextEditingController dateController= TextEditingController();
 
 
-    late String type_com='internal meeting';
-    final TextEditingController titleController = TextEditingController();
-    final TextEditingController descriptionController= TextEditingController();
-
-
-    final TextEditingController progressController= TextEditingController();
-
-    DateTime? deadLine;
-    final TextEditingController deadLineController = TextEditingController();
+    late TextEditingController descriptionController;
 
   final ProjectService projectService = GetIt.I<ProjectService>();
-  final UserService userService = GetIt.I<UserService>();
-  final ProcesVService procesvService = GetIt.I<ProcesVService>();
-  final SharedPrefs prefs = GetIt.I<SharedPrefs>();
+  final RiskService riskService = GetIt.I<RiskService>();
 
+      @override
+  void initState() {
+    super.initState();
+    projects = projectService.getProjectsByEmployee(widget.risk.user['_id']);
+    riskImpact=widget.risk.impact;
+    titleController = TextEditingController(text: widget.risk.title);
+    actionController= TextEditingController(text: widget.risk.action);
+    descriptionController= TextEditingController(text: widget.risk.details);
+    projectid = widget.risk.project["_id"];
+    date = DateTime.parse(widget.risk.date);
+    dateController.text = DateFormat('yyyy-MM-dd').format(date!);
 
-  @override
-void initState() {
-  super.initState();
-  initializeData();
-}
+    print("proejct id::::: $projectid");
+    
 
-Future<void> initializeData() async {
-  projects = projectService.getAllProjects();
-  teamLeaders = UserService().getAllTeamLeaders();
-  //print("sender::::: $sender");
-  print("proejct id::::: $projectid");
-}
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -146,27 +143,44 @@ Future<void> initializeData() async {
                               },
                             ),
 
-                        SizedBox(height: 10.h),
                         
+                        SizedBox(height: 10.h),
+                        TextFormField(
+                  controller: actionController,
+                  style: AppTextFieldStyles.textStyle,
+                        decoration: InputDecoration(
+                          labelText: 'Action*',
+                          labelStyle: AppTextFieldStyles.labelStyle,
+                          enabledBorder: AppTextFieldStyles.enabledBorder,
+                          focusedBorder: AppTextFieldStyles.focusedBorder,
+                        ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a valid action';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 10.h),
+
                         DropdownButtonFormField(
-                          value: type_com,
+                          value: riskImpact,
                           style: AppTextFieldStyles.textStyle,
                                 decoration: InputDecoration(
-                                  labelText: 'Communication Type*',
+                                  labelText: 'Status*',
                                   labelStyle: AppTextFieldStyles.labelStyle,
                                   enabledBorder: AppTextFieldStyles.enabledBorder,
                                   focusedBorder: AppTextFieldStyles.focusedBorder,
                                 ),
                           items: [
-                            DropdownMenuItem(child: Text('internal meeting',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'internal meeting'),
-                            DropdownMenuItem(child: Text('official meeting',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'official meeting'),
-                            DropdownMenuItem(child: Text('client request',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'client request'),
-
+                            DropdownMenuItem(child: Text('High',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'High'),
+                            DropdownMenuItem(child: Text('Medium',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'Medium'),
+                            DropdownMenuItem(child: Text('Low',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'Low'),
                           ],
                           
                           onChanged: (selectedValue) {
                             setState(() {
-                              type_com = selectedValue as String;
+                              riskImpact = selectedValue as String;
                             });
                           },
                           validator: (value) {
@@ -176,59 +190,8 @@ Future<void> initializeData() async {
                             return null;
                           },
                         ),
-                          
-                        SizedBox(height: 10.h),
-                        Column(
-                          children: [
-                            FutureBuilder<List<User>>(
-                              future: teamLeaders,
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState == ConnectionState.waiting) {
-                                  return CircularProgressIndicator();
-                                } else if (snapshot.hasError) {
-                                  return Text('Error: ${snapshot.error}');
-                                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                                  return Text('No engineers available.');
-                                } else {
-                                      
-                                  // padding + (length * height per option)
-                                  double dropdownHeight = 50.0 + (snapshot.data!.length * 50.0);
-                                  return MultiSelectDropDown(
-                                    borderColor:Colors.grey, 
-                                    borderWidth: 3,
-                                    focusedBorderWidth: 3,
-                                    
-                                    controller: executorController,
-                                    onOptionSelected: (options) {
-                                      setState(() {
-                                        selectedExecutors = options
-                                            .map((valueItem) => snapshot.data!
-                                            .firstWhere((user) => user.fullName == valueItem.label))
-                                            .toList();
-                                      });
-                                    },
-                                    options: snapshot.data!
-                                        .map((user) => ValueItem(label: user.fullName, value: user.id.toString()))
-                                        .toList(),
-                                    maxItems: 11,
-                  hint: "Present Members",
-                  hintStyle: AppTheme.multiSelectDropDownTextStyle,
-                  hintFontSize: 20,
-                  selectionType: SelectionType.multi,
-                  chipConfig: const ChipConfig(wrapType: WrapType.scroll),
-                  dropdownHeight: dropdownHeight,
-                  optionTextStyle: AppTheme.multiSelectDropDownTextStyle,
-                  selectedOptionIcon: const Icon(Icons.check_circle),
-                  // border: AppTheme.multiSelectDropDownEnabledBorder,
-                  // focusedBorder: AppTheme.multiSelectDropDownFocusedBorder,
-                                    
-                                  );
-                                }
-                              },
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 10.h),
+                        
+                   SizedBox(height: 10.h),
                             TextFormField(
                                     onTap: () async {
                                       DateTime? pickedDate = await showDatePicker(
@@ -261,12 +224,13 @@ Future<void> initializeData() async {
                                    
                                     validator: (value) {
                                       if (date == null) {
-                                        return 'start date is required';
+                                        return 'date is required';
                                       }
                                       return null;
                                     },
                                   ),
-
+                                  SizedBox(height: 10.h),
+                            
                                   SizedBox(height: 10.h),
                                   TextFormField(
                                   controller: descriptionController,
@@ -293,7 +257,8 @@ Future<void> initializeData() async {
                               Expanded(
                                 child: ElevatedButton(
                                   onPressed: (){
-                                    _addProcesv();
+                                    _updateRisk();
+                                        //Navigator.of(context).pushReplacementNamed('/tasks');
                                   },
                                              child: Text("Save",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily:AppTheme.fontName),),
                                              style: AppButtonStyles.submitButtonStyle
@@ -319,42 +284,37 @@ Future<void> initializeData() async {
     );
   }
 
-   Future<void> _addProcesv() async {
+   Future<void> _updateRisk() async {
         try {
-    List<String> memberIds = selectedExecutors.map((user) => user.id).toList();
-    print("equipe:::$memberIds");
-    String? userId = await prefs.getLoggedUserIdFromPrefs();
-    print("used id:::: $userId");
-    User sender = await userService.getUserbyId(userId!);
-    print("sender:::: ${sender.id} ::::  ${sender.fullName}");
-          Map<String, dynamic> procesv = {
-     
-            'Titre' : titleController.text,
-            'description': descriptionController.text,
-            'Project': {'_id': projectid},
-            'Type_Communication': type_com,
-            'Sender':sender.toJson(),
-            'equipe': memberIds,
-            'Date' : DateFormat('yyyy-MM-dd').format(date!),
-            };  
-          
-          await procesvService.addProcesv(procesv);
+    
+          Map<String,dynamic> updatedProject= await projectService.getProject(projectid!);
+          Risk updatedRisk= Risk(
+            id: widget.risk.id,
+            title: titleController.text,
+            project: updatedProject,/*{'_id': projectid},*/
+            details: descriptionController.text,
+            date: DateFormat('yyyy-MM-dd').format(date!),
+            action: actionController.text,
+            impact: riskImpact,
+            user:  {'_id': widget.risk.user['_id']},
+          );
+          await riskService.updateRisk(widget.risk.id,updatedRisk);
 
            ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-            content: SuccessSnackBar(message: "Proces Verbal updated !"),
+            content: SuccessSnackBar(message: "Risk updated !"),
             duration: Duration(seconds: 2),
             behavior: SnackBarBehavior.floating,
             backgroundColor: Colors.transparent,
             elevation: 0,
           ),
           );
-          Navigator.of(context).pushReplacementNamed('/procesv');
+        //  Navigator.of(context).pushReplacementNamed('/tasks');
         }catch(error) {
-        print('Error updating task: $error');
+        print('Error updating risk: $error');
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-            content: FailSnackBar(message: "failed to update Proces Verbal!"),
+            content: FailSnackBar(message: "failed to update risk!"),
             duration: Duration(seconds: 2),
             behavior: SnackBarBehavior.floating,
             backgroundColor: Colors.transparent,
@@ -365,63 +325,4 @@ Future<void> initializeData() async {
       }
 
    }
-}
-
-class VerticalNumberPicker extends StatefulWidget {
-  final int initialValue;
-  final int minValue;
-  final int maxValue;
-  final Function(int) onChanged;
-
-  VerticalNumberPicker({
-    required this.initialValue,
-    required this.minValue,
-    required this.maxValue,
-    required this.onChanged,
-  });
-
-  @override
-  _VerticalNumberPickerState createState() => _VerticalNumberPickerState();
-}
-
-class _VerticalNumberPickerState extends State<VerticalNumberPicker> {
-  late int selectedValue;
-
-  @override
-  void initState() {
-    super.initState();
-    selectedValue = widget.initialValue;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 50.h,
-      child: ListWheelScrollView(
-        itemExtent: 40,
-        diameterRatio: 1.5,
-        //useMagnifier: true,
-       // magnification:1.5,
-        physics: FixedExtentScrollPhysics(),
-        children: List.generate(
-          widget.maxValue - widget.minValue + 1,
-          (index) => Center(
-            child: Text(
-              (widget.minValue + index).toString(),
-              style: TextStyle(fontSize: 20.sp,fontFamily: AppTheme.fontName),
-            ),
-          ),
-        ),
-        onSelectedItemChanged: (index) {
-          setState(() {
-            selectedValue = widget.minValue + index;
-            widget.onChanged(selectedValue);
-          });
-        },
-        controller: FixedExtentScrollController(
-          initialItem: widget.initialValue - widget.minValue,
-        ),
-      ),
-    );
-  }
 }

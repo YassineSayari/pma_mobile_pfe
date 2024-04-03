@@ -5,63 +5,77 @@ import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:pma/custom_snackbar.dart';
+import 'package:pma/models/task_model.dart';
 import 'package:pma/models/user_model.dart';
-import 'package:pma/services/procesv_service..dart';
 import 'package:pma/services/project_service.dart';
-import 'package:pma/services/shared_preferences.dart';
+import 'package:pma/services/task_service.dart';
 import 'package:pma/services/user_service.dart';
 import 'package:pma/theme.dart';
 
-class AddProcesv extends StatefulWidget {
-  const AddProcesv({super.key});
+class EngineerEditTaskPopup extends StatefulWidget {
+  final Task task;
+  const EngineerEditTaskPopup({super.key, required this.task});
 
   @override
-  State<AddProcesv> createState() => _AddProcesvState();
+  State<EngineerEditTaskPopup> createState() => _EngineerEditTaskPopupState();
 }
 
-class _AddProcesvState extends State<AddProcesv> {
+class _EngineerEditTaskPopupState extends State<EngineerEditTaskPopup> {
 
     final _formKey = GlobalKey<FormState>();
 
+    late TextEditingController titleController;
     late Future<List<Map<String, dynamic>>> projects;
     late Future<List<User>> teamLeaders;
+    late Future<List<User>> engineers;
 
     String? projectid;
   final MultiSelectController executorController = MultiSelectController();
   List<User> selectedExecutors = [];
 
-    DateTime? date;
-    final TextEditingController dateController = TextEditingController();
 
+    late String taskStatus;
+    late int? taskProgress;
+    late String priority;
 
-    late String type_com='internal meeting';
-    final TextEditingController titleController = TextEditingController();
-    final TextEditingController descriptionController= TextEditingController();
-
+    DateTime? startDate;
+    final TextEditingController startDateController = TextEditingController();
 
     final TextEditingController progressController= TextEditingController();
 
     DateTime? deadLine;
     final TextEditingController deadLineController = TextEditingController();
 
+    late TextEditingController descriptionController;
+
   final ProjectService projectService = GetIt.I<ProjectService>();
-  final UserService userService = GetIt.I<UserService>();
-  final ProcesVService procesvService = GetIt.I<ProcesVService>();
-  final SharedPrefs prefs = GetIt.I<SharedPrefs>();
+  final TaskService taskService = GetIt.I<TaskService>();
 
+      @override
+  void initState() {
+    super.initState();
+    projects = projectService.getAllProjects();
+    teamLeaders=UserService().getAllTeamLeaders();
+    engineers=UserService().getAllEngineers();
 
-  @override
-void initState() {
-  super.initState();
-  initializeData();
-}
+    titleController = TextEditingController(text: widget.task.title);
+    descriptionController= TextEditingController(text: widget.task.details);
+    projectid = widget.task.project["_id"];
+    taskStatus= widget.task.status;
+    priority=widget.task.priority;
+    taskProgress=widget.task.progress;
+    startDate = DateTime.parse(widget.task.startDate);
+    startDateController.text = DateFormat('yyyy-MM-dd').format(startDate!);
 
-Future<void> initializeData() async {
-  projects = projectService.getAllProjects();
-  teamLeaders = UserService().getAllTeamLeaders();
-  //print("sender::::: $sender");
-  print("proejct id::::: $projectid");
-}
+    deadLine = DateTime.parse(widget.task.startDate);
+    deadLineController.text = DateFormat('yyyy-MM-dd').format(deadLine!);
+
+    print("proejct id::::: $projectid");
+    //print("client id::::: $clientid");
+    
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -149,24 +163,22 @@ Future<void> initializeData() async {
                         SizedBox(height: 10.h),
                         
                         DropdownButtonFormField(
-                          value: type_com,
+                          value: taskStatus,
                           style: AppTextFieldStyles.textStyle,
                                 decoration: InputDecoration(
-                                  labelText: 'Communication Type*',
+                                  labelText: 'Status*',
                                   labelStyle: AppTextFieldStyles.labelStyle,
                                   enabledBorder: AppTextFieldStyles.enabledBorder,
                                   focusedBorder: AppTextFieldStyles.focusedBorder,
                                 ),
                           items: [
-                            DropdownMenuItem(child: Text('internal meeting',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'internal meeting'),
-                            DropdownMenuItem(child: Text('official meeting',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'official meeting'),
-                            DropdownMenuItem(child: Text('client request',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'client request'),
-
+                            DropdownMenuItem(child: Text('Pending',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'Pending'),
+                            DropdownMenuItem(child: Text('Closed',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'Closed'),
                           ],
                           
                           onChanged: (selectedValue) {
                             setState(() {
-                              type_com = selectedValue as String;
+                              taskStatus = selectedValue as String;
                             });
                           },
                           validator: (value) {
@@ -176,59 +188,50 @@ Future<void> initializeData() async {
                             return null;
                           },
                         ),
-                          
                         SizedBox(height: 10.h),
-                        Column(
-                          children: [
-                            FutureBuilder<List<User>>(
-                              future: teamLeaders,
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState == ConnectionState.waiting) {
-                                  return CircularProgressIndicator();
-                                } else if (snapshot.hasError) {
-                                  return Text('Error: ${snapshot.error}');
-                                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                                  return Text('No engineers available.');
-                                } else {
-                                      
-                                  // padding + (length * height per option)
-                                  double dropdownHeight = 50.0 + (snapshot.data!.length * 50.0);
-                                  return MultiSelectDropDown(
-                                    borderColor:Colors.grey, 
-                                    borderWidth: 3,
-                                    focusedBorderWidth: 3,
-                                    
-                                    controller: executorController,
-                                    onOptionSelected: (options) {
-                                      setState(() {
-                                        selectedExecutors = options
-                                            .map((valueItem) => snapshot.data!
-                                            .firstWhere((user) => user.fullName == valueItem.label))
-                                            .toList();
-                                      });
-                                    },
-                                    options: snapshot.data!
-                                        .map((user) => ValueItem(label: user.fullName, value: user.id.toString()))
-                                        .toList(),
-                                    maxItems: 11,
-                  hint: "Present Members",
-                  hintStyle: AppTheme.multiSelectDropDownTextStyle,
-                  hintFontSize: 20,
-                  selectionType: SelectionType.multi,
-                  chipConfig: const ChipConfig(wrapType: WrapType.scroll),
-                  dropdownHeight: dropdownHeight,
-                  optionTextStyle: AppTheme.multiSelectDropDownTextStyle,
-                  selectedOptionIcon: const Icon(Icons.check_circle),
-                  // border: AppTheme.multiSelectDropDownEnabledBorder,
-                  // focusedBorder: AppTheme.multiSelectDropDownFocusedBorder,
-                                    
-                                  );
-                                }
-                              },
-                            ),
+
+                        Text("Progress*",style: TextStyle(fontFamily:AppTheme.fontName,fontSize: 20.sp,fontWeight: FontWeight.w500),),
+                        VerticalNumberPicker(
+                  initialValue: taskProgress ?? 0,
+                  minValue: 0,
+                  maxValue: 100,
+                  onChanged: (value) {
+                    setState(() {
+                      taskProgress = value;
+                    });
+                  },
+                ),
+                        
+                   SizedBox(height: 10.h),
+                   DropdownButtonFormField(
+                          value: priority,
+                          style: AppTextFieldStyles.textStyle,
+                                decoration: InputDecoration(
+                                  labelText: 'Priority*',
+                                  labelStyle: AppTextFieldStyles.labelStyle,
+                                  enabledBorder: AppTextFieldStyles.enabledBorder,
+                                  focusedBorder: AppTextFieldStyles.focusedBorder,
+                                ),
+                          items: [
+                            DropdownMenuItem(child: Text('High',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'High'),
+                            DropdownMenuItem(child: Text('Medium',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'Medium'),
+                            DropdownMenuItem(child: Text('Low',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'Low'),
+
                           ],
+                          
+                          onChanged: (selectedValue) {
+                            setState(() {
+                              priority = selectedValue as String;
+                            });
+                          },
+                          validator: (value) {
+                            if (value == null ) {
+                              return 'priority is required';
+                            }
+                            return null;
+                          },
                         ),
-                        SizedBox(height: 10.h),
+                         SizedBox(height: 10.h),
                             TextFormField(
                                     onTap: () async {
                                       DateTime? pickedDate = await showDatePicker(
@@ -237,18 +240,18 @@ Future<void> initializeData() async {
                                         firstDate: DateTime.now(),
                                         lastDate: DateTime.now().add(Duration(days: 365 * 2)),
                                       );
-                                      if (pickedDate != null && pickedDate != date) {
+                                      if (pickedDate != null && pickedDate != deadLine) {
                                         setState(() {
-                                          date = pickedDate;
-                                          dateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
+                                          deadLine = pickedDate;
+                                          deadLineController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
                                         });
                                       }
                                     },
-                                    controller: dateController,
+                                    controller: startDateController,
                                     readOnly: true,
                                     style: AppTextFieldStyles.textStyle,
                                           decoration: InputDecoration(
-                                            labelText: 'Date*',
+                                            labelText: 'Deadline*',
                                             labelStyle: AppTextFieldStyles.labelStyle,
                                             enabledBorder: AppTextFieldStyles.enabledBorder,
                                             focusedBorder: AppTextFieldStyles.focusedBorder,
@@ -260,13 +263,12 @@ Future<void> initializeData() async {
                                       
                                    
                                     validator: (value) {
-                                      if (date == null) {
-                                        return 'start date is required';
+                                      if (startDate == null) {
+                                        return 'deadline is required';
                                       }
                                       return null;
                                     },
                                   ),
-
                                   SizedBox(height: 10.h),
                                   TextFormField(
                                   controller: descriptionController,
@@ -293,7 +295,7 @@ Future<void> initializeData() async {
                               Expanded(
                                 child: ElevatedButton(
                                   onPressed: (){
-                                    _addProcesv();
+                                    _updateTask();
                                   },
                                              child: Text("Save",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily:AppTheme.fontName),),
                                              style: AppButtonStyles.submitButtonStyle
@@ -319,42 +321,46 @@ Future<void> initializeData() async {
     );
   }
 
-   Future<void> _addProcesv() async {
+   Future<void> _updateTask() async {
         try {
-    List<String> memberIds = selectedExecutors.map((user) => user.id).toList();
-    print("equipe:::$memberIds");
-    String? userId = await prefs.getLoggedUserIdFromPrefs();
-    print("used id:::: $userId");
-    User sender = await userService.getUserbyId(userId!);
-    print("sender:::: ${sender.id} ::::  ${sender.fullName}");
-          Map<String, dynamic> procesv = {
-     
-            'Titre' : titleController.text,
-            'description': descriptionController.text,
-            'Project': {'_id': projectid},
-            'Type_Communication': type_com,
-            'Sender':sender.toJson(),
-            'equipe': memberIds,
-            'Date' : DateFormat('yyyy-MM-dd').format(date!),
-            };  
-          
-          await procesvService.addProcesv(procesv);
+    List<String> executorIds = selectedExecutors.map((user) => user.id).toList();
+    if (executorIds.isEmpty) {
+  executorIds = (widget.task.executor as List< dynamic>)
+      .map((user) => user['_id'].toString())  // Assuming '_id' is the key for the user id
+      .toList();
+}
+    print("executors:::$executorIds");
+
+          Task updatedTask= Task(
+            id: widget.task.id,
+            title: titleController.text,
+            project: {'_id': projectid},
+            status:taskStatus,
+            details: descriptionController.text,
+            startDate: DateFormat('yyyy-MM-dd').format(startDate!),
+            deadLine: DateFormat('yyyy-MM-dd').format(deadLine!),
+            priority: priority,
+            progress: taskProgress,
+            executor: executorIds,
+            
+          );
+          await taskService.updateTask(widget.task.id,updatedTask);
 
            ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-            content: SuccessSnackBar(message: "Proces Verbal updated !"),
+            content: SuccessSnackBar(message: "Task updated !"),
             duration: Duration(seconds: 2),
             behavior: SnackBarBehavior.floating,
             backgroundColor: Colors.transparent,
             elevation: 0,
           ),
           );
-          Navigator.of(context).pushReplacementNamed('/procesv');
+          Navigator.of(context).pushReplacementNamed('/engineer_tasks');
         }catch(error) {
         print('Error updating task: $error');
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-            content: FailSnackBar(message: "failed to update Proces Verbal!"),
+            content: FailSnackBar(message: "failed to update task!"),
             duration: Duration(seconds: 2),
             behavior: SnackBarBehavior.floating,
             backgroundColor: Colors.transparent,

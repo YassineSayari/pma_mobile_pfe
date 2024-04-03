@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:pma/admin/screens/procesv/add_procesv.dart';
 import 'package:pma/admin/widgets/search_bar.dart';
-import 'package:pma/client/screens/procesv/client_pv_container.dart';
-import 'package:pma/client/widgets/client_drawer.dart';
 import 'package:pma/custom_appbar.dart';
 import 'package:pma/models/procesv_model.dart';
 import 'package:pma/services/procesv_service..dart';
-import 'package:pma/services/project_service.dart';
 import 'package:pma/services/shared_preferences.dart';
+import 'package:pma/team_leader/screens/procesv/teamleader_add_pv.dart';
+import 'package:pma/team_leader/screens/procesv/teamleader_pv_container.dart';
+import 'package:pma/team_leader/widgets/teamleader_drawer.dart';
 import 'package:pma/theme.dart';
 
-class ClientProcesV extends StatefulWidget {
-  const ClientProcesV({super.key});
+class TeamLeaderPv extends StatefulWidget {
+  const TeamLeaderPv({super.key});
 
   @override
-  State<ClientProcesV> createState() => _ClientProcesVState();
+  State<TeamLeaderPv> createState() => _TeamLeaderPvState();
 }
 
-class _ClientProcesVState extends State<ClientProcesV> {
+class _TeamLeaderPvState extends State<TeamLeaderPv> {
   late List<Procesv> allProcesv;
   List<Procesv> displayedProcesv = [];
   late Procesv procesv;
@@ -36,16 +35,12 @@ class _ClientProcesVState extends State<ClientProcesV> {
 Future<void> _initializeData() async {
   try {
     SharedPrefs sharedPrefs = SharedPrefs();
-    String? currentClientId= await sharedPrefs.getLoggedUserIdFromPrefs();
+    String? currentTeamLeaderId= await sharedPrefs.getLoggedUserIdFromPrefs();
     
-    List<Map<String, dynamic>> clientProjects = await ProjectService().getProjectsByClient(currentClientId!);
-
     List<Procesv> allProcesv = [];
-
-    for (var project in clientProjects) {
-      List<Procesv> clientProcesV = await ProcesVService().getProcesvByProject(project);
-      allProcesv.addAll(clientProcesV);
-    }
+      List<Procesv> TeamLeaderProcesV = await ProcesVService().getProcesvByUser(currentTeamLeaderId!);
+      allProcesv.addAll(TeamLeaderProcesV);
+    
 
     setState(() {
       this.allProcesv = allProcesv;
@@ -60,10 +55,10 @@ Future<void> _initializeData() async {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: ClientDrawer(selectedRoute: '/client_pv'),
+      drawer: TeamLeaderDrawer(selectedRoute: '/teamleader_pv'),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
-            showDialog(context: context, builder: (context) => AddProcesv());
+            showDialog(context: context, builder: (context) => TeamLeaderAddPv());
           },
           backgroundColor: Colors.blue,
           shape: RoundedRectangleBorder(
@@ -198,7 +193,7 @@ Future<void> _initializeData() async {
                       itemBuilder: (context, index) {
                         return Column(
                           children: [
-                            ClientProcesvContainer(procesv: displayedProcesv[index]),
+                            TeamLeaderPvContainer(procesv: displayedProcesv[index]),
                             SizedBox(height: 5.h),
                           ],
                         );

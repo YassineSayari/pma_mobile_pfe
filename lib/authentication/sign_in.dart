@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pma/custom_snackbar.dart';
 import 'package:pma/services/authentication_service.dart';
 import 'package:pma/theme.dart';
 
@@ -44,7 +45,17 @@ class SigninState extends State<Signin> {
 
       if (result.containsKey('token')) {
         print('Login successful');
-        if (result.containsKey('token')) {
+
+        ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: SuccessSnackBar(message: "Login Successfull !"),
+          duration: Duration(seconds: 2),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
+      );
+
           List<dynamic> roles = result['roles'];
           String userRole = roles.isNotEmpty ? roles[0] : '';
 
@@ -57,19 +68,9 @@ class SigninState extends State<Signin> {
              result['image'] ?? '',
           );
 
-          SharedPrefs.saveAuthToken(result['token']);
+      SharedPrefs.saveAuthToken(result['token']);
 
-          //redirect according to role
-          if (userRole == 'Admin') {
-            print('redirecting to admin page');
-           
-          } else if (userRole == 'Engineer') {
-            print('redirecting to engineer page');
-
-            
-          }
-
-          switch (userRole) {
+      switch (userRole) {
       case "Admin":
         print('redirecting to admin page');
         setState(() {
@@ -78,6 +79,14 @@ class SigninState extends State<Signin> {
             );
         });
         break;
+      case "Team Leader":
+        print('redirecting to team leader page');
+        setState(() {
+          Navigator.pushReplacementNamed(
+              context,'/teamleaderdashboard',
+            );
+        });
+        break;  
       case "Engineer":
         print('redirecting to engineer page');
         setState(() {
@@ -98,26 +107,22 @@ class SigninState extends State<Signin> {
         print('Unknown role, redirecting to sign in');
         break;
     }
-  } else {
-    print("Failed to login. Please try again.");
-  }
-        }
+   }
+   else{
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: FailSnackBar(message: "Wrong email or password !"),
+          duration: Duration(seconds: 2),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
+      );
+   }
     } catch (error) {
       print('Login error: $error');
-      showErrorMessage('Failed to login. Please try again.');
+      
     }
-  }
-
-  void showErrorMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          message,
-          style: TextStyle(fontSize: 16),
-        ),
-        backgroundColor: Colors.red,
-      ),
-    );
   }
 
 

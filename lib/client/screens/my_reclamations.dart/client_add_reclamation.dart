@@ -202,8 +202,6 @@ class _ClientAddReclamationState extends State<ClientAddReclamation> {
                       child: ElevatedButton(
                         onPressed: () {
                           _addReclamation();
-                          Navigator.of(context)
-                              .pushReplacementNamed('/client_reclamations');
                         },
                         child: Text(
                           "Save",
@@ -257,7 +255,7 @@ class _ClientAddReclamationState extends State<ClientAddReclamation> {
           };
 
           await reclamationService.addReclamation(newReclamation);
-
+          Navigator.of(context) .pushReplacementNamed('/client_reclamations');
            ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
             content: SuccessSnackBar(message: "Reclamation added !"),

@@ -2,21 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:pma/admin/screens/procesv/edit_procesv.dart';
 import 'package:pma/custom_snackbar.dart';
+//import 'package:pma/custom_snackbar.dart';
 import 'package:pma/models/procesv_model.dart';
 import 'package:pma/services/procesv_service..dart';
+import 'package:pma/team_leader/screens/procesv/teamleader_edit_pv.dart';
+//import 'package:pma/services/procesv_service..dart';
 import 'package:pma/theme.dart';
 
-class ProcesvContainer extends StatefulWidget {
+class TeamLeaderPvContainer extends StatefulWidget {
   final Procesv procesv;
-  const ProcesvContainer({super.key, required this.procesv});
+  const TeamLeaderPvContainer({super.key, required this.procesv});
 
   @override
-  State<ProcesvContainer> createState() => _ProcesvContainerState();
+  State<TeamLeaderPvContainer> createState() => _TeamLeaderPvContainerState();
 }
 
-class _ProcesvContainerState extends State<ProcesvContainer> {
+class _TeamLeaderPvContainerState extends State<TeamLeaderPvContainer> {
     bool isExpanded = false;
 
   @override
@@ -197,7 +199,7 @@ class _ProcesvContainerState extends State<ProcesvContainer> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                       showDialog(context: context, builder: (context)=> EditProcesv(procesv: widget.procesv));                     
+                       showDialog(context: context, builder: (context)=> TeamLeaderEditPv(procesv: widget.procesv));                     
                           },
                       child: Icon(
                         Icons.edit_outlined,
@@ -227,8 +229,6 @@ class _ProcesvContainerState extends State<ProcesvContainer> {
       ),
     ).animate(delay: 200.ms).slideX().shimmer(duration: 1500.ms);
   } 
-
-
   void deleteProcesv(String id) {
     showDialog(
       context: context,
@@ -267,7 +267,7 @@ class _ProcesvContainerState extends State<ProcesvContainer> {
                               elevation: 0,
                             ),
                           );
-                          Navigator.of(context).pushReplacementNamed("/procesv");
+                          Navigator.of(context).pushReplacementNamed("/teamleader_pv");
                         },
                         child: Text("Delete",style: TextStyle(color: Colors.red,fontFamily: AppTheme.fontName,fontWeight: FontWeight.w500,fontSize: 24.sp),),
                       ),
@@ -282,4 +282,5 @@ class _ProcesvContainerState extends State<ProcesvContainer> {
       },
     );
   }
+
 }

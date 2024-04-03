@@ -39,6 +39,7 @@ class ReclamationService {
     if (response.statusCode == 200) {
       print("got reclamations for client");
       final List<dynamic> jsonData = json.decode(response.body);
+      print(" reclamations::::: $jsonData");
       return jsonData.map((eventData) => Reclamation.fromJson(eventData)).toList();
     } else {
       throw Exception('Failed to load reclamations');

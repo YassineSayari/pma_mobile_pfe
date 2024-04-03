@@ -2,27 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:pma/admin/screens/procesv/edit_procesv.dart';
 import 'package:pma/custom_snackbar.dart';
-import 'package:pma/models/procesv_model.dart';
-import 'package:pma/services/procesv_service..dart';
+import 'package:pma/engineer/screens/risks/edit_risk.dart';
+import 'package:pma/models/risk_model.dart';
+import 'package:pma/services/risk_service.dart';
 import 'package:pma/theme.dart';
 
-class ProcesvContainer extends StatefulWidget {
-  final Procesv procesv;
-  const ProcesvContainer({super.key, required this.procesv});
+class MyRiskContainer extends StatefulWidget {
+  final Risk risk;
+  const MyRiskContainer({super.key, required this.risk});
 
   @override
-  State<ProcesvContainer> createState() => _ProcesvContainerState();
+  State<MyRiskContainer> createState() => _MyRiskContainerState();
 }
 
-class _ProcesvContainerState extends State<ProcesvContainer> {
+class _MyRiskContainerState extends State<MyRiskContainer> {
     bool isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
     
-        String formattedStartDate = DateFormat('MMMM dd, yyyy').format(DateTime.parse(widget.procesv.date));
+        String formattedDate = DateFormat('MMMM dd, yyyy').format(DateTime.parse(widget.risk.date));
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 4.w,vertical: 8.h),
@@ -45,7 +45,7 @@ class _ProcesvContainerState extends State<ProcesvContainer> {
             children: [
               Row(
                 children: [
-                  Text("${widget.procesv.title}",
+                  Text("${widget.risk.title}",
                   style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 25.sp,
@@ -54,7 +54,13 @@ class _ProcesvContainerState extends State<ProcesvContainer> {
                           ),
                           ),
                   Spacer(),
-                  
+                  Text("${widget.risk.impact}",
+                  style: TextStyle(
+                            fontSize: 19.sp,
+                            fontFamily: AppTheme.fontName,
+                            color: getColorForImpact(widget.risk.impact),
+                          ),
+                          ),
               IconButton(
                 icon: Icon(
                   isExpanded ? Icons.keyboard_arrow_up_outlined : Icons.keyboard_arrow_down,
@@ -72,52 +78,11 @@ class _ProcesvContainerState extends State<ProcesvContainer> {
           if(isExpanded)
             Column(
               children: [ 
-                SizedBox(height: 20.h),
-                   Row(
-                    children: [
-                      Text(
-                              "Project: ",
-                              style: TextStyle(
-                                fontSize: 20.sp,
-                                fontFamily: AppTheme.fontName,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                      Text("${widget.procesv.project['Projectname']}",
-                  style: TextStyle(
-                            fontSize: 19.sp,
-                            fontFamily: AppTheme.fontName,
-                          ),
-                          ),
-                    ],
-                   ),
-                   SizedBox(height: 10.h),
-                    Row(
-                          children: [
-                                Text(
-                              "Members: ",
-                              style: TextStyle(
-                                fontSize: 20.sp,
-                                fontFamily: AppTheme.fontName,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-
-                             Flexible(
-                               child: Text( widget.procesv.equipe.map((executor)  => executor['fullName']).join(', '),
-                               style: TextStyle(
-                                          fontSize: 20.sp,
-                                          fontFamily: AppTheme.fontName,
-                                        ),),
-                             ),
-                          
-
-                          ],
-                        ),
-                       SizedBox(height: 10.h),
+                SizedBox(height: 10.h),
+                    SizedBox(height: 10.h),
                       Row(
                        children: [
-                        Text("Sender: ",
+                        Text("Project: ",
                          style: TextStyle(
                                       fontSize: 20.sp,
                                       fontFamily: AppTheme.fontName,
@@ -125,7 +90,7 @@ class _ProcesvContainerState extends State<ProcesvContainer> {
                                     ),
                                     ),
                          Expanded(
-                           child: Text("${widget.procesv.sender["fullName"]}",
+                           child: Text("${widget.risk.project['Projectname']}",
                               style: TextStyle(
                                         fontSize: 20.sp,
                                         fontFamily: AppTheme.fontName,
@@ -134,18 +99,39 @@ class _ProcesvContainerState extends State<ProcesvContainer> {
                          ),
                        ],
                      ),
+                      SizedBox(height: 10.h),
+                                Row(
+                                  children: [
+                                    Text("Action:",style: TextStyle(
+                                                fontSize: 20.sp,
+                                                fontFamily: AppTheme.fontName,
+                                                fontWeight: FontWeight.w500
+                                              ),
+                                              ),
+                                    Flexible(
+                                      child: Text(" ${widget.risk.action}",
+                                        style: TextStyle(
+                                                  fontSize: 18.sp,
+                                                  fontFamily: AppTheme.fontName,
+                                                ),
+                                                ),
+                                    ),
+                                  ],
+                                ),
+                               
                      SizedBox(height: 10.h),
                       Row(
                        children: [
-                        Text("Communication : ",
+                        Text("Details: ",
                          style: TextStyle(
                                       fontSize: 20.sp,
                                       fontFamily: AppTheme.fontName,
-                                      fontWeight: FontWeight.w500
+                                      fontWeight: FontWeight.w500,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                     ),
                          Expanded(
-                           child: Text("${widget.procesv.Type_Communication}",
+                           child: Text("${widget.risk.details}",
                               style: TextStyle(
                                         fontSize: 20.sp,
                                         fontFamily: AppTheme.fontName,
@@ -162,7 +148,7 @@ class _ProcesvContainerState extends State<ProcesvContainer> {
                             fontFamily: AppTheme.fontName,
                             fontWeight: FontWeight.w500,
                           ),),
-                    Text(formattedStartDate,
+                    Text(formattedDate,
                           style: TextStyle(
                             fontSize: 20.sp,
                             fontFamily: AppTheme.fontName,
@@ -170,34 +156,12 @@ class _ProcesvContainerState extends State<ProcesvContainer> {
                   ],
                 ),
                 SizedBox(height: 10.h),
-
-                Row(
-                       children: [
-                        Text("Description: ",
-                         style: TextStyle(
-                                      fontSize: 20.sp,
-                                      fontFamily: AppTheme.fontName,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                    ),
-                         Expanded(
-                           child: Text("${widget.procesv.description}",
-                              style: TextStyle(
-                                        fontSize: 20.sp,
-                                        fontFamily: AppTheme.fontName,
-                                        overflow: TextOverflow.ellipsis
-                                      ),
-                                      ),
-                         ),
-                       ],
-                     ),
-                SizedBox(height: 10.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     GestureDetector(
                       onTap: () {
-                       showDialog(context: context, builder: (context)=> EditProcesv(procesv: widget.procesv));                     
+                        showDialog(context: context, builder: (context)=> EditRiskPopup(risk: widget.risk));                     
                           },
                       child: Icon(
                         Icons.edit_outlined,
@@ -205,11 +169,11 @@ class _ProcesvContainerState extends State<ProcesvContainer> {
                         color: Color.fromARGB(255, 102, 31, 184),
                       ),
                     ),
-                   SizedBox(width: 20.w),
+                     SizedBox(width: 20.w),
                    GestureDetector(
                       onTap: () {
-                        print("deleting procesv : ${widget.procesv.id}");
-                       deleteProcesv(widget.procesv.id);
+                        print("deleting risk : ${widget.risk.id}");
+                       deleteRisk(widget.risk.id);
                        },
                       child: Icon(
                         Icons.delete_outline,
@@ -226,10 +190,23 @@ class _ProcesvContainerState extends State<ProcesvContainer> {
         ),
       ),
     ).animate(delay: 200.ms).slideX().shimmer(duration: 1500.ms);
-  } 
+  }
+
+    Color getColorForImpact(String impact) {
+    switch (impact) {
+      case 'Low':
+        return  Colors.green;
+      case 'Medium':
+        return Colors.blue;
+      case 'High':
+        return Colors.red;
+      default:
+        return Colors.black;
+    }
+  }
 
 
-  void deleteProcesv(String id) {
+  void deleteRisk(String id) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -244,7 +221,7 @@ class _ProcesvContainerState extends State<ProcesvContainer> {
              child: Column(
                children: [
                  Text("Confirm Deletion",style: TextStyle(fontFamily: AppTheme.fontName,fontSize: 35.sp,fontWeight: FontWeight.w600)),
-                           Text("Are you sure you want to delete this Procev verbal?",style: TextStyle(fontFamily: AppTheme.fontName,fontSize: 24.sp)),
+                           Text("Are you sure you want to delete this Risk?",style: TextStyle(fontFamily: AppTheme.fontName,fontSize: 24.sp)),
                            
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -257,17 +234,17 @@ class _ProcesvContainerState extends State<ProcesvContainer> {
                       ),
                       TextButton(
                         onPressed: () {
-                          ProcesVService().deleteProcesv(id);
+                          RiskService().deleteRisk(id);
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: SuccessSnackBar(message: "Procev Verbal deleted !"),
+                              content: SuccessSnackBar(message: "Risk deleted !"),
                               duration: Duration(seconds: 2),
                               behavior: SnackBarBehavior.floating,
                               backgroundColor: Colors.transparent,
                               elevation: 0,
                             ),
                           );
-                          Navigator.of(context).pushReplacementNamed("/procesv");
+                          Navigator.of(context).pushReplacementNamed("/risks");
                         },
                         child: Text("Delete",style: TextStyle(color: Colors.red,fontFamily: AppTheme.fontName,fontWeight: FontWeight.w500,fontSize: 24.sp),),
                       ),

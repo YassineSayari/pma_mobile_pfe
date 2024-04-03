@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:pma/const.dart';
+import 'package:pma/engineer/screens/myteam/my_team.dart';
+import 'package:pma/engineer/screens/projects/my_projects.dart';
+import 'package:pma/engineer/screens/risks/my_risks.dart';
+import 'package:pma/theme.dart';
 
 import '../../services/authentication_service.dart';
 import '../../services/shared_preferences.dart';
 
-const ip = "192.168.0.17";
-const port = 3002;
+
 
 class EngineerDrawer extends StatefulWidget {
     final String selectedRoute;
@@ -17,12 +21,11 @@ class EngineerDrawer extends StatefulWidget {
 }
 
 class _EngineerDrawerState extends State<EngineerDrawer> {
-    final String imageUrl="http://$ip:$port/static/images";
-    final String noImageUrl ="http://$ip:$port/static/images/16-02-2024--no-image.jpg";
+
     final SharedPrefs sharedPrefs = GetIt.instance<SharedPrefs>();
 
   late Map<String, String> userInfo={};
-
+  late String? userId=" ";
    @override
   void initState() {
     super.initState();
@@ -34,16 +37,18 @@ class _EngineerDrawerState extends State<EngineerDrawer> {
       final data = await SharedPrefs.getUserInfo();
       setState(() {
         userInfo = data;
+        userId=data["userId"];
       });
     } catch (error) {
+      print("error loading user image");
     }
   }
   @override
   Widget build(BuildContext context) {
 
-    final Color selectedColor = Colors.white12;
-        final userImage = userInfo['userImage'];
-    final userImageUrl =
+  final Color selectedColor = Color.fromARGB(31, 33, 41, 116);
+  final userImage = userInfo['userImage'];
+  final userImageUrl =
         userImage != null ?  "$imageUrl/$userImage":"$noImageUrl";
     print(userImageUrl);
 
@@ -58,36 +63,60 @@ class _EngineerDrawerState extends State<EngineerDrawer> {
           ),
           ListTile(
             leading: Icon(Icons.tv),
-            title: Text('Dashboard'),
+            title: Text('Dashboard',style: customStyle()),
             onTap: (){},
           ),
           ListTile(
             leading: Icon(Icons.people_outline),
-            title: Text('My Team'),
+            title: Text('My Team',style: customStyle()),
             onTap: () {
-            },
+              Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => MyTeam(id: userId),
+        ),
+        );
+          },
+            selected: widget.selectedRoute == '/myteam',
+            selectedTileColor: selectedColor,
           ),
           ListTile(
             leading: Icon(Icons.layers),
-            title: Text('My Projects'),
+            title: Text('My Projects',style: customStyle()),
             onTap: () {
+              Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => MyProjects(id: userId),
+          ),
+        );
             },
+            selected: widget.selectedRoute == '/engineer_projects',
+            selectedTileColor: selectedColor,
           ),
           ListTile(
             leading: Icon(Icons.task_alt),
-            title: Text('My Tasks'),
+            title: Text('My Tasks',style: customStyle()),
             onTap: () {
-            },
+                    Navigator.of(context).pushNamed('/engineer_tasks');
+                  },
+                  selected: widget.selectedRoute == '/engineer_tasks',
+                  selectedTileColor: selectedColor,
           ),
           ListTile(
             leading: Icon(Icons.shield_outlined),
-            title: Text('Risks'),
+            title: Text('Risks',style: customStyle()),
             onTap: () {
+              Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => MyRisks(),
+        ),
+      );
             },
+            selected: widget.selectedRoute == '/engineer_projects',
+                  selectedTileColor: selectedColor,
           ),
           ListTile(
             leading: Icon(Icons.settings),
-            title: Text('Profile'),
+            title: Text('Profile',style: customStyle()),
             onTap: () {
                     Navigator.of(context).pushNamed('/profile');
                   },
@@ -97,14 +126,14 @@ class _EngineerDrawerState extends State<EngineerDrawer> {
 
           ListTile(
             leading: Icon(Icons.calendar_today_outlined),
-            title: Text('Calendar'),
+            title: Text('Calendar',style: customStyle()),
             onTap: () {
               print("calendar clicked");
             },
           ),
           ListTile(
             leading: Icon(Icons.logout),
-            title: Text('Logout'),
+            title: Text('Logout',style: customStyle()),
             onTap: () {
               print("logout clicked");
 
@@ -117,10 +146,17 @@ class _EngineerDrawerState extends State<EngineerDrawer> {
     );
   }
 
-  void _handleLogout(BuildContext context) {
+    void _handleLogout(BuildContext context) {
     print("handling logout");
     AuthService authService = GetIt.I<AuthService>();
     authService.logout();
     Navigator.of(context).pushReplacementNamed('/signin');
+  }
+  
+    TextStyle customStyle(){
+    return TextStyle(
+      fontFamily: AppTheme.fontName,
+      fontWeight: FontWeight.w500
+    );
   }
 }

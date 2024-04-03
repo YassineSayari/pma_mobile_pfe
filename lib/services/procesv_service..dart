@@ -71,6 +71,30 @@ Future<List<Procesv>> getProcesvByProject(Map<String, dynamic> project) async {
     throw Exception('Failed to load proces for project. $error');
   }
 }
+Future<List<Procesv>> getProcesvByUser(String id) async {
+  try {
+    print("Getting proces for user:::: $id");
+
+    final response = await http.get(Uri.parse('$apiUrl/getProcesByUser/$id'));
+
+    if (response.statusCode == 200) {
+      print("Got proces for user");
+
+      final List<dynamic> jsonData = json.decode(response.body);
+
+      List<Procesv> procesvList = jsonData.map((eventData) => Procesv.fromJson(eventData)).toList();
+
+      return procesvList;
+    } else {
+      print("Failed to load proces for user. Status code: ${response.statusCode}");
+      print("Response body: ${response.body}");
+      throw Exception('Failed to load proces for user. Server error.');
+    }
+  } catch (error) {
+    print("Error loading proces for user: $error");
+    throw Exception('Failed to load proces for user. $error');
+  }
+}
 
 
   Future<void> addProcesv(Map<String, dynamic> procesv) async {

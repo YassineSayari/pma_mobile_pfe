@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:pma/add_event.dart';
 import 'package:pma/admin/widgets/admin_drawer.dart';
+import 'package:pma/calendar_event_card.dart';
 import 'package:pma/custom_appbar.dart';
 import 'package:pma/theme.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -61,24 +62,20 @@ Future<void> _initializeData() async {
       eventsByDay.clear();
 
 for (Event event in userEvents) {
-  DateTime? startDate = event.startDate;
-  DateTime? endDate = event.endDate;
+  DateTime startDate = event.startDate;
+  DateTime endDate = event.endDate;
   print("Start date: $startDate");
   print("End date : $endDate");
 
-  DateTime day = startDate;
-  print("day : $day ===== start date: $startDate");
-  while (day.isBefore(endDate) || isSameDay(day, endDate)) {
+  // Iterate through each day from the start date to the end date
+  for (DateTime day = startDate; day.isBefore(endDate) || isSameDay(day, endDate); day = day.add(Duration(days: 1))) {
     eventsByDay[day] = eventsByDay[day] ?? [];
     eventsByDay[day]!.add(event);
-    print("event added");
-    print("Events that day: ${eventsByDay[day]!.length}");
-    day = day.add(Duration(days: 1));
+    print("Event added on $day");
+    print("Events on $day: ${eventsByDay[day]!.length}");
   }
-
-  startDate = null;
-  endDate = null;
 }
+
 
     setState(() {});
     } else {
@@ -101,82 +98,73 @@ Future<void> createEvent() async {
 }
 
 
-  void _onDaySelected(DateTime selectedDay, DateTime focusedDay) async {
-    setState(() {
-      today = selectedDay;
-    });
+void _onDaySelected(DateTime selectedDay, DateTime focusedDay) async {
+  setState(() {
+    today = selectedDay;
+  });
 
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        String formattedDate = DateFormat('EEEE, MMM d y').format(selectedDay);
-        return Container(
-          width: double.infinity,
-          padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 16.h),
-          decoration: BoxDecoration(
-            color: Color.fromARGB(255, 188, 199, 220),
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Text(
-                  '$formattedDate',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 30.sp,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: AppTheme.fontName
-                  ),
+  showModalBottomSheet(
+    context: context,
+    builder: (BuildContext context) {
+      String formattedDate = DateFormat('EEEE, MMM d y').format(selectedDay);
+      
+      // Retrieve events for the selected day
+      List<Event>? selectedEvents = eventsByDay[selectedDay];
+      
+      return Container(
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+        decoration: BoxDecoration(
+          color: Color.fromARGB(255, 188, 199, 220),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Text(
+                '$formattedDate',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 30.sp,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: AppTheme.fontName,
                 ),
               ),
-              SizedBox(height: 10.h),
+            ),
+            SizedBox(height: 20.h),
+            Row(
+              children: [
+                Text(
+                  "Today's Tasks:",
+                  style: TextStyle(
+                    fontSize: 20.sp,
+                    fontFamily: AppTheme.fontName,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 10.h),
+            // Display events for the selected day
+            if (selectedEvents != null && selectedEvents.isNotEmpty)
               Expanded(
-                child: Row(
+                child: ListView(
                   children: [
-                    Container(
-                      width: 125.w,
-                      padding:EdgeInsets.symmetric(horizontal: 4.w,vertical: 4.h),
-                      child: ListView.builder(
-                        itemCount: 17, // number of hours
-                        itemBuilder: (context, index) {
-                          int hour = index + 7;
-                          String formattedHour =
-                              DateFormat('HH:mm a').format(DateTime(2022, 1, 1, hour));
-                          return ListTile(
-                            title: Text('$formattedHour ',style: TextStyle(fontFamily: AppTheme.fontName,fontSize: 15.sp,fontWeight: FontWeight.w500),),
-                          );
-                        },
-                      ),
+                    Column(
+                      children: selectedEvents
+                          .map((event) => EventCard(event: event))
+                          .toList(),
                     ),
-                    VerticalDivider(
-                      color: Color.fromARGB(255, 67, 20, 125),
-                      thickness: 1,
-                      width: 40.w,
-                      indent: 30,
-                      endIndent: 40,
-                    ),
-                    Flexible(
-                      child: Container(
-                        height: 200,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.amber,
-                          ),
-                          child: Text(" "),
-                        ),
-                    ),
-                    
                   ],
                 ),
               ),
-            ],
-          ),
-        );
-      },
-    );
-  }
+          ],
+        ),
+      );
+    },
+  );
+}
+
 
 
 Widget _buildEventsMarker(DateTime date, List events) {
@@ -282,16 +270,19 @@ Color _markerColor(DateTime date, List events) {
                 calendarBuilders: CalendarBuilders(
                   markerBuilder: (context, date, events) {
                       if (events.isNotEmpty &&eventsByDay.containsKey(date)) {
+                        print("-----EVENT MARKED----- $date ");
                       return Positioned(
                         right:   1,
                         bottom:   1,
                         child: _buildEventsMarker(date, events),
                         );
                       }
-                      else{return Container();}
+                      else{
+                        print("-----NO EVENT TO BE MARKED-----$date");
+                        return Container();
+                        }
             },
           ),
-          
                     availableGestures: AvailableGestures.all,
                     startingDayOfWeek: StartingDayOfWeek.monday,
                     daysOfWeekStyle: DaysOfWeekStyle(
@@ -312,16 +303,26 @@ Color _markerColor(DateTime date, List events) {
             print("Loading events for day: $day");
             List<Event> events = [];
           
-            for (Event event in userEvents) {
-          if ((event.startDate.isBefore(day) || isSameDay(event.startDate, day)) &&
-              (event.endDate.isAfter(day) || isSameDay(event.endDate, day))) {
-                events.add(event);
-            }
-          }
-          
-            print("Events for $day: ${events.length}");
-            return events;
-          },
+          for (Event event in userEvents) {
+         if ((event.startDate.year < day.year ||
+    (event.startDate.year == day.year &&
+        event.startDate.month < day.month) ||
+    (event.startDate.year == day.year &&
+        event.startDate.month == day.month &&
+        event.startDate.day <= day.day)) &&
+    (event.endDate.year > day.year ||
+        (event.endDate.year == day.year &&
+            event.endDate.month > day.month) ||
+        (event.endDate.year == day.year &&
+            event.endDate.month == day.month &&
+            event.endDate.day >= day.day))) {
+  print("adding this event::::::::::::::: $event");
+  events.add(event);
+}
+}
+ print("Events for $day: ${events.length}");
+  return events;
+ },
                     focusedDay: today,
                     firstDay: DateTime.utc(2010, 01, 01),
                     lastDay: DateTime.utc(2030, 01, 01),
