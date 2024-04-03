@@ -73,6 +73,49 @@ Future<void> addEvent(Map<String,dynamic> event) async {
 
 
 
+Future<void> updatedEvent(String id,Event event) async{
+    String? authToken = await SharedPrefs.getAuthToken();
+  print("------------updating event $id");
+  print("======updated Event: ${event.toJson()}========");
+  final response = await http.patch(
+    Uri.parse('$apiUrl/updateEvent/$id'),
+    headers: {
+      'Authorization': 'Bearer $authToken',
+      'Content-Type': 'application/json',
+    },
+    body: json.encode(event.toJson()),
+  );
+
+  print("Response code: ${response.statusCode}");
+  print("Response body: ${response.body}");
+
+  if (response.statusCode == 201) {
+    print("Event updated successfully!");
+  } else {
+    print("Failed to update event. Error: ${response.reasonPhrase}");
+    throw Exception('Failed to update event');
+  }
+
+}
+
+
+
+  Future<void> deleteEvent(String id) async {
+        String? authToken = await SharedPrefs.getAuthToken();
+    final response = await http.delete(
+      Uri.parse('$apiUrl/deleteEvent/$id'),
+      headers: {'Authorization': 'Bearer $authToken'},
+    );
+
+    if (response.statusCode == 200) {
+      print('event deleted');
+    } else {
+      throw Exception('Failed to delete event');
+    }
+  }
+
+
+
 
 }
 

@@ -42,7 +42,6 @@ dependencies:
   file_picker: ^6.1.1
   intl: ^0.19.0
   multi_dropdown: ^2.1.4
-  table_calendar: ^3.1.0
   get_ip_address: ^0.0.6
   public_ip_address: ^1.1.1
   google_fonts: ^6.1.0
@@ -52,7 +51,13 @@ dependencies:
   flutter_screenutil: ^5.9.0
   flutter_svg: ^2.0.10+1
   dio: ^5.4.1
-
+  flutter_sliding_up_panel: ^2.1.1
+  scroll_snap_list: ^0.9.1
+  sliding_up_panel: ^2.0.0+1
+  provider: ^6.1.2
+  table_calendar: ^3.1.1
+  omni_datetime_picker: ^1.0.9
+  full_expandable_fab: ^0.0.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

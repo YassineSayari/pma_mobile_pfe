@@ -47,19 +47,16 @@ factory Event.fromJson(Map<String, dynamic> json) {
   }
 }
 
-
-
-
-  // Map<String, dynamic> toJson() {
-  //   return {
-  //     '_id': id,
-  //     'title': title,
-  //     'category': category,
-  //     'details': details,
-  //     'startDate': startDate.toIso8601String(),
-  //     'endDate': endDate.toIso8601String(),
-  //     'className': className,
-  //     'user':  userId,
-  //   };
-  // }
+  Map<String, dynamic> toJson() {
+    return {
+      '_id': id,
+      'title': title,
+      'category': category,
+      'details': details,
+      'startDate': startDate.toIso8601String(),
+      'endDate': endDate.toIso8601String(),
+      'className': className,
+      'user':  userId,
+    };
+  }
 }
