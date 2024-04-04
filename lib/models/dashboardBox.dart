@@ -1,38 +1,62 @@
 import 'package:flutter/material.dart';
 
-class DashboardBox extends StatelessWidget {
-  final String title;
-  final int value;
-  final Color background; // Add a Color parameter
+class dashboardBox extends StatelessWidget {
+  const dashboardBox({
+    Key? key,
+    required this.title,
+    required this.svgSrc,
+    required this.num,
+    required this.color,
+  }) : super(key: key);
 
-  DashboardBox({required this.title, required this.value, required this.background});
+  static const defaultPadding = 16.0;
+
+  final String title;
+  final Icon svgSrc;
+  final int num;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 100,
-      height: 50, // Set the desired height for all boxes
-      child: Card(
-        elevation: 4,
-        child: Container(
-          color: background,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
-                ),
-                Text(
-                  '$value',
-                  style: TextStyle(fontSize: 16, color: Colors.white),
-                ),
-              ],
+    return Container(
+      margin: EdgeInsets.only(top: defaultPadding),
+      padding: EdgeInsets.all(defaultPadding),
+      decoration: BoxDecoration(
+        border: Border.all(width: 2, color: color.withOpacity(0.15)),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(defaultPadding),
+        ),
+      ),
+      child: Row(
+        children: [
+          SizedBox(
+            height: 20,
+            width: 20,
+            child: (svgSrc),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    "$num Files",
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall!
+                        .copyWith(color: Colors.white70),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
