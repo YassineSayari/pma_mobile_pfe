@@ -60,7 +60,7 @@ class FailSnackBar extends StatelessWidget {
       children: [
           Container(
           padding: EdgeInsets.symmetric(horizontal: 2.w,vertical: 16.h),
-          height: 92.h,
+          height: 95.h,
           decoration: BoxDecoration(
             color: Colors.red,
             borderRadius: BorderRadius.all(Radius.circular(20.r)),
