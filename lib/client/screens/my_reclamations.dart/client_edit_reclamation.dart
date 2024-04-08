@@ -82,13 +82,8 @@ class _ClientEditReclamationPopupState
                 SizedBox(height: 30.h),
                 TextFormField(
                   controller: titleController,
-                  style: AppTextFieldStyles.textStyle,
-                  decoration: InputDecoration(
-                    labelText: 'Title*',
-                    labelStyle: AppTextFieldStyles.labelStyle,
-                    enabledBorder: AppTextFieldStyles.enabledBorder,
-                    focusedBorder: AppTextFieldStyles.focusedBorder,
-                  ),
+                  style: TextInputDecorations.textStyle,
+                  decoration: TextInputDecorations.customInputDecoration(labelText: 'Title'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter a valid title';
@@ -112,13 +107,8 @@ class _ClientEditReclamationPopupState
                     } else {
                       return DropdownButtonFormField(
                         value: projectid,
-                        style: AppTextFieldStyles.textStyle,
-                        decoration: InputDecoration(
-                          labelText: 'Project*',
-                          labelStyle: AppTextFieldStyles.labelStyle,
-                          enabledBorder: AppTextFieldStyles.enabledBorder,
-                          focusedBorder: AppTextFieldStyles.focusedBorder,
-                        ),
+                        style: TextInputDecorations.textStyle,
+                        decoration: TextInputDecorations.customInputDecoration(labelText: 'Project'),
                         items: snapshot.data!.map<DropdownMenuItem<String>>(
                           (Map<String, dynamic> project) {
                             return DropdownMenuItem<String>(
@@ -152,13 +142,8 @@ class _ClientEditReclamationPopupState
                 if (validateStatus == 'Treated' ) ...[
                   DropdownButtonFormField(
                     value: validateStatus,
-                    style: AppTextFieldStyles.textStyle,
-                    decoration: InputDecoration(
-                      labelText: 'Status*',
-                      labelStyle: AppTextFieldStyles.labelStyle,
-                      enabledBorder: AppTextFieldStyles.enabledBorder,
-                      focusedBorder: AppTextFieldStyles.focusedBorder,
-                    ),
+                    style: TextInputDecorations.textStyle,
+                    decoration: TextInputDecorations.customInputDecoration(labelText: 'Status'),
                     items: [
                       DropdownMenuItem(
                         child: Text(
@@ -193,13 +178,8 @@ class _ClientEditReclamationPopupState
                 ],
                 DropdownButtonFormField(
                   value: reclamationType,
-                  style: AppTextFieldStyles.textStyle,
-                  decoration: InputDecoration(
-                    labelText: 'Type*',
-                    labelStyle: AppTextFieldStyles.labelStyle,
-                    enabledBorder: AppTextFieldStyles.enabledBorder,
-                    focusedBorder: AppTextFieldStyles.focusedBorder,
-                  ),
+                  style: TextInputDecorations.textStyle,
+                  decoration: TextInputDecorations.customInputDecoration(labelText: 'Type'),
                   items: [
                     DropdownMenuItem(
                       child: Text(
@@ -234,13 +214,8 @@ class _ClientEditReclamationPopupState
                 TextFormField(
                   controller: commentController,
                   maxLines: 3,
-                  style: AppTextFieldStyles.textStyle,
-                  decoration: InputDecoration(
-                    labelText: 'Comment*',
-                    labelStyle: AppTextFieldStyles.labelStyle,
-                    enabledBorder: AppTextFieldStyles.enabledBorder,
-                    focusedBorder: AppTextFieldStyles.focusedBorder,
-                  ),
+                  style: TextInputDecorations.textStyle,
+                  decoration: TextInputDecorations.customInputDecoration(labelText: 'Comment'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter a valid comment';

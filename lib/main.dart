@@ -35,6 +35,7 @@ import 'package:get_it/get_it.dart';
 import 'package:pma/services/task_service.dart';
 import 'package:pma/services/user_service.dart';
 import 'package:pma/team_leader/screens/procesv/teamleader_pv.dart';
+import 'package:pma/team_leader/screens/reclamations/tl_all_reclamations.dart';
 import 'package:pma/team_leader/screens/teamleader_dashboard.dart';
 
 import 'admin/screens/employees/all_employees.dart';
@@ -151,6 +152,7 @@ switch (role) {
 
         '/reclamations':(context)=>AllReclamations(),
         '/client_reclamations':(context)=>ClientReclamations(),
+        '/tlreclamations':(context)=>TlAllReclamations(),
         '/addreclamation':(context)=>AddReclamation(),
 
         '/risks':(context)=>AllRisks(),
