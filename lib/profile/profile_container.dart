@@ -211,13 +211,8 @@ class SecuritySettings extends StatelessWidget {
                             controller: oldpassword,
                             keyboardType: TextInputType.text,
                             obscureText: true,
-                            style: AppTextFieldStyles.textStyle,
-                                decoration: InputDecoration(
-                                  labelText: 'Current Password*',
-                                  labelStyle: AppTextFieldStyles.labelStyle,
-                                  enabledBorder: AppTextFieldStyles.enabledBorder,
-                                  focusedBorder: AppTextFieldStyles.focusedBorder,
-                                ),
+                            style: TextInputDecorations.textStyle,
+                          decoration: TextInputDecorations.customInputDecoration(labelText: 'Current Password'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter a password';
@@ -230,13 +225,8 @@ class SecuritySettings extends StatelessWidget {
                             controller: newpassword,
                             keyboardType: TextInputType.text,
                             obscureText: true,
-                            style: AppTextFieldStyles.textStyle,
-                                decoration: InputDecoration(
-                                  labelText: 'New Password*',
-                                  labelStyle: AppTextFieldStyles.labelStyle,
-                                  enabledBorder: AppTextFieldStyles.enabledBorder,
-                                  focusedBorder: AppTextFieldStyles.focusedBorder,
-                                ),
+                            style: TextInputDecorations.textStyle,
+                          decoration: TextInputDecorations.customInputDecoration(labelText: 'New Password'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter a new password';
@@ -249,13 +239,8 @@ class SecuritySettings extends StatelessWidget {
                             controller: confirmnewpassword,
                             keyboardType: TextInputType.text,
                             obscureText: true,
-                            style: AppTextFieldStyles.textStyle,
-                                decoration: InputDecoration(
-                                  labelText: 'Re-Enter New Password*',
-                                  labelStyle: AppTextFieldStyles.labelStyle,
-                                  enabledBorder: AppTextFieldStyles.enabledBorder,
-                                  focusedBorder: AppTextFieldStyles.focusedBorder,
-                                ),
+                            style: TextInputDecorations.textStyle,
+                          decoration: TextInputDecorations.customInputDecoration(labelText: 'Re-Enter new password'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please confirm new password';

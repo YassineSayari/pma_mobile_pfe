@@ -174,13 +174,8 @@ Widget build(BuildContext context) {
                         TextFormField(
                           controller: title,
                           keyboardType: TextInputType.text,
-                          style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Project Title*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          ),
+                          style: TextInputDecorations.textStyle,
+                          decoration: TextInputDecorations.customInputDecoration(labelText: 'Project Title'),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Project title is required';
@@ -192,13 +187,8 @@ Widget build(BuildContext context) {
                         
                         DropdownButtonFormField(
                           value: projectStatus,
-                          style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Status*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          ),
+                          style: TextInputDecorations.textStyle,
+                          decoration: TextInputDecorations.customInputDecoration(labelText: 'Status'),
                           items: [
                             DropdownMenuItem(child: Text('Pending',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'Pending'),
                             DropdownMenuItem(child: Text('In Progress',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'In Progress'),
@@ -222,13 +212,8 @@ Widget build(BuildContext context) {
                         DropdownButtonFormField(
                           value: projectType,
                           isExpanded: true,
-                          style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Type*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          ),
+                          style: TextInputDecorations.textStyle,
+                          decoration: TextInputDecorations.customInputDecoration(labelText: 'Type'),
                           items: [
                             DropdownMenuItem(child: Text('-Systems Infrastructure',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'Systems Infrastructure'),
                             DropdownMenuItem(child: Text('-Network Infrastructure',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'Network Infrastructure'),
@@ -251,13 +236,8 @@ Widget build(BuildContext context) {
                         
                         DropdownButtonFormField(
                           value: projectPriority,
-                          style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Priority*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          ),
+                          style: TextInputDecorations.textStyle,
+                          decoration: TextInputDecorations.customInputDecoration(labelText: 'Priority'),
                           items: [
                             DropdownMenuItem(child: Text('Low',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'Low'),
                             DropdownMenuItem(child: Text('Medium',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'Medium'),
@@ -293,18 +273,17 @@ Widget build(BuildContext context) {
                                     },
                                     controller: projectEndDateController,
                                     readOnly: true,
-                                    style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'End Date*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          
-                          prefixIcon: Icon(
-                            Icons.calendar_today,
-                            color: Colors.grey[400],
-                          ),
-                        ),
+                                    style: DateFieldsStyle.textStyle,
+                                    decoration: InputDecoration(
+                                    labelText: 'End Date*',
+                                    labelStyle: DateFieldsStyle.labelStyle,
+                                    enabledBorder: DateFieldsStyle.enabledBorder,
+                                    focusedBorder: DateFieldsStyle.focusedBorder,
+                                    prefixIcon: Icon(
+                                      Icons.calendar_today,
+                                      color: Colors.grey[400],
+                                    ),
+                                  ),
                                     validator: (value) {
                                       if (projectEndDate == null) {
                                         return 'Project End Date is required';
@@ -326,13 +305,8 @@ Widget build(BuildContext context) {
                                   print('team leaders: $teamLeaders');
                                   return DropdownButtonFormField(
                                     value: teamLeader,
-                                    style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Team Leader*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          ),
+                                    style: TextInputDecorations.textStyle,
+                                    decoration: TextInputDecorations.customInputDecoration(labelText: 'Team Leader'),
                                     items: snapshot.data!.map<DropdownMenuItem<String>>((User user) {
                                       return DropdownMenuItem<String>(
                                         value: user.id.toString(),
@@ -407,13 +381,8 @@ Widget build(BuildContext context) {
                           controller: description,
                           keyboardType: TextInputType.text,
                           maxLines: 3,
-                          style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Description*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          ),
+                          style: TextInputDecorations.textStyle,
+                          decoration: TextInputDecorations.customInputDecoration(labelText: 'Description'),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Description is required';

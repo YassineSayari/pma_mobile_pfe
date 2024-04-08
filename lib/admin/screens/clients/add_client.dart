@@ -72,13 +72,8 @@ class _AddClientState extends State<AddClient> {
                         TextFormField(
                           controller: name,
                           keyboardType: TextInputType.text,
-                                    style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Name*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          ),
+                                    style: TextInputDecorations.textStyle,
+                          decoration: TextInputDecorations.customInputDecoration(labelText: 'Name'),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Name is required';
@@ -90,13 +85,8 @@ class _AddClientState extends State<AddClient> {
                         TextFormField(
                           controller: company,
                           keyboardType: TextInputType.text,
-                                    style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Company*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          ),
+                          style: TextInputDecorations.textStyle,
+                          decoration: TextInputDecorations.customInputDecoration(labelText: 'Company'),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Company name is required';
@@ -110,13 +100,8 @@ class _AddClientState extends State<AddClient> {
                         TextFormField(
                           controller: mail,
                           keyboardType: TextInputType.text,
-                                    style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Email*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          ),
+                          style: TextInputDecorations.textStyle,
+                          decoration: TextInputDecorations.customInputDecoration(labelText: 'Email'),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Email is required';
@@ -130,13 +115,8 @@ class _AddClientState extends State<AddClient> {
                         TextFormField(
                           controller: mobile,
                           keyboardType: TextInputType.number,
-                                    style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Mobile*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          ),
+                          style: TextInputDecorations.textStyle,
+                          decoration: TextInputDecorations.customInputDecoration(labelText: 'Mbile'),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Mobile number is required';
@@ -167,13 +147,8 @@ class _AddClientState extends State<AddClient> {
                                 },
                                 controller: dateController,
                                 readOnly: true,
-                                    style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Date*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          ),
+                                style: TextInputDecorations.textStyle,
+                          decoration: TextInputDecorations.customInputDecoration(labelText: 'Date'),
                                 validator: (value) {
                                   if (clientDate == null) {
                                     return 'Date is required';
@@ -188,13 +163,8 @@ class _AddClientState extends State<AddClient> {
                           controller: password,
                           keyboardType: TextInputType.text,
                           obscureText: true,
-                                    style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Password*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          ),
+                          style: TextInputDecorations.textStyle,
+                                decoration: TextInputDecorations.customInputDecoration(labelText: 'Password'),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Password is required';
@@ -207,13 +177,8 @@ class _AddClientState extends State<AddClient> {
                           controller: passwordconf,
                           keyboardType: TextInputType.text,
                           obscureText: true,
-                                    style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Re-Enter Password*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          ),
+                          style: TextInputDecorations.textStyle,
+                                decoration: TextInputDecorations.customInputDecoration(labelText: 'Re-Enter Password'),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Re-Enter password is required';

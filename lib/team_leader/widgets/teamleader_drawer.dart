@@ -92,15 +92,17 @@ class _TeamLeaderDrawerState extends State<TeamLeaderDrawer> {
           ),
           ListTile(
             leading: Icon(Icons.folder),
-            title: Text('All Projects'),
+            title: Text('All Projects',style: customStyle()),
             onTap: () {
             },
           ),
           ListTile(
             leading: Icon(Icons.receipt_long),
             title: Text('Client Claims',style: customStyle()),
-            onTap: () {
-            },
+           onTap: () {
+                    Navigator.of(context).pushReplacementNamed('/tlreclamations');
+                  },
+                  selected: widget.selectedRoute == '/tlreclamations',
           ),
 
           ListTile(
@@ -113,13 +115,17 @@ class _TeamLeaderDrawerState extends State<TeamLeaderDrawer> {
             leading: Icon(Icons.settings),
             title: Text('Profile',style: customStyle()),
             onTap: () {
+              Navigator.of(context).pushReplacementNamed('/profile');
             },
+            selected: widget.selectedRoute == '/profile',
           ),
           ListTile(
             leading: Icon(Icons.calendar_today_outlined),
             title: Text('Calendar',style: customStyle()),
             onTap: () {
+              Navigator.of(context).pushReplacementNamed('/calendar');
             },
+            selected: widget.selectedRoute == '/calendar',
           ),
 
           ListTile(

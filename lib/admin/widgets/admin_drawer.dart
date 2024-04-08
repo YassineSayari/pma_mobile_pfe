@@ -186,13 +186,12 @@ class _AdminDrawerState extends State<AdminDrawer> {
           ),
           ListTile(
             leading: Icon(Icons.calendar_today_outlined),
-            title: Text('Calendar',style: customStyle(),),
+            title: Text('Calendar',style: customStyle()),
             onTap: () {
               Navigator.of(context).pushReplacementNamed('/calendar');
             },
             selected: widget.selectedRoute == '/calendar',
             selectedTileColor: selectedColor,
-
           ),
           ListTile(
             leading: Icon(Icons.task_alt),
