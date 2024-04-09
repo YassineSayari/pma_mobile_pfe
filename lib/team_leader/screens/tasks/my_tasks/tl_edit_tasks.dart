@@ -3,58 +3,75 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
+import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:pma/custom_snackbar.dart';
-import 'package:pma/models/risk_model.dart';
+import 'package:pma/models/task_model.dart';
+import 'package:pma/models/user_model.dart';
 import 'package:pma/services/project_service.dart';
-import 'package:pma/services/risk_service.dart';
+import 'package:pma/services/task_service.dart';
+import 'package:pma/services/user_service.dart';
 import 'package:pma/theme.dart';
 
-class EditRiskPopup extends StatefulWidget {
-  final Risk risk;
-  const EditRiskPopup({super.key, required this.risk});
+class TlEditTask extends StatefulWidget {
+  final Task task;
+  const TlEditTask({super.key, required this.task});
 
   @override
-  State<EditRiskPopup> createState() => _EditRiskPopupState();
+  State<TlEditTask> createState() => _TlEditTaskState();
 }
 
-class _EditRiskPopupState extends State<EditRiskPopup> {
+class _TlEditTaskState extends State<TlEditTask> {
 
     final _formKey = GlobalKey<FormState>();
 
     late TextEditingController titleController;
-    late TextEditingController actionController;
     late Future<List<Map<String, dynamic>>> projects;
-
+    late Future<List<User>> teamLeaders;
+    late Future<List<User>> engineers;
 
     String? projectid;
+  final MultiSelectController executorController = MultiSelectController();
+  List<User> selectedExecutors = [];
 
 
-
-    late String riskImpact;
+    late String taskStatus;
+    late int? taskProgress;
     late String priority;
 
-    DateTime? date;
-    final TextEditingController dateController= TextEditingController();
+    DateTime? startDate;
+    final TextEditingController startDateController = TextEditingController();
 
+    final TextEditingController progressController= TextEditingController();
+
+    DateTime? deadLine;
+    final TextEditingController deadLineController = TextEditingController();
 
     late TextEditingController descriptionController;
 
   final ProjectService projectService = GetIt.I<ProjectService>();
-  final RiskService riskService = GetIt.I<RiskService>();
+  final TaskService taskService = GetIt.I<TaskService>();
 
       @override
   void initState() {
     super.initState();
-    projects = projectService.getProjectsByEmployee(widget.risk.user['_id']);
-    riskImpact=widget.risk.impact;
-    titleController = TextEditingController(text: widget.risk.title);
-    actionController= TextEditingController(text: widget.risk.action);
-    descriptionController= TextEditingController(text: widget.risk.details);
-    projectid = widget.risk.project["_id"];
-    date = DateTime.parse(widget.risk.date);
-    dateController.text = DateFormat('yyyy-MM-dd').format(date!);
+    projects = projectService.getAllProjects();
+    teamLeaders=UserService().getAllTeamLeaders();
+    engineers=UserService().getAllEngineers();
+
+    titleController = TextEditingController(text: widget.task.title);
+    descriptionController= TextEditingController(text: widget.task.details);
+    projectid = widget.task.project["_id"];
+    taskStatus= widget.task.status;
+    priority=widget.task.priority;
+    taskProgress=widget.task.progress;
+    startDate = DateTime.parse(widget.task.startDate);
+    startDateController.text = DateFormat('yyyy-MM-dd').format(startDate!);
+
+    deadLine = DateTime.parse(widget.task.startDate);
+    deadLineController.text = DateFormat('yyyy-MM-dd').format(deadLine!);
 
     print("proejct id::::: $projectid");
+    //print("client id::::: $clientid");
     
 
   }
@@ -133,34 +150,20 @@ class _EditRiskPopupState extends State<EditRiskPopup> {
                               },
                             ),
 
-                        
                         SizedBox(height: 10.h),
-                        TextFormField(
-                  controller: actionController,
-                  style: TextInputDecorations.textStyle,
-                  decoration: TextInputDecorations.customInputDecoration(labelText: 'Action'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a valid action';
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: 10.h),
-
+                        
                         DropdownButtonFormField(
-                          value: riskImpact,
+                          value: taskStatus,
                           style: TextInputDecorations.textStyle,
                           decoration: TextInputDecorations.customInputDecoration(labelText: 'Status'),
                           items: [
-                            DropdownMenuItem(child: Text('High',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'High'),
-                            DropdownMenuItem(child: Text('Medium',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'Medium'),
-                            DropdownMenuItem(child: Text('Low',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'Low'),
+                            DropdownMenuItem(child: Text('Pending',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'Pending'),
+                            DropdownMenuItem(child: Text('Closed',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'Closed'),
                           ],
                           
                           onChanged: (selectedValue) {
                             setState(() {
-                              riskImpact = selectedValue as String;
+                              taskStatus = selectedValue as String;
                             });
                           },
                           validator: (value) {
@@ -170,8 +173,45 @@ class _EditRiskPopupState extends State<EditRiskPopup> {
                             return null;
                           },
                         ),
+                        SizedBox(height: 10.h),
+
+                        Text("Progress*",style: TextStyle(fontFamily:AppTheme.fontName,fontSize: 20.sp,fontWeight: FontWeight.w500),),
+                        VerticalNumberPicker(
+                  initialValue: taskProgress ?? 0,
+                  minValue: 0,
+                  maxValue: 100,
+                  onChanged: (value) {
+                    setState(() {
+                      taskProgress = value;
+                    });
+                  },
+                ),
                         
                    SizedBox(height: 10.h),
+                   DropdownButtonFormField(
+                          value: priority,
+                          style: TextInputDecorations.textStyle,
+                          decoration: TextInputDecorations.customInputDecoration(labelText: 'Priority'),
+                          items: [
+                            DropdownMenuItem(child: Text('High',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'High'),
+                            DropdownMenuItem(child: Text('Medium',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'Medium'),
+                            DropdownMenuItem(child: Text('Low',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'Low'),
+
+                          ],
+                          
+                          onChanged: (selectedValue) {
+                            setState(() {
+                              priority = selectedValue as String;
+                            });
+                          },
+                          validator: (value) {
+                            if (value == null ) {
+                              return 'priority is required';
+                            }
+                            return null;
+                          },
+                        ),
+                         SizedBox(height: 10.h),
                             TextFormField(
                                     onTap: () async {
                                       DateTime? pickedDate = await showDatePicker(
@@ -180,41 +220,40 @@ class _EditRiskPopupState extends State<EditRiskPopup> {
                                         firstDate: DateTime.now(),
                                         lastDate: DateTime.now().add(Duration(days: 365 * 2)),
                                       );
-                                      if (pickedDate != null && pickedDate != date) {
+                                      if (pickedDate != null && pickedDate != deadLine) {
                                         setState(() {
-                                          date = pickedDate;
-                                          dateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
+                                          deadLine = pickedDate;
+                                          deadLineController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
                                         });
                                       }
                                     },
-                                    controller: dateController,
+                                    controller: startDateController,
                                     readOnly: true,
                                     style: DateFieldsStyle.textStyle,
-                              decoration: InputDecoration(
-                              labelText: 'Date*',
-                              labelStyle: DateFieldsStyle.labelStyle,
-                              enabledBorder: DateFieldsStyle.enabledBorder,
-                              focusedBorder: DateFieldsStyle.focusedBorder,
-                              prefixIcon: Icon(
-                                Icons.calendar_today,
-                                color: Colors.grey[400],
-                              ),
-                            ),
+                                    decoration: InputDecoration(
+                                    labelText: 'Deadline*',
+                                    labelStyle: DateFieldsStyle.labelStyle,
+                                    enabledBorder: DateFieldsStyle.enabledBorder,
+                                    focusedBorder: DateFieldsStyle.focusedBorder,
+                                    prefixIcon: Icon(
+                                      Icons.calendar_today,
+                                      color: Colors.grey[400],
+                                    ),
+                                  ),
+                                   
                                     validator: (value) {
-                                      if (date == null) {
-                                        return 'date is required';
+                                      if (startDate == null) {
+                                        return 'deadline is required';
                                       }
                                       return null;
                                     },
                                   ),
                                   SizedBox(height: 10.h),
-                            
-                                  SizedBox(height: 10.h),
                                   TextFormField(
                                   controller: descriptionController,
                                   maxLines: 3,
                                   style: TextInputDecorations.textStyle,
-                          decoration: TextInputDecorations.customInputDecoration(labelText: 'Description'),
+                                  decoration: TextInputDecorations.customInputDecoration(labelText: 'Description'),
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return 'Please enter a valid description';
@@ -230,7 +269,7 @@ class _EditRiskPopupState extends State<EditRiskPopup> {
                               Expanded(
                                 child: ElevatedButton(
                                   onPressed: (){
-                                    _updateRisk();
+                                    _updateTask();
                                   },
                                              child: Text("Save",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily:AppTheme.fontName),),
                                              style: AppButtonStyles.submitButtonStyle
@@ -256,37 +295,46 @@ class _EditRiskPopupState extends State<EditRiskPopup> {
     );
   }
 
-   Future<void> _updateRisk() async {
+   Future<void> _updateTask() async {
         try {
-    
-          Map<String,dynamic> updatedProject= await projectService.getProject(projectid!);
-          Risk updatedRisk= Risk(
-            id: widget.risk.id,
+    List<String> executorIds = selectedExecutors.map((user) => user.id).toList();
+    if (executorIds.isEmpty) {
+  executorIds = (widget.task.executor as List< dynamic>)
+      .map((user) => user['_id'].toString())  // Assuming '_id' is the key for the user id
+      .toList();
+}
+    print("executors:::$executorIds");
+
+          Task updatedTask= Task(
+            id: widget.task.id,
             title: titleController.text,
-            project: updatedProject,/*{'_id': projectid},*/
+            project: {'_id': projectid},
+            status:taskStatus,
             details: descriptionController.text,
-            date: DateFormat('yyyy-MM-dd').format(date!),
-            action: actionController.text,
-            impact: riskImpact,
-            user:  {'_id': widget.risk.user['_id']},
+            startDate: DateFormat('yyyy-MM-dd').format(startDate!),
+            deadLine: DateFormat('yyyy-MM-dd').format(deadLine!),
+            priority: priority,
+            progress: taskProgress,
+            executor: executorIds,
+            
           );
-          await riskService.updateRisk(widget.risk.id,updatedRisk);
+          await taskService.updateTask(widget.task.id,updatedTask);
 
            ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-            content: SuccessSnackBar(message: "Risk updated !"),
+            content: SuccessSnackBar(message: "Task updated !"),
             duration: Duration(seconds: 2),
             behavior: SnackBarBehavior.floating,
             backgroundColor: Colors.transparent,
             elevation: 0,
           ),
           );
-        //  Navigator.of(context).pushReplacementNamed('/tasks');
+          Navigator.of(context).pushReplacementNamed('/tltasks');
         }catch(error) {
-        print('Error updating risk: $error');
+        print('Error updating task: $error');
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-            content: FailSnackBar(message: "failed to update risk!"),
+            content: FailSnackBar(message: "failed to update task!"),
             duration: Duration(seconds: 2),
             behavior: SnackBarBehavior.floating,
             backgroundColor: Colors.transparent,
@@ -297,4 +345,63 @@ class _EditRiskPopupState extends State<EditRiskPopup> {
       }
 
    }
+}
+
+class VerticalNumberPicker extends StatefulWidget {
+  final int initialValue;
+  final int minValue;
+  final int maxValue;
+  final Function(int) onChanged;
+
+  VerticalNumberPicker({
+    required this.initialValue,
+    required this.minValue,
+    required this.maxValue,
+    required this.onChanged,
+  });
+
+  @override
+  _VerticalNumberPickerState createState() => _VerticalNumberPickerState();
+}
+
+class _VerticalNumberPickerState extends State<VerticalNumberPicker> {
+  late int selectedValue;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedValue = widget.initialValue;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 50.h,
+      child: ListWheelScrollView(
+        itemExtent: 40,
+        diameterRatio: 1.5,
+        //useMagnifier: true,
+       // magnification:1.5,
+        physics: FixedExtentScrollPhysics(),
+        children: List.generate(
+          widget.maxValue - widget.minValue + 1,
+          (index) => Center(
+            child: Text(
+              (widget.minValue + index).toString(),
+              style: TextStyle(fontSize: 20.sp,fontFamily: AppTheme.fontName),
+            ),
+          ),
+        ),
+        onSelectedItemChanged: (index) {
+          setState(() {
+            selectedValue = widget.minValue + index;
+            widget.onChanged(selectedValue);
+          });
+        },
+        controller: FixedExtentScrollController(
+          initialItem: widget.initialValue - widget.minValue,
+        ),
+      ),
+    );
+  }
 }

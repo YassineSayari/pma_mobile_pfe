@@ -77,7 +77,10 @@ class _TeamLeaderDrawerState extends State<TeamLeaderDrawer> {
                 child: ListTile(
                   title: Text('My Tasks',style: customStyle()),
                   onTap: () {
+                  Navigator.of(context).pushReplacementNamed('/tltasks');
                   },
+                  selected: widget.selectedRoute == '/tltasks',
+          
                 ),
               ),
             ],
@@ -109,7 +112,9 @@ class _TeamLeaderDrawerState extends State<TeamLeaderDrawer> {
             leading: Icon(Icons.shield_outlined),
             title: Text('Risks',style: customStyle()),
             onTap: () {
-            },
+             Navigator.of(context).pushReplacementNamed('/tlrisks');
+                  },
+                  selected: widget.selectedRoute == '/tlrisks',
           ),
           ListTile(
             leading: Icon(Icons.settings),

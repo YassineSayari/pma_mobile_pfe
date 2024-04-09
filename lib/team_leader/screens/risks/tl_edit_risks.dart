@@ -9,15 +9,15 @@ import 'package:pma/services/project_service.dart';
 import 'package:pma/services/risk_service.dart';
 import 'package:pma/theme.dart';
 
-class EditRiskPopup extends StatefulWidget {
+class TlEditRiskPopup extends StatefulWidget {
   final Risk risk;
-  const EditRiskPopup({super.key, required this.risk});
+  const TlEditRiskPopup({super.key, required this.risk});
 
   @override
-  State<EditRiskPopup> createState() => _EditRiskPopupState();
+  State<TlEditRiskPopup> createState() => _TlEditRiskPopupState();
 }
 
-class _EditRiskPopupState extends State<EditRiskPopup> {
+class _TlEditRiskPopupState extends State<TlEditRiskPopup> {
 
     final _formKey = GlobalKey<FormState>();
 
@@ -45,7 +45,7 @@ class _EditRiskPopupState extends State<EditRiskPopup> {
       @override
   void initState() {
     super.initState();
-    projects = projectService.getProjectsByEmployee(widget.risk.user['_id']);
+    projects = projectService.getAllProjects();
     riskImpact=widget.risk.impact;
     titleController = TextEditingController(text: widget.risk.title);
     actionController= TextEditingController(text: widget.risk.action);
@@ -281,7 +281,6 @@ class _EditRiskPopupState extends State<EditRiskPopup> {
             elevation: 0,
           ),
           );
-        //  Navigator.of(context).pushReplacementNamed('/tasks');
         }catch(error) {
         print('Error updating risk: $error');
                 ScaffoldMessenger.of(context).showSnackBar(
