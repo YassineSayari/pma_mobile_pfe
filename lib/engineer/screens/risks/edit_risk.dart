@@ -270,7 +270,7 @@ class _EditRiskPopupState extends State<EditRiskPopup> {
             impact: riskImpact,
             user:  {'_id': widget.risk.user['_id']},
           );
-          await riskService.updateRisk(widget.risk.id,updatedRisk);
+          //await riskService.updateRisk(widget.risk.id,updatedRisk);
 
            ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(

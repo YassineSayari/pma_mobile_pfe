@@ -37,6 +37,7 @@ import 'package:pma/services/user_service.dart';
 import 'package:pma/team_leader/screens/risks/tl_risks.dart';
 import 'package:pma/team_leader/screens/procesv/teamleader_pv.dart';
 import 'package:pma/team_leader/screens/reclamations/tl_all_reclamations.dart';
+import 'package:pma/team_leader/screens/tasks/all%20tasks/tl_all_tasks.dart';
 import 'package:pma/team_leader/screens/tasks/my_tasks/tl_tasks.dart';
 import 'package:pma/team_leader/screens/teamleader_dashboard.dart';
 
@@ -163,6 +164,7 @@ switch (role) {
 
         '/tasks':(context)=>AllTasks(),
         '/tltasks':(context)=>TlTasks(),
+        '/tlalltasks':(context)=>TlAllTasks(),
 
         '/procesv':(context)=>AllProcesv(),
         '/client_pv':(context)=>ClientProcesV(),

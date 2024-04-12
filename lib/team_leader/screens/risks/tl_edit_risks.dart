@@ -259,17 +259,26 @@ class _TlEditRiskPopupState extends State<TlEditRiskPopup> {
    Future<void> _updateRisk() async {
         try {
     
-          Map<String,dynamic> updatedProject= await projectService.getProject(projectid!);
-          Risk updatedRisk= Risk(
-            id: widget.risk.id,
-            title: titleController.text,
-            project: updatedProject,/*{'_id': projectid},*/
-            details: descriptionController.text,
-            date: DateFormat('yyyy-MM-dd').format(date!),
-            action: actionController.text,
-            impact: riskImpact,
-            user:  {'_id': widget.risk.user['_id']},
-          );
+          //Map<String,dynamic> updatedProject= await projectService.getProject(projectid!);
+                 final updatedRisk = {
+        'title': titleController.text,
+        'action': actionController.text,
+        'details': descriptionController.text,
+        'impact': riskImpact,
+        'date': dateController.text,
+        'user': widget.risk.user["_id"],
+        'project': {'_id': projectid},
+      };
+      //     final risk = Risk(
+      //   id: widget.risk.id,
+      //   title: titleController.text,
+      //   action: actionController.text,
+      //   details: descriptionController.text,
+      //   impact: riskImpact,
+      //   date: dateController.text,
+      //   user: widget.risk.user,
+      //   project: {"_id": projectid},
+      // );
           await riskService.updateRisk(widget.risk.id,updatedRisk);
 
            ScaffoldMessenger.of(context).showSnackBar(

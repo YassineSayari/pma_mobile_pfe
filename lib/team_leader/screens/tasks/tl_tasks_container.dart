@@ -274,7 +274,7 @@ class _TlTaskContainerState extends State<TlTaskContainer> {
                               elevation: 0,
                             ),
                           );
-                          Navigator.of(context).pushReplacementNamed("/tltasks");
+                          Navigator.of(context).pushReplacementNamed("/tlalltasks");
                         },
                         child: Text("Delete",style: TextStyle(color: Colors.red,fontFamily: AppTheme.fontName,fontWeight: FontWeight.w500,fontSize: 24.sp),),
                       ),

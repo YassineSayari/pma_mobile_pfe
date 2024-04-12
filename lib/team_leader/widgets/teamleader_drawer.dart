@@ -69,7 +69,9 @@ class _TeamLeaderDrawerState extends State<TeamLeaderDrawer> {
                 child: ListTile(
                   title: Text('Tasks',style: customStyle()),
                   onTap: () {
+                  Navigator.of(context).pushReplacementNamed('/tlalltasks');
                   },
+                  selected: widget.selectedRoute == '/tlalltasks',
                 ),
               ),
               Padding(

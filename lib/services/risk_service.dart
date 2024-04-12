@@ -68,14 +68,17 @@ class RiskService {
 
 
 
-Future<void> updateRisk(String id, Risk updatedRisk) async {
+Future<void> updateRisk(String id,  Map<String, dynamic> updatedRisk) async {
   try {
+    print('Updating risk with ID: $id');
+    print('Updated risk data: $updatedRisk');
+
     final response = await http.patch(
       Uri.parse('$apiUrl/updateProbleme/$id'),
       headers: {
         'Content-Type': 'application/json',
       },
-      body: json.encode(updatedRisk.toJson()),
+      body: json.encode(updatedRisk),
     );
 
     print("Response code: ${response.statusCode}");
