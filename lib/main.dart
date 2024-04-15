@@ -34,6 +34,7 @@ import 'package:pma/services/shared_preferences.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pma/services/task_service.dart';
 import 'package:pma/services/user_service.dart';
+import 'package:pma/team_leader/screens/projects/all_projects.dart';
 import 'package:pma/team_leader/screens/risks/tl_risks.dart';
 import 'package:pma/team_leader/screens/procesv/teamleader_pv.dart';
 import 'package:pma/team_leader/screens/reclamations/tl_all_reclamations.dart';
@@ -150,6 +151,7 @@ switch (role) {
         '/engineerdashboard': (context) => EngineerDashboard(),
 
         '/allprojects':(context)=>AllProjects(),
+        '/tlprojects':(context)=>TlAllProjects(),
         '/client_projects':(context)=>ClientProjects(),
         '/addproject':(context)=>AddProject(),
 

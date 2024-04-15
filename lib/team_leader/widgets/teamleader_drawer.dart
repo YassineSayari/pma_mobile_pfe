@@ -99,7 +99,9 @@ class _TeamLeaderDrawerState extends State<TeamLeaderDrawer> {
             leading: Icon(Icons.folder),
             title: Text('All Projects',style: customStyle()),
             onTap: () {
-            },
+                    Navigator.of(context).pushReplacementNamed('/tlprojects');
+                  },
+                  selected: widget.selectedRoute == '/tlprojects',
           ),
           ListTile(
             leading: Icon(Icons.receipt_long),
