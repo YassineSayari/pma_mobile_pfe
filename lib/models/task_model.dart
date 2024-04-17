@@ -29,7 +29,7 @@ class Task {
     title = json['Title'];
     project = json['Project'];
     details = json['Details'] ?? "Waiting for response";
-    status = json['Status'];
+    status = json['Status']??"Pending";
     startDate = json['StartDate'];
     deadLine = json['Deadline'];
     executor = json['Executor'];

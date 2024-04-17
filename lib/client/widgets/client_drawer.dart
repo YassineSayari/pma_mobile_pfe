@@ -41,8 +41,7 @@ class _ClientDrawerState extends State<ClientDrawer> {
   
   @override
   Widget build(BuildContext context) {
-        final Color selectedColor = Color.fromARGB(31, 33, 41, 116);
-        final userImage = userInfo['userImage'];
+    final userImage = userInfo['userImage'];
     final userImageUrl =
         userImage != null ?  "$imageUrl/$userImage":"$noImageUrl";
     print(userImageUrl);
@@ -58,12 +57,12 @@ class _ClientDrawerState extends State<ClientDrawer> {
           ),
           ListTile(
             leading: Icon(Icons.dashboard_customize_outlined),
-            title: Text('Dashboard',style: customStyle()),
+            title: Text('Dashboard',style: widget.selectedRoute == '/clientdashboard' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
             onTap: (){},
           ),
           ListTile(
             leading: Icon(Icons.insert_chart_outlined),
-            title: Text('Proces-Verbal',style: customStyle()),
+            title: Text('Proces-Verbal',style: widget.selectedRoute == '/client_pv' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
             onTap: () {
                     Navigator.of(context).pushReplacementNamed('/client_pv');
                   },
@@ -71,7 +70,7 @@ class _ClientDrawerState extends State<ClientDrawer> {
           ),
           ListTile(
             leading: Icon(Icons.book),
-            title: Text('Projects',style: customStyle()),
+            title: Text('Projects',style: widget.selectedRoute == '/client_projects' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
             onTap: () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
@@ -83,16 +82,15 @@ class _ClientDrawerState extends State<ClientDrawer> {
           ),
           ListTile(
             leading: Icon(Icons.receipt_long),
-            title: Text('My Reclamations',style: customStyle()),
+            title: Text('My Reclamations',style: widget.selectedRoute == '/client_reclamations' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
             onTap: () {
                     Navigator.of(context).pushReplacementNamed('/client_reclamations');
                   },
                   selected: widget.selectedRoute == '/client_reclamations',
-                  selectedTileColor: selectedColor,
           ),
           ListTile(
             leading: Icon(Icons.settings),
-            title: Text('Profile',style: customStyle()),
+            title: Text('Profile',style: widget.selectedRoute == '/profile' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
             onTap: () {
               Navigator.of(context).pushReplacementNamed('/profile');
             },
@@ -100,7 +98,7 @@ class _ClientDrawerState extends State<ClientDrawer> {
           ),
           ListTile(
             leading: Icon(Icons.logout),
-            title: Text('Logout',style: customStyle()),
+            title: Text('Logout',style: AppTheme.defaultItemStyle),
             onTap: () {
               _handleLogout(context);
             },
@@ -118,10 +116,4 @@ class _ClientDrawerState extends State<ClientDrawer> {
     Navigator.of(context).pushReplacementNamed('/signin');
   }
   
-    TextStyle customStyle(){
-    return TextStyle(
-      fontFamily: AppTheme.fontName,
-      fontWeight: FontWeight.w500
-    );
-  }
 }

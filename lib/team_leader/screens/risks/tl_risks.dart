@@ -3,62 +3,46 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pma/admin/widgets/search_bar.dart';
 import 'package:pma/custom_appbar.dart';
-import 'package:pma/models/procesv_model.dart';
-import 'package:pma/services/procesv_service..dart';
-import 'package:pma/services/shared_preferences.dart';
-import 'package:pma/team_leader/screens/procesv/teamleader_add_pv.dart';
-import 'package:pma/team_leader/screens/procesv/teamleader_pv_container.dart';
+import 'package:pma/models/risk_model.dart';
+import 'package:pma/services/risk_service.dart';
+import 'package:pma/team_leader/screens/risks/tl_add_risk.dart';
+import 'package:pma/team_leader/screens/risks/tl_risks_container.dart';
 import 'package:pma/team_leader/widgets/teamleader_drawer.dart';
 import 'package:pma/theme.dart';
 
-class TeamLeaderPv extends StatefulWidget {
-  const TeamLeaderPv({super.key});
+class TeamLeaderRisks extends StatefulWidget {
+  const TeamLeaderRisks({super.key});
 
   @override
-  State<TeamLeaderPv> createState() => _TeamLeaderPvState();
+  State<TeamLeaderRisks> createState() => _TeamLeaderRisksState();
 }
 
-class _TeamLeaderPvState extends State<TeamLeaderPv> {
-  late List<Procesv> allProcesv;
-  List<Procesv> displayedProcesv = [];
-  late Procesv procesv;
+class _TeamLeaderRisksState extends State<TeamLeaderRisks> {
+  late List<Risk> allRisks;
+  List<Risk> displayedRisks = [];
+  late Risk risk;
     String _selectedSortOption=" ";
 
 
   @override
   void initState() {
     super.initState();
-    allProcesv = [];      
-    _initializeData();
-  }
-
-Future<void> _initializeData() async {
-  try {
-    SharedPrefs sharedPrefs = SharedPrefs();
-    String? currentTeamLeaderId= await sharedPrefs.getLoggedUserIdFromPrefs();
-    
-    List<Procesv> allProcesv = [];
-      List<Procesv> TeamLeaderProcesV = await ProcesVService().getAllProcesV();
-      allProcesv.addAll(TeamLeaderProcesV);
-    
-
-    setState(() {
-      this.allProcesv = allProcesv;
-      this.displayedProcesv = allProcesv;
+    allRisks = [];
+    RiskService().getAllProblemes().then((risks) {
+      setState(() {
+        allRisks = risks;
+        displayedRisks = allRisks;
+      });
     });
-  } catch (error) {
-    print("Error initializing data: $error");
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: TeamLeaderDrawer(selectedRoute: '/teamleader_pv'),
+      drawer: TeamLeaderDrawer(selectedRoute: '/tlrisks'),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
-            showDialog(context: context, builder: (context) => TeamLeaderAddPv());
+            showDialog(context: context, builder: (context) => TlAddRisk());
           },
           backgroundColor: Colors.blue,
           shape: RoundedRectangleBorder(
@@ -72,20 +56,21 @@ Future<void> _initializeData() async {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomAppBar(title: "Proces Verbal"),
+          CustomAppBar(title: "Risks"),
           SizedBox(height: 15.h),
           UserSearchBar(onChanged: onSearchTextChanged,
           onTap: (){
           },
           ), 
 
+          
           SizedBox(height: 10.h),
           
           Padding(
             padding: const EdgeInsets.only(left: 12.0),
             child: Row(
               children: [
-                Text("Total ProcesV : ${displayedProcesv.length}",
+                Text("Total Risks : ${displayedRisks.length}",
                 style: TextStyle(fontSize:  AppTheme.totalObjectFontSize.sp,fontFamily: AppTheme.fontName,fontWeight: FontWeight.w500
                 ),
                 ),
@@ -97,6 +82,44 @@ Future<void> _initializeData() async {
                   },
                   itemBuilder: (BuildContext context) => [
                     PopupMenuItem(
+                      value: 'Impact Ascending',
+                      child: ListTile(
+                        title: Row(
+                          children: [
+                            Radio(
+                              value: 'Impact Ascending',
+                              groupValue: _selectedSortOption,
+                              onChanged: (_) {},
+                            ),
+                            Text('Impact ',
+                            style:TextStyle(fontSize: 17.sp),
+                            ),
+                          ],
+                        ),
+                        trailing: Icon(Icons.arrow_upward_outlined),
+                        dense: true,
+                      ),
+                    ),
+                    PopupMenuItem(
+                      value: 'Impact Descending',
+                      child: ListTile(
+                        title: Row(
+                          children: [
+                            Radio(
+                              value: 'Impact Descending',
+                              groupValue: _selectedSortOption,
+                              onChanged: (_) {},
+                            ),
+                            Text('Impact ',
+                              style:TextStyle(fontSize: 17.sp),
+                              ),
+                          ],
+                        ),
+                        trailing: Icon(Icons.arrow_downward_rounded),
+                        dense: true,
+                      ),  
+                    ),
+                      PopupMenuItem(
                       value: 'Date Ascending',
                       child: ListTile(
                         title: Row(
@@ -132,44 +155,6 @@ Future<void> _initializeData() async {
                         ),
                         trailing: Icon(Icons.arrow_downward_rounded),
                         dense: true,
-                      ),  
-                    ),
-                      PopupMenuItem(
-                      value: 'Project Ascending',
-                      child: ListTile(
-                        title: Row(
-                          children: [
-                            Radio(
-                              value: 'Project Ascending',
-                              groupValue: _selectedSortOption,
-                              onChanged: (_) {},
-                            ),
-                            Text('Project ',
-                            style:TextStyle(fontSize: 17.sp),
-                            ),
-                          ],
-                        ),
-                        trailing: Icon(Icons.arrow_upward_outlined),
-                        dense: true,
-                      ),
-                    ),
-                    PopupMenuItem(
-                      value: 'Project Descending',
-                      child: ListTile(
-                        title: Row(
-                          children: [
-                            Radio(
-                              value: 'Project Descending',
-                              groupValue: _selectedSortOption,
-                              onChanged: (_) {},
-                            ),
-                            Text('Project ',
-                              style:TextStyle(fontSize: 17.sp),
-                              ),
-                          ],
-                        ),
-                        trailing: Icon(Icons.arrow_downward_rounded),
-                        dense: true,
                       ),
                       
                     ),
@@ -183,17 +168,19 @@ Future<void> _initializeData() async {
             ),
             
           ),
+          //SizedBox(height: 15.h),
           Expanded(
-            child: displayedProcesv.isEmpty
+            child: displayedRisks.isEmpty
                 ? Center(child: SpinKitCubeGrid(color: Colors.blue))
                 : Padding(
                     padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
                     child: ListView.builder(
-                      itemCount: displayedProcesv.length,
+                      itemCount: displayedRisks.length,
                       itemBuilder: (context, index) {
                         return Column(
                           children: [
-                            TeamLeaderPvContainer(procesv: displayedProcesv[index]),
+                            //Text("${displayedReclamations[index].title}"),
+                            TlRiskContainer(risk: displayedRisks[index]),
                             SizedBox(height: 5.h),
                           ],
                         );
@@ -209,8 +196,8 @@ Future<void> _initializeData() async {
   void onSearchTextChanged(String text) {
     print('Search text changed: $text');
     setState(() {
-      displayedProcesv = allProcesv
-          .where((procesv) => procesv.title.toLowerCase().contains(text.toLowerCase()))
+      displayedRisks = allRisks
+          .where((risk) => risk.title.toLowerCase().contains(text.toLowerCase()))
           .toList();
     });
   }
@@ -219,24 +206,24 @@ Future<void> _initializeData() async {
   setState(() {
     _selectedSortOption = selectedOption;
     switch (_selectedSortOption) {
+      case 'Impact Ascending':
+        _sort((risk) => risk.impact, ascending: true);
+        break;
+      case 'Impact Descending':
+        _sort((risk) => risk.impact, ascending: false);
+        break;
       case 'Date Ascending':
-        _sort((procesv) => procesv.date, ascending: true);
+        _sort((risk) => risk.date, ascending: true);
         break;
       case 'Date Descending':
-        _sort((procesv) => procesv.date, ascending: false);
-        break;
-      case 'Sender Ascending':
-        _sort((procesv) => procesv.project['Projectname'], ascending: true);
-        break;
-      case 'Sender Descending':
-        _sort((procesv) =>procesv.project['Projectname'], ascending: false);
+        _sort((risk) =>risk.date, ascending: false);
         break;
     }
   });
 }
 
-void _sort<T>(Comparable<T> Function(Procesv procesv) getField, {required bool ascending}) {
-  displayedProcesv.sort((a, b) {
+void _sort<T>(Comparable<T> Function(Risk risk) getField, {required bool ascending}) {
+  displayedRisks.sort((a, b) {
     final aValue = getField(a);
     final bValue = getField(b);
     return ascending ? Comparable.compare(aValue, bValue) : Comparable.compare(bValue, aValue);

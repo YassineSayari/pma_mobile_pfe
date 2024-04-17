@@ -34,8 +34,12 @@ import 'package:pma/services/shared_preferences.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pma/services/task_service.dart';
 import 'package:pma/services/user_service.dart';
+import 'package:pma/team_leader/screens/projects/all_projects.dart';
+import 'package:pma/team_leader/screens/risks/tl_risks.dart';
 import 'package:pma/team_leader/screens/procesv/teamleader_pv.dart';
 import 'package:pma/team_leader/screens/reclamations/tl_all_reclamations.dart';
+import 'package:pma/team_leader/screens/tasks/all%20tasks/tl_all_tasks.dart';
+import 'package:pma/team_leader/screens/tasks/my_tasks/tl_tasks.dart';
 import 'package:pma/team_leader/screens/teamleader_dashboard.dart';
 
 import 'admin/screens/employees/all_employees.dart';
@@ -147,6 +151,7 @@ switch (role) {
         '/engineerdashboard': (context) => EngineerDashboard(),
 
         '/allprojects':(context)=>AllProjects(),
+        '/tlprojects':(context)=>TlAllProjects(),
         '/client_projects':(context)=>ClientProjects(),
         '/addproject':(context)=>AddProject(),
 
@@ -155,10 +160,13 @@ switch (role) {
         '/tlreclamations':(context)=>TlAllReclamations(),
         '/addreclamation':(context)=>AddReclamation(),
 
+        '/tlrisks':(context)=>TeamLeaderRisks(),
         '/risks':(context)=>AllRisks(),
         '/engineer_tasks':(context)=>EngineerTasks(),
 
         '/tasks':(context)=>AllTasks(),
+        '/tltasks':(context)=>TlTasks(),
+        '/tlalltasks':(context)=>TlAllTasks(),
 
         '/procesv':(context)=>AllProcesv(),
         '/client_pv':(context)=>ClientProcesV(),

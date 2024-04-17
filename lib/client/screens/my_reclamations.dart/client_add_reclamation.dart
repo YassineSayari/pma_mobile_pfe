@@ -181,7 +181,9 @@ class _ClientAddReclamationState extends State<ClientAddReclamation> {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {
+                          if (_formKey.currentState!.validate()) {    
                           _addReclamation();
+                          }
                         },
                         child: Text(
                           "Save",

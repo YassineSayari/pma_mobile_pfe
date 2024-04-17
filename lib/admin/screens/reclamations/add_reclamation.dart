@@ -265,21 +265,23 @@ class _addReclamationState extends State<AddReclamation> {
                                   maxLines: 3,
                                   style: TextInputDecorations.textStyle,
                                   decoration: TextInputDecorations.customInputDecoration(labelText: 'Response'),
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please enter a valid response';
-                                    }
-                                    return null;
-                                  },
+                                  // validator: (value) {
+                                  //   if (value == null || value.isEmpty) {
+                                  //     return 'Please enter a valid response';
+                                  //   }
+                                  //   return null;
+                                  // },
                                 ),
                                 SizedBox(height: 10.h),
                                                           Row(
                             children: [
                               Expanded(
                                 child: ElevatedButton(
-                                  onPressed: (){
-                                   _addReclamation();
-                                        Navigator.of(context).pushReplacementNamed('/reclamations');
+                                  onPressed: () {
+                                    if (_formKey.currentState!.validate()) {
+                                      _addReclamation();
+                                      Navigator.of(context).pushReplacementNamed('/reclamations');
+                                    }
                                   },
                                              child: Text("Save",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily:AppTheme.fontName),),
                                              style: AppButtonStyles.submitButtonStyle

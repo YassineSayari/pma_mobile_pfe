@@ -271,8 +271,12 @@ Future<void> initializeData() async {
                             children: [
                               Expanded(
                                 child: ElevatedButton(
-                                  onPressed: (){
+                                    onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+    
                                     _addProcesv();
+                                    Navigator.of(context).pushReplacementNamed('/teamleader_pv');
+                                     }
                                   },
                                              child: Text("Save",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily:AppTheme.fontName),),
                                              style: AppButtonStyles.submitButtonStyle
@@ -328,7 +332,7 @@ Future<void> initializeData() async {
             elevation: 0,
           ),
           );
-          Navigator.of(context).pushReplacementNamed('/teamleader_pv');
+          
         }catch(error) {
         print('Error adding pv : $error');
                 ScaffoldMessenger.of(context).showSnackBar(
