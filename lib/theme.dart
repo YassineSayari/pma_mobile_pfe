@@ -56,6 +56,17 @@ class AppTheme {
     ),
   );
 
+ static TextStyle defaultItemStyle= const TextStyle(
+      fontFamily: AppTheme.fontName,
+      fontWeight: FontWeight.w500
+  );
+ static TextStyle selectedItemStyle= const TextStyle(
+      color: AppColors.drawerItemColor,
+      fontFamily: AppTheme.fontName,
+      fontWeight: FontWeight.w500
+  );
+
+
 }
 
 class AppColors {
@@ -63,7 +74,10 @@ class AppColors {
   static const Color dialogBackgroundColor = Colors.white;
   static const Color buttonTextPrimary = Colors.blue;
   static const Color buttonTextSecondary = Colors.grey;
+  static const Color drawerItemColor=Color.fromARGB(255, 30, 195, 18);
 }
+
+
 
 class AppButtonStyles {
   static ButtonStyle submitButtonStyle = ElevatedButton.styleFrom(

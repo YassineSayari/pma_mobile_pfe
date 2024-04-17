@@ -39,7 +39,7 @@ class _TeamLeaderDrawerState extends State<TeamLeaderDrawer> {
   }
   @override
   Widget build(BuildContext context) {
-    final Color selectedColor = Color.fromARGB(31, 33, 41, 116);
+    final Color selectedColor = Color.fromARGB(31, 32, 233, 14);
         final userImage = userInfo['userImage'];
     final userImageUrl =
         userImage != null ?  "$imageUrl/$userImage":"$noImageUrl";
@@ -55,19 +55,19 @@ class _TeamLeaderDrawerState extends State<TeamLeaderDrawer> {
           ),
           ListTile(
             leading: Icon(Icons.tv),
-            title: Text('Dashboard',style: customStyle()),
+            title: Text('Dashboard',style:widget.selectedRoute == '/admindashboard' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
             onTap: (){
 
             },
           ),
           ExpansionTile(
             leading: Icon(Icons.task_alt),
-            title: Text('tasks',style: customStyle()),
+            title: Text('tasks',style:AppTheme.defaultItemStyle),
             children: [
               Padding(
                 padding: const EdgeInsets.only(left: 16.0),
                 child: ListTile(
-                  title: Text('Tasks',style: customStyle()),
+                  title: Text('Tasks',style:widget.selectedRoute == '/tlalltasks' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
                   onTap: () {
                   Navigator.of(context).pushReplacementNamed('/tlalltasks');
                   },
@@ -77,27 +77,27 @@ class _TeamLeaderDrawerState extends State<TeamLeaderDrawer> {
               Padding(
                 padding: const EdgeInsets.only(left: 16.0),
                 child: ListTile(
-                  title: Text('My Tasks',style: customStyle()),
+                  title: Text('My Tasks',style:widget.selectedRoute == '/tltasks' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
                   onTap: () {
                   Navigator.of(context).pushReplacementNamed('/tltasks');
                   },
                   selected: widget.selectedRoute == '/tltasks',
-          
                 ),
               ),
             ],
           ),
           ListTile(
             leading: Icon(Icons.insert_chart_outlined),
-            title: Text('Proces-Verbal',style: customStyle()),
+            title: Text('Proces-Verbal',style:widget.selectedRoute == '/teamleader_pv' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
             onTap: () {
                     Navigator.of(context).pushReplacementNamed('/teamleader_pv');
                   },
                   selected: widget.selectedRoute == '/teamleader_pv',
+
           ),
           ListTile(
             leading: Icon(Icons.folder),
-            title: Text('All Projects',style: customStyle()),
+            title: Text('All Projects',style:widget.selectedRoute == '/tlprojects' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
             onTap: () {
                     Navigator.of(context).pushReplacementNamed('/tlprojects');
                   },
@@ -105,7 +105,7 @@ class _TeamLeaderDrawerState extends State<TeamLeaderDrawer> {
           ),
           ListTile(
             leading: Icon(Icons.receipt_long),
-            title: Text('Client Claims',style: customStyle()),
+            title: Text('Client Claims',style:widget.selectedRoute == '/tlreclamations' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
            onTap: () {
                     Navigator.of(context).pushReplacementNamed('/tlreclamations');
                   },
@@ -114,7 +114,7 @@ class _TeamLeaderDrawerState extends State<TeamLeaderDrawer> {
 
           ListTile(
             leading: Icon(Icons.shield_outlined),
-            title: Text('Risks',style: customStyle()),
+            title: Text('Risks',style:widget.selectedRoute == '/tlrisks' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
             onTap: () {
              Navigator.of(context).pushReplacementNamed('/tlrisks');
                   },
@@ -122,7 +122,7 @@ class _TeamLeaderDrawerState extends State<TeamLeaderDrawer> {
           ),
           ListTile(
             leading: Icon(Icons.settings),
-            title: Text('Profile',style: customStyle()),
+            title: Text('Profile',style:widget.selectedRoute == '/profile' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
             onTap: () {
               Navigator.of(context).pushReplacementNamed('/profile');
             },
@@ -130,7 +130,7 @@ class _TeamLeaderDrawerState extends State<TeamLeaderDrawer> {
           ),
           ListTile(
             leading: Icon(Icons.calendar_today_outlined),
-            title: Text('Calendar',style: customStyle()),
+            title: Text('Calendar',style:widget.selectedRoute == '/calendar' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
             onTap: () {
               Navigator.of(context).pushReplacementNamed('/calendar');
             },
@@ -139,7 +139,7 @@ class _TeamLeaderDrawerState extends State<TeamLeaderDrawer> {
 
           ListTile(
             leading: Icon(Icons.logout),
-            title: Text('Logout',style: customStyle()),
+            title: Text('Logout',style:AppTheme.defaultItemStyle),
             onTap: () {
               _handleLogout(context);
             },
@@ -157,10 +157,5 @@ class _TeamLeaderDrawerState extends State<TeamLeaderDrawer> {
     Navigator.of(context).pushReplacementNamed('/signin');
   }
 
-    TextStyle customStyle(){
-    return TextStyle(
-      fontFamily: AppTheme.fontName,
-      fontWeight: FontWeight.w500
-    );
-  }
+
 }

@@ -300,9 +300,13 @@ class _TlAddTaskState extends State<TlAddTask> {
                             children: [
                               Expanded(
                                 child: ElevatedButton(
-                                  onPressed: (){
-                                    _addTask();
+                                  onPressed: () {
+                                    if (_formKey.currentState!.validate()) {
+                                      _addTask();
+                                      Navigator.of(context).pushReplacementNamed('/reclamations');
+                                    }
                                   },
+                               
                                              child: Text("Save",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily:AppTheme.fontName),),
                                              style: AppButtonStyles.submitButtonStyle
                                               ),

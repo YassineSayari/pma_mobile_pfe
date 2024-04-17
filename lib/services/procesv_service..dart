@@ -155,6 +155,8 @@ Future<List<Procesv>> getProcesvByUser(String id) async {
       print("pv deleted");
        }
       else{
+                 print(" failed to delete pv:::: ${response.reasonPhrase}");
+
          throw Exception('Failed to delete pv');
       }
     

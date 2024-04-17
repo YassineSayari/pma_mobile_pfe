@@ -46,7 +46,6 @@ class _EngineerDrawerState extends State<EngineerDrawer> {
   @override
   Widget build(BuildContext context) {
 
-  final Color selectedColor = Color.fromARGB(31, 33, 41, 116);
   final userImage = userInfo['userImage'];
   final userImageUrl =
         userImage != null ?  "$imageUrl/$userImage":"$noImageUrl";
@@ -63,12 +62,12 @@ class _EngineerDrawerState extends State<EngineerDrawer> {
           ),
           ListTile(
             leading: Icon(Icons.tv),
-            title: Text('Dashboard',style: customStyle()),
+            title: Text('Dashboard',style: widget.selectedRoute == '/engineerdashboard' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
             onTap: (){},
           ),
           ListTile(
             leading: Icon(Icons.people_outline),
-            title: Text('My Team',style: customStyle()),
+            title: Text('My Team',style: widget.selectedRoute == '/myteam' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
             onTap: () {
               Navigator.of(context).pushReplacement(
         MaterialPageRoute(
@@ -77,11 +76,10 @@ class _EngineerDrawerState extends State<EngineerDrawer> {
         );
           },
             selected: widget.selectedRoute == '/myteam',
-            selectedTileColor: selectedColor,
           ),
           ListTile(
             leading: Icon(Icons.layers),
-            title: Text('My Projects',style: customStyle()),
+            title: Text('My Projects',style: widget.selectedRoute == '/engineer_projects' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
             onTap: () {
               Navigator.of(context).pushReplacement(
         MaterialPageRoute(
@@ -90,20 +88,18 @@ class _EngineerDrawerState extends State<EngineerDrawer> {
         );
             },
             selected: widget.selectedRoute == '/engineer_projects',
-            selectedTileColor: selectedColor,
           ),
           ListTile(
             leading: Icon(Icons.task_alt),
-            title: Text('My Tasks',style: customStyle()),
+            title: Text('My Tasks',style: widget.selectedRoute == '/engineer_tasks' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
             onTap: () {
                     Navigator.of(context).pushNamed('/engineer_tasks');
                   },
                   selected: widget.selectedRoute == '/engineer_tasks',
-                  selectedTileColor: selectedColor,
           ),
           ListTile(
             leading: Icon(Icons.shield_outlined),
-            title: Text('Risks',style: customStyle()),
+            title: Text('Risks',style: widget.selectedRoute == '/engineer_risks' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
             onTap: () {
               Navigator.of(context).pushReplacement(
         MaterialPageRoute(
@@ -111,29 +107,27 @@ class _EngineerDrawerState extends State<EngineerDrawer> {
         ),
       );
             },
-            selected: widget.selectedRoute == '/engineer_projects',
-                  selectedTileColor: selectedColor,
+            selected: widget.selectedRoute == '/engineer_risks',
           ),
           ListTile(
             leading: Icon(Icons.settings),
-            title: Text('Profile',style: customStyle()),
+            title: Text('Profile',style: widget.selectedRoute == '/profile' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
             onTap: () {
                     Navigator.of(context).pushNamed('/profile');
                   },
                   selected: widget.selectedRoute == '/profile',
-                  selectedTileColor: selectedColor,
           ),
 
           ListTile(
             leading: Icon(Icons.calendar_today_outlined),
-            title: Text('Calendar',style: customStyle()),
+            title: Text('Calendar',style: widget.selectedRoute == '/calendar' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
             onTap: () {
-              print("calendar clicked");
+               Navigator.of(context).pushReplacementNamed('/calendar');
             },
           ),
           ListTile(
             leading: Icon(Icons.logout),
-            title: Text('Logout',style: customStyle()),
+            title: Text('Logout',style:AppTheme.defaultItemStyle),
             onTap: () {
               print("logout clicked");
 
@@ -153,10 +147,4 @@ class _EngineerDrawerState extends State<EngineerDrawer> {
     Navigator.of(context).pushReplacementNamed('/signin');
   }
   
-    TextStyle customStyle(){
-    return TextStyle(
-      fontFamily: AppTheme.fontName,
-      fontWeight: FontWeight.w500
-    );
-  }
 }

@@ -4,6 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pma/admin/widgets/admin_drawer.dart';
 import 'package:pma/custom_snackbar.dart';
 import 'package:pma/team_leader/screens/projects/tl_project_container.dart';
+import 'package:pma/team_leader/widgets/teamleader_drawer.dart';
 import 'package:pma/theme.dart';
 import '../../../custom_appbar.dart';
 import '../../../services/project_service.dart';
@@ -26,7 +27,7 @@ class _TlAllProjectsState extends State<TlAllProjects> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: AdminDrawer(selectedRoute: '/allprojects'),
+      drawer: TeamLeaderDrawer(selectedRoute: '/tlprojects'),
       body: Column(
         children: [
           CustomAppBar(title: 'Projects'),

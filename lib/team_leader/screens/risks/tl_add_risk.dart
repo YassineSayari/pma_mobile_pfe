@@ -204,8 +204,11 @@ class _TlAddRiskState extends State<TlAddRisk> {
                             children: [
                               Expanded(
                                 child: ElevatedButton(
+                                  
                                   onPressed: (){
-                                   _addRisk();
+                                    if (_formKey.currentState!.validate()) {    
+                                     _addRisk();
+                                     }
                                   },
                                              child: Text("Save",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily:AppTheme.fontName),),
                                              style: AppButtonStyles.submitButtonStyle
