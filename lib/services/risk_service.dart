@@ -40,16 +40,45 @@ class RiskService {
     } 
   }
 
-
-
-Future<void> updateRisk(String id, Risk updatedRisk) async {
+  Future<void> addRisk(Map<String, dynamic> risk) async {
   try {
+    print("adding risk-----");
+    print("new risk data::::::::: $risk");
+
+    final response = await http.post(
+      Uri.parse('$apiUrl/createProb'),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(risk),
+    );
+
+    if (response.statusCode == 200) {
+      print("risk added");
+    } else {
+      print("Failed to add risk. Status code: ${response.statusCode}");
+      print("Response body: ${response.body}");
+      throw Exception('Failed to add risk');
+    }
+  } catch (error) {
+    print('Error adding risk: $error');
+    throw error; 
+  }
+}
+
+
+
+Future<void> updateRisk(String id,  Map<String, dynamic> updatedRisk) async {
+  try {
+    print('Updating risk with ID: $id');
+    print('Updated risk data: $updatedRisk');
+
     final response = await http.patch(
       Uri.parse('$apiUrl/updateProbleme/$id'),
       headers: {
         'Content-Type': 'application/json',
       },
-      body: json.encode(updatedRisk.toJson()),
+      body: json.encode(updatedRisk),
     );
 
     print("Response code: ${response.statusCode}");

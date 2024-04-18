@@ -56,6 +56,17 @@ class AppTheme {
     ),
   );
 
+ static TextStyle defaultItemStyle= const TextStyle(
+      fontFamily: AppTheme.fontName,
+      fontWeight: FontWeight.w500
+  );
+ static TextStyle selectedItemStyle= const TextStyle(
+      color: AppColors.drawerItemColor,
+      fontFamily: AppTheme.fontName,
+      fontWeight: FontWeight.w500
+  );
+
+
 }
 
 class AppColors {
@@ -63,7 +74,10 @@ class AppColors {
   static const Color dialogBackgroundColor = Colors.white;
   static const Color buttonTextPrimary = Colors.blue;
   static const Color buttonTextSecondary = Colors.grey;
+  static const Color drawerItemColor=Color.fromARGB(255, 30, 195, 18);
 }
+
+
 
 class AppButtonStyles {
   static ButtonStyle submitButtonStyle = ElevatedButton.styleFrom(
@@ -90,31 +104,55 @@ class AppButtonStyles {
 }
 
 
+class TextInputDecorations {
+  static InputDecoration customInputDecoration({required String labelText}) {
+    return InputDecoration(
+      labelText: labelText,
+      labelStyle: TextStyle(
+        color: Color.fromARGB(255, 173, 170, 186),
+        fontSize: 25.sp,
+        fontWeight: FontWeight.w600,
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10.r)),
+        borderSide: BorderSide(
+          width: 3,
+          color: Colors.grey,
+        ),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10.r)),
+        borderSide: BorderSide(
+          width: 3,
+          color: Colors.deepPurple,
+        ),
+      ),
+    );
+  }
+
+  static final TextStyle textStyle = TextStyle(
+    color: Color(0xFF000000),
+    fontSize: 27.sp,
+    fontWeight: FontWeight.w500,
+  );
+}
 
 
-class AppTextFieldStyles {
-  static  TextStyle textStyle = TextStyle(
+class DateFieldsStyle {
+  static TextStyle textStyle = TextStyle(
     color: Color(0xFF000000),
     fontSize: 20.sp,
     fontFamily: AppTheme.fontName,
   );
 
-  static  TextStyle labelStyle = TextStyle(
+  static TextStyle labelStyle = TextStyle(
     color: Color.fromARGB(255, 173, 170, 186),
     fontSize: 25.sp,
     fontFamily: AppTheme.fontName,
     fontWeight: FontWeight.w600,
   );
 
-  static  OutlineInputBorder enabledBorder = OutlineInputBorder(
-    borderRadius: BorderRadius.all(Radius.circular(10.r)),
-    borderSide: BorderSide(
-      width: 2.w,
-      color: Colors.grey,
-    ),
-  );
-
-  static  OutlineInputBorder focusedBorder = OutlineInputBorder(
+  static OutlineInputBorder enabledBorder = OutlineInputBorder(
     borderRadius: BorderRadius.all(Radius.circular(10.r)),
     borderSide: BorderSide(
       width: 2.w,
@@ -122,5 +160,13 @@ class AppTextFieldStyles {
     ),
   );
 
+  static OutlineInputBorder focusedBorder = OutlineInputBorder(
+    borderRadius: BorderRadius.all(Radius.circular(10.r)),
+    borderSide: BorderSide(
+      width: 2.w,
+      color: Colors.deepPurple,
+    ),
+  );
 }
+
 

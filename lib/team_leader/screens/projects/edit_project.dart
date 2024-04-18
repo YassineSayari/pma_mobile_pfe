@@ -14,7 +14,7 @@ import 'package:pma/services/user_service.dart';
  import 'package:pma/services/project_service.dart';
 import 'package:pma/theme.dart';
 
-class EditProject extends StatefulWidget {
+class TlEditProject extends StatefulWidget {
   final String projectId;
   final String projectTitle;
   final String description;
@@ -25,7 +25,7 @@ class EditProject extends StatefulWidget {
   final String teamLeaderId;
   final List<dynamic> equipe;
 
-  const EditProject({
+  const TlEditProject({
     Key? key,
     required this.projectId,
     required this.projectTitle,
@@ -39,10 +39,10 @@ class EditProject extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<EditProject> createState() => _EditProjectState();
+  State<TlEditProject> createState() => _TlEditProjectState();
 }
 
-class _EditProjectState extends State<EditProject> {
+class _TlEditProjectState extends State<TlEditProject> {
 
     final _formKey = GlobalKey<FormState>();
   final TextEditingController title = TextEditingController();
@@ -398,7 +398,7 @@ Widget build(BuildContext context) {
                                 child: ElevatedButton(
                                   onPressed: (){
                                     _updateProject();
-                                        Navigator.of(context).pushReplacementNamed('/allprojects');
+                                        Navigator.of(context).pushReplacementNamed('/tlprojects');
                                   },
                                              child: Text("Save",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily:AppTheme.fontName),),
                                              style: AppButtonStyles.submitButtonStyle
@@ -408,7 +408,7 @@ Widget build(BuildContext context) {
                           Expanded(
                             child: ElevatedButton(
                               onPressed: (){
-                                Navigator.of(context).pushReplacementNamed('/allprojects');
+                                Navigator.of(context).pushReplacementNamed('/tlprojects');
                               },
                                          child: Text("Cancel",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily:AppTheme.fontName),),
                                          style: AppButtonStyles.cancelButtonStyle

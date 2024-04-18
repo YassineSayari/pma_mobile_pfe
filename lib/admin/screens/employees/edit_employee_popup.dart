@@ -80,7 +80,7 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
         print('Error updating employee: $error');
                 ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: FailSnackBar(message: "failed to update eployee!"),
+            content: FailSnackBar(message: "failed to update employee!"),
             duration: Duration(seconds: 2),
             behavior: SnackBarBehavior.floating,
             backgroundColor: Colors.transparent,
@@ -115,13 +115,8 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
                 SizedBox(height: 30.h),
                 TextFormField(
                   controller: nameController,
-                                    style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Name*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          ),
+                  style: TextInputDecorations.textStyle,
+                  decoration: TextInputDecorations.customInputDecoration(labelText: 'Name'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter a valid name';
@@ -145,25 +140,15 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
                       child: Text(department),
                     );
                   }).toList(),
-                                    style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Department*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          ),
+                  style: TextInputDecorations.textStyle,
+                  decoration: TextInputDecorations.customInputDecoration(labelText: 'Department'),
                 ),
             
                 SizedBox(height: 15.h),
                 TextFormField(
                   controller: roleController,
-                                    style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Role*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          ),
+                  style: TextInputDecorations.textStyle,
+                  decoration: TextInputDecorations.customInputDecoration(labelText: 'Role'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter a valid role';
@@ -186,26 +171,16 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
                       child: Text(gender),
                     );
                   }).toList(),
-                                    style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Gender*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          ),
+                  style: TextInputDecorations.textStyle,
+                  decoration: TextInputDecorations.customInputDecoration(labelText: 'Gender'),
                 ),
             
                 SizedBox(height: 15.h),
             
                 TextFormField(
                   controller: mobileController,
-                                    style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Mobile*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          ),
+                  style: TextInputDecorations.textStyle,
+                  decoration: TextInputDecorations.customInputDecoration(labelText: 'Mobile'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter a valid mobile';
@@ -218,13 +193,8 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
             
                 TextFormField(
                   controller: emailController,
-                                    style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Email*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          ),
+                 style: TextInputDecorations.textStyle,
+                  decoration: TextInputDecorations.customInputDecoration(labelText: 'Email'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter a valid email';
@@ -254,18 +224,17 @@ class _EditEmployeePopupState extends State<EditEmployeePopup> {
                     }
                   },
                   readOnly: true,
-                                    style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Hiring Date*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          
-                    prefixIcon: Icon(
-                      Icons.calendar_today,
-                      color: Colors.grey[400],
-                    ),
-                  ),
+                  style: DateFieldsStyle.textStyle,
+                              decoration: InputDecoration(
+                              labelText: 'Hiring Date*',
+                              labelStyle: DateFieldsStyle.labelStyle,
+                              enabledBorder: DateFieldsStyle.enabledBorder,
+                              focusedBorder: DateFieldsStyle.focusedBorder,
+                              prefixIcon: Icon(
+                                Icons.calendar_today,
+                                color: Colors.grey[400],
+                              ),
+                            ),
                   validator: (value) {
                     if (hiringDate == null) {
                       return 'Hiring Date is required';

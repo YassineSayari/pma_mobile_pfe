@@ -153,35 +153,8 @@ class SigninState extends State<Signin> {
                         TextFormField(
                           controller: mail,
                           keyboardType: TextInputType.text,
-                          style: TextStyle(
-                            color: Color(0xFF000000),
-                            fontSize: 27.sp,
-                            fontFamily: AppTheme.fontName,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          decoration: InputDecoration(
-                            labelText:'Email',
-                            labelStyle: TextStyle(
-                              color: Color(0xFF7743DB),
-                            fontSize: 25.sp,
-                            fontFamily: AppTheme.fontName,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 3,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 3,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
+                          style: TextInputDecorations.textStyle,
+                          decoration: TextInputDecorations.customInputDecoration(labelText: 'Email'),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter an email';
@@ -190,41 +163,14 @@ class SigninState extends State<Signin> {
                           },
                         ),
 
-                        SizedBox(height: 16),
+                        SizedBox(height: 10.h),
 
                         TextFormField(
                           controller: password,
                           keyboardType: TextInputType.text,
                           obscureText: true,
-                          style: TextStyle(
-                            color: Color(0xFF000000),
-                            fontSize: 27.sp,
-                            fontFamily: AppTheme.fontName,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          decoration: InputDecoration(
-                            labelText: 'Password',
-                            labelStyle: TextStyle(
-                              color: Color(0xFF755DC1),
-                            fontSize: 25.sp,
-                            fontFamily: AppTheme.fontName,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 3,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 3,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
+                          style: TextInputDecorations.textStyle,
+                          decoration: TextInputDecorations.customInputDecoration(labelText: 'Password'),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter a password';
@@ -233,7 +179,7 @@ class SigninState extends State<Signin> {
                           },
                         ),
 
-                        SizedBox(height: 16),
+                        SizedBox(height: 10.h),
 
                         SizedBox(
                           width: 300,

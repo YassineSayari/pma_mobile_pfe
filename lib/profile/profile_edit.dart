@@ -126,13 +126,8 @@ class _EditProfileState extends State<EditProfile> {
             TextFormField(
              controller: nameController,
               keyboardType: TextInputType.text,
-              style: AppTextFieldStyles.textStyle,
-                                decoration: InputDecoration(
-                                  labelText: 'Full Name*',
-                                  labelStyle: AppTextFieldStyles.labelStyle,
-                                  enabledBorder: AppTextFieldStyles.enabledBorder,
-                                  focusedBorder: AppTextFieldStyles.focusedBorder,
-                                ),
+              style: TextInputDecorations.textStyle,
+              decoration: TextInputDecorations.customInputDecoration(labelText: 'Full Name'),
                       validator: (value) {
                              if (value == null || value.isEmpty) {
                                return 'Please enter a full name';
@@ -146,13 +141,8 @@ class _EditProfileState extends State<EditProfile> {
             TextFormField(
              controller: cityController,
               keyboardType: TextInputType.text,
-              style: AppTextFieldStyles.textStyle,
-                                decoration: InputDecoration(
-                                  labelText: 'City*',
-                                  labelStyle: AppTextFieldStyles.labelStyle,
-                                  enabledBorder: AppTextFieldStyles.enabledBorder,
-                                  focusedBorder: AppTextFieldStyles.focusedBorder,
-                                ),
+              style: TextInputDecorations.textStyle,
+              decoration: TextInputDecorations.customInputDecoration(labelText: 'City'),
                       validator: (value) {
                              if (value == null || value.isEmpty) {
                                return 'Please enter a city';
@@ -166,13 +156,8 @@ class _EditProfileState extends State<EditProfile> {
             TextFormField(
              controller: phoneController,
               keyboardType: TextInputType.number,
-              style: AppTextFieldStyles.textStyle,
-                                decoration: InputDecoration(
-                                  labelText: 'Phone*',
-                                  labelStyle: AppTextFieldStyles.labelStyle,
-                                  enabledBorder: AppTextFieldStyles.enabledBorder,
-                                  focusedBorder: AppTextFieldStyles.focusedBorder,
-                                ),
+              style: TextInputDecorations.textStyle,
+              decoration: TextInputDecorations.customInputDecoration(labelText: 'Phone'),
                       validator: (value) {
                              if (value == null || value.isEmpty) {
                                return 'Please enter a phone number';
@@ -186,14 +171,8 @@ class _EditProfileState extends State<EditProfile> {
             TextFormField(
              controller: countryController,
               keyboardType: TextInputType.text,
-              style: AppTextFieldStyles.textStyle,
-                                decoration: InputDecoration(
-                                  labelText: 'Country*',
-                                  labelStyle: AppTextFieldStyles.labelStyle,
-                                  enabledBorder: AppTextFieldStyles.enabledBorder,
-                                  focusedBorder: AppTextFieldStyles.focusedBorder,
-                                ),
-              
+              style: TextInputDecorations.textStyle,
+              decoration: TextInputDecorations.customInputDecoration(labelText: 'Country'),
                       validator: (value) {
                              if (value == null || value.isEmpty) {
                                return 'Please enter a country';
@@ -207,13 +186,8 @@ class _EditProfileState extends State<EditProfile> {
             TextFormField(
              controller: addressController,
               keyboardType: TextInputType.text,
-              style: AppTextFieldStyles.textStyle,
-                                decoration: InputDecoration(
-                                  labelText: 'Address*',
-                                  labelStyle: AppTextFieldStyles.labelStyle,
-                                  enabledBorder: AppTextFieldStyles.enabledBorder,
-                                  focusedBorder: AppTextFieldStyles.focusedBorder,
-                                ),
+              style: TextInputDecorations.textStyle,
+              decoration: TextInputDecorations.customInputDecoration(labelText: 'Address'),
                       validator: (value) {
                              if (value == null || value.isEmpty) {
                                return 'Please enter an adress';
@@ -227,13 +201,8 @@ class _EditProfileState extends State<EditProfile> {
             TextFormField(
              controller: nationalityController,
               keyboardType: TextInputType.text,
-              style: AppTextFieldStyles.textStyle,
-                                decoration: InputDecoration(
-                                  labelText: 'Nationality*',
-                                  labelStyle: AppTextFieldStyles.labelStyle,
-                                  enabledBorder: AppTextFieldStyles.enabledBorder,
-                                  focusedBorder: AppTextFieldStyles.focusedBorder,
-                                ),
+              style: TextInputDecorations.textStyle,
+              decoration: TextInputDecorations.customInputDecoration(labelText: 'Nationality'),
                       validator: (value) {
                              if (value == null || value.isEmpty) {
                                return 'Please enter a nationality';

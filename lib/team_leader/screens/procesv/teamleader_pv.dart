@@ -38,7 +38,7 @@ Future<void> _initializeData() async {
     String? currentTeamLeaderId= await sharedPrefs.getLoggedUserIdFromPrefs();
     
     List<Procesv> allProcesv = [];
-      List<Procesv> TeamLeaderProcesV = await ProcesVService().getProcesvByUser(currentTeamLeaderId!);
+      List<Procesv> TeamLeaderProcesV = await ProcesVService().getAllProcesV();
       allProcesv.addAll(TeamLeaderProcesV);
     
 

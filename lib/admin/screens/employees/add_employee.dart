@@ -78,13 +78,8 @@ class _AddEmployeeState extends State<AddEmployee> {
                       TextFormField(
                         controller: fullname,
                         keyboardType: TextInputType.text,
-                                    style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Full Name*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          ),
+                        style: TextInputDecorations.textStyle,
+                                decoration: TextInputDecorations.customInputDecoration(labelText: 'Full Name'),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Full Name is required';
@@ -95,13 +90,8 @@ class _AddEmployeeState extends State<AddEmployee> {
                       SizedBox(height: 10.h),
                       TextFormField(
                         controller: mail,
-                                    style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Email*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          ),
+                        style: TextInputDecorations.textStyle,
+                                decoration: TextInputDecorations.customInputDecoration(labelText: 'Email'),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Email is required';
@@ -115,13 +105,8 @@ class _AddEmployeeState extends State<AddEmployee> {
                       DropdownButtonFormField(
                         value: gender,
                         isExpanded: true,
-                                    style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Gender*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          ),
+                        style: TextInputDecorations.textStyle,
+                                decoration: TextInputDecorations.customInputDecoration(labelText: 'Gender'),
                         items: [
                           DropdownMenuItem(child: Text('Male',style: TextStyle(fontSize: 20,fontFamily: AppTheme.fontName,),),value:'Male'),
                           DropdownMenuItem(child: Text('Female',style: TextStyle(fontSize: 20,fontFamily: AppTheme.fontName,),),value:'Female'),
@@ -142,13 +127,8 @@ class _AddEmployeeState extends State<AddEmployee> {
                       TextFormField(
                         controller: mobile,
                         keyboardType: TextInputType.number,
-                                    style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Mobile*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          ),
+                        style: TextInputDecorations.textStyle,
+                                decoration: TextInputDecorations.customInputDecoration(labelText: 'Mobile'),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Mobile number is required';
@@ -163,13 +143,8 @@ class _AddEmployeeState extends State<AddEmployee> {
                         controller: password,
                         keyboardType: TextInputType.text,
                         obscureText: true,
-                                    style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Password*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          ),
+                        style: TextInputDecorations.textStyle,
+                                decoration: TextInputDecorations.customInputDecoration(labelText: 'Password'),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Password is required';
@@ -182,13 +157,8 @@ class _AddEmployeeState extends State<AddEmployee> {
                         controller: passwordconf,
                         keyboardType: TextInputType.text,
                         obscureText: true,
-                                    style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Re-Enter Password*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          ),
+                        style: TextInputDecorations.textStyle,
+                                decoration: TextInputDecorations.customInputDecoration(labelText: 'Re-Enter Password'),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Re-Enter password is required';
@@ -203,25 +173,15 @@ class _AddEmployeeState extends State<AddEmployee> {
                         controller: address,
                         keyboardType: TextInputType.text,
                         obscureText: true,
-                                    style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Address*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          ),
+                        style: TextInputDecorations.textStyle,
+                                decoration: TextInputDecorations.customInputDecoration(labelText: 'Address'),
                       ),
                       SizedBox(height: 10.h),
                       DropdownButtonFormField(
                         value: department,
                         isExpanded: true,
-                                    style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Department*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          ),
+                        style: TextInputDecorations.textStyle,
+                                decoration: TextInputDecorations.customInputDecoration(labelText: 'Department'),
                         items: [
                           DropdownMenuItem(child: Text('Development',style: TextStyle(fontSize: 18,fontFamily: AppTheme.fontName,),),value:'Development'),
                           DropdownMenuItem(child: Text('System',style: TextStyle(fontSize: 18,fontFamily: AppTheme.fontName,),),value:'System'),
@@ -264,18 +224,17 @@ class _AddEmployeeState extends State<AddEmployee> {
                         },
                         controller: birthDateController,
                         readOnly: true,
-                          style: AppTextFieldStyles.textStyle,
-                                decoration: InputDecoration(
-                                  labelText: 'Birthdate*',
-                                  labelStyle: AppTextFieldStyles.labelStyle,
-                                  enabledBorder: AppTextFieldStyles.enabledBorder,
-                                  focusedBorder: AppTextFieldStyles.focusedBorder,
-                                
-                          prefixIcon: Icon(
-                            Icons.calendar_today,
-                            color: Colors.grey[400],
-                          ),
-                        ),
+                        style: DateFieldsStyle.textStyle,
+                              decoration: InputDecoration(
+                              labelText: 'Birth Date*',
+                              labelStyle: DateFieldsStyle.labelStyle,
+                              enabledBorder: DateFieldsStyle.enabledBorder,
+                              focusedBorder: DateFieldsStyle.focusedBorder,
+                              prefixIcon: Icon(
+                                Icons.calendar_today,
+                                color: Colors.grey[400],
+                              ),
+                            ),
                         validator: (value) {
                           if (birthDate == null) {
                             return 'Birthdate is required';
@@ -302,18 +261,17 @@ class _AddEmployeeState extends State<AddEmployee> {
                         },
                         controller:hiringDateController ,
                         readOnly: true,
-                          style: AppTextFieldStyles.textStyle,
-                                decoration: InputDecoration(
-                                  labelText: 'hriring date*',
-                                  labelStyle: AppTextFieldStyles.labelStyle,
-                                  enabledBorder: AppTextFieldStyles.enabledBorder,
-                                  focusedBorder: AppTextFieldStyles.focusedBorder,
-                                
-                          prefixIcon: Icon(
-                            Icons.calendar_today,
-                            color: Colors.grey[400],
-                          ),
-                        ),
+                        style: DateFieldsStyle.textStyle,
+                              decoration: InputDecoration(
+                              labelText: 'Hiring Date*',
+                              labelStyle: DateFieldsStyle.labelStyle,
+                              enabledBorder: DateFieldsStyle.enabledBorder,
+                              focusedBorder: DateFieldsStyle.focusedBorder,
+                              prefixIcon: Icon(
+                                Icons.calendar_today,
+                                color: Colors.grey[400],
+                              ),
+                            ),
                         validator: (value) {
                           if (hiringDate == null) {
                             return 'Hiring Date is required';

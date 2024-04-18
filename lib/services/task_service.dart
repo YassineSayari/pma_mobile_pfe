@@ -46,6 +46,46 @@ class TaskService {
     }
   }
 
+
+
+Future<void> addTask(Map<String, dynamic> task) async {
+  try {
+    String? authToken = await SharedPrefs.getAuthToken();
+    if (authToken == null) {
+      throw Exception('Failed to get authentication token.');
+    }
+
+      final response = await http.post(
+    Uri.parse('$apiUrl/createTask'),
+    headers: {
+      'Authorization': 'Bearer $authToken',
+      'Content-Type': 'application/json',
+    },
+    body: json.encode(task),
+  );
+
+    print("Request body: ${json.encode(task)}");
+    print("Response code: ${response.statusCode}");
+    print("Response headers: ${response.headers}");
+    print("Response body: ${response.body}");
+
+    if (response.statusCode == 200) {
+      print("Task added successfully!");
+    } else if (response.statusCode == 400) {
+      throw Exception('Failed to add task. Bad request.');
+    } else if (response.statusCode == 401) {
+      throw Exception('Failed to add task. Unauthorized.');
+    } else {
+      throw Exception(
+          'Failed to add task. Error: ${response.reasonPhrase}');
+    }
+  } catch (e) {
+    print('Error adding task: $e');
+    throw Exception('Failed to add task. $e');
+  }
+}
+
+
 Future<void> updateTask(String id, Task updatedTask) async {
 
   print("------------updating task $id");
@@ -53,7 +93,6 @@ Future<void> updateTask(String id, Task updatedTask) async {
   final response = await http.put(
     Uri.parse('$apiUrl/updateTask/$id'),
     headers: {
-      //'Authorization': 'Bearer $authToken',
       'Content-Type': 'application/json',
     },
     body: json.encode(updatedTask.toJson()),
