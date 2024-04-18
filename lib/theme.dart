@@ -74,7 +74,7 @@ class AppColors {
   static const Color dialogBackgroundColor = Colors.white;
   static const Color buttonTextPrimary = Colors.blue;
   static const Color buttonTextSecondary = Colors.grey;
-  static const Color drawerItemColor=Color.fromARGB(255, 30, 195, 18);
+  static const Color drawerItemColor=Colors.deepPurple;
 }
 
 

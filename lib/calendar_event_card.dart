@@ -18,17 +18,20 @@ class EventCard extends StatefulWidget {
 }
 
 class _EventCardState extends State<EventCard> {
-          bool isExpanded = false;
+  bool isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
+    // Calculate event duration
+    Duration duration = widget.event.endDate.difference(widget.event.startDate);
+    String durationString = '${duration.inHours} H ${duration.inMinutes.remainder(60)} M';
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 3),
       child: Container(
-        //height: 220,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-          color: Colors.grey, // Change to your desired color
+          color: Colors.grey, 
           borderRadius: BorderRadius.circular(28),
         ),
         child: Padding(
@@ -39,7 +42,7 @@ class _EventCardState extends State<EventCard> {
               Row(
                 children: [
                   Text(
-                    widget.event.title, // Display event title
+                    widget.event.title, 
                     style: TextStyle(
                       color: Colors.white,
                       fontFamily: AppTheme.fontName,
@@ -49,42 +52,42 @@ class _EventCardState extends State<EventCard> {
                   ),
                   Spacer(),
                   IconButton(
-                icon: Icon(
-                  isExpanded ? Icons.keyboard_arrow_up_outlined : Icons.keyboard_arrow_down,
-                  size: 35,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  setState(() {
-                    isExpanded = !isExpanded;
-                  });
-                },
-              ),
+                    icon: Icon(
+                      isExpanded ? Icons.keyboard_arrow_up_outlined : Icons.keyboard_arrow_down,
+                      size: 35,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        isExpanded = !isExpanded;
+                      });
+                    },
+                  ),
                 ],
               ),
-               SizedBox(height: 20.h),
-               Row(
-                 children: [
-                   Text(
-                    'Details: ', 
+              SizedBox(height: 20.h),
+              Row(
+                children: [
+                  Text(
+                    'Details: ',
                     style: TextStyle(
                       color: Colors.white,
                       fontFamily: AppTheme.fontName,
                       fontSize: 28,
                     ),
-                                 ),
-                   Flexible(
-                     child: Text(
+                  ),
+                  Flexible(
+                    child: Text(
                       '${widget.event.details}',
                       style: TextStyle(
                         color: Colors.white,
                         fontFamily: AppTheme.fontName,
                         fontSize: 28,
                       ),
-                                   ),
-                   ),
-                 ],
-               ),
+                    ),
+                  ),
+                ],
+              ),
               SizedBox(height: 10.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -93,7 +96,7 @@ class _EventCardState extends State<EventCard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        DateFormat('h:mm a').format(widget.event.startDate), // Display event start time
+                        DateFormat('h:mm a').format(widget.event.startDate), 
                         style: TextStyle(
                           fontFamily: AppTheme.fontName,
                           color: Colors.white,
@@ -105,25 +108,25 @@ class _EventCardState extends State<EventCard> {
                         style: TextStyle(
                           fontFamily: AppTheme.fontName,
                           color: Colors.white,
-                          fontSize: 16,
+                          fontSize: 16.sp,
                         ),
                       ),
                     ],
                   ),
                   Container(
                     height: 40,
-                    width: 75,
+                    width: 95,
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(22),
+                      borderRadius: BorderRadius.circular(20.r),
                     ),
                     child: Center(
                       child: Text(
-                        "     ", // Display event duration
+                        durationString, 
                         style: TextStyle(
                           fontFamily: AppTheme.fontName,
                           color: Colors.blue,
-                          fontSize: 16,
+                          fontSize: 16.sp,
                         ),
                       ),
                     ),
@@ -132,7 +135,7 @@ class _EventCardState extends State<EventCard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        DateFormat('h:mm a').format(widget.event.endDate), // Display event end time
+                        DateFormat('h:mm a').format(widget.event.endDate), 
                         style: TextStyle(
                           fontFamily: AppTheme.fontName,
                           color: Colors.white,
@@ -144,43 +147,42 @@ class _EventCardState extends State<EventCard> {
                         style: TextStyle(
                           fontFamily: AppTheme.fontName,
                           color: Colors.white,
-                          fontSize: 16,
+                          fontSize: 16.sp,
                         ),
                       ),
-                     
                     ],
                   ),
                 ],
               ),
-               SizedBox(height: 10.h),
-                      if(isExpanded)
-                          Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                showDialog(context: context, builder: (context)=> EditEventPopup(event: widget.event));                     
-                                  },
-                              child: Icon(
-                                Icons.edit_outlined,
-                                size: 25.sp,
-                                color: Colors.white,
-                              ),
-                            ),
-                          SizedBox(width: 20.w),
-                          GestureDetector(
-                              onTap: () {
-                                print("deleting event : ${widget.event.id}");
-                              deleteEvent(widget.event.id);
-                              },
-                              child: Icon(
-                                Icons.delete_outline,
-                                size: 25.sp,
-                                color: Color.fromARGB(255, 188, 14, 14),
-                              ),
-                            ),
-                          ],
-                        ),
+              SizedBox(height: 10.h),
+              if (isExpanded)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        showDialog(context: context, builder: (context) => EditEventPopup(event: widget.event));
+                      },
+                      child: Icon(
+                        Icons.edit_outlined,
+                        size: 25.sp,
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(width: 20.w),
+                    GestureDetector(
+                      onTap: () {
+                        print("deleting event : ${widget.event.id}");
+                        deleteEvent(widget.event.id);
+                      },
+                      child: Icon(
+                        Icons.delete_outline,
+                        size: 25.sp,
+                        color: Color.fromARGB(255, 188, 14, 14),
+                      ),
+                    ),
+                  ],
+                ),
             ],
           ),
         ),
@@ -188,57 +190,56 @@ class _EventCardState extends State<EventCard> {
     );
   }
 
-
-    void deleteEvent(String id) {
+  void deleteEvent(String id) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return Dialog(
-                shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0.r),
-      ),
-      insetPadding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 225.h),
-      child:Container(
-          padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
-          width: double.infinity,
-             child: Column(
-               children: [
-                 Text("Confirm Deletion",style: TextStyle(fontFamily: AppTheme.fontName,fontSize: 35.sp,fontWeight: FontWeight.w600)),
-                           Text("Are you sure you want to delete this Event?",style: TextStyle(fontFamily: AppTheme.fontName,fontSize: 24.sp)),
-                           
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Text("Cancel",style: TextStyle(fontFamily: AppTheme.fontName,fontWeight: FontWeight.w500,fontSize: 24.sp)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.0.r),
+          ),
+          insetPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 225.h),
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
+            width: double.infinity,
+            child: Column(
+              children: [
+                Text("Confirm Deletion", style: TextStyle(fontFamily: AppTheme.fontName, fontSize: 35.sp, fontWeight: FontWeight.w600)),
+                Text("Are you sure you want to delete this Event?", style: TextStyle(fontFamily: AppTheme.fontName, fontSize: 24.sp)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text("Cancel", style: TextStyle(fontFamily: AppTheme.fontName, fontWeight: FontWeight.w500, fontSize: 24.sp)),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        EventService().deleteEvent(id);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: SuccessSnackBar(message: "Event deleted !"),
+                            duration: Duration(seconds: 2),
+                            behavior: SnackBarBehavior.floating,
+                            backgroundColor: Colors.transparent,
+                            elevation: 0,
+                          ),
+                        );
+                        Navigator.of(context).pushReplacementNamed("/calendar");
+                      },
+                      child: Text(
+                        "Delete",
+                        style: TextStyle(color: Colors.red, fontFamily: AppTheme.fontName, fontWeight: FontWeight.w500, fontSize: 24.sp),
                       ),
-                      TextButton(
-                        onPressed: () {
-                          EventService().deleteEvent(id);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: SuccessSnackBar(message: "Event deleted !"),
-                              duration: Duration(seconds: 2),
-                              behavior: SnackBarBehavior.floating,
-                              backgroundColor: Colors.transparent,
-                              elevation: 0,
-                            ),
-                          );
-                          Navigator.of(context).pushReplacementNamed("/calendar");
-                        },
-                        child: Text("Delete",style: TextStyle(color: Colors.red,fontFamily: AppTheme.fontName,fontWeight: FontWeight.w500,fontSize: 24.sp),),
-                      ),
-                    ],
-                  ),
-               ],
-             ),
-           ),
-        
-        ).animate(delay: 100.ms)
-        .fade().scale();
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ).animate(delay: 100.ms).fade().scale();
       },
     );
   }
