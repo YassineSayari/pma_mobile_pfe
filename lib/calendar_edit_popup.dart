@@ -75,13 +75,8 @@ class _EditEventPopupState extends State<EditEventPopup> {
                 SizedBox(height: 30.h),
                 TextFormField(
                   controller: titleController,
-                  style: AppTextFieldStyles.textStyle,
-                        decoration: InputDecoration(
-                          labelText: 'Title*',
-                          labelStyle: AppTextFieldStyles.labelStyle,
-                          enabledBorder: AppTextFieldStyles.enabledBorder,
-                          focusedBorder: AppTextFieldStyles.focusedBorder,
-                        ),
+                  style: TextInputDecorations.textStyle,
+                  decoration: TextInputDecorations.customInputDecoration(labelText: 'Title'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter a valid title';
@@ -92,13 +87,8 @@ class _EditEventPopupState extends State<EditEventPopup> {
                         SizedBox(height: 10.h),      
                         DropdownButtonFormField(
                           value: category,
-                          style: AppTextFieldStyles.textStyle,
-                                decoration: InputDecoration(
-                                  labelText: 'Category*',
-                                  labelStyle: AppTextFieldStyles.labelStyle,
-                                  enabledBorder: AppTextFieldStyles.enabledBorder,
-                                  focusedBorder: AppTextFieldStyles.focusedBorder,
-                                ),
+                          style: TextInputDecorations.textStyle,
+                          decoration: TextInputDecorations.customInputDecoration(labelText: 'Category'),
                           items: [
                             DropdownMenuItem(child: Text('Work',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'Work'),
                             DropdownMenuItem(child: Text('Personal',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'Personal'),
@@ -137,19 +127,18 @@ class _EditEventPopupState extends State<EditEventPopup> {
                                     },
                                     controller: startDateController,
                                     readOnly: true,
-                                    style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Start Date*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                            prefixIcon: Icon(
-                                                        Icons.calendar_today,
-                                                        color: Colors.grey[400],
-                                             ),
-                                          ),
-                                      
-                                   
+                                    style: DateFieldsStyle.textStyle,
+                                    decoration: InputDecoration(
+                                    labelText: 'Start Date*',
+                                    labelStyle: DateFieldsStyle.labelStyle,
+                                    enabledBorder: DateFieldsStyle.enabledBorder,
+                                    focusedBorder: DateFieldsStyle.focusedBorder,
+                                    prefixIcon: Icon(
+                                      Icons.calendar_today,
+                                      color: Colors.grey[400],
+                                    ),
+                                  ),
+                                        
                                     validator: (value) {
                                       if (startDate == null) {
                                         return 'start date is required';
@@ -175,18 +164,17 @@ class _EditEventPopupState extends State<EditEventPopup> {
                                     },
                                     controller: startDateController,
                                     readOnly: true,
-                                    style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Deadline*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                            prefixIcon: Icon(
-                                                        Icons.calendar_today,
-                                                        color: Colors.grey[400],
-                                             ),
-                                          ),
-                                      
+                                    style: DateFieldsStyle.textStyle,
+                                    decoration: InputDecoration(
+                                    labelText: 'Deadline*',
+                                    labelStyle: DateFieldsStyle.labelStyle,
+                                    enabledBorder: DateFieldsStyle.enabledBorder,
+                                    focusedBorder: DateFieldsStyle.focusedBorder,
+                                    prefixIcon: Icon(
+                                      Icons.calendar_today,
+                                      color: Colors.grey[400],
+                                    ),
+                                  ),
                                    
                                     validator: (value) {
                                       if (startDate == null) {
@@ -199,13 +187,8 @@ class _EditEventPopupState extends State<EditEventPopup> {
                                   TextFormField(
                                   controller: descriptionController,
                                   maxLines: 3,
-                                    style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Description',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          ),
+                                  style: TextInputDecorations.textStyle,
+                                  decoration: TextInputDecorations.customInputDecoration(labelText: 'Description'),
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return 'Please enter a valid description';

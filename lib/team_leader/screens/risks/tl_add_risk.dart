@@ -4,59 +4,52 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:pma/custom_snackbar.dart';
-import 'package:pma/models/risk_model.dart';
+import 'package:pma/models/user_model.dart';
 import 'package:pma/services/project_service.dart';
 import 'package:pma/services/risk_service.dart';
+import 'package:pma/services/shared_preferences.dart';
+import 'package:pma/services/user_service.dart';
 import 'package:pma/theme.dart';
 
-class EditRiskPopup extends StatefulWidget {
-  final Risk risk;
-  const EditRiskPopup({super.key, required this.risk});
+class TlAddRisk extends StatefulWidget {
+  const TlAddRisk({super.key});
 
   @override
-  State<EditRiskPopup> createState() => _EditRiskPopupState();
+  State<TlAddRisk> createState() => _TlAddRiskState();
 }
 
-class _EditRiskPopupState extends State<EditRiskPopup> {
+class _TlAddRiskState extends State<TlAddRisk> {
 
     final _formKey = GlobalKey<FormState>();
 
-    late TextEditingController titleController;
-    late TextEditingController actionController;
+    final TextEditingController titleController = TextEditingController();
+
     late Future<List<Map<String, dynamic>>> projects;
-
-
     String? projectid;
 
+    late TextEditingController actionController= TextEditingController();
+    late String impact;
 
-
-    late String riskImpact;
-    late String priority;
-
-    DateTime? date;
-    final TextEditingController dateController= TextEditingController();
-
-
-    late TextEditingController descriptionController;
+    DateTime? creationDate;
+    final TextEditingController creationDateController = TextEditingController();
+    late TextEditingController detailsController= TextEditingController();
 
   final ProjectService projectService = GetIt.I<ProjectService>();
-  final RiskService riskService = GetIt.I<RiskService>();
+  final RiskService riskService=GetIt.I<RiskService>();
+  final SharedPrefs prefs = GetIt.I<SharedPrefs>();
+  final UserService userService=GetIt.I<UserService>();
+
 
       @override
   void initState() {
     super.initState();
-    projects = projectService.getProjectsByEmployee(widget.risk.user['_id']);
-    riskImpact=widget.risk.impact;
-    titleController = TextEditingController(text: widget.risk.title);
-    actionController= TextEditingController(text: widget.risk.action);
-    descriptionController= TextEditingController(text: widget.risk.details);
-    projectid = widget.risk.project["_id"];
-    date = DateTime.parse(widget.risk.date);
-    dateController.text = DateFormat('yyyy-MM-dd').format(date!);
+    projects = projectService.getAllProjects();
+    impact="High";
+  }
 
-    print("proejct id::::: $projectid");
-    
-
+    @override
+  void dispose() {
+    super.dispose();
   }
 
 
@@ -79,7 +72,7 @@ class _EditRiskPopupState extends State<EditRiskPopup> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Center(child: Text("Edit",style: TextStyle(fontFamily: AppTheme.fontName,fontWeight: FontWeight.w600,fontSize: 34.sp),)),
+                Center(child: Text("New Risk",style: TextStyle(fontFamily: AppTheme.fontName,fontWeight: FontWeight.w600,fontSize: 34.sp),)),
                 SizedBox(height: 30.h),
                 TextFormField(
                   controller: titleController,
@@ -107,7 +100,7 @@ class _EditRiskPopupState extends State<EditRiskPopup> {
                                   return DropdownButtonFormField(
                                     value: projectid,
                                     style: TextInputDecorations.textStyle,
-                                    decoration: TextInputDecorations.customInputDecoration(labelText: 'Project'),
+                          decoration: TextInputDecorations.customInputDecoration(labelText: 'Project'),
 
                                     items: snapshot.data!.map<DropdownMenuItem<String>>((Map<String, dynamic> project) {
                                       return DropdownMenuItem<String>(
@@ -133,45 +126,31 @@ class _EditRiskPopupState extends State<EditRiskPopup> {
                               },
                             ),
 
-                        
                         SizedBox(height: 10.h),
-                        TextFormField(
-                  controller: actionController,
-                  style: TextInputDecorations.textStyle,
-                  decoration: TextInputDecorations.customInputDecoration(labelText: 'Action'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a valid action';
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: 10.h),
-
+                        
                         DropdownButtonFormField(
-                          value: riskImpact,
+                          value: impact,
                           style: TextInputDecorations.textStyle,
-                          decoration: TextInputDecorations.customInputDecoration(labelText: 'Status'),
+                          decoration: TextInputDecorations.customInputDecoration(labelText: 'Impact'),
                           items: [
-                            DropdownMenuItem(child: Text('High',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'High'),
-                            DropdownMenuItem(child: Text('Medium',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'Medium'),
-                            DropdownMenuItem(child: Text('Low',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'Low'),
+                            DropdownMenuItem(child: Text('High',style: TextStyle(fontSize:20,fontFamily:AppTheme.fontName),), value: 'High'),
+                            DropdownMenuItem(child: Text('Medium',style: TextStyle(fontSize: 20,fontFamily:AppTheme.fontName),), value: 'Medium'),
+                            DropdownMenuItem(child: Text('Low',style: TextStyle(fontSize: 20,fontFamily:AppTheme.fontName),), value: 'Low'),
                           ],
                           
                           onChanged: (selectedValue) {
                             setState(() {
-                              riskImpact = selectedValue as String;
+                              impact = selectedValue as String;
                             });
                           },
                           validator: (value) {
                             if (value == null ) {
-                              return 'Status is required';
+                              return 'impact is required';
                             }
                             return null;
                           },
-                        ),
-                        
-                   SizedBox(height: 10.h),
+                        ),                        
+                            SizedBox(height: 10.h),
                             TextFormField(
                                     onTap: () async {
                                       DateTime? pickedDate = await showDatePicker(
@@ -180,57 +159,56 @@ class _EditRiskPopupState extends State<EditRiskPopup> {
                                         firstDate: DateTime.now(),
                                         lastDate: DateTime.now().add(Duration(days: 365 * 2)),
                                       );
-                                      if (pickedDate != null && pickedDate != date) {
+                                      if (pickedDate != null && pickedDate != creationDate) {
                                         setState(() {
-                                          date = pickedDate;
-                                          dateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
+                                          creationDate = pickedDate;
+                                          creationDateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
                                         });
                                       }
                                     },
-                                    controller: dateController,
-                                    readOnly: true,
+                                    controller: creationDateController,
+                                    readOnly: true,    
                                     style: DateFieldsStyle.textStyle,
-                              decoration: InputDecoration(
-                              labelText: 'Date*',
-                              labelStyle: DateFieldsStyle.labelStyle,
-                              enabledBorder: DateFieldsStyle.enabledBorder,
-                              focusedBorder: DateFieldsStyle.focusedBorder,
-                              prefixIcon: Icon(
-                                Icons.calendar_today,
-                                color: Colors.grey[400],
-                              ),
-                            ),
+                                    decoration: InputDecoration(
+                                    labelText: 'Creation Date*',
+                                    labelStyle: DateFieldsStyle.labelStyle,
+                                    enabledBorder: DateFieldsStyle.enabledBorder,
+                                    focusedBorder: DateFieldsStyle.focusedBorder,
+                                    prefixIcon: Icon(
+                                      Icons.calendar_today,
+                                      color: Colors.grey[400],
+                                    ),
+                                  ),
                                     validator: (value) {
-                                      if (date == null) {
-                                        return 'date is required';
+                                      if (creationDate == null) {
+                                        return 'Creation date is required';
                                       }
                                       return null;
                                     },
                                   ),
                                   SizedBox(height: 10.h),
-                            
-                                  SizedBox(height: 10.h),
                                   TextFormField(
-                                  controller: descriptionController,
+                                  controller: detailsController,
                                   maxLines: 3,
                                   style: TextInputDecorations.textStyle,
-                          decoration: TextInputDecorations.customInputDecoration(labelText: 'Description'),
+                                  decoration: TextInputDecorations.customInputDecoration(labelText: 'Details'),
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return 'Please enter a valid description';
+                                      return 'Please enter valid details';
                                     }
                                     return null;
                                   },
                                 ),
                                 SizedBox(height: 10.h),
-
-                                 
-                             Row(
+                            Row(
                             children: [
                               Expanded(
                                 child: ElevatedButton(
+                                  
                                   onPressed: (){
-                                    _updateRisk();
+                                    if (_formKey.currentState!.validate()) {    
+                                     _addRisk();
+                                     }
                                   },
                                              child: Text("Save",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily:AppTheme.fontName),),
                                              style: AppButtonStyles.submitButtonStyle
@@ -256,37 +234,43 @@ class _EditRiskPopupState extends State<EditRiskPopup> {
     );
   }
 
-   Future<void> _updateRisk() async {
+   Future<void> _addRisk() async {
+    final List<Map<String, dynamic>> projectsList = await projects;
+    String? userId = await prefs.getLoggedUserIdFromPrefs();
+    print("user id:::: $userId");
+    User user = await userService.getUserbyId(userId!);
+    print("user:::: ${user.id} ::::  ${user.fullName}");
         try {
-    
-          Map<String,dynamic> updatedProject= await projectService.getProject(projectid!);
-          Risk updatedRisk= Risk(
-            id: widget.risk.id,
-            title: titleController.text,
-            project: updatedProject,/*{'_id': projectid},*/
-            details: descriptionController.text,
-            date: DateFormat('yyyy-MM-dd').format(date!),
-            action: actionController.text,
-            impact: riskImpact,
-            user:  {'_id': widget.risk.user['_id']},
-          );
-          //await riskService.updateRisk(widget.risk.id,updatedRisk);
+          Map<String, dynamic> newRisk = {
+                  'title' : titleController.text,
+                  'action': actionController.text,
+                  'date': creationDate?.toIso8601String(),
+                  'project': projectsList
+                  .firstWhere((project) => project['_id'] == projectid),
+                  'impact' : impact,
+                  'details': detailsController.text,
+                  'user':userId,
+                  
+            
+          };
 
+          await riskService.addRisk(newRisk) ;
+          Navigator.of(context).pushReplacementNamed('/tlrisks');
            ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-            content: SuccessSnackBar(message: "Risk updated !"),
+            content: SuccessSnackBar(message: "Risk added !"),
             duration: Duration(seconds: 2),
             behavior: SnackBarBehavior.floating,
             backgroundColor: Colors.transparent,
             elevation: 0,
           ),
           );
-        //  Navigator.of(context).pushReplacementNamed('/tasks');
+          print("cbon::::");
         }catch(error) {
-        print('Error updating risk: $error');
+        print('Error adding risk: $error');
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-            content: FailSnackBar(message: "failed to update risk!"),
+            content: FailSnackBar(message: "failed to add risk!"),
             duration: Duration(seconds: 2),
             behavior: SnackBarBehavior.floating,
             backgroundColor: Colors.transparent,

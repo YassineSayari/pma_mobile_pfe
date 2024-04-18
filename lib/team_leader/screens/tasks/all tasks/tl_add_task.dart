@@ -6,62 +6,55 @@ import 'package:intl/intl.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:pma/custom_snackbar.dart';
 import 'package:pma/models/user_model.dart';
-import 'package:pma/services/procesv_service..dart';
 import 'package:pma/services/project_service.dart';
-import 'package:pma/services/shared_preferences.dart';
+import 'package:pma/services/task_service.dart';
 import 'package:pma/services/user_service.dart';
 import 'package:pma/theme.dart';
 
-class AddProcesv extends StatefulWidget {
-  const AddProcesv({super.key});
+class TlAddTask extends StatefulWidget {
+  const TlAddTask({super.key});
 
   @override
-  State<AddProcesv> createState() => _AddProcesvState();
+  State<TlAddTask> createState() => _TlAddTaskState();
 }
 
-class _AddProcesvState extends State<AddProcesv> {
+class _TlAddTaskState extends State<TlAddTask> {
 
     final _formKey = GlobalKey<FormState>();
 
+    late TextEditingController titleController= TextEditingController();
     late Future<List<Map<String, dynamic>>> projects;
     late Future<List<User>> teamLeaders;
+    late Future<List<User>> engineers;
 
     String? projectid;
   final MultiSelectController executorController = MultiSelectController();
   List<User> selectedExecutors = [];
 
-    DateTime? date;
-    final TextEditingController dateController = TextEditingController();
 
+    late String priority="High";
 
-    late String type_com='internal meeting';
-    final TextEditingController titleController = TextEditingController();
-    final TextEditingController descriptionController= TextEditingController();
+    DateTime? startDate;
+    final TextEditingController startDateController = TextEditingController();
 
-
-    final TextEditingController progressController= TextEditingController();
 
     DateTime? deadLine;
     final TextEditingController deadLineController = TextEditingController();
 
+    late TextEditingController descriptionController= TextEditingController();
+
   final ProjectService projectService = GetIt.I<ProjectService>();
-  final UserService userService = GetIt.I<UserService>();
-  final ProcesVService procesvService = GetIt.I<ProcesVService>();
-  final SharedPrefs prefs = GetIt.I<SharedPrefs>();
+  final TaskService taskService=GetIt.I<TaskService>();
 
+      @override
+  void initState() {
+    super.initState();
+    projects = projectService.getAllProjects();
+    teamLeaders=UserService().getAllTeamLeaders();
+    engineers=UserService().getAllEngineers();
 
-  @override
-void initState() {
-  super.initState();
-  initializeData();
-}
+  }
 
-Future<void> initializeData() async {
-  projects = projectService.getAllProjects();
-  teamLeaders = UserService().getAllTeamLeaders();
-  //print("sender::::: $sender");
-  print("proejct id::::: $projectid");
-}
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +75,7 @@ Future<void> initializeData() async {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Center(child: Text("New Proces verbal",style: TextStyle(fontFamily: AppTheme.fontName,fontWeight: FontWeight.w600,fontSize: 34.sp),)),
+                Center(child: Text("Edit",style: TextStyle(fontFamily: AppTheme.fontName,fontWeight: FontWeight.w600,fontSize: 34.sp),)),
                 SizedBox(height: 30.h),
                 TextFormField(
                   controller: titleController,
@@ -135,34 +128,9 @@ Future<void> initializeData() async {
                                 }
                               },
                             ),
+                      
+                   SizedBox(height: 10.h),
 
-                        SizedBox(height: 10.h),
-                        
-                        DropdownButtonFormField(
-                          value: type_com,
-                          style: TextInputDecorations.textStyle,
-                          decoration: TextInputDecorations.customInputDecoration(labelText: 'Communication Type'),
-                          items: [
-                            DropdownMenuItem(child: Text('internal meeting',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'internal meeting'),
-                            DropdownMenuItem(child: Text('official meeting',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'official meeting'),
-                            DropdownMenuItem(child: Text('client request',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'client request'),
-
-                          ],
-                          
-                          onChanged: (selectedValue) {
-                            setState(() {
-                              type_com = selectedValue as String;
-                            });
-                          },
-                          validator: (value) {
-                            if (value == null ) {
-                              return 'Status is required';
-                            }
-                            return null;
-                          },
-                        ),
-                          
-                        SizedBox(height: 10.h),
                         Column(
                           children: [
                             FutureBuilder<List<User>>(
@@ -196,7 +164,7 @@ Future<void> initializeData() async {
                                         .map((user) => ValueItem(label: user.fullName, value: user.id.toString()))
                                         .toList(),
                                     maxItems: 11,
-                  hint: "Present Members",
+                  hint: "Executor",
                   hintStyle: AppTheme.multiSelectDropDownTextStyle,
                   hintFontSize: 20,
                   selectionType: SelectionType.multi,
@@ -213,6 +181,31 @@ Future<void> initializeData() async {
                             ),
                           ],
                         ),
+                   SizedBox(height: 10.h),
+
+                   DropdownButtonFormField(
+                          value: priority,
+                          style: TextInputDecorations.textStyle,
+                          decoration: TextInputDecorations.customInputDecoration(labelText: 'Priority'),
+                          items: [
+                            DropdownMenuItem(child: Text('High',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'High'),
+                            DropdownMenuItem(child: Text('Medium',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'Medium'),
+                            DropdownMenuItem(child: Text('Low',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'Low'),
+
+                          ],
+                          
+                          onChanged: (selectedValue) {
+                            setState(() {
+                              priority = selectedValue as String;
+                            });
+                          },
+                          validator: (value) {
+                            if (value == null ) {
+                              return 'priority is required';
+                            }
+                            return null;
+                          },
+                        ),
                         SizedBox(height: 10.h),
                             TextFormField(
                                     onTap: () async {
@@ -222,33 +215,77 @@ Future<void> initializeData() async {
                                         firstDate: DateTime.now(),
                                         lastDate: DateTime.now().add(Duration(days: 365 * 2)),
                                       );
-                                      if (pickedDate != null && pickedDate != date) {
+                                      if (pickedDate != null && pickedDate != startDate) {
                                         setState(() {
-                                          date = pickedDate;
-                                          dateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
+                                          startDate = pickedDate;
+                                          startDateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
                                         });
                                       }
                                     },
-                                    controller: dateController,
+                                    controller: startDateController,
                                     readOnly: true,
-                                    style: TextInputDecorations.textStyle,
-                                    decoration: TextInputDecorations.customInputDecoration(labelText: 'Date'),
-                                      
+                                    style: DateFieldsStyle.textStyle,
+                                    decoration: InputDecoration(
+                                    labelText: 'Start Date*',
+                                    labelStyle: DateFieldsStyle.labelStyle,
+                                    enabledBorder: DateFieldsStyle.enabledBorder,
+                                    focusedBorder: DateFieldsStyle.focusedBorder,
+                                    prefixIcon: Icon(
+                                      Icons.calendar_today,
+                                      color: Colors.grey[400],
+                                    ),
+                                  ),
                                    
                                     validator: (value) {
-                                      if (date == null) {
-                                        return ' date is required';
+                                      if (startDate == null) {
+                                        return 'start date is required';
                                       }
                                       return null;
                                     },
                                   ),
-
+                         SizedBox(height: 10.h),
+                            TextFormField(
+                                    onTap: () async {
+                                      DateTime? pickedDate = await showDatePicker(
+                                        context: context,
+                                        initialDate: DateTime.now(),
+                                        firstDate: DateTime.now(),
+                                        lastDate: DateTime.now().add(Duration(days: 365 * 2)),
+                                      );
+                                      if (pickedDate != null && pickedDate != deadLine) {
+                                        setState(() {
+                                          deadLine = pickedDate;
+                                          deadLineController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
+                                        });
+                                      }
+                                    },
+                                    controller: deadLineController,
+                                    readOnly: true,
+                                    style: DateFieldsStyle.textStyle,
+                                    decoration: InputDecoration(
+                                    labelText: 'Deadline*',
+                                    labelStyle: DateFieldsStyle.labelStyle,
+                                    enabledBorder: DateFieldsStyle.enabledBorder,
+                                    focusedBorder: DateFieldsStyle.focusedBorder,
+                                    prefixIcon: Icon(
+                                      Icons.calendar_today,
+                                      color: Colors.grey[400],
+                                    ),
+                                  ),
+                                   
+                                    validator: (value) {
+                                      if (deadLine == null) {
+                                        return 'deadline is required';
+                                      }
+                                      return null;
+                                    },
+                                  ),
                                   SizedBox(height: 10.h),
                                   TextFormField(
                                   controller: descriptionController,
                                   maxLines: 3,
-                                   style: TextInputDecorations.textStyle,
-                                   decoration: TextInputDecorations.customInputDecoration(labelText: 'Description'),
+                                  style: TextInputDecorations.textStyle,
+                                  decoration: TextInputDecorations.customInputDecoration(labelText: 'Description'),
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return 'Please enter a valid description';
@@ -264,12 +301,12 @@ Future<void> initializeData() async {
                               Expanded(
                                 child: ElevatedButton(
                                   onPressed: () {
-                                  if (_formKey.currentState!.validate()) {
-                                    _addProcesv();
-                                    Navigator.of(context).pushReplacementNamed('/procesv');
-                                  }
-                                },
-
+                                    if (_formKey.currentState!.validate()) {
+                                      _addTask();
+                                      Navigator.of(context).pushReplacementNamed('/reclamations');
+                                    }
+                                  },
+                               
                                              child: Text("Save",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily:AppTheme.fontName),),
                                              style: AppButtonStyles.submitButtonStyle
                                               ),
@@ -294,42 +331,49 @@ Future<void> initializeData() async {
     );
   }
 
-   Future<void> _addProcesv() async {
-        try {
-    List<String> memberIds = selectedExecutors.map((user) => user.id).toList();
-    print("equipe:::$memberIds");
-    String? userId = await prefs.getLoggedUserIdFromPrefs();
-    print("used id:::: $userId");
-    User sender = await userService.getUserbyId(userId!);
-    print("sender:::: ${sender.id} ::::  ${sender.fullName}");
-          Map<String, dynamic> procesv = {
-     
-            'Titre' : titleController.text,
-            'description': descriptionController.text,
-            'Project': {'_id': projectid},
-            'Type_Communication': type_com,
-            'Sender':sender.toJson(),
-            'equipe': memberIds,
-            'Date' : DateFormat('yyyy-MM-dd').format(date!),
-            };  
-          
-          await procesvService.addProcesv(procesv);
+   Future<void> _addTask() async {
+    //final List<Map<String, dynamic>> projectsList = await projects;
+    // List<String> memberIds = selectedExecutors.map((user) => user.id).toList();
 
+        try {
+          // Map<String, dynamic> newTask = {
+          //         'Title' : titleController.text,
+          //         'Project': projectsList
+          //         .firstWhere((project) => project['_id'] == projectid),
+          //         'Details': descriptionController.text,
+          //         'StartDate': startDate?.toIso8601String(),
+          //         'DeadLine': deadLine?.toIso8601String(),
+          //         'executor':memberIds,
+          //         'Priority': priority,                  
+          // };
+              Map<String, dynamic> newTask= {
+      'Title': titleController.text,
+      'Project': {'_id': projectid},
+      'Details': descriptionController.text,
+      'Executor': selectedExecutors.map((user) => {'_id': user.id}).toList(),
+      'StartDate': startDateController.text,
+      'Deadline': deadLineController.text,
+      'Priority': priority,
+    };
+
+
+          await taskService.addTask(newTask) ;
+          Navigator.of(context).pushReplacementNamed('/tlalltasks');
            ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-            content: SuccessSnackBar(message: "Proces Verbal added !"),
+            content: SuccessSnackBar(message: "task added !"),
             duration: Duration(seconds: 2),
             behavior: SnackBarBehavior.floating,
             backgroundColor: Colors.transparent,
             elevation: 0,
           ),
           );
-          
+          print("cbon::::");
         }catch(error) {
-        print('Error adding pv: $error');
+        print('Error adding task: $error');
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-            content: FailSnackBar(message: "failed to add Proces Verbal!"),
+            content: FailSnackBar(message: "failed to add task!"),
             duration: Duration(seconds: 2),
             behavior: SnackBarBehavior.floating,
             backgroundColor: Colors.transparent,
@@ -340,63 +384,4 @@ Future<void> initializeData() async {
       }
 
    }
-}
-
-class VerticalNumberPicker extends StatefulWidget {
-  final int initialValue;
-  final int minValue;
-  final int maxValue;
-  final Function(int) onChanged;
-
-  VerticalNumberPicker({
-    required this.initialValue,
-    required this.minValue,
-    required this.maxValue,
-    required this.onChanged,
-  });
-
-  @override
-  _VerticalNumberPickerState createState() => _VerticalNumberPickerState();
-}
-
-class _VerticalNumberPickerState extends State<VerticalNumberPicker> {
-  late int selectedValue;
-
-  @override
-  void initState() {
-    super.initState();
-    selectedValue = widget.initialValue;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 50.h,
-      child: ListWheelScrollView(
-        itemExtent: 40,
-        diameterRatio: 1.5,
-        //useMagnifier: true,
-       // magnification:1.5,
-        physics: FixedExtentScrollPhysics(),
-        children: List.generate(
-          widget.maxValue - widget.minValue + 1,
-          (index) => Center(
-            child: Text(
-              (widget.minValue + index).toString(),
-              style: TextStyle(fontSize: 20.sp,fontFamily: AppTheme.fontName),
-            ),
-          ),
-        ),
-        onSelectedItemChanged: (index) {
-          setState(() {
-            selectedValue = widget.minValue + index;
-            widget.onChanged(selectedValue);
-          });
-        },
-        controller: FixedExtentScrollController(
-          initialItem: widget.initialValue - widget.minValue,
-        ),
-      ),
-    );
-  }
 }

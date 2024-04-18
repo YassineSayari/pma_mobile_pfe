@@ -9,15 +9,15 @@ import 'package:pma/services/project_service.dart';
 import 'package:pma/services/risk_service.dart';
 import 'package:pma/theme.dart';
 
-class EditRiskPopup extends StatefulWidget {
+class TlEditRiskPopup extends StatefulWidget {
   final Risk risk;
-  const EditRiskPopup({super.key, required this.risk});
+  const TlEditRiskPopup({super.key, required this.risk});
 
   @override
-  State<EditRiskPopup> createState() => _EditRiskPopupState();
+  State<TlEditRiskPopup> createState() => _TlEditRiskPopupState();
 }
 
-class _EditRiskPopupState extends State<EditRiskPopup> {
+class _TlEditRiskPopupState extends State<TlEditRiskPopup> {
 
     final _formKey = GlobalKey<FormState>();
 
@@ -45,7 +45,7 @@ class _EditRiskPopupState extends State<EditRiskPopup> {
       @override
   void initState() {
     super.initState();
-    projects = projectService.getProjectsByEmployee(widget.risk.user['_id']);
+    projects = projectService.getAllProjects();
     riskImpact=widget.risk.impact;
     titleController = TextEditingController(text: widget.risk.title);
     actionController= TextEditingController(text: widget.risk.action);
@@ -259,18 +259,27 @@ class _EditRiskPopupState extends State<EditRiskPopup> {
    Future<void> _updateRisk() async {
         try {
     
-          Map<String,dynamic> updatedProject= await projectService.getProject(projectid!);
-          Risk updatedRisk= Risk(
-            id: widget.risk.id,
-            title: titleController.text,
-            project: updatedProject,/*{'_id': projectid},*/
-            details: descriptionController.text,
-            date: DateFormat('yyyy-MM-dd').format(date!),
-            action: actionController.text,
-            impact: riskImpact,
-            user:  {'_id': widget.risk.user['_id']},
-          );
-          //await riskService.updateRisk(widget.risk.id,updatedRisk);
+          //Map<String,dynamic> updatedProject= await projectService.getProject(projectid!);
+                 final updatedRisk = {
+        'title': titleController.text,
+        'action': actionController.text,
+        'details': descriptionController.text,
+        'impact': riskImpact,
+        'date': dateController.text,
+        'user': widget.risk.user["_id"],
+        'project': {'_id': projectid},
+      };
+      //     final risk = Risk(
+      //   id: widget.risk.id,
+      //   title: titleController.text,
+      //   action: actionController.text,
+      //   details: descriptionController.text,
+      //   impact: riskImpact,
+      //   date: dateController.text,
+      //   user: widget.risk.user,
+      //   project: {"_id": projectid},
+      // );
+          await riskService.updateRisk(widget.risk.id,updatedRisk);
 
            ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
@@ -281,7 +290,6 @@ class _EditRiskPopupState extends State<EditRiskPopup> {
             elevation: 0,
           ),
           );
-        //  Navigator.of(context).pushReplacementNamed('/tasks');
         }catch(error) {
         print('Error updating risk: $error');
                 ScaffoldMessenger.of(context).showSnackBar(

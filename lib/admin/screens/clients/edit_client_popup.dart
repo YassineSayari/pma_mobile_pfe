@@ -98,13 +98,8 @@ else{
                 SizedBox(height: 30.h),
                 TextFormField(
                     controller: nameController,
-                                    style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Name*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          ),
+                    style: TextInputDecorations.textStyle,
+                                decoration: TextInputDecorations.customInputDecoration(labelText: 'Name'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter a valid name';
@@ -117,13 +112,8 @@ else{
          
                 TextFormField(
                     controller: mobileController,
-                                    style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Mobile*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          ),
+                    style: TextInputDecorations.textStyle,
+                                decoration: TextInputDecorations.customInputDecoration(labelText: 'Mobile'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter a valid mobile';
@@ -136,13 +126,8 @@ else{
          
                 TextFormField(
                     controller: emailController,
-                                    style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Email*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          ),
+                    style: TextInputDecorations.textStyle,
+                                decoration: TextInputDecorations.customInputDecoration(labelText: 'Email'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter an email';
@@ -155,13 +140,8 @@ else{
          
                 TextFormField(
                     controller: companyController,
-                                    style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Company name*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          ),
+                    style: TextInputDecorations.textStyle,
+                                decoration: TextInputDecorations.customInputDecoration(labelText: 'Company name'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter a company name';

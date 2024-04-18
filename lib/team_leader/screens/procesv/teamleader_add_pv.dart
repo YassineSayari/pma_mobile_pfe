@@ -86,13 +86,8 @@ Future<void> initializeData() async {
                 SizedBox(height: 30.h),
                 TextFormField(
                   controller: titleController,
-                  style: AppTextFieldStyles.textStyle,
-                        decoration: InputDecoration(
-                          labelText: 'Title*',
-                          labelStyle: AppTextFieldStyles.labelStyle,
-                          enabledBorder: AppTextFieldStyles.enabledBorder,
-                          focusedBorder: AppTextFieldStyles.focusedBorder,
-                        ),
+                  style: TextInputDecorations.textStyle,
+                  decoration: TextInputDecorations.customInputDecoration(labelText: 'Title'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter a valid title';
@@ -114,13 +109,8 @@ Future<void> initializeData() async {
                                   print('Projects:: $projects');
                                   return DropdownButtonFormField(
                                     value: projectid,
-                                    style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Project*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          ),
+                                    style: TextInputDecorations.textStyle,
+                                    decoration: TextInputDecorations.customInputDecoration(labelText: 'Project'),
 
                                     items: snapshot.data!.map<DropdownMenuItem<String>>((Map<String, dynamic> project) {
                                       return DropdownMenuItem<String>(
@@ -150,13 +140,8 @@ Future<void> initializeData() async {
                         
                         DropdownButtonFormField(
                           value: type_com,
-                          style: AppTextFieldStyles.textStyle,
-                                decoration: InputDecoration(
-                                  labelText: 'Communication Type*',
-                                  labelStyle: AppTextFieldStyles.labelStyle,
-                                  enabledBorder: AppTextFieldStyles.enabledBorder,
-                                  focusedBorder: AppTextFieldStyles.focusedBorder,
-                                ),
+                          style: TextInputDecorations.textStyle,
+                          decoration: TextInputDecorations.customInputDecoration(labelText: 'Communication'),
                           items: [
                             DropdownMenuItem(child: Text('internal meeting',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'internal meeting'),
                             DropdownMenuItem(child: Text('official meeting',style: TextStyle(fontSize: 20.sp,fontFamily:AppTheme.fontName),), value: 'official meeting'),
@@ -171,7 +156,7 @@ Future<void> initializeData() async {
                           },
                           validator: (value) {
                             if (value == null ) {
-                              return 'Status is required';
+                              return 'com type is required';
                             }
                             return null;
                           },
@@ -246,22 +231,21 @@ Future<void> initializeData() async {
                                     },
                                     controller: dateController,
                                     readOnly: true,
-                                    style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Date*',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                            prefixIcon: Icon(
-                                                        Icons.calendar_today,
-                                                        color: Colors.grey[400],
-                                             ),
-                                          ),
-                                      
+                                    style: DateFieldsStyle.textStyle,
+                                    decoration: InputDecoration(
+                                    labelText: 'Date*',
+                                    labelStyle: DateFieldsStyle.labelStyle,
+                                    enabledBorder: DateFieldsStyle.enabledBorder,
+                                    focusedBorder: DateFieldsStyle.focusedBorder,
+                                    prefixIcon: Icon(
+                                      Icons.calendar_today,
+                                      color: Colors.grey[400],
+                                    ),
+                                  ),
                                    
                                     validator: (value) {
                                       if (date == null) {
-                                        return 'start date is required';
+                                        return 'date is required';
                                       }
                                       return null;
                                     },
@@ -271,13 +255,8 @@ Future<void> initializeData() async {
                                   TextFormField(
                                   controller: descriptionController,
                                   maxLines: 3,
-                                    style: AppTextFieldStyles.textStyle,
-                                          decoration: InputDecoration(
-                                            labelText: 'Description',
-                                            labelStyle: AppTextFieldStyles.labelStyle,
-                                            enabledBorder: AppTextFieldStyles.enabledBorder,
-                                            focusedBorder: AppTextFieldStyles.focusedBorder,
-                                          ),
+                                  style: TextInputDecorations.textStyle,
+                                  decoration: TextInputDecorations.customInputDecoration(labelText: 'Description'),
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return 'Please enter a valid description';
@@ -292,8 +271,12 @@ Future<void> initializeData() async {
                             children: [
                               Expanded(
                                 child: ElevatedButton(
-                                  onPressed: (){
+                                    onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+    
                                     _addProcesv();
+                                    Navigator.of(context).pushReplacementNamed('/teamleader_pv');
+                                     }
                                   },
                                              child: Text("Save",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily:AppTheme.fontName),),
                                              style: AppButtonStyles.submitButtonStyle
@@ -349,7 +332,7 @@ Future<void> initializeData() async {
             elevation: 0,
           ),
           );
-          Navigator.of(context).pushReplacementNamed('/teamleader_pv');
+          
         }catch(error) {
         print('Error adding pv : $error');
                 ScaffoldMessenger.of(context).showSnackBar(

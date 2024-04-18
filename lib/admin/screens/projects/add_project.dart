@@ -80,14 +80,8 @@ class _AddProjectState extends State<AddProject> {
                         // Project Title
                         TextFormField(
                           controller: title,
-                          keyboardType: TextInputType.text,
-                                           style: AppTextFieldStyles.textStyle,
-                                                decoration: InputDecoration(
-                                                  labelText: 'Project Title*',
-                                                  labelStyle: AppTextFieldStyles.labelStyle,
-                                                  enabledBorder: AppTextFieldStyles.enabledBorder,
-                                                  focusedBorder: AppTextFieldStyles.focusedBorder,
-                                                ),
+                          style: TextInputDecorations.textStyle,
+                          decoration: TextInputDecorations.customInputDecoration(labelText: 'Project Title'),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Project title is required';
@@ -100,14 +94,9 @@ class _AddProjectState extends State<AddProject> {
                         // Project Type and Priority
                         DropdownButtonFormField(
                           value: projectType,
-                                          style: AppTextFieldStyles.textStyle,
-                                          isExpanded: true,
-                                                decoration: InputDecoration(
-                                                  labelText: 'Project Type*',
-                                                  labelStyle: AppTextFieldStyles.labelStyle,
-                                                  enabledBorder: AppTextFieldStyles.enabledBorder,
-                                                  focusedBorder: AppTextFieldStyles.focusedBorder,
-                                                ),
+                          isExpanded: true,
+                          style: TextInputDecorations.textStyle,
+                          decoration: TextInputDecorations.customInputDecoration(labelText: 'Project Type'),
                           items: [
                             DropdownMenuItem(child: Text('-Systems Infrastructure',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'Systems Infrastructure'),
                             DropdownMenuItem(child: Text('-Network Infrastructure',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'Network Infrastructure'),
@@ -130,13 +119,8 @@ class _AddProjectState extends State<AddProject> {
                         
                         DropdownButtonFormField(
                           value: projectPriority,
-                                          style: AppTextFieldStyles.textStyle,
-                                                decoration: InputDecoration(
-                                                  labelText: 'Project priority*',
-                                                  labelStyle: AppTextFieldStyles.labelStyle,
-                                                  enabledBorder: AppTextFieldStyles.enabledBorder,
-                                                  focusedBorder: AppTextFieldStyles.focusedBorder,
-                                                ),
+                          style: TextInputDecorations.textStyle,
+                          decoration: TextInputDecorations.customInputDecoration(labelText: 'Project Priority'),
                           items: [
                             DropdownMenuItem(child: Text('Low',style:TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'Low'),
                             DropdownMenuItem(child: Text('Medium',style:TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName),), value: 'Medium'),
@@ -169,13 +153,8 @@ class _AddProjectState extends State<AddProject> {
                             } else {
                               return DropdownButtonFormField(
                                 value: client,
-                                          style: AppTextFieldStyles.textStyle,
-                                                decoration: InputDecoration(
-                                                  labelText: 'Client*',
-                                                  labelStyle: AppTextFieldStyles.labelStyle,
-                                                  enabledBorder: AppTextFieldStyles.enabledBorder,
-                                                  focusedBorder: AppTextFieldStyles.focusedBorder,
-                                                ),
+                                style: TextInputDecorations.textStyle,
+                                decoration: TextInputDecorations.customInputDecoration(labelText: 'Client'),
                                 items: snapshot.data!.map<DropdownMenuItem<String>>((User user) {
                                   return DropdownMenuItem<String>(
                                     value: user.id.toString(),
@@ -221,18 +200,17 @@ class _AddProjectState extends State<AddProject> {
                               },
                               controller: projectStartDateController,
                               readOnly: true,
-                                          style: AppTextFieldStyles.textStyle,
-                                                decoration: InputDecoration(
-                                                  labelText: 'Start Date*',
-                                                  labelStyle: AppTextFieldStyles.labelStyle,
-                                                  enabledBorder: AppTextFieldStyles.enabledBorder,
-                                                  focusedBorder: AppTextFieldStyles.focusedBorder,
-                                                
-                                prefixIcon: Icon(
-                                  Icons.calendar_today,
-                                  color: Colors.grey[400],
-                                ),
+                              style: DateFieldsStyle.textStyle,
+                              decoration: InputDecoration(
+                              labelText: 'Start Date*',
+                              labelStyle: DateFieldsStyle.labelStyle,
+                              enabledBorder: DateFieldsStyle.enabledBorder,
+                              focusedBorder: DateFieldsStyle.focusedBorder,
+                              prefixIcon: Icon(
+                                Icons.calendar_today,
+                                color: Colors.grey[400],
                               ),
+                            ),
                               validator: (value) {
                                 if (projectStartDate == null) {
                                   return 'Project Start Date is required';
@@ -263,13 +241,12 @@ class _AddProjectState extends State<AddProject> {
                               },
                               controller: projectEndDateController,
                               readOnly: true,
-                                          style: AppTextFieldStyles.textStyle,
-                                                decoration: InputDecoration(
-                                                  labelText: 'Client*',
-                                                  labelStyle: AppTextFieldStyles.labelStyle,
-                                                  enabledBorder: AppTextFieldStyles.enabledBorder,
-                                                  focusedBorder: AppTextFieldStyles.focusedBorder,
-                                                
+                              style: DateFieldsStyle.textStyle,
+                              decoration: InputDecoration(
+                              labelText: 'End Date*',
+                              labelStyle: DateFieldsStyle.labelStyle,
+                              enabledBorder: DateFieldsStyle.enabledBorder,
+                              focusedBorder: DateFieldsStyle.focusedBorder, 
                                 prefixIcon: Icon(
                                   Icons.calendar_today,
                                   color: Colors.grey[400],
@@ -352,13 +329,8 @@ class _AddProjectState extends State<AddProject> {
                                   print('team leaders: $teamLeaders');
                                   return DropdownButtonFormField(
                                     value: teamLeader,
-                                          style: AppTextFieldStyles.textStyle,
-                                                decoration: InputDecoration(
-                                                  labelText: 'Team Leader*',
-                                                  labelStyle: AppTextFieldStyles.labelStyle,
-                                                  enabledBorder: AppTextFieldStyles.enabledBorder,
-                                                  focusedBorder: AppTextFieldStyles.focusedBorder,
-                                                ),
+                                    style: TextInputDecorations.textStyle,
+                                    decoration: TextInputDecorations.customInputDecoration(labelText: 'Team Leader'),
                                     items: snapshot.data!.map<DropdownMenuItem<String>>((User user) {
                                       return DropdownMenuItem<String>(
                                         value: user.id.toString(),
@@ -388,13 +360,8 @@ class _AddProjectState extends State<AddProject> {
                                 controller: description,
                                 keyboardType: TextInputType.text,
                                 maxLines: 3,
-                                style: AppTextFieldStyles.textStyle,
-                                                decoration: InputDecoration(
-                                                  labelText: 'Description*',
-                                                  labelStyle: AppTextFieldStyles.labelStyle,
-                                                  enabledBorder: AppTextFieldStyles.enabledBorder,
-                                                  focusedBorder: AppTextFieldStyles.focusedBorder,
-                                                ),
+                                style: TextInputDecorations.textStyle,
+                                decoration: TextInputDecorations.customInputDecoration(labelText: 'Description'),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Description is required';
