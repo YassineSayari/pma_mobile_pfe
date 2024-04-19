@@ -74,7 +74,11 @@ class AppColors {
   static const Color dialogBackgroundColor = Colors.white;
   static const Color buttonTextPrimary = Colors.blue;
   static const Color buttonTextSecondary = Colors.grey;
-  static const Color drawerItemColor=Colors.deepPurple;
+  static const Color drawerItemColor=Color(0xFFFAFAFA);
+  static const Color defaultDrawerIconColor=Color.fromARGB(255, 57, 45, 45);
+  static const Color selectedDrawerIconColor=Color(0xFFFAFAFA);
+  static const Color selectedTileBackgroundColor=Color.fromARGB(255, 54, 44, 198);
+
 }
 
 

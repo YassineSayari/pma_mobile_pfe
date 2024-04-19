@@ -55,22 +55,20 @@ class _ClientDrawerState extends State<ClientDrawer> {
             backgroundImage: NetworkImage(userImageUrl),
           ),
           ),
-          ListTile(
-            leading: Icon(Icons.dashboard_customize_outlined),
-            title: Text('Dashboard',style: widget.selectedRoute == '/clientdashboard' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
-            onTap: (){},
+          _buildListTile(
+            icon: Icons.dashboard_customize_outlined,
+            title: 'Dashboard',
+            route: '/clientdashboard',
           ),
-          ListTile(
-            leading: Icon(Icons.insert_chart_outlined),
-            title: Text('Proces-Verbal',style: widget.selectedRoute == '/client_pv' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
-            onTap: () {
-                    Navigator.of(context).pushReplacementNamed('/client_pv');
-                  },
-                  selected: widget.selectedRoute == '/client_pv',
+          _buildListTile(
+            icon: Icons.insert_chart_outlined,
+            title: 'Proces-Verbal',
+            route: '/client_pv',
           ),
-          ListTile(
-            leading: Icon(Icons.book),
-            title: Text('Projects',style: widget.selectedRoute == '/client_projects' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
+          _buildListTile2(
+            icon: Icons.shield_outlined,
+            title: 'Projects',
+            route: '/client_projects',
             onTap: () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
@@ -78,33 +76,84 @@ class _ClientDrawerState extends State<ClientDrawer> {
         ),
       );
            },
-           selected: widget.selectedRoute == '/client_projects',
           ),
-          ListTile(
-            leading: Icon(Icons.receipt_long),
-            title: Text('My Reclamations',style: widget.selectedRoute == '/client_reclamations' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
+          _buildListTile2(
+            icon: Icons.shield_outlined,
+            title: 'My Reclamations',
+            route: '/client_reclamations',
             onTap: () {
                     Navigator.of(context).pushReplacementNamed('/client_reclamations');
                   },
                   selected: widget.selectedRoute == '/client_reclamations',
           ),
-          ListTile(
-            leading: Icon(Icons.settings),
-            title: Text('Profile',style: widget.selectedRoute == '/profile' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
-            onTap: () {
-              Navigator.of(context).pushReplacementNamed('/profile');
-            },
-            selected: widget.selectedRoute == '/profile',
+          _buildListTile(
+            icon: Icons.settings,
+            title: 'Profile',
+            route: '/profile',
           ),
-          ListTile(
-            leading: Icon(Icons.logout),
-            title: Text('Logout',style: AppTheme.defaultItemStyle),
-            onTap: () {
-              _handleLogout(context);
-            },
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal:6.0),
+            child: ListTile(
+              leading: Icon(Icons.logout),
+              title: Text(
+                'Logout',
+                style: AppTheme.defaultItemStyle,
+              ),
+              onTap: () {
+                print("logout clicked");
+                _handleLogout(context);
+              },
+            ),
           ),
         ],
 
+      ),
+    );
+  }
+
+    Widget _buildListTile({required IconData icon, required String title, required String route}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 6.0),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          color: widget.selectedRoute == route ? AppColors.selectedTileBackgroundColor : null,
+        ),
+        child: ListTile(
+          leading: Icon(icon,color: widget.selectedRoute == route ? AppColors.selectedDrawerIconColor : AppColors.defaultDrawerIconColor),
+          title: Text(
+            title,
+            style: widget.selectedRoute == route ? AppTheme.selectedItemStyle : AppTheme.defaultItemStyle,
+          ),
+          onTap: () {
+            Navigator.pushNamed(context, route);
+          },
+          selected: widget.selectedRoute == route,
+        ),
+      ),
+    );
+  }
+  Widget _buildListTile2({required IconData icon,required String title,VoidCallback? onTap,bool selected = false,required String route}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 6.0),
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            color: widget.selectedRoute == route ? AppColors.selectedTileBackgroundColor : null,
+          ),
+        child: ListTile(
+        leading: Icon(icon,color: widget.selectedRoute == route ? AppColors.selectedDrawerIconColor : AppColors.defaultDrawerIconColor),
+          title: Text(
+            title,
+            style: widget.selectedRoute == route ? AppTheme.selectedItemStyle : AppTheme.defaultItemStyle,
+          ),
+          onTap: onTap != null
+              ? onTap
+              : () {
+                  Navigator.pushReplacementNamed(context, route);
+                },
+          selected: selected,
+        ),
       ),
     );
   }

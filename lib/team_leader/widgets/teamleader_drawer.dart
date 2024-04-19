@@ -6,20 +6,20 @@ import 'package:pma/services/shared_preferences.dart';
 import 'package:pma/theme.dart';
 
 class TeamLeaderDrawer extends StatefulWidget {
-    final String selectedRoute;
+  final String selectedRoute;
 
-  const TeamLeaderDrawer({super.key, required this.selectedRoute});
+  const TeamLeaderDrawer({Key? key, required this.selectedRoute}) : super(key: key);
 
   @override
   State<TeamLeaderDrawer> createState() => _TeamLeaderDrawerState();
 }
 
 class _TeamLeaderDrawerState extends State<TeamLeaderDrawer> {
-      final SharedPrefs sharedPrefs = GetIt.instance<SharedPrefs>();
-  late Map<String, String> userInfo={};
-  late String? userId=" ";
+  final SharedPrefs sharedPrefs = GetIt.instance<SharedPrefs>();
+  late Map<String, String> userInfo = {};
+  late String? userId = " ";
 
- @override
+  @override
   void initState() {
     super.initState();
     _loadUserInfo();
@@ -30,122 +30,150 @@ class _TeamLeaderDrawerState extends State<TeamLeaderDrawer> {
       final data = await SharedPrefs.getUserInfo();
       setState(() {
         userInfo = data;
-        userId=data["userId"];
+        userId = data["userId"];
       });
-      print("user id drawer::::: $userId");
     } catch (error) {
       // Handle error
     }
   }
+
   @override
   Widget build(BuildContext context) {
-    final Color selectedColor = Color.fromARGB(31, 32, 233, 14);
-        final userImage = userInfo['userImage'];
-    final userImageUrl =
-        userImage != null ?  "$imageUrl/$userImage":"$noImageUrl";
-    print(userImageUrl);
+    final userImage = userInfo['userImage'];
+    final userImageUrl = userImage != null ? "$imageUrl/$userImage" : "$noImageUrl";
+
     return Drawer(
       child: ListView(
         children: [
           DrawerHeader(
             child: CircleAvatar(
-            radius: 30,
-            backgroundImage: NetworkImage(userImageUrl),
+              radius: 30,
+              backgroundImage: NetworkImage(userImageUrl),
+            ),
           ),
+          _buildListTile(
+            icon: Icons.dashboard_customize_outlined,
+            title: 'Dashboard',
+            route: '/admindashboard',
           ),
-          ListTile(
-            leading: Icon(Icons.tv),
-            title: Text('Dashboard',style:widget.selectedRoute == '/admindashboard' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
-            onTap: (){
-
-            },
-          ),
-          ExpansionTile(
-            leading: Icon(Icons.task_alt),
-            title: Text('tasks',style:AppTheme.defaultItemStyle),
+          _buildExpansionTile(
+            icon: Icons.task_alt,
+            title: 'tasks',
             children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                child: ListTile(
-                  title: Text('Tasks',style:widget.selectedRoute == '/tlalltasks' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
-                  onTap: () {
-                  Navigator.of(context).pushReplacementNamed('/tlalltasks');
-                  },
-                  selected: widget.selectedRoute == '/tlalltasks',
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                child: ListTile(
-                  title: Text('My Tasks',style:widget.selectedRoute == '/tltasks' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
-                  onTap: () {
-                  Navigator.of(context).pushReplacementNamed('/tltasks');
-                  },
-                  selected: widget.selectedRoute == '/tltasks',
-                ),
-              ),
+              _buildSubListTile(title: 'Tasks', route: '/tlalltasks'),
+              _buildSubListTile(title: 'My Tasks', route: '/tltasks'),
             ],
           ),
-          ListTile(
-            leading: Icon(Icons.insert_chart_outlined),
-            title: Text('Proces-Verbal',style:widget.selectedRoute == '/teamleader_pv' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
-            onTap: () {
-                    Navigator.of(context).pushReplacementNamed('/teamleader_pv');
-                  },
-                  selected: widget.selectedRoute == '/teamleader_pv',
-
+          _buildListTile(
+            icon: Icons.insert_chart_outlined,
+            title: 'Proces-Verbal',
+            route: '/teamleader_pv',
           ),
-          ListTile(
-            leading: Icon(Icons.folder),
-            title: Text('All Projects',style:widget.selectedRoute == '/tlprojects' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
-            onTap: () {
-                    Navigator.of(context).pushReplacementNamed('/tlprojects');
-                  },
-                  selected: widget.selectedRoute == '/tlprojects',
+          _buildListTile(
+            icon: Icons.folder,
+            title: 'All Projects',
+            route: '/tlprojects',
           ),
-          ListTile(
-            leading: Icon(Icons.receipt_long),
-            title: Text('Client Claims',style:widget.selectedRoute == '/tlreclamations' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
-           onTap: () {
-                    Navigator.of(context).pushReplacementNamed('/tlreclamations');
-                  },
-                  selected: widget.selectedRoute == '/tlreclamations',
+          _buildListTile(
+            icon: Icons.receipt_long,
+            title: 'Client Claims',
+            route: '/tlreclamations',
           ),
-
-          ListTile(
-            leading: Icon(Icons.shield_outlined),
-            title: Text('Risks',style:widget.selectedRoute == '/tlrisks' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
-            onTap: () {
-             Navigator.of(context).pushReplacementNamed('/tlrisks');
-                  },
-                  selected: widget.selectedRoute == '/tlrisks',
+          _buildListTile(
+            icon: Icons.shield_outlined,
+            title: 'Risks',
+            route: '/tlrisks',
           ),
-          ListTile(
-            leading: Icon(Icons.settings),
-            title: Text('Profile',style:widget.selectedRoute == '/profile' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
-            onTap: () {
-              Navigator.of(context).pushReplacementNamed('/profile');
-            },
-            selected: widget.selectedRoute == '/profile',
+          _buildListTile(
+            icon: Icons.settings,
+            title: 'Profile',
+            route: '/profile',
           ),
-          ListTile(
-            leading: Icon(Icons.calendar_today_outlined),
-            title: Text('Calendar',style:widget.selectedRoute == '/calendar' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
-            onTap: () {
-              Navigator.of(context).pushReplacementNamed('/calendar');
-            },
-            selected: widget.selectedRoute == '/calendar',
+          _buildListTile(
+            icon: Icons.calendar_today_outlined,
+            title: 'Calendar',
+            route: '/calendar',
           ),
-
-          ListTile(
-            leading: Icon(Icons.logout),
-            title: Text('Logout',style:AppTheme.defaultItemStyle),
-            onTap: () {
-              _handleLogout(context);
-            },
+         Padding(
+            padding: const EdgeInsets.symmetric(horizontal:6.0),
+            child: ListTile(
+              leading: Icon(Icons.logout),
+              title: Text(
+                'Logout',
+                style: AppTheme.defaultItemStyle,
+              ),
+              onTap: () {
+                print("logout clicked");
+                _handleLogout(context);
+              },
+            ),
           ),
         ],
+      ),
+    );
+  }
 
+  Widget _buildListTile({
+    required IconData icon,
+    required String title,
+    required String route,
+    VoidCallback? onTap,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 6.0),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          color: widget.selectedRoute == route ? AppColors.selectedTileBackgroundColor : null,
+        ),
+        child: ListTile(
+          leading: Icon(
+            icon,
+            color: widget.selectedRoute == route ? AppColors.selectedDrawerIconColor : AppColors.defaultDrawerIconColor,
+          ),
+          title: Text(
+            title,
+            style: widget.selectedRoute == route ? AppTheme.selectedItemStyle : AppTheme.defaultItemStyle,
+          ),
+          onTap: onTap != null
+              ? onTap
+              : () {
+                  Navigator.pushReplacementNamed(context, route);
+                },
+          selected: widget.selectedRoute == route,
+        ),
+      ),
+    );
+  }
+  Widget _buildSubListTile({required String title, required String route}) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 16.0),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          color: widget.selectedRoute == route ? AppColors.selectedTileBackgroundColor : null,
+        ),
+        child: ListTile(
+          title: Text(
+            title,
+            style: widget.selectedRoute == route ? AppTheme.selectedItemStyle : AppTheme.defaultItemStyle,
+          ),
+          onTap: () {
+            Navigator.pushNamed(context, route);
+          },
+          selected: widget.selectedRoute == route,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildExpansionTile({required IconData icon, required String title, required List<Widget> children}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal:6.0),
+      child: ExpansionTile(
+        leading: Icon(icon,color: AppColors.defaultDrawerIconColor),
+        title: Text(title, style: AppTheme.defaultItemStyle),
+        children: children,
       ),
     );
   }
@@ -156,6 +184,4 @@ class _TeamLeaderDrawerState extends State<TeamLeaderDrawer> {
     authService.logout();
     Navigator.of(context).pushReplacementNamed('/signin');
   }
-
-
 }
