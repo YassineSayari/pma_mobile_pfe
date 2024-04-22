@@ -62,6 +62,17 @@ class _TeamLeaderDrawerState extends State<TeamLeaderDrawer> {
             children: [
               _buildSubListTile(title: 'Tasks', route: '/tlalltasks'),
               _buildSubListTile(title: 'My Tasks', route: '/tltasks'),
+          //     _buildSubListTile2(
+          //   icon: Icons.layers,
+          //   title: 'My Tasks',
+          //   route:'/tltasks',
+          //   onTap: () {
+          //     Navigator.pushReplacement(
+          //       context,
+          //       MaterialPageRoute(builder: (context) => TlAllTasks(id: userId)),
+          //     );
+          //   },
+          // ),
             ],
           ),
           _buildListTile(
@@ -162,6 +173,31 @@ class _TeamLeaderDrawerState extends State<TeamLeaderDrawer> {
             Navigator.pushNamed(context, route);
           },
           selected: widget.selectedRoute == route,
+        ),
+      ),
+    );
+  }
+
+    Widget _buildSubListTile2({required IconData icon,required String title,VoidCallback? onTap,bool selected = false,required String route}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            color: widget.selectedRoute == route ? AppColors.selectedTileBackgroundColor : null,
+          ),
+        child: ListTile(
+        leading: Icon(icon,color: widget.selectedRoute == route ? AppColors.selectedDrawerIconColor : AppColors.defaultDrawerIconColor),
+          title: Text(
+            title,
+            style: widget.selectedRoute == route ? AppTheme.selectedItemStyle : AppTheme.defaultItemStyle,
+          ),
+          onTap: onTap != null
+              ? onTap
+              : () {
+                  Navigator.pushReplacementNamed(context, route);
+                },
+          selected: selected,
         ),
       ),
     );
