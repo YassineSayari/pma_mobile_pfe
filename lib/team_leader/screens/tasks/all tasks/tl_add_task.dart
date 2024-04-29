@@ -7,6 +7,7 @@ import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:pma/custom_snackbar.dart';
 import 'package:pma/models/user_model.dart';
 import 'package:pma/services/project_service.dart';
+import 'package:pma/services/shared_preferences.dart';
 import 'package:pma/services/task_service.dart';
 import 'package:pma/services/user_service.dart';
 import 'package:pma/theme.dart';
@@ -46,13 +47,30 @@ class _TlAddTaskState extends State<TlAddTask> {
   final ProjectService projectService = GetIt.I<ProjectService>();
   final TaskService taskService=GetIt.I<TaskService>();
 
-      @override
+  @override
   void initState() {
     super.initState();
-    projects = projectService.getAllProjects();
+      _loadUserInfo().then((_) {
+    projects = projectService.getProjectsByTeamLeader(userId!);
+});
     teamLeaders=UserService().getAllTeamLeaders();
     engineers=UserService().getAllEngineers();
 
+  }
+     final SharedPrefs sharedPrefs = GetIt.instance<SharedPrefs>();
+  late Map<String, String> userInfo = {};
+  late String? userId = " ";
+    Future<void> _loadUserInfo() async {
+    try {
+      final data = await SharedPrefs.getUserInfo();
+      setState(() {
+        userInfo = data;
+        userId = data["userId"];
+        print("user loaded::::::: id $userId");
+      });
+    } catch (error) {
+      print("error loading user");
+    }
   }
 
 
@@ -75,7 +93,7 @@ class _TlAddTaskState extends State<TlAddTask> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Center(child: Text("Edit",style: TextStyle(fontFamily: AppTheme.fontName,fontWeight: FontWeight.w600,fontSize: 34.sp),)),
+                Center(child: Text("Add",style: TextStyle(fontFamily: AppTheme.fontName,fontWeight: FontWeight.w600,fontSize: 34.sp),)),
                 SizedBox(height: 30.h),
                 TextFormField(
                   controller: titleController,
@@ -172,8 +190,6 @@ class _TlAddTaskState extends State<TlAddTask> {
                   dropdownHeight: dropdownHeight,
                   optionTextStyle: AppTheme.multiSelectDropDownTextStyle,
                   selectedOptionIcon: const Icon(Icons.check_circle),
-                  // border: AppTheme.multiSelectDropDownEnabledBorder,
-                  // focusedBorder: AppTheme.multiSelectDropDownFocusedBorder,
                                     
                                   );
                                 }

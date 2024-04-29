@@ -34,6 +34,7 @@ class RiskService {
     if (response.statusCode == 200) {
       print("got problems");
       final List<dynamic> jsonData = json.decode(response.body);
+      print("PROBLEMS::::${response.body}");
       return jsonData.map((eventData) => Risk.fromJson(eventData)).toList();
     } else {
       throw Exception('Failed to load problems');
