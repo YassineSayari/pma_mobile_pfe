@@ -42,7 +42,7 @@ class _CalendarState extends State<Calendar> {
 
   final EventService eventService = GetIt.instance<EventService>();
   List<Event> userEvents = [];
-Map<DateTime, List<Event>> eventsByDay = {};
+//Map<DateTime, List<Event>> eventsByDay = {};
 
 
   @override
@@ -57,27 +57,6 @@ Future<void> _initializeData() async {
   try {
     if (userId != null) {
       userEvents = await eventService.getEventsByUser(userId);
-
-      // Clear eventsByDay map
-      eventsByDay.clear();
-
-for (Event event in userEvents) {
-  DateTime startDate = event.startDate;
-  DateTime endDate = event.endDate;
-  print("Start date: $startDate");
-  print("End date : $endDate");
-
-  // Iterate through each day from the start date to the end date
-  for (DateTime day = startDate; day.isBefore(endDate) || isSameDay(day, endDate); day = day.add(Duration(days: 1))) {
-    eventsByDay[day] = eventsByDay[day] ?? [];
-    eventsByDay[day]!.add(event);
-    print("Event added on $day");
-    print("Events on $day: ${eventsByDay[day]!.length}");
-  }
-}
-
-
-    setState(() {});
     } else {
       print('User ID is null.');
     }
@@ -103,14 +82,17 @@ void _onDaySelected(DateTime selectedDay, DateTime focusedDay) async {
     today = selectedDay;
   });
 
+  // Filter events for the selected day
+  List<Event> selectedEvents = userEvents.where((event) =>
+      event.startDate.year == selectedDay.year &&
+      event.startDate.month == selectedDay.month &&
+      event.startDate.day == selectedDay.day).toList();
+
   showModalBottomSheet(
     context: context,
     builder: (BuildContext context) {
       String formattedDate = DateFormat('EEEE, MMM d y').format(selectedDay);
-      
-      // Retrieve events for the selected day
-      List<Event>? selectedEvents = eventsByDay[selectedDay];
-      
+
       return Container(
         width: double.infinity,
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
@@ -146,7 +128,7 @@ void _onDaySelected(DateTime selectedDay, DateTime focusedDay) async {
             ),
             SizedBox(height: 10.h),
             // Display events for the selected day
-            if (selectedEvents != null && selectedEvents.isNotEmpty)
+            if (selectedEvents.isNotEmpty)
               Expanded(
                 child: ListView(
                   children: [
@@ -158,12 +140,22 @@ void _onDaySelected(DateTime selectedDay, DateTime focusedDay) async {
                   ],
                 ),
               ),
+            if (selectedEvents.isEmpty)
+              Text(
+                "No events for this day",
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontFamily: AppTheme.fontName,
+                  color: Colors.white,
+                ),
+              ),
           ],
         ),
       );
     },
   );
 }
+
 
 
 
@@ -269,7 +261,7 @@ Color _markerColor(DateTime date, List events) {
           
                 calendarBuilders: CalendarBuilders(
                   markerBuilder: (context, date, events) {
-                      if (events.isNotEmpty &&eventsByDay.containsKey(date)) {
+                      if (events.isNotEmpty) {
                         print("-----EVENT MARKED----- $date ");
                       return Positioned(
                         right:   1,

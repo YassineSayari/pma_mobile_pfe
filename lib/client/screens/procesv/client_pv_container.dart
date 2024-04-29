@@ -190,34 +190,6 @@ class _ClientProcesvContainerState extends State<ClientProcesvContainer> {
                          ),
                        ],
                      ),
-                // SizedBox(height: 10.h),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.end,
-                //   children: [
-                //     GestureDetector(
-                //       onTap: () {
-                //        showDialog(context: context, builder: (context)=> EditProcesv(procesv: widget.procesv));                     
-                //           },
-                //       child: Icon(
-                //         Icons.edit_outlined,
-                //         size: 35.sp,
-                //         color: Color.fromARGB(255, 102, 31, 184),
-                //       ),
-                //     ),
-                //    SizedBox(width: 20.w),
-                //    GestureDetector(
-                //       onTap: () {
-                //         print("deleting task : ${widget.procesv.id}");
-                //        deleteProcesv(widget.procesv.id);
-                //        },
-                //       child: Icon(
-                //         Icons.delete_outline,
-                //         size: 35,
-                //         color: Color.fromARGB(255, 188, 14, 14),
-                //       ),
-                //     ),
-                //   ],
-                // ),
               ],
             ).animate().slideX(),
             ],

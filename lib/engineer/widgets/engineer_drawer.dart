@@ -9,24 +9,21 @@ import 'package:pma/theme.dart';
 import '../../services/authentication_service.dart';
 import '../../services/shared_preferences.dart';
 
-
-
 class EngineerDrawer extends StatefulWidget {
-    final String selectedRoute;
+  final String selectedRoute;
 
-  const EngineerDrawer({super.key, required this.selectedRoute});
+  const EngineerDrawer({Key? key, required this.selectedRoute}) : super(key: key);
 
   @override
   State<EngineerDrawer> createState() => _EngineerDrawerState();
 }
 
 class _EngineerDrawerState extends State<EngineerDrawer> {
+  final SharedPrefs sharedPrefs = GetIt.instance<SharedPrefs>();
+  late Map<String, String> userInfo = {};
+  late String? userId = " ";
 
-    final SharedPrefs sharedPrefs = GetIt.instance<SharedPrefs>();
-
-  late Map<String, String> userInfo={};
-  late String? userId=" ";
-   @override
+  @override
   void initState() {
     super.initState();
     _loadUserInfo();
@@ -37,114 +34,150 @@ class _EngineerDrawerState extends State<EngineerDrawer> {
       final data = await SharedPrefs.getUserInfo();
       setState(() {
         userInfo = data;
-        userId=data["userId"];
+        userId = data["userId"];
       });
     } catch (error) {
       print("error loading user image");
     }
   }
+
   @override
   Widget build(BuildContext context) {
-
-  final userImage = userInfo['userImage'];
-  final userImageUrl =
-        userImage != null ?  "$imageUrl/$userImage":"$noImageUrl";
-    print(userImageUrl);
+    final userImage = userInfo['userImage'];
+    final userImageUrl = userImage != null ? "$imageUrl/$userImage" : "$noImageUrl";
 
     return Drawer(
       child: ListView(
         children: [
           DrawerHeader(
             child: CircleAvatar(
-            radius: 30,
-            backgroundImage: NetworkImage(userImageUrl),
+              radius: 30,
+              backgroundImage: NetworkImage(userImageUrl),
+            ),
           ),
+          _buildListTile(
+            icon: Icons.tv,
+            title: 'Dashboard',
+            route: '/engineerdashboard',
           ),
-          ListTile(
-            leading: Icon(Icons.tv),
-            title: Text('Dashboard',style: widget.selectedRoute == '/engineerdashboard' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
-            onTap: (){},
-          ),
-          ListTile(
-            leading: Icon(Icons.people_outline),
-            title: Text('My Team',style: widget.selectedRoute == '/myteam' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
+          _buildListTile2(
+            icon: Icons.people_outline,
+            title: 'My Team',
+            route:'/myteam',
             onTap: () {
-              Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => MyTeam(id: userId),
-        ),
-        );
-          },
-            selected: widget.selectedRoute == '/myteam',
-          ),
-          ListTile(
-            leading: Icon(Icons.layers),
-            title: Text('My Projects',style: widget.selectedRoute == '/engineer_projects' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
-            onTap: () {
-              Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => MyProjects(id: userId),
-          ),
-        );
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => MyTeam(id: userId)),
+              );
             },
-            selected: widget.selectedRoute == '/engineer_projects',
           ),
-          ListTile(
-            leading: Icon(Icons.task_alt),
-            title: Text('My Tasks',style: widget.selectedRoute == '/engineer_tasks' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
+          _buildListTile2(
+            icon: Icons.layers,
+            title: 'My Projects',
+            route:'/engineer_projects',
             onTap: () {
-                    Navigator.of(context).pushNamed('/engineer_tasks');
-                  },
-                  selected: widget.selectedRoute == '/engineer_tasks',
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => MyProjects(id: userId)),
+              );
+            },
           ),
-          ListTile(
-            leading: Icon(Icons.shield_outlined),
-            title: Text('Risks',style: widget.selectedRoute == '/engineer_risks' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
+          _buildListTile(
+            icon: Icons.task_alt,
+            title: 'My Tasks',
+            route: '/engineer_tasks',
+          ),
+          _buildListTile2(
+            icon: Icons.shield_outlined,
+            title: 'Risks',
+            route: '/engineer_risks',
             onTap: () {
-              Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => MyRisks(),
-        ),
-      );
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => MyRisks()),
+              );
             },
             selected: widget.selectedRoute == '/engineer_risks',
           ),
-          ListTile(
-            leading: Icon(Icons.settings),
-            title: Text('Profile',style: widget.selectedRoute == '/profile' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
-            onTap: () {
-                    Navigator.of(context).pushNamed('/profile');
-                  },
-                  selected: widget.selectedRoute == '/profile',
+          _buildListTile(
+            icon: Icons.settings,
+            title: 'Profile',
+            route: '/profile',
           ),
-
-          ListTile(
-            leading: Icon(Icons.calendar_today_outlined),
-            title: Text('Calendar',style: widget.selectedRoute == '/calendar' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
-            onTap: () {
-               Navigator.of(context).pushReplacementNamed('/calendar');
-            },
+          _buildListTile(
+            icon: Icons.calendar_today_outlined,
+            title: 'Calendar',
+            route: '/calendar',
           ),
-          ListTile(
-            leading: Icon(Icons.logout),
-            title: Text('Logout',style:AppTheme.defaultItemStyle),
-            onTap: () {
-              print("logout clicked");
-
-              _handleLogout(context);
-            },
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal:6.0),
+            child: ListTile(
+              leading: Icon(Icons.logout),
+              title: Text(
+                'Logout',
+                style: AppTheme.defaultItemStyle,
+              ),
+              onTap: () {
+                print("logout clicked");
+                _handleLogout(context);
+              },
+            ),
           ),
         ],
-
       ),
     );
   }
 
+  Widget _buildListTile({required IconData icon, required String title, required String route}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 6.0),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          color: widget.selectedRoute == route ? AppColors.selectedTileBackgroundColor : null,
+        ),
+        child: ListTile(
+          leading: Icon(icon,color: widget.selectedRoute == route ? AppColors.selectedDrawerIconColor : AppColors.defaultDrawerIconColor),
+          title: Text(
+            title,
+            style: widget.selectedRoute == route ? AppTheme.selectedItemStyle : AppTheme.defaultItemStyle,
+          ),
+          onTap: () {
+            Navigator.pushNamed(context, route);
+          },
+          selected: widget.selectedRoute == route,
+        ),
+      ),
+    );
+  }
+  Widget _buildListTile2({required IconData icon,required String title,VoidCallback? onTap,bool selected = false,required String route}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 6.0),
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            color: widget.selectedRoute == route ? AppColors.selectedTileBackgroundColor : null,
+          ),
+        child: ListTile(
+        leading: Icon(icon,color: widget.selectedRoute == route ? AppColors.selectedDrawerIconColor : AppColors.defaultDrawerIconColor),
+          title: Text(
+            title,
+            style: widget.selectedRoute == route ? AppTheme.selectedItemStyle : AppTheme.defaultItemStyle,
+          ),
+          onTap: onTap != null
+              ? onTap
+              : () {
+                  Navigator.pushReplacementNamed(context, route);
+                },
+          selected: selected,
+        ),
+      ),
+    );
+  }
     void _handleLogout(BuildContext context) {
     print("handling logout");
     AuthService authService = GetIt.I<AuthService>();
     authService.logout();
     Navigator.of(context).pushReplacementNamed('/signin');
   }
-  
 }
