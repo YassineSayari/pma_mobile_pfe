@@ -42,9 +42,27 @@ class _TlAddRiskState extends State<TlAddRisk> {
 
       @override
   void initState() {
-    super.initState();
-    projects = projectService.getAllProjects();
+     super.initState();
+     _loadUserInfo().then((_) {
+    projects = projectService.getProjectsByTeamLeader(userId!);
     impact="High";
+});
+  }
+
+   final SharedPrefs sharedPrefs = GetIt.instance<SharedPrefs>();
+  late Map<String, String> userInfo = {};
+  late String? userId = " ";
+    Future<void> _loadUserInfo() async {
+    try {
+      final data = await SharedPrefs.getUserInfo();
+      setState(() {
+        userInfo = data;
+        userId = data["userId"];
+        print("user loaded::::::: id $userId");
+      });
+    } catch (error) {
+      print("error loading user");
+    }
   }
 
     @override

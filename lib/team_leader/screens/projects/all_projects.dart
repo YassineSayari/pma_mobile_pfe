@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:pma/admin/widgets/admin_drawer.dart';
+import 'package:get_it/get_it.dart';
 import 'package:pma/custom_snackbar.dart';
+import 'package:pma/services/shared_preferences.dart';
 import 'package:pma/team_leader/screens/projects/tl_project_container.dart';
 import 'package:pma/team_leader/widgets/teamleader_drawer.dart';
 import 'package:pma/theme.dart';
@@ -21,7 +22,26 @@ class _TlAllProjectsState extends State<TlAllProjects> {
   @override
   void initState() {
     super.initState();
-    projects = ProjectService().getAllProjects();
+    _loadUserInfo().then((_) {
+    print("current user id:::: $userId");
+    projects = ProjectService().getProjectsByTeamLeader(userId!);
+    });
+  }
+
+ final SharedPrefs sharedPrefs = GetIt.instance<SharedPrefs>();
+  late Map<String, String> userInfo = {};
+  late String? userId = " ";
+    Future<void> _loadUserInfo() async {
+    try {
+      final data = await SharedPrefs.getUserInfo();
+      setState(() {
+        userInfo = data;
+        userId = data["userId"];
+        print("user loaded::::::: id $userId");
+      });
+    } catch (error) {
+      print("error loading user image");
+    }
   }
 
   @override

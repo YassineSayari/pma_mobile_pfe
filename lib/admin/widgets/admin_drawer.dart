@@ -5,23 +5,20 @@ import '../../const.dart';
 import '../../services/authentication_service.dart';
 import '../../services/shared_preferences.dart';
 
-
-
 class AdminDrawer extends StatefulWidget {
   final String selectedRoute;
 
-  const AdminDrawer({super.key, required this.selectedRoute});
+  const AdminDrawer({Key? key, required this.selectedRoute}) : super(key: key);
 
   @override
   State<AdminDrawer> createState() => _AdminDrawerState();
 }
 
 class _AdminDrawerState extends State<AdminDrawer> {
-
   final SharedPrefs sharedPrefs = GetIt.instance<SharedPrefs>();
-  late Map<String, String> userInfo={};
+  late Map<String, String> userInfo = {};
 
- @override
+  @override
   void initState() {
     super.initState();
     _loadUserInfo();
@@ -38,185 +35,160 @@ class _AdminDrawerState extends State<AdminDrawer> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-        final userImage = userInfo['userImage'];
-    final userImageUrl =
-        userImage != null ?  "$imageUrl/$userImage":"$noImageUrl";
-    print(userImageUrl);
+    final userImage = userInfo['userImage'];
+    final userImageUrl = userImage != null ? "$imageUrl/$userImage" : "$noImageUrl";
 
     return Drawer(
       child: ListView(
         children: [
           DrawerHeader(
             child: CircleAvatar(
-            radius: 30,
-            backgroundImage: NetworkImage(userImageUrl),
+              radius: 30,
+              backgroundImage: NetworkImage(userImageUrl),
+            ),
           ),
+          _buildListTile(
+            icon: Icons.tv,
+            title: 'Dashboard',
+            route: '/admindashboard',
           ),
-          ListTile(
-            leading: Icon(Icons.tv),
-            title: Text('Dashboard',style: widget.selectedRoute == '/admindashboard' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
-            onTap: (){
-              Navigator.pushNamed(context, '/admindashboard');
-            },
-            selected: widget.selectedRoute == '/admindashboard',
-          ),
-          ExpansionTile(
-            leading: Icon(Icons.folder_copy),
-            title: Text('Projects',style: AppTheme.defaultItemStyle),
+          _buildExpansionTile(
+            icon: Icons.folder_copy,
+            title: 'Projects',
             children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                child: ListTile(
-                  title: Text('All Projects',style: widget.selectedRoute == '/allprojects' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
-                  onTap: () {
-                    Navigator.pushNamed(context,'/allprojects');
-                  },
-                  selected: widget.selectedRoute == '/allprojects',
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                child: ListTile(
-                  title: Text('Add Project',style: widget.selectedRoute == '/addproject' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
-                  onTap: () {
-                    Navigator.of(context).pushReplacementNamed('/addproject');
-                  },
-                  selected: widget.selectedRoute == '/addproject',
-                ),
-              ),
+              _buildSubListTile(title: 'All Projects', route: '/allprojects'),
+              _buildSubListTile(title: 'Add Project', route: '/addproject'),
             ],
           ),
-          ExpansionTile(
-            leading: Icon(Icons.people_outlined),
-            title: Text('Employees',style: AppTheme.defaultItemStyle),
+          _buildExpansionTile(
+            icon: Icons.people_outlined,
+            title: 'Employees',
             children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                child: ListTile(
-                  title: Text('All Employees',style:widget.selectedRoute == '/allemployees' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
-                  onTap: () {
-                    Navigator.of(context).pushReplacementNamed('/allemployees');
-                  },
-                  selected: widget.selectedRoute == '/allemployees',
-
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                child: ListTile(
-                  title: Text('Add Employee',style:widget.selectedRoute == '/addemployee' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
-                  onTap: () {
-                        Navigator.of(context).pushNamed('/addemployee');
-                  },
-                  selected: widget.selectedRoute == '/addemployee',
-                ),
-              ),
+              _buildSubListTile(title: 'All Employees', route: '/allemployees'),
+              _buildSubListTile(title: 'Add Employee', route: '/addemployee'),
             ],
           ),
-          ExpansionTile(
-            leading: Icon(Icons.person),
-            title: Text('Clients',style:AppTheme.defaultItemStyle),
+          _buildExpansionTile(
+            icon: Icons.person,
+            title: 'Clients',
             children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                child: ListTile(
-                  title: Text('All Clients',style:widget.selectedRoute == '/allclients' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
-                  onTap: () {
-                    Navigator.of(context).pushNamed('/allclients');
-                  },
-                  selected: widget.selectedRoute == '/allclients',
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                child: ListTile(
-                  title: Text('Add Client',style: widget.selectedRoute == '/addclient' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
-                  onTap: () {
-                    Navigator.pushNamed(context,'/addclient');
-                  },
-                  selected: widget.selectedRoute == '/addclient',
-
-                ),
-              ),
+              _buildSubListTile(title: 'All Clients', route: '/allclients'),
+              _buildSubListTile(title: 'Add Client', route: '/addclient'),
             ],
           ),
-          ListTile(
-            leading: Icon(Icons.people),
-            title: Text('Signup-Requests',style:widget.selectedRoute == '/signuprequests' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
-            onTap: () {
-              Navigator.pushNamed(context,'/signuprequests');
-            },
-            selected: widget.selectedRoute == '/signuprequests',
+          _buildListTile(
+            icon: Icons.people,
+            title: 'Signup-Requests',
+            route: '/signuprequests',
           ),
-          ListTile(
-            leading: Icon(Icons.receipt_long),
-            title: Text('Reclamations',style:widget.selectedRoute == '/reclamations' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
-            onTap: () {
-               Navigator.of(context).pushNamed('/reclamations');
-            },
-            selected: widget.selectedRoute == '/reclamations',
+          _buildListTile(
+            icon: Icons.receipt_long,
+            title: 'Reclamations',
+            route: '/reclamations',
           ),
-          ListTile(
-            leading: Icon(Icons.shield_outlined),
-            title: Text('Risks',style: widget.selectedRoute == '/risks' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
-            onTap: () {
-               Navigator.of(context).pushNamed('/risks');
-                  },
-                  selected: widget.selectedRoute == '/risks',
-            
+          _buildListTile(
+            icon: Icons.shield_outlined,
+            title: 'Risks',
+            route: '/risks',
           ),
-          ListTile(
-            leading: Icon(Icons.settings),
-            title: Text('Profile',style:widget.selectedRoute == '/profile' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
-            onTap: () {
-                    Navigator.of(context).pushNamed('/profile');
-                  },
-                  selected: widget.selectedRoute == '/profile',
+          _buildListTile(
+            icon: Icons.settings,
+            title: 'Profile',
+            route: '/profile',
           ),
-          ListTile(
-            leading: Icon(Icons.calendar_today_outlined),
-            title: Text('Calendar',style: widget.selectedRoute == '/calendar' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
-            onTap: () {
-              Navigator.of(context).pushReplacementNamed('/calendar');
-            },
-            selected: widget.selectedRoute == '/calendar',
+          _buildListTile(
+            icon: Icons.calendar_today_outlined,
+            title: 'Calendar',
+            route: '/calendar',
           ),
-          ListTile(
-            leading: Icon(Icons.task_alt),
-            title: Text('Task',style:widget.selectedRoute == '/tasks' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
-            onTap: () {
-              Navigator.of(context).pushReplacementNamed('/tasks');
-            },
-            selected: widget.selectedRoute == '/tasks',
-
+          _buildListTile(
+            icon: Icons.task_alt,
+            title: 'Task',
+            route: '/tasks',
           ),
-          ListTile(
-            leading: Icon(Icons.insert_chart_outlined),
-            title: Text('Proces-Verbal',style:widget.selectedRoute == '/procesv' ? AppTheme.selectedItemStyle:AppTheme.defaultItemStyle),
-            onTap: () {
-              Navigator.of(context).pushReplacementNamed('/procesv');
-            },
-            selected: widget.selectedRoute == '/procesv',
+          _buildListTile(
+            icon: Icons.insert_chart_outlined,
+            title: 'Proces-Verbal',
+            route: '/procesv',
           ),
-          ListTile(
-            leading: Icon(Icons.email_outlined),
-            title: Text('Email',style: AppTheme.defaultItemStyle),
-            onTap: () {
-            },
+          _buildListTile(
+            icon: Icons.email_outlined,
+            title: 'Email',
+            route:'/',
           ),
-          ListTile(
-            leading: Icon(Icons.logout),
-            title: Text('Logout',style:AppTheme.defaultItemStyle,),
-            onTap: () {
-              print("logout clicked");
-              _handleLogout(context);
-            },
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal:6.0),
+            child: ListTile(
+              leading: Icon(Icons.logout),
+              title: Text(
+                'Logout',
+                style: AppTheme.defaultItemStyle,
+              ),
+              onTap: () {
+                print("logout clicked");
+                _handleLogout(context);
+              },
+            ),
           ),
         ],
+      ),
+    );
+  }
 
+  Widget _buildListTile({required IconData icon, required String title, required String route}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 6.0),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          color: widget.selectedRoute == route ? AppColors.selectedTileBackgroundColor : null,
+        ),
+        child: ListTile(
+          leading: Icon(icon,color: widget.selectedRoute == route ? AppColors.selectedDrawerIconColor : AppColors.defaultDrawerIconColor),
+          title: Text(
+            title,
+            style: widget.selectedRoute == route ? AppTheme.selectedItemStyle : AppTheme.defaultItemStyle,
+          ),
+          onTap: () {
+            Navigator.pushNamed(context, route);
+          },
+          selected: widget.selectedRoute == route,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSubListTile({required String title, required String route}) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 16.0),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          color: widget.selectedRoute == route ? AppColors.selectedTileBackgroundColor : null,
+        ),
+        child: ListTile(
+          title: Text(
+            title,
+            style: widget.selectedRoute == route ? AppTheme.selectedItemStyle : AppTheme.defaultItemStyle,
+          ),
+          onTap: () {
+            Navigator.pushNamed(context, route);
+          },
+          selected: widget.selectedRoute == route,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildExpansionTile({required IconData icon, required String title, required List<Widget> children}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal:6.0),
+      child: ExpansionTile(
+        leading: Icon(icon,color: AppColors.defaultDrawerIconColor),
+        title: Text(title, style: AppTheme.defaultItemStyle),
+        children: children,
       ),
     );
   }
@@ -227,5 +199,4 @@ class _AdminDrawerState extends State<AdminDrawer> {
     authService.logout();
     Navigator.of(context).pushReplacementNamed('/signin');
   }
-  
 }

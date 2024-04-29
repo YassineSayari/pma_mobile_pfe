@@ -47,6 +47,24 @@ class TaskService {
   }
 
 
+   Future<List<Task>> getTasksByTeamLeader(String id) async {
+    print("getting tasks for $id");
+    final response = await http.get(
+      Uri.parse('$apiUrl/gettskks/$id'),
+      // headers: {
+      //     'Authorization': 'Bearer $authToken',
+      //   },
+    );
+
+    if (response.statusCode == 200) {
+      print("got tasks");
+      final List<dynamic> jsonData = json.decode(response.body);
+      return jsonData.map((eventData) => Task.fromJson(eventData)).toList();
+    } else {
+      throw Exception('Failed to load tasks');
+    }
+  }
+
 
 Future<void> addTask(Map<String, dynamic> task) async {
   try {

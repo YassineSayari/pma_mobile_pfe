@@ -56,8 +56,17 @@ void initState() {
   initializeData();
 }
 
+final SharedPrefs sharedPrefs = GetIt.instance<SharedPrefs>();
+  late Map<String, String> userInfo = {};
+  late String? userId = " ";
 Future<void> initializeData() async {
-  projects = projectService.getAllProjects();
+    final data = await SharedPrefs.getUserInfo();
+      setState(() {
+        userInfo = data;
+        userId = data["userId"];
+        print("user loaded::::::: id $userId");
+      });
+      projects = projectService.getProjectsByTeamLeader(userId!);
   teamLeaders = UserService().getAllTeamLeaders();
   //print("sender::::: $sender");
   print("proejct id::::: $projectid");
@@ -82,7 +91,7 @@ Future<void> initializeData() async {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Center(child: Text("Edit",style: TextStyle(fontFamily: AppTheme.fontName,fontWeight: FontWeight.w600,fontSize: 34.sp),)),
+                Center(child: Text("Add",style: TextStyle(fontFamily: AppTheme.fontName,fontWeight: FontWeight.w600,fontSize: 34.sp),)),
                 SizedBox(height: 30.h),
                 TextFormField(
                   controller: titleController,
@@ -273,7 +282,6 @@ Future<void> initializeData() async {
                                 child: ElevatedButton(
                                     onPressed: () {
                                 if (_formKey.currentState!.validate()) {
-    
                                     _addProcesv();
                                     Navigator.of(context).pushReplacementNamed('/teamleader_pv');
                                      }

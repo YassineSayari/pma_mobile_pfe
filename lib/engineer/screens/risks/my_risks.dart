@@ -37,9 +37,9 @@ class _MyRisksState extends State<MyRisks> {
     String? currentClientId= await sharedPrefs.getLoggedUserIdFromPrefs();
     
 allRisks = [];
-    RiskService().getAllProblemesByUser(currentClientId!).then((tasks) {
+    RiskService().getAllProblemesByUser(currentClientId!).then((risks) {
       setState(() {
-        allRisks = tasks;
+        allRisks = risks;
         displayedRisks = allRisks;
       });
     });    
