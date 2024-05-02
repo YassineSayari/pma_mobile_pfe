@@ -179,11 +179,11 @@ class SigninState extends State<Signin> {
                           },
                         ),
 
-                        SizedBox(height: 10.h),
+                        SizedBox(height: 15.h),
 
                         SizedBox(
-                          width: 300,
-                          height: 55,
+                          width: double.infinity,
+                          height: 40.h,
                           child: ElevatedButton(
                             onPressed: () {
                               print("button works0");
@@ -192,20 +192,13 @@ class SigninState extends State<Signin> {
                                 print("button works");
                               }
                             },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF9F7BFF),
-                            ),
+                            style: AppButtonStyles.submitButtonStyle,
                             child: Text('Login',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 30.sp,
-                                 fontFamily: AppTheme.fontName,
-                                fontWeight: FontWeight.w500,
-                              ),
+                              style: AppButtonStyles.submitButtonTextStyle,
                             ),
                           ),
                         ),
-                        SizedBox(height: 20),
+                        SizedBox(height: 10.h),
                         Row(
                           children: [
                             Spacer(),
