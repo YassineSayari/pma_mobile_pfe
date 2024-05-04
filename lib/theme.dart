@@ -85,7 +85,7 @@ class AppColors {
 
 class AppButtonStyles {
   static ButtonStyle submitButtonStyle = ElevatedButton.styleFrom(
-    backgroundColor: Color.fromARGB(255, 56, 161, 27),
+    backgroundColor: Color.fromARGB(255, 27, 49, 161),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(10.0),
     ),
@@ -136,7 +136,7 @@ class TextInputDecorations {
 
   static final TextStyle textStyle = TextStyle(
     color: Color(0xFF000000),
-    fontSize: 27.sp,
+    fontSize: 22.sp,
     fontWeight: FontWeight.w500,
   );
 }
@@ -172,5 +172,3 @@ class DateFieldsStyle {
     ),
   );
 }
-
-
