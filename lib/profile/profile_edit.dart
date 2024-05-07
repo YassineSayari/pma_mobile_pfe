@@ -58,7 +58,7 @@ class _EditProfileState extends State<EditProfile> {
       ),
 
       body: Padding(
-        padding:  EdgeInsets.symmetric(horizontal: 8.w,vertical:8.h),
+        padding:  EdgeInsets.symmetric(horizontal: 16.w,vertical:8.h),
         child: ListView(
           children: [
             Row(

@@ -75,7 +75,7 @@ class _AllClientsState extends State<AllClients> {
           ),
 
           Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
+                  padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 8.h),
             child: Row(
               children: [
                 Align(

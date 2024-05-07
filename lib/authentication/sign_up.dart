@@ -89,7 +89,7 @@ Future<void> _handleSignUp() async {
             fit: BoxFit.cover,
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 8.h),
+            padding: EdgeInsets.symmetric(horizontal: 30.w,vertical: 8.h),
             child: Form(
               key: _formKey,
               child: ListView(

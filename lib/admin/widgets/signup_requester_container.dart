@@ -52,7 +52,7 @@ class SignUpRequester extends StatelessWidget {
               SizedBox(height: 20.h),
                   Text(
                     "Details",
-                style: TextStyle(fontSize: 35.sp, fontWeight: FontWeight.w600,fontFamily: AppTheme.fontName),
+                style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w600,fontFamily: AppTheme.fontName),
                   ),
                   SizedBox(height: 15.h),
                   buildInfoRow(Icons.person, "Full Name:", name),
@@ -222,22 +222,22 @@ class SignUpRequester extends StatelessWidget {
               children: [
 
           Text("Acceptance Confirmation",
-          style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w600,fontFamily: AppTheme.fontName),
+          style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.w600,fontFamily: AppTheme.fontName),
           ),
           SizedBox(height: 10.h),
           Text(
             "Are you sure you want to accept $name's signup?",  
-            style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w500,fontFamily: AppTheme.fontName),
+            style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w500,fontFamily: AppTheme.fontName),
           ),
           SizedBox(height: 10.h),
           Text("Name: $name",
-            style: TextStyle(fontSize: 20.sp,fontFamily: AppTheme.fontName),
+            style: TextStyle(fontSize: 15.sp,fontFamily: AppTheme.fontName),
           ),
           Text("Email: $email",
-             style: TextStyle(fontSize: 20.sp,fontFamily: AppTheme.fontName),
+             style: TextStyle(fontSize: 15.sp,fontFamily: AppTheme.fontName),
           ),
           Text("Role: $role",
-             style: TextStyle(fontSize: 20.sp,fontFamily: AppTheme.fontName),
+             style: TextStyle(fontSize: 15.sp,fontFamily: AppTheme.fontName),
           ),
           SizedBox(height: 10.h),
 

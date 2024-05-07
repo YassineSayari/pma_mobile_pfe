@@ -62,7 +62,7 @@ class _AddClientState extends State<AddClient> {
             child: ListView(
               children: [
                 Padding(
-                  padding:  EdgeInsets.symmetric(horizontal:8.w,vertical: 8.h),
+                  padding:  EdgeInsets.symmetric(horizontal:20.w,vertical: 8.h),
                   child:
                   Form(
                     key: _formKey,
@@ -116,7 +116,7 @@ class _AddClientState extends State<AddClient> {
                           controller: mobile,
                           keyboardType: TextInputType.number,
                           style: TextInputDecorations.textStyle,
-                          decoration: TextInputDecorations.customInputDecoration(labelText: 'Mbile'),
+                          decoration: TextInputDecorations.customInputDecoration(labelText: 'Mobile'),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Mobile number is required';

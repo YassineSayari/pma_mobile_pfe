@@ -20,7 +20,7 @@ class AppTheme {
 
 
 
-  static const double appBarFontSize = 40.0;
+  static const double appBarFontSize = 30.0;
   static const double totalObjectFontSize=20.0;  
   static const double sortandfilterIconFontSize=25.0;
   static const String fontName = 'Rubik';
@@ -114,7 +114,7 @@ class TextInputDecorations {
       labelText: labelText,
       labelStyle: TextStyle(
         color: Color.fromARGB(255, 173, 170, 186),
-        fontSize: 25.sp,
+        fontSize: 20.sp,
         fontWeight: FontWeight.w600,
       ),
       enabledBorder: OutlineInputBorder(
@@ -145,13 +145,13 @@ class TextInputDecorations {
 class DateFieldsStyle {
   static TextStyle textStyle = TextStyle(
     color: Color(0xFF000000),
-    fontSize: 20.sp,
+    fontSize: 15.sp,
     fontFamily: AppTheme.fontName,
   );
 
   static TextStyle labelStyle = TextStyle(
     color: Color.fromARGB(255, 173, 170, 186),
-    fontSize: 25.sp,
+    fontSize: 20.sp,
     fontFamily: AppTheme.fontName,
     fontWeight: FontWeight.w600,
   );
@@ -160,7 +160,7 @@ class DateFieldsStyle {
     borderRadius: BorderRadius.all(Radius.circular(10.r)),
     borderSide: BorderSide(
       width: 2.w,
-      color: Colors.deepPurple,
+      color: Colors.grey,
     ),
   );
 

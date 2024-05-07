@@ -135,11 +135,11 @@ class SigninState extends State<Signin> {
         fit: StackFit.expand,
         children: [
           Image.asset(
-            "assets/images/auth_bg.jpeg",
+            "assets/images/auth_background.jpeg",
             fit: BoxFit.cover,
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 8.h),
+            padding: EdgeInsets.symmetric(horizontal: 30.w,vertical: 8.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

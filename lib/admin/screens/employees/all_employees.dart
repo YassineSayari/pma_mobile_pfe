@@ -69,6 +69,7 @@ class _AllEmployeesState extends State<AllEmployees> {
             drawer: AdminDrawer(selectedRoute: '/allemployees'),
 
  body: Column(
+    
     children: [
         CustomAppBar(title: "Employees"),
           SizedBox(height: 15.h),
@@ -83,7 +84,7 @@ class _AllEmployeesState extends State<AllEmployees> {
           SizedBox(height: 15.h),
 
           Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
+                  padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 8.h),
             child: Row(
               children: [
                    Align(
@@ -92,9 +93,7 @@ class _AllEmployeesState extends State<AllEmployees> {
                     ),
                 
                 Spacer(),
-                Icon(Icons.tune_outlined,
-                        size: AppTheme.sortandfilterIconFontSize.sp,
-                        ),
+              
                SizedBox(width: 15.w),            
                 PopupMenuButton<String>(
                   onSelected: (value) {

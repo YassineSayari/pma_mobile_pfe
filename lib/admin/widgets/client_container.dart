@@ -19,7 +19,7 @@ class ClientContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(right:8.0,left:8.0,bottom:8.0),
+      padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 8.h),
       child: Container(
         decoration: BoxDecoration(
           color: AppTheme.nearlyWhite,
@@ -44,13 +44,13 @@ class ClientContainer extends StatelessWidget {
                       "$imageUrl/${user.image}",
                       width: 100.0.w,
                       height: 100.0.h,
-                      fit: BoxFit.fill,
+                      fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
                         return Image.network(
                           noImageUrl,
                           width: 100.0.w,
                           height: 100.0.h,
-                          fit: BoxFit.fill,
+                          fit: BoxFit.cover,
                         );
                       },
                     ),

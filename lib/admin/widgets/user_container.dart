@@ -20,7 +20,7 @@ class UserContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
+      padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 8.h),
       child: Container(
         decoration: BoxDecoration(
           color: AppTheme.nearlyWhite,
@@ -43,14 +43,14 @@ class UserContainer extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8.0.r),
                     child: Image.network(
                       "$imageUrl/${user.image}",
-                      width: 120.0.w,
-                      height: 120.0.h,
-                      fit: BoxFit.fill,
+                      width: 100.0.w,
+                      height: 100.0.h,
+                      fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
                         return Image.network(
                           noImageUrl,
-                          width: 120.0.w,
-                          height: 120.0.h,
+                          width: 100.0.w,
+                          height: 100.0.h,
                           fit: BoxFit.fill,
                         );
                       },
@@ -61,13 +61,17 @@ class UserContainer extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       
-                      Text(
-                        user.fullName,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 25.sp,
-                          fontFamily: AppTheme.fontName,
-                          
+                      SizedBox(
+                        width: 200,
+                        child: Text(
+                          user.fullName,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 25.sp,
+                            fontFamily: AppTheme.fontName,
+                            
+                          ),
                         ),
                       ),
                       Text(
@@ -78,6 +82,7 @@ class UserContainer extends StatelessWidget {
                         children: [
                           Text(
                             user.email,
+                            overflow: TextOverflow.ellipsis,
                             style: TextStyle(fontSize: 15.sp, color: Colors.grey[600],fontFamily: AppTheme.fontName),
                           ),
                         ],

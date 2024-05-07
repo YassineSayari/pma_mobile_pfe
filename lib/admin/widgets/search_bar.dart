@@ -11,7 +11,7 @@ class UserSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
+      padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 8.h),
             
 
       child: Row(
@@ -19,7 +19,7 @@ class UserSearchBar extends StatelessWidget {
           Expanded(
             child: Container(
               width: 300.w,
-              height: 50.h,
+              height: 45.h,
                     decoration: BoxDecoration(
                      color: Colors.white,
                      borderRadius:BorderRadius.circular(8.r),

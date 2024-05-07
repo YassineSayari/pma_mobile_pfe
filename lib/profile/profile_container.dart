@@ -23,12 +23,12 @@ class ProfileContainer extends StatelessWidget {
           Expanded(flex: 2, child: _TopPortion(user: user)),
                             Text(
                     "${user.fullName}",
-                    style: TextStyle(fontSize: 50.sp, fontWeight: FontWeight.w600,fontFamily: AppTheme.fontName),
+                    style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w600,fontFamily: AppTheme.fontName),
                   ),
           Expanded(
             flex: 6,
             child: Padding(
-              padding:  EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
+              padding:  EdgeInsets.symmetric(horizontal: 20.w,vertical: 8.h),
               child: ListView(
                 children: [
                   Row(

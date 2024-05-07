@@ -70,7 +70,7 @@ class _AddEmployeeState extends State<AddEmployee> {
               children: [
                 
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal:8.w,vertical: 8.h ),
+                  padding: EdgeInsets.symmetric(horizontal:20.w,vertical: 8.h ),
                   child:
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
