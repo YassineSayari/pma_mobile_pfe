@@ -89,7 +89,7 @@ class _EditTaskPopupState extends State<EditTaskPopup> {
       child: Container(
         width: double.infinity,
         height: double.infinity,
-        padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
+        padding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 8.h),
         child: SingleChildScrollView(
           child: Form(
             key: _formKey,
@@ -175,7 +175,7 @@ class _EditTaskPopupState extends State<EditTaskPopup> {
                         ),
                         SizedBox(height: 10.h),
 
-                        Text("Progress*",style: TextStyle(fontFamily:AppTheme.fontName,fontSize: 20.sp,fontWeight: FontWeight.w500),),
+                        Text("Progress ",style: TextStyle(fontFamily:AppTheme.fontName,fontSize: 20.sp,fontWeight: FontWeight.w500),),
                         VerticalNumberPicker(
                   initialValue: taskProgress ?? 0,
                   minValue: 0,

@@ -81,12 +81,12 @@ class _TlAddTaskState extends State<TlAddTask> {
         borderRadius: BorderRadius.circular(8.0.r),
         
       ),
-            insetPadding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 28.h),
+            insetPadding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 28.h),
 
       child: Container(
         width: double.infinity,
         height: double.infinity,
-        padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
+        padding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 8.h),
         child: SingleChildScrollView(
           child: Form(
             key: _formKey,
@@ -348,20 +348,9 @@ class _TlAddTaskState extends State<TlAddTask> {
   }
 
    Future<void> _addTask() async {
-    //final List<Map<String, dynamic>> projectsList = await projects;
-    // List<String> memberIds = selectedExecutors.map((user) => user.id).toList();
+
 
         try {
-          // Map<String, dynamic> newTask = {
-          //         'Title' : titleController.text,
-          //         'Project': projectsList
-          //         .firstWhere((project) => project['_id'] == projectid),
-          //         'Details': descriptionController.text,
-          //         'StartDate': startDate?.toIso8601String(),
-          //         'DeadLine': deadLine?.toIso8601String(),
-          //         'executor':memberIds,
-          //         'Priority': priority,                  
-          // };
               Map<String, dynamic> newTask= {
       'Title': titleController.text,
       'Project': {'_id': projectid},

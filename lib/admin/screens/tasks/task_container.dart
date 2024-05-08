@@ -27,7 +27,7 @@ class _TaskContainerState extends State<TaskContainer> {
         String formattedDeadline = DateFormat('MMMM dd, yyyy').format(DateTime.parse(widget.task.deadLine));
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 4.w,vertical: 8.h),
+      padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 8.h),
       child: Container(
         decoration: BoxDecoration(
           color: AppTheme.nearlyWhite,
@@ -85,6 +85,7 @@ class _TaskContainerState extends State<TaskContainer> {
                           children: [
                                 Text(
                               "Executors: ",
+                              
                               style: TextStyle(
                                 fontSize: 20.sp,
                                 fontFamily: AppTheme.fontName,
@@ -92,11 +93,15 @@ class _TaskContainerState extends State<TaskContainer> {
                               ),
                             ),
 
-                             Text( widget.task.executor.map((executor)  => executor['fullName']).join(', '),
-                             style: TextStyle(
-                                        fontSize: 20.sp,
-                                        fontFamily: AppTheme.fontName,
-                                      ),),
+                             SizedBox(
+                              width: 170.w,
+                               child: Text( widget.task.executor.map((executor)  => executor['fullName']).join(', '),
+                               overflow: TextOverflow.ellipsis,
+                               style: TextStyle(
+                                          fontSize: 20.sp,
+                                          fontFamily: AppTheme.fontName,
+                                        ),),
+                             ),
                           
 
                           ],
@@ -279,14 +284,15 @@ class _TaskContainerState extends State<TaskContainer> {
                 shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.0.r),
       ),
-      insetPadding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 225.h),
+      insetPadding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 230.h),
       child:Container(
           padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
           width: double.infinity,
              child: Column(
                children: [
-                 Text("Confirm Deletion",style: TextStyle(fontFamily: AppTheme.fontName,fontSize: 35.sp,fontWeight: FontWeight.w600)),
-                           Text("Are you sure you want to delete this Task?",style: TextStyle(fontFamily: AppTheme.fontName,fontSize: 24.sp)),
+                 Text("Confirm Deletion", style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w600,fontFamily: AppTheme.fontName),),
+                 SizedBox(height: 5.h),
+                           Text("Are you sure you want to delete this Task?",style: TextStyle(fontSize: 20.sp,fontFamily: AppTheme.fontName),),
                            
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,

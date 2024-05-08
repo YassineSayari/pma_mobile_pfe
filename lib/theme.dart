@@ -67,6 +67,16 @@ class AppTheme {
   );
 
 
+    static TextStyle projectContainerTitlesStyle= TextStyle(
+    fontWeight: FontWeight.w500,
+    fontSize:20.sp,
+    fontFamily: AppTheme.fontName
+  );
+    static TextStyle projectContainerTextStyle= TextStyle(
+    fontSize:20.sp,
+    fontFamily: AppTheme.fontName
+  );
+
 }
 
 class AppColors {

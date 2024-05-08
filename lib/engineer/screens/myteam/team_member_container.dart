@@ -47,15 +47,15 @@ class _MemberContainerState extends State<MemberContainer> {
                     borderRadius: BorderRadius.circular(8.0.r),
                     child: Image.network(
                       "$imageUrl/${widget.user.image}",
-                      width: 120.0.w,
-                      height: 120.0.h,
-                      fit: BoxFit.fill,
+                      width: 100.0.w,
+                      height: 100.0.h,
+                      fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
                         return Image.network(
                           noImageUrl,
-                          width: 120.0.w,
-                          height: 120.0.h,
-                          fit: BoxFit.fill,
+                          width: 100.0.w,
+                          height: 100.0.h,
+                          fit: BoxFit.cover,
                         );
                       },
                     ),
@@ -67,12 +67,16 @@ class _MemberContainerState extends State<MemberContainer> {
                       children: [
                         Row(
                           children: [
-                            Text(
-                              widget.user.fullName,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 25.sp,
-                                fontFamily: AppTheme.fontName,
+                            SizedBox(
+                              width: 200,
+                              child: Text(
+                                widget.user.fullName,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 25.sp,
+                                  fontFamily: AppTheme.fontName,
+                                ),
                               ),
                             ),
                             Spacer(),
