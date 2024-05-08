@@ -85,7 +85,7 @@ class AppColors {
 
 class AppButtonStyles {
   static ButtonStyle submitButtonStyle = ElevatedButton.styleFrom(
-    backgroundColor: Color.fromARGB(255, 56, 161, 27),
+    backgroundColor: Color.fromARGB(255, 27, 49, 161),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(10.0),
     ),
