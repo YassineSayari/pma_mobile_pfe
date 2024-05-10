@@ -22,7 +22,7 @@ class dashboardBox extends StatelessWidget {
       margin: EdgeInsets.only(top: defaultPadding),
       padding: EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(
-        border: Border.all(width: 2, color: color.withOpacity(0.15)),
+        border: Border.all(width: 4, color: color.withOpacity(0.25)),
         borderRadius: const BorderRadius.all(
           Radius.circular(defaultPadding),
         ),
@@ -30,7 +30,7 @@ class dashboardBox extends StatelessWidget {
       child: Row(
         children: [
           SizedBox(
-            height: 20,
+            height: 10,
             width: 20,
             child: (svgSrc),
           ),
@@ -46,11 +46,11 @@ class dashboardBox extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
-                    "$num Files",
+                    "$num",
                     style: Theme.of(context)
                         .textTheme
                         .bodySmall!
-                        .copyWith(color: Colors.white70),
+                        .copyWith(color: Colors.black),
                   ),
                 ],
               ),
