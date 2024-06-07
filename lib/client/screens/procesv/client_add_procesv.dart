@@ -5,7 +5,6 @@ import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:pma/custom_snackbar.dart';
-import 'package:pma/models/procesv_model.dart';
 import 'package:pma/models/user_model.dart';
 import 'package:pma/services/procesv_service..dart';
 import 'package:pma/services/project_service.dart';
@@ -13,15 +12,14 @@ import 'package:pma/services/shared_preferences.dart';
 import 'package:pma/services/user_service.dart';
 import 'package:pma/theme.dart';
 
-class TeamLeaderEditPv extends StatefulWidget {
- final Procesv procesv;
-  const TeamLeaderEditPv({super.key,required this.procesv});
+class CLAddProcesv extends StatefulWidget {
+  const CLAddProcesv({super.key});
 
   @override
-  State<TeamLeaderEditPv> createState() => _TeamLeaderEditPvState();
+  State<CLAddProcesv> createState() => _CLAddProcesvState();
 }
 
-class _TeamLeaderEditPvState extends State<TeamLeaderEditPv> {
+class _CLAddProcesvState extends State<CLAddProcesv> {
 
     final _formKey = GlobalKey<FormState>();
 
@@ -29,16 +27,16 @@ class _TeamLeaderEditPvState extends State<TeamLeaderEditPv> {
     late Future<List<User>> teamLeaders;
 
     String? projectid;
-  final MultiSelectController teamController = MultiSelectController();
-  List<User> seletedTeam = [];
+  final MultiSelectController executorController = MultiSelectController();
+  List<User> selectedExecutors = [];
 
     DateTime? date;
     final TextEditingController dateController = TextEditingController();
 
 
     late String type_com='internal meeting';
-    late TextEditingController titleController;
-    late TextEditingController descriptionController;
+    final TextEditingController titleController = TextEditingController();
+    final TextEditingController descriptionController= TextEditingController();
 
 
     final TextEditingController progressController= TextEditingController();
@@ -56,27 +54,14 @@ class _TeamLeaderEditPvState extends State<TeamLeaderEditPv> {
 void initState() {
   super.initState();
   initializeData();
-    titleController = TextEditingController(text: widget.procesv.title);
-    projectid = widget.procesv.project["_id"];
-    type_com=widget.procesv.Type_Communication;
-    descriptionController= TextEditingController(text: widget.procesv.description);
-    date = DateTime.parse(widget.procesv.date);
-    dateController.text = DateFormat('yyyy-MM-dd').format(date!);
-    }
+}
 
 Future<void> initializeData() async {
   projects = projectService.getAllProjects();
   teamLeaders = UserService().getAllTeamLeaders();
-  
-
-  
   //print("sender::::: $sender");
   print("proejct id::::: $projectid");
-
-
 }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -90,14 +75,14 @@ Future<void> initializeData() async {
       child: Container(
         width: double.infinity,
         height: double.infinity,
-        padding: EdgeInsets.symmetric(horizontal:12.w,vertical: 8.h),
+        padding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 8.h),
         child: SingleChildScrollView(
           child: Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Center(child: Text("Edit",style: TextStyle(fontFamily: AppTheme.fontName,fontWeight: FontWeight.w600,fontSize: 34.sp),)),
+                Center(child: Text("New Proces verbal",style: TextStyle(fontFamily: AppTheme.fontName,fontWeight: FontWeight.w600,fontSize: 30.sp),)),
                 SizedBox(height: 30.h),
                 TextFormField(
                   controller: titleController,
@@ -126,6 +111,7 @@ Future<void> initializeData() async {
                                     value: projectid,
                                     style: TextInputDecorations.textStyle,
                                     decoration: TextInputDecorations.customInputDecoration(labelText: 'Project'),
+
                                     items: snapshot.data!.map<DropdownMenuItem<String>>((Map<String, dynamic> project) {
                                       return DropdownMenuItem<String>(
                                         value: project['_id'],
@@ -197,10 +183,10 @@ Future<void> initializeData() async {
                                     borderWidth: 3,
                                     focusedBorderWidth: 3,
                                     
-                                    controller: teamController,
+                                    controller: executorController,
                                     onOptionSelected: (options) {
                                       setState(() {
-                                        seletedTeam = options
+                                        selectedExecutors = options
                                             .map((valueItem) => snapshot.data!
                                             .firstWhere((user) => user.fullName == valueItem.label))
                                             .toList();
@@ -245,21 +231,13 @@ Future<void> initializeData() async {
                                     },
                                     controller: dateController,
                                     readOnly: true,
-                                    style: DateFieldsStyle.textStyle,
-                                    decoration: InputDecoration(
-                                    labelText: 'Date*',
-                                    labelStyle: DateFieldsStyle.labelStyle,
-                                    enabledBorder: DateFieldsStyle.enabledBorder,
-                                    focusedBorder: DateFieldsStyle.focusedBorder,
-                                    prefixIcon: Icon(
-                                      Icons.calendar_today,
-                                      color: Colors.grey[400],
-                                    ),
-                                  ),
+                                    style: TextInputDecorations.textStyle,
+                                    decoration: TextInputDecorations.customInputDecoration(labelText: 'Date'),
+                                      
                                    
                                     validator: (value) {
                                       if (date == null) {
-                                        return 'date is required';
+                                        return ' date is required';
                                       }
                                       return null;
                                     },
@@ -269,8 +247,8 @@ Future<void> initializeData() async {
                                   TextFormField(
                                   controller: descriptionController,
                                   maxLines: 3,
-                                  style: TextInputDecorations.textStyle,
-                                  decoration: TextInputDecorations.customInputDecoration(labelText: 'Description'),
+                                   style: TextInputDecorations.textStyle,
+                                   decoration: TextInputDecorations.customInputDecoration(labelText: 'Description'),
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return 'Please enter a valid description';
@@ -278,16 +256,19 @@ Future<void> initializeData() async {
                                     return null;
                                   },
                                 ),
-                                SizedBox(height: 10.h),
+                                SizedBox(height: 15.h),
 
                                  
                              Row(
                             children: [
                               Expanded(
                                 child: ElevatedButton(
-                                  onPressed: (){
-                                    _editProcesv();
-                                  },
+                                  onPressed: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    _addProcesv();
+                                   
+                                  }
+                                },
                                              child: Text("Save",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily:AppTheme.fontName),),
                                              style: AppButtonStyles.submitButtonStyle
                                               ),
@@ -312,18 +293,16 @@ Future<void> initializeData() async {
     );
   }
 
-   Future<void> _editProcesv() async {
+   Future<void> _addProcesv() async {
         try {
-    List<String> memberIds = seletedTeam.map((user) => user.id).toList();
-    if (memberIds.isEmpty) {
-      memberIds = widget.procesv.equipe.map((user) => user["_id"]).cast<String>().toList();
-    }
+    List<String> memberIds = selectedExecutors.map((user) => user.id).toList();
     print("equipe:::$memberIds");
     String? userId = await prefs.getLoggedUserIdFromPrefs();
     print("used id:::: $userId");
     User sender = await userService.getUserbyId(userId!);
     print("sender:::: ${sender.id} ::::  ${sender.fullName}");
           Map<String, dynamic> procesv = {
+     
             'Titre' : titleController.text,
             'description': descriptionController.text,
             'Project': {'_id': projectid},
@@ -333,23 +312,23 @@ Future<void> initializeData() async {
             'Date' : DateFormat('yyyy-MM-dd').format(date!),
             };  
           
-          await procesvService.updateProcesv(widget.procesv.id,procesv);
+          await procesvService.addProcesv(procesv);
 
            ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-            content: SuccessSnackBar(message: "Proces Verbal updated !"),
+            content: SuccessSnackBar(message: "Proces Verbal added !"),
             duration: Duration(seconds: 2),
             behavior: SnackBarBehavior.floating,
             backgroundColor: Colors.transparent,
             elevation: 0,
           ),
           );
-          Navigator.of(context).pushReplacementNamed('/teamleader_pv');
+           Navigator.of(context).pushReplacementNamed('/client_pv');
         }catch(error) {
-        print('Error updating procesv: $error');
+        print('Error adding pv: $error');
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-            content: FailSnackBar(message: "failed to update Proces Verbal!"),
+            content: FailSnackBar(message: "failed to add Proces Verbal!"),
             duration: Duration(seconds: 2),
             behavior: SnackBarBehavior.floating,
             backgroundColor: Colors.transparent,

@@ -27,7 +27,7 @@ class _TlTaskContainerState extends State<TlTaskContainer> {
         String formattedDeadline = DateFormat('MMMM dd, yyyy').format(DateTime.parse(widget.task.deadLine));
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 4.w,vertical: 8.h),
+      padding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 8.h),
       child: Container(
         decoration: BoxDecoration(
           color: AppTheme.nearlyWhite,

@@ -58,35 +58,8 @@ class _AddEventState extends State<AddEventContainer> {
                             TextFormField(
                             controller: title,
                             keyboardType: TextInputType.text,
-                            style: TextStyle(
-                              color: Color(0xFF000000),
-                              fontSize: 25.sp,
-                              fontFamily: AppTheme.fontName,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            decoration: InputDecoration(
-                              labelText: 'Title*',
-                              labelStyle: TextStyle(
-                                color: Color(0xFF7743DB),
-                                fontSize: 20.sp,
-                                fontFamily: AppTheme.fontName,
-                                fontWeight: FontWeight.w600,
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(
-                                  width: 2,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10.r)),
-                                borderSide: BorderSide(
-                                  width: 2,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                            ),
+                            style: TextInputDecorations.textStyle,
+                            decoration: TextInputDecorations.customInputDecoration(labelText: 'Title*'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return ' title is required';
@@ -97,29 +70,8 @@ class _AddEventState extends State<AddEventContainer> {
                           SizedBox(height: 10.h),
                                              DropdownButtonFormField(
                                              value: eventType,
-                                             decoration: InputDecoration(
-                                               labelText: 'Type*',
-                                               labelStyle: TextStyle(
-                          color: Color(0xFF7743DB),
-                          fontSize: 20.sp,
-                          fontFamily: AppTheme.fontName,
-                          fontWeight: FontWeight.w600,
-                                               ),
-                                               enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          borderSide: BorderSide(
-                            width: 2,
-                            color: Colors.grey,
-                          ),
-                                               ),
-                                               focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          borderSide: BorderSide(
-                            width: 2,
-                            color: Colors.grey,
-                          ),
-                                               ),
-                                             ),
+                                             style: TextInputDecorations.textStyle,
+                                    decoration: TextInputDecorations.customInputDecoration(labelText: 'Type'),
                                              items: [
                                                DropdownMenuItem(child: Text('Work',style: TextStyle(fontSize:20),), value: 'Work'),
                                                DropdownMenuItem(child: Text('Presonal',style: TextStyle(fontSize: 20),), value: 'Personal'),
@@ -158,32 +110,16 @@ class _AddEventState extends State<AddEventContainer> {
                                 },
                                 controller: eventStartDateController,
                                 readOnly: true,
-                                decoration: InputDecoration(
-                                  labelText: 'Start Date*',
-                                  labelStyle: TextStyle(
-                                    color: Color(0xFF7743DB),
-                                    fontSize: 15.sp,
-                                    fontFamily: AppTheme.fontName,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                                    borderSide: BorderSide(
-                                      width: 2,
-                                      color: Colors.grey,
+                                style: DateFieldsStyle.textStyle,
+                                    decoration: InputDecoration(
+                                    labelText: 'Date*',
+                                    labelStyle: DateFieldsStyle.labelStyle,
+                                    enabledBorder: DateFieldsStyle.enabledBorder,
+                                    focusedBorder: DateFieldsStyle.focusedBorder,
+                                    prefixIcon: Icon(
+                                      Icons.calendar_today,
+                                      color: Colors.grey[400],
                                     ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                                    borderSide: BorderSide(
-                                      width: 2,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                  prefixIcon: Icon(
-                                    Icons.calendar_today,
-                                    color: Colors.grey[400],
-                                  ),
                                 ),
                                 validator: (value) {
                                   if (eventStartDate == null) {
@@ -212,73 +148,30 @@ class _AddEventState extends State<AddEventContainer> {
                           },
                           controller: eventEndDateController,
                           readOnly: true,
-                          decoration: InputDecoration(
-                            labelText: 'End Date*',
-                            labelStyle: TextStyle(
-                              color: Color(0xFF7743DB),
-                              fontSize: 15.sp,
-                              fontFamily: AppTheme.fontName,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 2,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                width: 2,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            prefixIcon: Icon(
-                              Icons.calendar_today,
-                              color: Colors.grey[400],
-                            ),
-                          ),
+                          style: DateFieldsStyle.textStyle,
+                                    decoration: InputDecoration(
+                                    labelText: 'Date*',
+                                    labelStyle: DateFieldsStyle.labelStyle,
+                                    enabledBorder: DateFieldsStyle.enabledBorder,
+                                    focusedBorder: DateFieldsStyle.focusedBorder,
+                                    prefixIcon: Icon(
+                                      Icons.calendar_today,
+                                      color: Colors.grey[400],
+                                    ),
+                                ),
                           validator: (value) {
                             if (eventEndDate == null) {
                               return ' End Date is required';
                             }
                             return null;
                           },
-                                               ),
-                                               SizedBox(height: 10),
-                                               TextFormField(
+                          ),
+                          SizedBox(height: 10),
+                          TextFormField(
                             controller: details,
                             keyboardType: TextInputType.text,
-                            style: TextStyle(
-                              color: Color(0xFF000000),
-                              fontSize: 25.sp,
-                              fontFamily: AppTheme.fontName,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            decoration: InputDecoration(
-                              labelText: 'Details',
-                              labelStyle: TextStyle(
-                                color: Color(0xFF7743DB),
-                                fontSize: 20.sp,
-                                fontFamily: AppTheme.fontName,
-                                fontWeight: FontWeight.w600,
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                borderSide: BorderSide(
-                                  width: 2,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10.r)),
-                                borderSide: BorderSide(
-                                  width: 2,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                            ),
+                            style: TextInputDecorations.textStyle,
+                            decoration: TextInputDecorations.customInputDecoration(labelText: 'Details'),
                           ),
                           SizedBox(height: 10.h),
                                            Row(

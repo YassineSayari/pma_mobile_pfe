@@ -22,10 +22,11 @@ class _ClientRateState extends State<ClientRate> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Feedback for: ${widget.projectname}',style: TextStyle(
+        title: Text('Feedback',style: TextStyle(
             fontSize: AppTheme.appBarFontSize,
             fontWeight: FontWeight.w600,
-            fontFamily: AppTheme.fontName
+            fontFamily: AppTheme.fontName,
+            overflow: TextOverflow.visible
           ),),
         centerTitle: true,
       ),
@@ -33,31 +34,42 @@ class _ClientRateState extends State<ClientRate> {
         child: ListView(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
+              padding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 8.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(height: 10.h),
+                  Center(
+                    child: Text("How would you rate your experience:",style: TextStyle(
+                                fontSize: 25.sp,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: AppTheme.fontName,
+                              ),),
+                  ),
                   buildQuestion('Are you satisfied with the project timeline?', timelineSatisfaction, (value) {
                     setState(() {
                       timelineSatisfaction = value;
                     });
                   }),
+                  SizedBox(height: 10.h),
                   buildQuestion('Are you satisfied with the reporting level?', reportingSatisfaction, (value) {
                     setState(() {
                       reportingSatisfaction = value;
                     });
                   }),
+                  SizedBox(height: 10.h),
                   buildQuestion('Are you satisfied with the communication on the progress of the project?', communicationSatisfaction, (value) {
                     setState(() {
                       communicationSatisfaction = value;
                     });
                   }),
+                  SizedBox(height: 10.h),
                   buildQuestion('Are you satisfied with the handling of incidents?', incidentHandlingSatisfaction, (value) {
                     setState(() {
                       incidentHandlingSatisfaction = value;
                     });
                   }),
-                  SizedBox(height: 20),
+                  SizedBox(height: 20.h),
                    Row(
                 children: [
                     Expanded(
@@ -115,6 +127,7 @@ class _ClientRateState extends State<ClientRate> {
             fontFamily: AppTheme.fontName
           ),
           ),
+          SizedBox(width: 10.w),
             Radio<String>(
               value: 'No',
               groupValue: satisfaction,

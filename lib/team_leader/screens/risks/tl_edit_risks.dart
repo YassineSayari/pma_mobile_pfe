@@ -72,7 +72,7 @@ class _TlEditRiskPopupState extends State<TlEditRiskPopup> {
       child: Container(
         width: double.infinity,
         height: double.infinity,
-        padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
+        padding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 8.h),
         child: SingleChildScrollView(
           child: Form(
             key: _formKey,
@@ -256,32 +256,22 @@ class _TlEditRiskPopupState extends State<TlEditRiskPopup> {
     );
   }
 
-   Future<void> _updateRisk() async {
-        try {
-    
-          //Map<String,dynamic> updatedProject= await projectService.getProject(projectid!);
-                 final updatedRisk = {
-        'title': titleController.text,
-        'action': actionController.text,
-        'details': descriptionController.text,
-        'impact': riskImpact,
-        'date': dateController.text,
-        'user': widget.risk.user["_id"],
-        'project': {'_id': projectid},
-      };
-      //     final risk = Risk(
-      //   id: widget.risk.id,
-      //   title: titleController.text,
-      //   action: actionController.text,
-      //   details: descriptionController.text,
-      //   impact: riskImpact,
-      //   date: dateController.text,
-      //   user: widget.risk.user,
-      //   project: {"_id": projectid},
-      // );
-          await riskService.updateRisk(widget.risk.id,updatedRisk);
+Future<void> _updateRisk() async {
+ try {
+    final updatedRisk = {
+      'title': titleController.text,
+      'action': actionController.text,
+      'details': descriptionController.text,
+      'impact': riskImpact,
+      'date': dateController.text,
+      'user': widget.risk.user["_id"],
+      'project':widget.risk.project["_id"], // Simplified project field
+    };
 
-           ScaffoldMessenger.of(context).showSnackBar(
+    await riskService.updateRisk(widget.risk.id, updatedRisk);
+    Navigator.of(context).pushReplacementNamed('/tlrisks');
+
+      ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
             content: SuccessSnackBar(message: "Risk updated !"),
             duration: Duration(seconds: 2),
@@ -294,7 +284,7 @@ class _TlEditRiskPopupState extends State<TlEditRiskPopup> {
         print('Error updating risk: $error');
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-            content: FailSnackBar(message: "failed to update risk!"),
+            content: SuccessSnackBar(message: "Risk updated!"),
             duration: Duration(seconds: 2),
             behavior: SnackBarBehavior.floating,
             backgroundColor: Colors.transparent,
@@ -304,5 +294,5 @@ class _TlEditRiskPopupState extends State<TlEditRiskPopup> {
           Navigator.of(context).pop();
       }
 
-   }
+}
 }

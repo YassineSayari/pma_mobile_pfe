@@ -25,7 +25,7 @@ class _TlRiskContainerState extends State<TlRiskContainer> {
         String formattedDate = DateFormat('MMMM dd, yyyy').format(DateTime.parse(widget.risk.date));
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 4.w,vertical: 8.h),
+      padding:EdgeInsets.symmetric(horizontal: 16.w,vertical: 8.h),
       child: Container(
         decoration: BoxDecoration(
           color: AppTheme.nearlyWhite,
@@ -230,15 +230,15 @@ class _TlRiskContainerState extends State<TlRiskContainer> {
                 shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.0.r),
       ),
-      insetPadding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 225.h),
+      insetPadding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 230.h),
       child:Container(
           padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
           width: double.infinity,
              child: Column(
                children: [
-                 Text("Confirm Deletion",style: TextStyle(fontFamily: AppTheme.fontName,fontSize: 35.sp,fontWeight: FontWeight.w600)),
-                           Text("Are you sure you want to delete this Risk?",style: TextStyle(fontFamily: AppTheme.fontName,fontSize: 24.sp)),
-                           
+                 Text("Confirm Deletion",style: TextStyle(fontFamily: AppTheme.fontName,fontSize: 30.sp,fontWeight: FontWeight.w600)),
+                 Text("Are you sure you want to delete this Risk?",style: TextStyle(fontFamily: AppTheme.fontName,fontSize: 20.sp)),
+                        
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [

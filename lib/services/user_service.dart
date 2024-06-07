@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as path;
 import 'package:pma/const.dart';
 import 'package:pma/services/shared_preferences.dart';
 import '../models/user_model.dart';
@@ -72,6 +74,18 @@ class UserService{
     }
   }
 
+  Future<List<User>> getTeamLeaders() async {
+    final response = await http.get(Uri.parse(apiUrl + "/getAllTeamLeader"));
+
+    if (response.statusCode == 200) {
+      Iterable list = json.decode(response.body);
+      return list.map((model) => User.fromJson(model)).toList();
+    } else {
+      throw Exception('Failed to load team leaders');
+    }
+  }
+
+
   Future<void> addUser(Map<String, dynamic> userData) async {
     String? authToken = await SharedPrefs.getAuthToken();
     try {
@@ -126,90 +140,42 @@ class UserService{
     }
   }
 
+  Future<void> removeUserImage(String userId) async {
+    Map<String, dynamic> updatedData = {
+      'image': '16-02-2024--no-image.jpg',
+    };
+
+    await updateUser(userId, updatedData);
+  }
+
+
 
 final ImagePicker _imagePicker = ImagePicker();
 
-  Future<void> UploadImageUser(String idUser) async {
-    try {
-      final XFile? pickedFile = await _imagePicker.pickImage(source: ImageSource.gallery);
+ Future<void> uploadImageUser(String idUser, File image, String authToken) async {
+  print("updating user image...");
+    var request = http.MultipartRequest(
+      'patch',
+      Uri.parse('$baseUrl/api/v1/users/update/$idUser'),
+    );
 
-      if (pickedFile == null) {
-        print('No image selected');
-        return;
-      }
+    request.headers['Authorization'] = 'Bearer $authToken';
+    var file = await http.MultipartFile.fromPath(
+      'image',
+      image.path,
+      filename: path.basename(image.path),
+      contentType: MediaType('image', 'jpg'),
+    );
+    request.files.add(file);
 
-      final file = File(pickedFile.path);
-      final request = http.MultipartRequest(
-        'POST',
-        Uri.parse('$imageUrl'),
-      );
-
-      request.files.add(await http.MultipartFile.fromPath('image', file.path));
-
-      final response = await request.send();
-      final responseString = await response.stream.bytesToString();
-
-      print('Image Upload Response Code: ${response.statusCode}');
-      print('Image Upload Response Body: $responseString');
-
-      if (response.statusCode == 200) {
-        final data = {
-          "image": file.path.split('/').last, // Get only the filename from the path
-        };
-
-        await updateUser(idUser, data);
-        print('User updated successfully with new image');
-      } else {
-        print('Failed to upload image. Status Code: ${response.statusCode}, Response: $responseString');
-      }
-    } on SocketException catch (e) {
-      print('Error: No internet connection. $e');
-    } on http.ClientException catch (e) {
-      print('Error: Client exception occurred. $e');
-    } on FormatException catch (e) {
-      print('Error: Invalid server response format. $e');
-    } catch (e) {
-      print('Error picking/uploading image: $e');
+    print("sending request:::::");
+    var response = await request.send();
+    if (response.statusCode == 200) {
+      print("Image updated successfully");
+    } else {
+      print("Failed to update image");
     }
   }
-
-// Future<void> UploadImageUser(String idUser) async {
-//   try {
-//     final XFile? pickedFile = await _imagePicker.pickImage(source: ImageSource.gallery);
-//     if (pickedFile != null) {
-//       final file = File(pickedFile.path);
-//       print("file::::::$file");
-//       print("backend path:::::$imageUrl");
-//       final request = http.MultipartRequest(
-//         'POST',
-//         Uri.parse('$imageUrl'),
-//       );
-
-//       request.files.add(await http.MultipartFile.fromPath('image', file.path));
-
-//       final response = await request.send();
-//       final responseString = await response.stream.bytesToString();
-
-//       print('Image Upload Response Code: ${response.statusCode}');
-//       print('Image Upload Response Body: $responseString');
-
-//       if (response.statusCode == 200) {
-//         final data = {
-//           "image": file.path.split('/').last, // Get only the filename from the path
-//         };
-
-//         await updateUser(idUser, data);
-//         print('User updated successfully with new image');
-//       } else {
-//         print('Failed to upload image. Status Code: ${response.statusCode}, Response: $responseString');
-//       }
-//     }
-//   } catch (e) {
-//     print('Error picking/uploading image: $e');
-//   }
-// }
-
-
 
 
 

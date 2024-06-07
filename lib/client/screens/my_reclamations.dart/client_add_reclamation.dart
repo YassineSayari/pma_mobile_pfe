@@ -54,7 +54,7 @@ class _ClientAddReclamationState extends State<ClientAddReclamation> {
       insetPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 28.h),
       child: Container(
         width: double.infinity,
-        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
         child: SingleChildScrollView(
           child: Form(
             key: _formKey,

@@ -131,6 +131,38 @@ Future<List<Map<String, dynamic>>> getProjectsByTeamLeader(String id) async{
 
 }
 
+Future<List<Map<String, dynamic>>> fetchEngineersParticipations() async {
+    String? authToken = await SharedPrefs.getAuthToken();
+  final response = await http.get(
+    Uri.parse('$apiUrl/getEngineersParticipations'),
+    headers: {
+      'Authorization': 'Bearer $authToken',
+    },
+  );
+
+  if (response.statusCode == 200) {
+    print("engineer participations::::::: ${response.body}");
+    return List<Map<String, dynamic>>.from(json.decode(response.body));
+  } else {
+    throw Exception('Failed to load participations');
+  }
+}
+Future<List<Map<String, dynamic>>> fetchTeamLeaderParticipations() async {
+    String? authToken = await SharedPrefs.getAuthToken();
+  final response = await http.get(
+    Uri.parse('$apiUrl/geTeamLeadersParticipations'),
+    headers: {
+      'Authorization': 'Bearer $authToken',
+    },
+  );
+
+  if (response.statusCode == 200) {
+    print(" participations::::::: ${response.body}");
+    return List<Map<String, dynamic>>.from(json.decode(response.body));
+  } else {
+    throw Exception('Failed to load participations');
+  }
+}
 
   Future<void> addProject(Map<String, dynamic> projectData) async {
     print("adding project");

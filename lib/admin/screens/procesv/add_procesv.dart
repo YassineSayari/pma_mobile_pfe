@@ -75,14 +75,14 @@ Future<void> initializeData() async {
       child: Container(
         width: double.infinity,
         height: double.infinity,
-        padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
+        padding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 8.h),
         child: SingleChildScrollView(
           child: Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Center(child: Text("New Proces verbal",style: TextStyle(fontFamily: AppTheme.fontName,fontWeight: FontWeight.w600,fontSize: 34.sp),)),
+                Center(child: Text("New Proces verbal",style: TextStyle(fontFamily: AppTheme.fontName,fontWeight: FontWeight.w600,fontSize: 30.sp),)),
                 SizedBox(height: 30.h),
                 TextFormField(
                   controller: titleController,
@@ -256,7 +256,7 @@ Future<void> initializeData() async {
                                     return null;
                                   },
                                 ),
-                                SizedBox(height: 10.h),
+                                SizedBox(height: 15.h),
 
                                  
                              Row(
@@ -266,10 +266,9 @@ Future<void> initializeData() async {
                                   onPressed: () {
                                   if (_formKey.currentState!.validate()) {
                                     _addProcesv();
-                                    Navigator.of(context).pushReplacementNamed('/procesv');
+                                   
                                   }
                                 },
-
                                              child: Text("Save",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25.sp,fontFamily:AppTheme.fontName),),
                                              style: AppButtonStyles.submitButtonStyle
                                               ),
@@ -324,7 +323,7 @@ Future<void> initializeData() async {
             elevation: 0,
           ),
           );
-          
+           Navigator.of(context).pushReplacementNamed('/procesv');
         }catch(error) {
         print('Error adding pv: $error');
                 ScaffoldMessenger.of(context).showSnackBar(

@@ -4,11 +4,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:intl/intl.dart';
+import 'package:pma/const.dart';
 import 'package:pma/custom_appbar.dart';
+import 'package:pma/custom_snackbar.dart';
+import 'package:pma/services/shared_preferences.dart';
 import 'package:pma/theme.dart';
 
 import '../../../services/user_service.dart';
 import '../../widgets/admin_drawer.dart';
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
+import 'package:path/path.dart' as path;
 
 class AddClient extends StatefulWidget {
   const AddClient({super.key});
@@ -23,6 +29,7 @@ class _AddClientState extends State<AddClient> {
 
   final TextEditingController name = TextEditingController();
   final TextEditingController company = TextEditingController();
+   String? gender;
 
   final TextEditingController mail = TextEditingController();
   final TextEditingController mobile = TextEditingController();
@@ -47,6 +54,66 @@ class _AddClientState extends State<AddClient> {
       });
     }
   }
+
+  Future<void> _handleAddUser() async {
+     String? authToken = await SharedPrefs.getAuthToken();
+
+    print("adding user");
+  var request = http.MultipartRequest(
+    'POST',
+    Uri.parse('$baseUrl/api/v1/users/adduser'), 
+    
+  );
+
+  request.headers['Authorization'] = 'Bearer $authToken';
+  print("token:::: ${request.headers}");
+  request.fields['fullName'] = name.text;
+  request.fields['email'] = mail.text;
+  request.fields['password'] = password.text;
+  request.fields['gender'] = gender!;
+  request.fields['roles[]'] = "Client";
+  request.fields['phone'] = mobile.text;
+    request.fields['company'] = company.text;
+
+  if (selectedImage != null) {
+    var file = await http.MultipartFile.fromPath(
+      'image',
+      selectedImage!.path,
+      filename: path.basename(selectedImage!.path),
+      contentType: MediaType('image', 'jpg'), 
+    );
+    request.files.add(file);
+  }
+
+  print("sending requestt::::: $request");
+  var response = await request.send();
+
+  // Handle the response
+  if (response.statusCode == 200) {
+    print("User added successfully");
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: SuccessSnackBar(message: "Client added successfully"),
+        duration: Duration(seconds: 2),
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+    );
+    resetForm();
+  } else {
+    print("Failed to add user");
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: FailSnackBar(message: "Failed to add client"),
+        duration: Duration(seconds: 2),
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+    );
+  }
+}
 
 
   @override
@@ -109,6 +176,28 @@ class _AddClientState extends State<AddClient> {
                             return null;
                           },
                         ),
+                        SizedBox(height: 10.h),
+            
+                      DropdownButtonFormField(
+                        value: gender,
+                        isExpanded: true,
+                        style: TextInputDecorations.textStyle,
+                                decoration: TextInputDecorations.customInputDecoration(labelText: 'Gender'),
+                        items: [
+                          DropdownMenuItem(child: Text('Male',style: TextStyle(fontSize: 20,fontFamily: AppTheme.fontName,),),value:'Male'),
+                          DropdownMenuItem(child: Text('Female',style: TextStyle(fontSize: 20,fontFamily: AppTheme.fontName,),),value:'Female'),
+                          ],
+                        onChanged:(selectedValue)
+                        {
+                          gender = selectedValue as String?;
+                        },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Gender is required';
+                          }
+                          return null;
+                        },
+                      ),
                         
                         SizedBox(height: 10.h),
                         
@@ -232,12 +321,13 @@ class _AddClientState extends State<AddClient> {
                             children: [
                               Expanded(
                                 child: ElevatedButton(
-                                  onPressed: () {
-                                    print("submit pressed");
-                                    if (_formKey.currentState!.validate()) {
-                                        addClient();
-                                    }
-                                  },
+                                  onPressed: _handleAddUser,
+                                  // onPressed: () {
+                                  //   print("submit pressed");
+                                  //   if (_formKey.currentState!.validate()) {
+                                  //       addClient();
+                                  //   }
+                                  // },
                                   style: AppButtonStyles.submitButtonStyle,
                                   child: Text('Submit',
                                     style: TextStyle(
@@ -284,21 +374,21 @@ class _AddClientState extends State<AddClient> {
   }
 
 
-  Future<void> addClient() async {
-    try {
-      Map<String, dynamic> userData = {
-        'fullName': name.text,
-        'company': company.text,
-        'email': mail.text,
-        'phone': mobile.text,
-        'hiringDate': dateController.text,
-        'password': password.text,
-      };
-      await userService.addUser(userData);
-    } catch (error) {
-      print('Error adding client: $error');
-    }
-  }
+  // Future<void> addClient() async {
+  //   try {
+  //     Map<String, dynamic> userData = {
+  //       'fullName': name.text,
+  //       'company': company.text,
+  //       'email': mail.text,
+  //       'phone': mobile.text,
+  //       'hiringDate': dateController.text,
+  //       'password': password.text,
+  //     };
+  //     await userService.addUser(userData);
+  //   } catch (error) {
+  //     print('Error adding client: $error');
+  //   }
+  // }
 
 
   void resetForm() {

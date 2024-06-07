@@ -25,7 +25,7 @@ class _ReclamationContainerState extends State<ReclamationContainer> {
         String formattedDate = DateFormat('MMMM dd, yyyy').format(DateTime.parse(widget.reclamation.addedDate));
         print("added date::::${widget.reclamation.addedDate}}");
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 4.w,vertical: 8.h),
+      padding:  EdgeInsets.symmetric(horizontal: 16.w,vertical: 8.h),
       child: Container(
         decoration: BoxDecoration(
           color: AppTheme.nearlyWhite,
@@ -56,7 +56,7 @@ class _ReclamationContainerState extends State<ReclamationContainer> {
                   Spacer(),
                   Text("${widget.reclamation.status}",
                   style: TextStyle(
-                            fontSize: 19.sp,
+                            fontSize: 16.sp,
                             fontFamily: AppTheme.fontName,
                             color: getColorForStatus(widget.reclamation.status),
                           ),

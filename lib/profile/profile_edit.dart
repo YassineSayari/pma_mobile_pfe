@@ -91,7 +91,7 @@ class _EditProfileState extends State<EditProfile> {
                                       ),
                     SizedBox(width: 10.h),
                     ElevatedButton(
-                      onPressed: (){},
+                      onPressed: _removeProfilePhoto,
              child: Text("Remove",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 12.5.sp,fontFamily: AppTheme.fontName),),
              style: ElevatedButton.styleFrom(
                             backgroundColor: Color.fromARGB(255, 172, 19, 19),
@@ -230,6 +230,21 @@ class _EditProfileState extends State<EditProfile> {
         ),
       ),
     );
+  }
+
+  void _removeProfilePhoto() async {
+    
+      await userService.removeUserImage(widget.user.id);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: SuccessSnackBar(message: "Profile photo removed successfully!"),
+          duration: Duration(seconds: 2),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
+      );
+      Navigator.of(context).pushReplacementNamed("/profile");
   }
 
     Future<void> updateEmployee() async {

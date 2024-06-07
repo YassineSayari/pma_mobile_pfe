@@ -69,7 +69,7 @@ class RiskService {
 
 
 
-Future<void> updateRisk(String id,  Map<String, dynamic> updatedRisk) async {
+Future<void> updateRisk(String id, Map<String, dynamic> updatedRisk) async {
   try {
     print('Updating risk with ID: $id');
     print('Updated risk data: $updatedRisk');
@@ -85,7 +85,8 @@ Future<void> updateRisk(String id,  Map<String, dynamic> updatedRisk) async {
     print("Response code: ${response.statusCode}");
     print("Response body: ${response.body}");
 
-    if (response.statusCode == 201) {
+    // Accept 200 or 201 status codes as success
+    if (response.statusCode == 200 || response.statusCode == 201) {
       print("Risk updated successfully!");
     } else {
       print("Failed to update risk. Error: ${response.reasonPhrase}");
@@ -96,6 +97,7 @@ Future<void> updateRisk(String id,  Map<String, dynamic> updatedRisk) async {
     throw error; // Rethrow the error to handle it in the calling function
   }
 }
+
 
 
 

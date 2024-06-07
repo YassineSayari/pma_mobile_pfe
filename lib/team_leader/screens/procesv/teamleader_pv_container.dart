@@ -27,7 +27,7 @@ class _TeamLeaderPvContainerState extends State<TeamLeaderPvContainer> {
         String formattedStartDate = DateFormat('MMMM dd, yyyy').format(DateTime.parse(widget.procesv.date));
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 4.w,vertical: 8.h),
+      padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 8.h),
       child: Container(
         decoration: BoxDecoration(
           color: AppTheme.nearlyWhite,

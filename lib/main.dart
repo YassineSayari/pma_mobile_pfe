@@ -143,7 +143,7 @@ switch (role) {
         '/': (context) => current_page,
         //'/':(context)=>CustomSnackBar(),
         '/signin':(context) =>Signin(controller: controller),
-        '/signup':(context) =>SignUp(controller: controller),
+        '/signup':(context) =>SignUp(),
 
         '/admindashboard': (context) => AdminDashboard(),
         '/clientdashboard': (context) => ClientDashboard(),

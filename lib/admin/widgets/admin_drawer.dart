@@ -113,11 +113,6 @@ class _AdminDrawerState extends State<AdminDrawer> {
             title: 'Proces-Verbal',
             route: '/procesv',
           ),
-          _buildListTile(
-            icon: Icons.email_outlined,
-            title: 'Email',
-            route:'/',
-          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal:6.0),
             child: ListTile(

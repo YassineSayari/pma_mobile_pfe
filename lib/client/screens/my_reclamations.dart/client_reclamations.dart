@@ -75,7 +75,7 @@ class _ClientReclamationsState extends State<ClientReclamations> {
           SizedBox(height: 10.h),
           
           Padding(
-            padding: const EdgeInsets.only(left: 12.0),
+            padding:EdgeInsets.symmetric(horizontal: 16.w,vertical: 8.h),
             child: Row(
               children: [
                 Text("Total Reclmations : ${displayedReclamations.length}",

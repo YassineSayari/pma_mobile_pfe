@@ -6,6 +6,7 @@ import 'package:pma/client/widgets/client_drawer.dart';
 import 'package:pma/theme.dart';
 import '../../../custom_appbar.dart';
 import '../../../services/project_service.dart';
+
 class ClientProjects extends StatefulWidget {
   final String? id;
   ClientProjects({Key? key, this.id}) : super(key: key);
@@ -20,7 +21,11 @@ class _ClientProjectsState extends State<ClientProjects> {
   @override
   void initState() {
     super.initState();
-    projects = ProjectService().getProjectsByClient(widget.id!);
+    projects = _fetchProjects();
+  }
+
+  Future<List<Map<String, dynamic>>> _fetchProjects() async {
+    return ProjectService().getProjectsByClient(widget.id!);
   }
 
   @override
@@ -57,8 +62,7 @@ class _ClientProjectsState extends State<ClientProjects> {
     );
   }
 
-  Widget _buildSection(
-      String sectionTitle, String sectionStatus, List<Map<String, dynamic>> allProjects) {
+  Widget _buildSection(String sectionTitle, String sectionStatus, List<Map<String, dynamic>> allProjects) {
     List<Map<String, dynamic>> sectionProjects = allProjects
         .where((project) => project['status'] == sectionStatus)
         .toList();
@@ -67,7 +71,7 @@ class _ClientProjectsState extends State<ClientProjects> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding:  EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
+          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
           child: Center(
             child: Text(
               sectionTitle,
@@ -75,7 +79,7 @@ class _ClientProjectsState extends State<ClientProjects> {
                 fontSize: 35.sp,
                 fontWeight: FontWeight.bold,
                 color: getColorForSection(sectionStatus),
-                fontFamily: AppTheme.fontName
+                fontFamily: AppTheme.fontName,
               ),
             ),
           ),
@@ -93,7 +97,7 @@ class _ClientProjectsState extends State<ClientProjects> {
               teamLeaderId: project['TeamLeader']?['fullName'] ?? '',
               priority: project['priority'] ?? '',
               dateFin: project['dateFin'] ?? '',
-              clientNote: project['note_Client'] ??0,
+              clientNote: project['note_Client'] ?? 0,
               equipe: project['equipe'] ?? [],
               progress: project['progress'] ?? 0,
             ),
@@ -111,34 +115,21 @@ class _ClientProjectsState extends State<ClientProjects> {
                   status: project['status'] ?? '',
                   description: project['description'] ?? '',
                   dateDebut: project['dateDebut'] ?? '',
-                  teamLeaderId:
-                      project['TeamLeader']?['fullName'] ?? '',
+                  teamLeaderId: project['TeamLeader']?['fullName'] ?? '',
                   priority: project['priority'] ?? '',
                   dateFin: project['dateFin'] ?? '',
-                  clientNote: project['note_Client']??0,
+                  clientNote: project['note_Client'] ?? 0,
                   equipe: project['equipe'] ?? [],
                   progress: project['progress'] ?? 0,
                 ),
               ),
             ),
             childWhenDragging: SizedBox.shrink(),
-            onDragStarted: () {
-            },
-            onDraggableCanceled: (velocity, offset) {
-            },
-            onDragEnd: (details) async {
-
-            },
-            onDragCompleted: () {
-            },
           ),
         SizedBox(height: 20),
       ],
     );
   }
-
-
-
 
   Color getColorForSection(String section) {
     switch (section) {

@@ -26,6 +26,43 @@ class TaskService {
       throw Exception('Failed to load tasks');
     }
   }
+ Future<List<Task>> getOpenTasks() async {
+  String? authToken = await SharedPrefs.getAuthToken();
+    print("getting tasks");
+    final response = await http.get(
+      Uri.parse('$apiUrl/getAllOpenTasks'),
+      headers: {
+          'Authorization': 'Bearer $authToken',
+        },
+    );
+
+    if (response.statusCode == 200) {
+      print("got open tasks");
+      final List<dynamic> jsonData = json.decode(response.body);
+      return jsonData.map((eventData) => Task.fromJson(eventData)).toList();
+    } else {
+      throw Exception('Failed to load tasks');
+    }
+  }
+
+ Future<List<Task>> getClosedTasks() async {
+  String? authToken = await SharedPrefs.getAuthToken();
+    print("getting tasks");
+    final response = await http.get(
+      Uri.parse('$apiUrl/getAllClosedTasks'),
+      headers: {
+          'Authorization': 'Bearer $authToken',
+        },
+    );
+
+    if (response.statusCode == 200) {
+      print("got closed tasks");
+      final List<dynamic> jsonData = json.decode(response.body);
+      return jsonData.map((eventData) => Task.fromJson(eventData)).toList();
+    } else {
+      throw Exception('Failed to load tasks');
+    }
+  }
 
    Future<List<Task>> getTasksByExecutor(String id) async {
     String? authToken = await SharedPrefs.getAuthToken();

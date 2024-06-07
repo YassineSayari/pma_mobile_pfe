@@ -1,82 +1,109 @@
+import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
+import 'package:path/path.dart' as path;
+import 'package:pma/const.dart';
+import 'package:pma/custom_snackbar.dart';
 import 'package:pma/theme.dart';
 
-
-import '../services/authentication_service.dart';
-
 class SignUp extends StatefulWidget {
-  const SignUp({Key? key, required PageController controller}) : super(key: key);
-
   @override
-  State<SignUp> createState() => _SignUpState();
+  _SignUpState createState() => _SignUpState();
 }
 
 class _SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
-
-  final TextEditingController fullname = TextEditingController();
-  final TextEditingController mail = TextEditingController();
-  final TextEditingController mobile = TextEditingController();
-  final TextEditingController password = TextEditingController();
-  final TextEditingController passwordconf = TextEditingController();
-
-  AuthService authService = AuthService();
-
-  String? gender;
+  TextEditingController fullname = TextEditingController();
+  TextEditingController mail = TextEditingController();
+  TextEditingController password = TextEditingController();
+  TextEditingController passwordconf = TextEditingController();
+  TextEditingController mobile = TextEditingController();
   String? role;
-XFile? selectedImage;
+  String? gender;
+  File? selectedImage;
 
-
-
-final ImagePicker _imagePicker = ImagePicker();
-
-  Future<XFile?> _pickImage() async {
-      final XFile? pickedFile = await _imagePicker.pickImage(source: ImageSource.gallery);
+  Future<void> _pickImage() async {
+    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       setState(() {
-        selectedImage=pickedFile;
+        selectedImage = File(pickedFile.path);
       });
-              return pickedFile;
-
     }
   }
 
-
 Future<void> _handleSignUp() async {
-  try {
+  print("SIGNING UPPPPPPPPPP");
 
-    if (_formKey.currentState!.validate()) {
+  var request = http.MultipartRequest(
+    'POST',
+    Uri.parse('$baseUrl/api/v1/users/signup'), 
+  );
 
+  request.fields['fullName'] = fullname.text;
+  request.fields['phone'] = mobile.text;
+  request.fields['email'] = mail.text;
+  request.fields['password'] = password.text;
+  request.fields['mobile'] = mobile.text;
+  request.fields['role'] = role!;
+  request.fields['gender'] = gender!;
 
-      XFile? pickedFile = await _pickImage();
-      
-      if (pickedFile != null) {
-        Map<String, dynamic> userData = {
-        'fullname': fullname.text,
-        'email': mail.text,
-        'password': password.text,
-        'mobile': mobile.text,
-        'role': role,
-        'gender': gender,
-      };
-        await authService.UploadImageUser(pickedFile,userData);
-      }
+  print("adding image");
+  if (selectedImage != null) {
+    
+    var file = await http.MultipartFile.fromPath(
+      'image',
+      selectedImage!.path,
+      filename: path.basename(selectedImage!.path),
+      contentType: MediaType('image', 'jpg'),
+    );
 
-    }
-  } catch (e) {
-    print('Error during signup: $e');
+    // Access the MIME type of the file
+    print("MIME type of the file: ${file.contentType}");
+
+    request.files.add(file);
+  }
+
+  print("sending data:::::::::request::::::$request");
+  print("request fields:::: ${request.fields},,,,,,,,, request files:::: ${request.files}");
+
+  var response = await request.send();
+  print("response::::$response");
+
+  if (response.statusCode == 200) {
+    print("Signup successful");
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: SuccessSnackBar(message: "Signup successfull , waiting for admin confirmation!"),
+        duration: Duration(seconds: 2),
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+    );
+    Navigator.of(context).pop();
+  } else {
+    // Handle error
+    print("Signup failed");
   }
 }
 
 
-
-
-
-
+  Future<void> _signup() async {
+    ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+            content: SuccessSnackBar(message: "Signup successfull , waiting for admin confirmation!"),
+            duration: Duration(seconds: 2),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+          ),
+          );
+  Navigator.of(context).pop();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +116,7 @@ Future<void> _handleSignUp() async {
             fit: BoxFit.cover,
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30.w,vertical: 8.h),
+            padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 8.h),
             child: Form(
               key: _formKey,
               child: ListView(
@@ -137,7 +164,7 @@ Future<void> _handleSignUp() async {
                           return null;
                         },
                       ),
-                      SizedBox(height:10.h),
+                      SizedBox(height: 10.h),
                       TextFormField(
                         controller: passwordconf,
                         keyboardType: TextInputType.text,
@@ -168,11 +195,11 @@ Future<void> _handleSignUp() async {
                       DropdownButtonFormField(
                         value: role,
                         style: TextInputDecorations.textStyle,
-                        decoration: TextInputDecorations.customInputDecoration(labelText: 'Department'),
+                        decoration: TextInputDecorations.customInputDecoration(labelText: 'Role'),
                         items: [
-                          DropdownMenuItem(child: Text('Engineer',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName)), value: 'Engineer'),
-                          DropdownMenuItem(child: Text('Client',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName)), value: 'Client'),
-                          DropdownMenuItem(child: Text('Team Leader',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName)), value: 'Team Leader'),
+                          DropdownMenuItem(child: Text('Engineer', style: TextStyle(fontSize: 20.sp, fontFamily: AppTheme.fontName)), value: 'Engineer'),
+                          DropdownMenuItem(child: Text('Client', style: TextStyle(fontSize: 20.sp, fontFamily: AppTheme.fontName)), value: 'Client'),
+                          DropdownMenuItem(child: Text('Team Leader', style: TextStyle(fontSize: 20.sp, fontFamily: AppTheme.fontName)), value: 'Team Leader'),
                         ],
                         onChanged: (selectedRole) {
                           setState(() {
@@ -192,8 +219,8 @@ Future<void> _handleSignUp() async {
                         style: TextInputDecorations.textStyle,
                         decoration: TextInputDecorations.customInputDecoration(labelText: 'Gender'),
                         items: [
-                          DropdownMenuItem(child: Text('Male',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName)), value: 'Male'),
-                          DropdownMenuItem(child: Text('Female',style: TextStyle(fontSize:20.sp,fontFamily:AppTheme.fontName)), value: 'Female'),
+                          DropdownMenuItem(child: Text('Male', style: TextStyle(fontSize: 20.sp, fontFamily: AppTheme.fontName)), value: 'Male'),
+                          DropdownMenuItem(child: Text('Female', style: TextStyle(fontSize: 20.sp, fontFamily: AppTheme.fontName)), value: 'Female'),
                         ],
                         onChanged: (selectedValue) {
                           setState(() {
@@ -207,7 +234,6 @@ Future<void> _handleSignUp() async {
                           return null;
                         },
                       ),
-                  
                       SizedBox(height: 30),
                       GestureDetector(
                         onTap: _pickImage,
@@ -220,7 +246,7 @@ Future<void> _handleSignUp() async {
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   image: DecorationImage(
-                                  image: FileImage(File(selectedImage!.path)),
+                                    image: FileImage(File(selectedImage!.path)),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -251,23 +277,24 @@ Future<void> _handleSignUp() async {
                           Text(
                             "Already Registered? ",
                             style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.grey[700],
-                                    fontSize: 16.5.sp,
-                                    fontFamily: AppTheme.fontName,
-                                  ),
+                              fontWeight: FontWeight.w600,
+                              color: Colors.grey[700],
+                              fontSize: 16.5.sp,
+                              fontFamily: AppTheme.fontName,
+                            ),
                           ),
                           GestureDetector(
                             onTap: () {
                               Navigator.of(context).pop();
                             },
-                            child: Text('Login',
+                            child: Text(
+                              'Login',
                               style: TextStyle(
-                                      color: Colors.deepPurple,
-                                      fontSize: 20.sp,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: AppTheme.fontName,
-                                    ),
+                                color: Colors.deepPurple,
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: AppTheme.fontName,
+                              ),
                             ),
                           ),
                         ],
@@ -276,12 +303,8 @@ Future<void> _handleSignUp() async {
                         height: 40.h,
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              print("sign up pressed");
-                              _handleSignUp();
-                            }
-                          },
+                          onPressed: _handleSignUp,
+                        // onPressed:_signup,
                           style: AppButtonStyles.submitButtonStyle,
                           child: Text(
                             'Register',

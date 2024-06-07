@@ -82,8 +82,7 @@ class _TlAddRiskState extends State<TlAddRisk> {
 
       child: Container(
         width: double.infinity,
-        height: double.infinity,
-        padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
+        padding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 12.h),
         child: SingleChildScrollView(
           child: Form(
             key: _formKey,

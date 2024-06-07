@@ -118,7 +118,7 @@ void _onDaySelected(DateTime selectedDay, DateTime focusedDay) async {
             Row(
               children: [
                 Text(
-                  "Today's Tasks:",
+                  "Today's Events:",
                   style: TextStyle(
                     fontSize: 20.sp,
                     fontFamily: AppTheme.fontName,
@@ -203,7 +203,7 @@ Color _markerColor(DateTime date, List events) {
           CustomAppBar(title: 'Calendar'),
           SizedBox(height: 15.h),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
+            padding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 8.h),
             child: Column(
               children: [
                 Row(

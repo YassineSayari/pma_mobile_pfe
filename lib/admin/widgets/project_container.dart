@@ -349,8 +349,8 @@ class _ProjectContainerState extends State<ProjectContainer> {
           width: double.infinity,
              child: Column(
                children: [
-                 Text("Confirm Deletion",style: TextStyle(fontFamily: AppTheme.fontName,fontSize: 35.sp,fontWeight: FontWeight.w600)),
-                           Text("Are you sure you want to delete this Project?",style: TextStyle(fontFamily: AppTheme.fontName,fontSize: 20.sp)),
+                 Text("Confirm Deletion",style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w600,fontFamily: AppTheme.fontName)),
+                           Text("Are you sure you want to delete this Project?",style: TextStyle(fontSize: 20.sp,fontFamily: AppTheme.fontName)),
                            
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,

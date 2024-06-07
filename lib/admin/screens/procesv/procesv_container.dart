@@ -237,9 +237,9 @@ class _ProcesvContainerState extends State<ProcesvContainer> {
                 shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.0.r),
       ),
-      insetPadding: EdgeInsets.symmetric(horizontal: 12.w,vertical: 225.h),
+      insetPadding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 225.h),
       child:Container(
-          padding: EdgeInsets.symmetric(horizontal: 8.w,vertical: 8.h),
+          padding: EdgeInsets.symmetric(horizontal: 4.w,vertical: 8.h),
           width: double.infinity,
              child: Column(
                children: [

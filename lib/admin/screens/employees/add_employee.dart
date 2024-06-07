@@ -3,9 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:pma/const.dart';
 import 'package:pma/custom_appbar.dart';
+import 'package:pma/custom_snackbar.dart';
+import 'package:pma/services/shared_preferences.dart';
 import 'package:pma/theme.dart';
 import 'dart:io';
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
+import 'package:path/path.dart' as path;
+
 
 import '../../widgets/admin_drawer.dart';
 
@@ -31,6 +38,7 @@ class _AddEmployeeState extends State<AddEmployee> {
 
   final TextEditingController address = TextEditingController();
   String? department;
+  String? role;
 
   final TextEditingController hiredate = TextEditingController();
   final TextEditingController birthdate = TextEditingController();
@@ -52,6 +60,70 @@ class _AddEmployeeState extends State<AddEmployee> {
       });
     }
   }
+
+  Future<void> _handleAddUser() async {
+     String? authToken = await SharedPrefs.getAuthToken();
+
+    print("adding user");
+  var request = http.MultipartRequest(
+    'POST',
+    Uri.parse('$baseUrl/api/v1/users/adduser'), 
+    
+  );
+
+  request.headers['Authorization'] = 'Bearer $authToken';
+  print("token:::: ${request.headers}");
+  request.fields['fullName'] = fullname.text;
+  request.fields['email'] = mail.text;
+  request.fields['password'] = password.text;
+  request.fields['gender'] = gender!;
+  request.fields['roles[]'] = role!;
+  request.fields['phone'] = mobile.text;
+  request.fields['address'] = address.text;
+  request.fields['department'] = department!;
+  request.fields['birthDate'] = DateFormat('yyyy-MM-dd').format(birthDate!);
+  request.fields['hiringDate'] = DateFormat('yyyy-MM-dd').format(hiringDate!);
+
+  if (selectedImage != null) {
+    var file = await http.MultipartFile.fromPath(
+      'image',
+      selectedImage!.path,
+      filename: path.basename(selectedImage!.path),
+      contentType: MediaType('image', 'jpg'), 
+    );
+    request.files.add(file);
+  }
+
+  print("sending requestt::::: $request");
+  var response = await request.send();
+
+  // Handle the response
+  if (response.statusCode == 200) {
+    print("User added successfully");
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: SuccessSnackBar(message: "Employee added successfully"),
+        duration: Duration(seconds: 2),
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+    );
+    resetForm();
+  } else {
+    print("Failed to add user");
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: FailSnackBar(message: "Failed to add Employee"),
+        duration: Duration(seconds: 2),
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+    );
+  }
+}
+
 
 
 
@@ -172,7 +244,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                       TextFormField(
                         controller: address,
                         keyboardType: TextInputType.text,
-                        obscureText: true,
+
                         style: TextInputDecorations.textStyle,
                                 decoration: TextInputDecorations.customInputDecoration(labelText: 'Address'),
                       ),
@@ -191,6 +263,28 @@ class _AddEmployeeState extends State<AddEmployee> {
                         onChanged:(selectedDepartment)
                         {
                           department = selectedDepartment as String?;
+                        },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Department is required';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 10.h),
+                      DropdownButtonFormField(
+                        value: role,
+                        style: TextInputDecorations.textStyle,
+                        decoration: TextInputDecorations.customInputDecoration(labelText: 'Role'),
+                        items: [
+                          DropdownMenuItem(child: Text('Engineer', style: TextStyle(fontSize: 20.sp, fontFamily: AppTheme.fontName)), value: 'Engineer'),
+                          DropdownMenuItem(child: Text('Client', style: TextStyle(fontSize: 20.sp, fontFamily: AppTheme.fontName)), value: 'Client'),
+                          DropdownMenuItem(child: Text('Team Leader', style: TextStyle(fontSize: 20.sp, fontFamily: AppTheme.fontName)), value: 'Team Leader'),
+                        ],
+                        onChanged: (selectedRole) {
+                          setState(() {
+                            role = selectedRole as String?;
+                          });
                         },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -325,12 +419,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                               children: [
                                 Expanded(
                                   child: ElevatedButton(
-                                    onPressed: () {
-                                      print("submit clicked");
-                                      if (_formKey.currentState!.validate()) {
-                                          print("form valid");
-                                      }
-                                    },
+                                    onPressed: _handleAddUser,
                                     style: AppButtonStyles.submitButtonStyle,
                                     child: Text('Submit',
                                       style: TextStyle(

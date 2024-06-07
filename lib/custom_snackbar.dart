@@ -135,7 +135,7 @@ class SuccessSnackBar extends StatelessWidget {
       children: [
           Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 16.h),
-          height: 92.h,
+          height: 95.h,
           decoration: BoxDecoration(
             color: Colors.green,
             borderRadius: BorderRadius.all(Radius.circular(20.r)),
