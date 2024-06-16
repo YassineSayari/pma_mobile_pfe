@@ -1,8 +1,8 @@
-# pma
+# PMA 📱
 
-A new Flutter project.
+🚀 Transformation of a website into a mobile application for the management of projects 
 
-## Getting Started
+## Screenshots
 
 This project is a starting point for a Flutter application.
 
