@@ -1,6 +1,10 @@
 <h1 align="center">PMA 📱</h1>
 
-🚀 Transformation of a website into a mobile application for the management of projects 
+🚀 Transformation of a website into a mobile application for project management
+
+Frontend : Flutter
+Backend : NodeJS / expressJS
+Database : MongoDB
 
 <h1 align="center">Screenshots</h1>
 
